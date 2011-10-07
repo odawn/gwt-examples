@@ -45,6 +45,13 @@ public class NameList extends Composite {
     pAdd.clear();
     NameInput ni = new NameInput(cp);
     pAdd.add(ni);
+    ni.addAddNameHandler(new AddNameHandler() {
+      public void onEvent(AddNameEvent event) {
+        // could get the name in the event if I constructed it.
+        // lets just reload
+        loadNames();
+      }
+    });
   }
   
   private void loadNames() {

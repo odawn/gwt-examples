@@ -5,8 +5,12 @@
 		
 	</ui:style>
 	<g:HorizontalPanel>
-		<g:HTML wordWrap="true" ui:field="htmlName"/>
+		<g:Cell verticalAlignment="ALIGN_MIDDLE">
+			<g:HTML wordWrap="true" ui:field="htmlName"/>
+		</g:Cell>
 		<g:HTML wordWrap="true">&nbsp;</g:HTML>
-		<g:PushButton text="X" ui:field="bDelete"/>
+		<g:Cell verticalAlignment="ALIGN_MIDDLE">
+			<g:PushButton text="X" ui:field="bDelete"/>
+		</g:Cell>
 	</g:HorizontalPanel>
 </ui:UiBinder> 

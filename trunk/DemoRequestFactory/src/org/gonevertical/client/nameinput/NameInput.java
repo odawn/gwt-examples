@@ -1,6 +1,8 @@
 package org.gonevertical.client.nameinput;
 
 import org.gonevertical.client.ClientPersistence;
+import org.gonevertical.client.namelist.AddNameEvent;
+import org.gonevertical.client.namelist.AddNameHandler;
 import org.gonevertical.client.requestfactory.ApplicationRequestFactory;
 import org.gonevertical.client.requestfactory.NameDataProxy;
 import org.gonevertical.client.requestfactory.NameDataRequest;
@@ -10,6 +12,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -23,6 +28,8 @@ import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
 
 public class NameInput extends Composite {
+  
+  private HandlerManager handlerManager;
 
   private ClientPersistence cp;
 
@@ -36,6 +43,8 @@ public class NameInput extends Composite {
   public NameInput(ClientPersistence cp) {
     this.cp = cp;
     initWidget(uiBinder.createAndBindUi(this));
+    
+    handlerManager = new HandlerManager(this);
   }
 
   @UiHandler("bAdd")
@@ -87,7 +96,16 @@ public class NameInput extends Composite {
     tbName.setText("");
     
     // tell parent it was saved
-    
+    fireEvent(new AddNameEvent());
+  }
+  
+  @Override
+  public void fireEvent(GwtEvent<?> event) {
+      handlerManager.fireEvent(event);
+  }
+
+  public HandlerRegistration addAddNameHandler(AddNameHandler handler) {
+      return handlerManager.addHandler(AddNameEvent.TYPE, handler);
   }
 
 
