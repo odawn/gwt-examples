@@ -4,7 +4,7 @@ import org.gonevertical.client.ClientPersistence;
 import org.gonevertical.client.requestfactory.ApplicationRequestFactory;
 import org.gonevertical.client.requestfactory.NameDataProxy;
 import org.gonevertical.client.requestfactory.NameDataRequest;
-import org.gonevertical.server.namedata.NameData;
+import org.gonevertical.server.domain.NameData;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.Request;
+import com.google.web.bindery.requestfactory.shared.ServerFailure;
 
 public class NameList extends Composite {
   
@@ -54,6 +55,9 @@ public class NameList extends Composite {
     nameDataRequest.query().fire(new Receiver<List<NameDataProxy>>() {
       public void onSuccess(List<NameDataProxy> data) {
         process(data);
+      }
+      public void onFailure(ServerFailure error) { 
+        super.onFailure(error);
       }
     });
   }

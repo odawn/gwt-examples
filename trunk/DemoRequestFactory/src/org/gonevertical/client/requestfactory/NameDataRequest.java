@@ -2,7 +2,7 @@ package org.gonevertical.client.requestfactory;
 
 import java.util.List;
 
-import org.gonevertical.server.namedata.NameData;
+import org.gonevertical.server.domain.NameData;
 
 import com.google.web.bindery.requestfactory.shared.InstanceRequest;
 import com.google.web.bindery.requestfactory.shared.Request;
