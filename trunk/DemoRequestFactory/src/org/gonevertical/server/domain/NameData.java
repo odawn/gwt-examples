@@ -29,6 +29,12 @@ public class NameData {
     }
   }
 
+  /**
+   * It is mandatory to have a find[EntityClass] here!!!
+   * 
+   * @param id
+   * @return
+   */
   public static NameData findNameData(Long id) {
     if (id == null) {
       return null;
