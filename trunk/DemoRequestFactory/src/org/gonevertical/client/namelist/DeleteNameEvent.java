@@ -4,12 +4,6 @@ import org.gonevertical.client.requestfactory.NameDataProxy;
 
 import com.google.gwt.event.shared.GwtEvent;
 
-/**
- * authorization event, in response to logging into Google system
- * 
- * @author branflake2267
- *
- */
 public class DeleteNameEvent extends GwtEvent<DeleteNameHandler> {
 
   public static Type<DeleteNameHandler> TYPE = new Type<DeleteNameHandler>();
