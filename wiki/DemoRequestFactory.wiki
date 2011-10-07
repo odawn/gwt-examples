@@ -15,6 +15,7 @@
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/DemoRequestFactory/src/META-INF/persistence.xml META-INF/Persistence.xml] 
  * war/WEB-INF/lib/requestfactor-server.jar
  * war/WEB-INF/lib/gwt-servlet-deps.jar - you'll need the org/json|org.json classes in this...
+ * It is mandatory to have in the server entity method find[EntityClass](Long id) - [ http://code.google.com/p/gwt-examples/source/browse/trunk/DemoRequestFactory/src/org/gonevertical/server/domain/NameData.java see source]
 
 == Request Factory Validation Tool ==
  You'll have to run the validation tool to setup the RequestFactory piping! 
