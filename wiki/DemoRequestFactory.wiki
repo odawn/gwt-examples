@@ -1,0 +1,42 @@
+#summary RequestFactory Demo
+
+<g:plusone size="medium"></g:plusone>
+<table width="100%">
+<tr><td align="center">
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-aff.xml" height="100" width="740" border="0" />
+
+= Demo Request Factory Notes =
+ Setting up request factory in gwt
+
+== Request Factory Validation Tool ==
+ You'll have to run the validation tool to setup the RequestFactory piping! 
+{{{
+#!/bin/sh
+# made by Brandon Donnelson
+# http://gwt-examples.googlecode.com
+
+# Project Path to Web-inf folder (with no trailing /)
+BASE="/Users/branflake2267/Documents/workspace/DemoRequestFactory/war/WEB-INF";
+
+#----------------------------
+# don't have to edit below
+
+OUTPUT="$BASE/classes";
+
+CP="";
+CP="$CP$BASE/classes:";
+CP="$CP$BASE/lib/*:"; # '*' will only work with java 1.6+
+
+# these need to be in there
+#CP="$CP$BASE/lib/requestfactory-apt.jar:";
+#CP="$CP$BASE/lib/requestfactory-server+src.jar:";
+
+echo "DEBUG ClassPath: $CP";
+
+java -cp $CP com.google.web.bindery.requestfactory.apt.ValidationTool $OUTPUT \
+  org.gonevertical.client.requestfactory.ApplicationRequestFactory 
+  
+
+# the end
+exit;
+}}}
