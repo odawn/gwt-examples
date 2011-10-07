@@ -13,6 +13,9 @@
 == Be Sure To Have ==
  * Add Additional Compile Arguments - "-extra war/WEB-INF/deploy"
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/DemoRequestFactory/src/META-INF/persistence.xml META-INF/Persistence.xml] 
+ * war/WEB-INF/lib/requestfactor-server.jar
+ * war/WEB-INF/lib/gwt-servlet-deps.jar - you'll need the org/json|org.json classes in this...
+
 
 == Request Factory Validation Tool ==
  You'll have to run the validation tool to setup the RequestFactory piping! 
