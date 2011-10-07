@@ -62,3 +62,6 @@ exit;
 == Random Notes ==
  Some random stuff I used in this project:
  * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FDemoRequestFactory%2Fsrc%2Forg%2Fgonevertical%2Fclient%2Fnamelist Custom Event Handler Source] - Custom GWT Event Handler(s)
+
+<g:plusone size="medium"></g:plusone>
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-aff.xml" height="100" width="740" border="0" />
