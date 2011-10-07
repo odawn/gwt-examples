@@ -53,3 +53,6 @@ java -cp $CP com.google.web.bindery.requestfactory.apt.ValidationTool $OUTPUT \
 # the end
 exit;
 }}}
+
+= Maybe Automatic Notes??? =
+[http://code.google.com/p/google-web-toolkit/wiki/RequestFactory_2_4#RequestFactorySource_and_Annotation_Processing]
