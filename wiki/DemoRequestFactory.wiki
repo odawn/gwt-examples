@@ -6,6 +6,8 @@
 = Demo Request Factory Notes =
  Setting up request factory in gwt
 
+ * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FDemoRequestFactory Source] - Find the latest code here
+
 == Request Factory Validation Tool ==
  You'll have to run the validation tool to setup the RequestFactory piping! 
 {{{
