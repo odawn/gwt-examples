@@ -54,7 +54,7 @@ java -cp $CP com.google.web.bindery.requestfactory.apt.ValidationTool $OUTPUT \
 exit;
 }}}
 
-= Request Factory Validation Tool - Automatic =
+== Request Factory Validation Tool - Automatic ==
  I don't know how to set this up yet. I don't have the Java Compiler Annotation Process option in my eclipse preferences and not sure how to install it. Does anybody know how to install it?
 
  * How to setup the client processor - should be automatic I think. [http://code.google.com/p/google-web-toolkit/wiki/RequestFactory_2_4#RequestFactorySource_and_Annotation_Processing]
