@@ -14,7 +14,7 @@ public interface NameDataRequest extends RequestContext {
 
   Request<Long> count();
   
-  Request<NameDataProxy> query(Long id);
+  Request<NameDataProxy> findNameData(Long id);
   
   Request<List<NameDataProxy>> query();
   

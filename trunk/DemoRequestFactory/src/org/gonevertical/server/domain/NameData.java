@@ -22,14 +22,14 @@ public class NameData {
   public static long count() {
     EntityManager em = entityManager();
     try {
-      return ((Number) em.createQuery("select count(o) from NameData o")
+      return ((Number) em.createQuery("select count(o) from " + NameData.class.getSimpleName() + " o")
           .getSingleResult()).longValue();
     } finally {
       em.close();
     }
   }
 
-  public static NameData query(Long id) {
+  public static NameData findNameData(Long id) {
     if (id == null) {
       return null;
     }
@@ -45,7 +45,7 @@ public class NameData {
   public static List<NameData> query() {
     EntityManager em = entityManager();
     try {
-      List<NameData> list = em.createQuery("select o from NameData o")
+      List<NameData> list = em.createQuery("select o from " + NameData.class.getSimpleName() + " o")
           .getResultList();
       // force to get all the Names
       list.size();
@@ -58,7 +58,7 @@ public class NameData {
   public static List<NameData> query(int firstResult, int maxResults) {
     EntityManager em = entityManager();
     try {
-      List<NameData> resultList = em.createQuery("select o from NameData o")
+      List<NameData> resultList = em.createQuery("select o from " + NameData.class.getSimpleName() + " o")
           .setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
       // force it to materialize
       resultList.size();
