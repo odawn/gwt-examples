@@ -6,7 +6,7 @@
 BASE="/Users/branflake2267/Documents/workspace/DemoRequestFactory/war/WEB-INF";
 
 #----------------------------
-# don't have to edit below
+# don't have to edit below - unless you have more request factories you like to add.
 
 OUTPUT="$BASE/classes";
 
@@ -21,7 +21,8 @@ CP="$CP$BASE/lib/*:"; # '*' will only work with java 1.6+
 echo "DEBUG ClassPath: $CP";
 
 java -cp $CP com.google.web.bindery.requestfactory.apt.ValidationTool $OUTPUT \
-  org.gonevertical.client.requestfactory.ApplicationRequestFactory 
+  org.gonevertical.client.requestfactory.ApplicationRequestFactory # \ more?
+  # org.gonevertical.client.requestfactory.ApplicationRequestFactory2 more factories?
   
 
 # the end
