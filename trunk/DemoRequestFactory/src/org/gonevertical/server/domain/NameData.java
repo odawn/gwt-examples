@@ -112,13 +112,14 @@ public class NameData {
 
 
 
-  public void persist() {
+  public NameData persist() {
     EntityManager em = entityManager();
     try {
       em.persist(this);
     } finally {
       em.close();
     }
+    return this;
   }
 
   public void remove() {

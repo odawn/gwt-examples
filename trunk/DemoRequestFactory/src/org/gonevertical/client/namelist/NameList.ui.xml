@@ -5,7 +5,15 @@
 		
 	</ui:style>
 	<g:VerticalPanel>
+		<g:HTML wordWrap="true">Try the RequestFactory out by adding any name in the inputbox:</g:HTML>
 		<g:VerticalPanel ui:field="pAdd"/>
+		<g:HorizontalPanel ui:field="pLoading">
+			<g:Image url="images/loading.gif"/>
+			<g:Cell verticalAlignment="ALIGN_MIDDLE">
+				<g:HTML wordWrap="true">&nbsp;Loading Name List...</g:HTML>
+			</g:Cell>
+		</g:HorizontalPanel>
+		<g:HTML wordWrap="true" ui:field="pExist">No names exist yet.</g:HTML>
 		<g:VerticalPanel ui:field="pList"/>
 	</g:VerticalPanel>
 </ui:UiBinder> 

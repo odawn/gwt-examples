@@ -28,7 +28,7 @@ import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
 
 public class NameInput extends Composite {
-  
+
   private HandlerManager handlerManager;
 
   private ClientPersistence cp;
@@ -43,7 +43,7 @@ public class NameInput extends Composite {
   public NameInput(ClientPersistence cp) {
     this.cp = cp;
     initWidget(uiBinder.createAndBindUi(this));
-    
+
     handlerManager = new HandlerManager(this);
   }
 
@@ -61,7 +61,7 @@ public class NameInput extends Composite {
 
   private void add() {
     String name = tbName.getText().trim();
-    
+
     if (name.trim().length() == 0) {
       Window.alert("Did you actually put a name in there? Add some characters please.");
       return;
@@ -80,32 +80,31 @@ public class NameInput extends Composite {
     newName.setName(name);
 
     // persist the entity
-    nameDataRequest.persist().using(newName).fire(new Receiver<Void>() {
-      public void onSuccess(Void response) { // on success
-        process();
+    nameDataRequest.persist().using(newName).fire(new Receiver<NameDataProxy>() {
+      public void onSuccess(NameDataProxy data) { // on success
+        process(data);
       }
       public void onFailure(ServerFailure error) {
         super.onFailure(error);
         Window.alert("Oops, I couldn't save that name for some reason.");
       }
-      
+
     });
   }
 
-  private void process() {
+  private void process(NameDataProxy data) {
     tbName.setText("");
-    
-    // tell parent it was saved
-    fireEvent(new AddNameEvent());
+
+    // tell parent it was saved - and add it to the list
+    fireEvent(new AddNameEvent(data));
   }
-  
-  @Override
+
   public void fireEvent(GwtEvent<?> event) {
-      handlerManager.fireEvent(event);
+    handlerManager.fireEvent(event);
   }
 
   public HandlerRegistration addAddNameHandler(AddNameHandler handler) {
-      return handlerManager.addHandler(AddNameEvent.TYPE, handler);
+    return handlerManager.addHandler(AddNameEvent.TYPE, handler);
   }
 
 

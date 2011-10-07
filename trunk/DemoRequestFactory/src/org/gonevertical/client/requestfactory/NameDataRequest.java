@@ -20,7 +20,7 @@ public interface NameDataRequest extends RequestContext {
   
   Request<List<NameDataProxy>> query(int firstResult, int maxResult);
   
-  InstanceRequest<NameDataProxy, Void> persist();
+  InstanceRequest<NameDataProxy, NameDataProxy> persist();
 
   InstanceRequest<NameDataProxy, Void> remove();
 

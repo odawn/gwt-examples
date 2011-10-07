@@ -10,27 +10,24 @@ import com.google.gwt.event.shared.GwtEvent;
  * @author branflake2267
  *
  */
-public class AddNameEvent extends GwtEvent<AddNameHandler> {
+public class DeleteNameEvent extends GwtEvent<DeleteNameHandler> {
 
-  public static Type<AddNameHandler> TYPE = new Type<AddNameHandler>();
+  public static Type<DeleteNameHandler> TYPE = new Type<DeleteNameHandler>();
   
   private NameDataProxy data;
   
-  public AddNameEvent(NameDataProxy data) {
-    this.data = data;
+  public DeleteNameEvent() {
   }
 
   @Override
-  public Type<AddNameHandler> getAssociatedType() {
+  public Type<DeleteNameHandler> getAssociatedType() {
     return TYPE;
   }
 
   @Override
-  protected void dispatch(AddNameHandler handler) {
+  protected void dispatch(DeleteNameHandler handler) {
     handler.onEvent(this);
   }
 
-  public NameDataProxy getNameData() {
-    return data;
-  }
+ 
 }
