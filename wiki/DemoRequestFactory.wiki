@@ -12,6 +12,7 @@
 
 == Request Factory Validation Tool ==
  You'll have to run the validation tool to setup the RequestFactory piping! 
+ * You know this worked if more files show up in your class path - next to the request factory
 {{{
 #!/bin/sh
 # made by Brandon Donnelson
@@ -21,7 +22,7 @@
 BASE="/Users/branflake2267/Documents/workspace/DemoRequestFactory/war/WEB-INF";
 
 #----------------------------
-# don't have to edit below
+# don't have to edit below - unless you have more Application Request Factories
 
 OUTPUT="$BASE/classes";
 
@@ -37,6 +38,7 @@ echo "DEBUG ClassPath: $CP";
 
 java -cp $CP com.google.web.bindery.requestfactory.apt.ValidationTool $OUTPUT \
   org.gonevertical.client.requestfactory.ApplicationRequestFactory 
+  # Do you need more Request Factories???
   
 
 # the end
