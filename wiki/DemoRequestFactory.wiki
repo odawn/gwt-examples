@@ -20,6 +20,7 @@
 == Request Factory Validation Tool ==
  You'll have to run the validation tool to setup the RequestFactory piping! 
  * You know this worked if more files show up in your class path - next to the request factory
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/DemoRequestFactory/ValidateRequestFactoryTool.sh See Source] - See the latest source of the Validator Tool Builder .sh
  * [http://code.google.com/p/google-web-toolkit/wiki/RequestFactoryInterfaceValidation Wiki Ref doc] - notes on whats going on here
 {{{
 #!/bin/sh
