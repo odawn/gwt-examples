@@ -51,8 +51,7 @@ public class NameList extends Composite {
     // get requestfactory piping
     NameDataRequest nameDataRequest = cp.getRequestFactory().nameDataRequest();
     
-    Request<List<NameDataProxy>> loadReq = nameDataRequest.query();
-    loadReq.fire(new Receiver<List<NameDataProxy>>() {
+    nameDataRequest.query().fire(new Receiver<List<NameDataProxy>>() {
       public void onSuccess(List<NameDataProxy> data) {
         process(data);
       }

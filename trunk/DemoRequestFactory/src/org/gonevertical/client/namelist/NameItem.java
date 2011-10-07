@@ -79,8 +79,7 @@ public class NameItem extends Composite {
     // get requestfactory piping
     NameDataRequest nameDataRequest = cp.getRequestFactory().nameDataRequest();
     
-    Request<Void> deleteReq = nameDataRequest.remove().using(data);
-    deleteReq.fire(new Receiver<Void>() {
+    nameDataRequest.remove().using(data).fire(new Receiver<Void>() {
       public void onSuccess(Void response) {
         processDelete();
       }

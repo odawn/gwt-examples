@@ -71,8 +71,7 @@ public class NameInput extends Composite {
     newName.setName(name);
 
     // persist the entity
-    Request<Void> createReq = nameDataRequest.persist().using(newName);
-    createReq.fire(new Receiver<Void>() {
+    nameDataRequest.persist().using(newName).fire(new Receiver<Void>() {
       public void onSuccess(Void response) { // on success
         process();
       }

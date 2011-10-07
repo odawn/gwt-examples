@@ -9,7 +9,7 @@ import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.RequestContext;
 import com.google.web.bindery.requestfactory.shared.Service;
 
-@Service(value = NameData.class)
+@Service(NameData.class)
 public interface NameDataRequest extends RequestContext {
 
   Request<Long> count();
