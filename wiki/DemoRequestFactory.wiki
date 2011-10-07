@@ -60,4 +60,5 @@ exit;
  * How to setup the client processor - should be automatic I think. [http://code.google.com/p/google-web-toolkit/wiki/RequestFactory_2_4#RequestFactorySource_and_Annotation_Processing]
 
 == Random Notes ==
-* [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FDemoRequestFactory%2Fsrc%2Forg%2Fgonevertical%2Fclient%2Fnamelist Custom Event Handler Source] - Custom GWT Event Handler(s)
+ Some random stuff I used in this project:
+ * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FDemoRequestFactory%2Fsrc%2Forg%2Fgonevertical%2Fclient%2Fnamelist Custom Event Handler Source] - Custom GWT Event Handler(s)
