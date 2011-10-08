@@ -3,10 +3,8 @@ package org.gonevertical.client.nameinput;
 import org.gonevertical.client.ClientPersistence;
 import org.gonevertical.client.namelist.AddNameEvent;
 import org.gonevertical.client.namelist.AddNameHandler;
-import org.gonevertical.client.requestfactory.ApplicationRequestFactory;
 import org.gonevertical.client.requestfactory.NameDataProxy;
 import org.gonevertical.client.requestfactory.NameDataRequest;
-import org.gonevertical.server.domain.NameData;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -24,7 +22,6 @@ import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.requestfactory.shared.Receiver;
-import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
 
 public class NameInput extends Composite {

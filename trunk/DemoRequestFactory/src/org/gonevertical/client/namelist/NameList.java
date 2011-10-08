@@ -9,17 +9,15 @@ import org.gonevertical.client.requestfactory.NameDataProxy;
 import org.gonevertical.client.requestfactory.NameDataRequest;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.requestfactory.shared.Receiver;
-import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public class NameList extends Composite {
   
