@@ -9,6 +9,9 @@
 = About Advertising In GWT =
  Adsense is one of the easiest ways to advertise. 
 
+ * [DemoGwtAdsene Dmeo GWT Adsense] - I'm moving to Affiliate Advertising where I have to use an Iframe
+ * [DemoAdvertisingAffiliate Google Affiliate Advertising] - This is what I'm using in here.
+
  == AdSense ==
   Is one of the best ways to advertise.
 
