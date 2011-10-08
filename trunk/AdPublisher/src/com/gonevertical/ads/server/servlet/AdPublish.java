@@ -16,14 +16,13 @@ public class AdPublish extends HttpServlet {
   
   public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException  {
 
-    set();
+    setArrayUp();
     
-   
     String s = "<html><body>";
     s += pick();
     s += "</body></html>";
 
-    // output the iframe
+    // output the iframe/html
     res.setContentType("text/html"); 
     PrintWriter out = res.getWriter();
     out.print(s);
@@ -44,7 +43,7 @@ public class AdPublish extends HttpServlet {
     return n;
   }
 
-  private void set() {
+  private void setArrayUp() {
     a = new ArrayList<String>();
     
     // google aff - minecraft hosting
