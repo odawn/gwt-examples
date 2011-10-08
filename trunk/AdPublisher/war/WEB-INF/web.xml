@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+              http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5"
+         xmlns="http://java.sun.com/xml/ns/javaee">
+
+  <!-- Servlets -->
+  <servlet>
+    <servlet-name>rpcServlet</servlet-name>
+    <servlet-class>com.gonevertical.ads.server.RpcServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>rpcServlet</servlet-name>
+    <url-pattern>/adpublisher/rpc</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+    <servlet-name>ad</servlet-name>
+    <servlet-class>com.gonevertical.ads.server.servlet.AdPublish</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>ad</servlet-name>
+    <url-pattern>/adpublish</url-pattern>
+  </servlet-mapping>
+  
+  
+  <!-- Default page to serve -->
+  <welcome-file-list>
+    <welcome-file>AdPublisher.html</welcome-file>
+  </welcome-file-list>
+
+</web-app>
