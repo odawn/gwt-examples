@@ -3,12 +3,14 @@
 <g:plusone size="medium"></g:plusone>
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
 
-= Demos =
- * [DemoGwtAdsene Demo GWT Adsense] - I'm moving to Affiliate Advertising where I have to use an Iframe
- * [DemoAdvertisingAffiliate Google Affiliate Advertising] - This is what I'm using in here.
 
 = About Advertising In GWT =
  Adsense is one of the easiest ways to advertise. 
+
+ == Demos ==
+  * [DemoGwtAdsene Demo GWT Adsense] - I'm moving to Affiliate Advertising where I have to use an Iframe
+  * [DemoAdvertisingAffiliate Google Affiliate Advertising] - This is what I'm using in here.
+
 
  == AdSense ==
   Is one of the best ways to advertise.
