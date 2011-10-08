@@ -1,0 +1,3 @@
+#summary Example of using Affiliate Banner Rotating with App Engine
+
+= Using Affiliate Banner Rotating =
