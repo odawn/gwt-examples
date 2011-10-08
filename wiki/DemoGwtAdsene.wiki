@@ -3,6 +3,9 @@
 <g:plusone size="medium"></g:plusone>
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" scrolling=0 />
 
+= Plan B Due to No Ads Iframing =
+ Since I can't advertise Google in iframe, I setup Affiliate Banner Rotator. [DemoAdvertisingAffiliate More about that here]
+
 = How I Integrated Adsense =
 My goal is to integrate Adsense into Java code so I coud draw or render the ad into the area I would like it and when the application state changes like a page loads or reloads I would like to redraw or refresh the ad like a page would.
 
