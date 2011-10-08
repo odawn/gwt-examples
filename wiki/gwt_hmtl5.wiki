@@ -10,10 +10,11 @@
  * [http://www.w3.org/TR/2dcontext/#canvasrenderingcontext2d HTML5 Canvas Specs] 
 
 == Demo ==
- Here is a rough demo.
+ Here is a demo.
 
  * [http://demogwtcanvas.appspot.com/ Demo] - I made this to test GAE base64 uploading (which is broken at the moment)
  * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FDemoGwtCanvas Source] - Source for the stuff. I made this demo to show GAE has a bug uploading base64
+ * [http://code.google.com/p/gwt-examples/wiki/HTML5_Hackathon_ImageWaterMarker Another Demo] - Image Watermarker Demo
 
 === Some Issues with Base64 on GAE ===
  Some issues exist with base64 upload encoding. So if you working with images and want to upload them, there could be some challenges. I haven't found work arounds to them yet. I thought I had it working, but for some reason I can't.
