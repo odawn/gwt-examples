@@ -4,6 +4,61 @@
 Test this out
 
 {{{
-  @Persistent(defaultFetchGroup = "true", dependentElement = "true")
-  private LinkedHashSet<CourseJdo> courses;
+  private LearningPlanData[] queryData(LearningPlanDataFilter filter) {
+
+    String qfilter = null;
+
+    // filter a batch of ids
+    List<Key> keysList = null;
+    if (filter.getUseIds() == true) {
+      keysList = getFilterForIds(filter);
+      if (keysList != null) {
+        qfilter = ":keys.contains(key)";
+      }
+      if (keysList == null || keysList.size() == 0) {
+        return null;
+      }
+    }
+
+    ArrayList<LearningPlanData> a = new ArrayList<LearningPlanData>(); 
+    PersistenceManager pm = sp.getPersistenceManager();
+    try {
+      Query q = pm.newQuery("select from " + LearningPlanJdo.class.getName());
+      if (qfilter != null) {
+        q.setFilter(qfilter);
+      }
+      q.setRange(filter.getRangeStart(), filter.getRangeFinish());
+
+      List<LearningPlanJdo> ids = null;
+      if (filter.getUseIds() == true && keysList != null) {
+        ids = (List<LearningPlanJdo>) q.execute(keysList);
+
+      } else {
+        ids = (List<LearningPlanJdo>) q.execute();
+      }
+
+      Iterator<LearningPlanJdo> itr = ids.iterator();
+      while (itr.hasNext()) {
+        LearningPlanJdo j = itr.next();
+        if (j != null) {
+          j.getData();
+          LearningPlanJdo detatched = pm.detachCopy(j);
+          a.add(detatched.getData());
+        }
+      }
+      q.closeAll();
+    } catch (Exception e) { 
+      e.printStackTrace();
+      log.log(Level.SEVERE, "", e);
+    } finally {
+      pm.close();
+    }
+    if (a.size() == 0) {
+      return null;
+    }
+    LearningPlanData[] r = new LearningPlanData[a.size()];
+    a.toArray(r);
+
+    return r;
+  }
 }}}
