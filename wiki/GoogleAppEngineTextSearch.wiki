@@ -1,5 +1,9 @@
 #summary Searching textual data in app engine.
 
+<g:plusone size="medium"></g:plusone>
+
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+
 = Searching Textual Data In App Engine Quickly =
  This is a real basic method for searching textual data in Google App Engine. When I set the data to the Entity, I create a Hashset collection of the possible searched words, characters and soundex, which is a unique set of words that represent the text. When you query, you can use multiple filters to drill for matching entities. 
 
@@ -768,3 +772,8 @@ public class PeopleJdo {
 
 }
 }}}
+
+
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+
+<g:plusone size="medium"></g:plusone>
