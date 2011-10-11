@@ -1,7 +1,7 @@
 #summary Advantages to using Eclipse IDE
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="95" width="735" border="0" />
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
 
 = Eclipse IDE Kicks Butt =
  Compared to Microsoft Visual Developer it really kicks Butt!
@@ -69,3 +69,6 @@
  * Focus on window with mouse wheel scroll. - You have to click on window to focus to scroll, not in linux. Linux wheel scroll Much better!!!!!!!!
 
 [http://www.eclipse.org/donate/donorlist.php http://www.eclipse.org/donate/images/friendslogo160.jpg] http://www.eclipse.org/helios/friends.php - I'm proud to have donated to such a awesome project!
+
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<g:plusone size="medium"></g:plusone>

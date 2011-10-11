@@ -65,5 +65,4 @@ exit;
 
 
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-aff.xml" height="100" width="740" border="0" />
-
 <g:plusone size="medium"></g:plusone>

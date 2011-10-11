@@ -1,7 +1,7 @@
 #summary Serialize a java obect for database storage
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="95" width="735" border="0" />
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
 
 = Java Object Serialization =
  I found I could store my java object into mysql binary field and deserialize for later use. For example, caching an object that causes huge query load each time its requested. Or you can have the server rebuild the objects every night. I do this for my charts.
@@ -152,3 +152,7 @@ public class SerializeGwt {
 
   === Decoding ===
    I didn't want to spend the time to figure this out. It seemed that this was buried deep. Although, it looks doable with some hacking.
+   
+   
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<g:plusone size="medium"></g:plusone>

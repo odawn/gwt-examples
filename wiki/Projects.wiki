@@ -1,6 +1,9 @@
 #summary Eclipse projects listed in trunk
 #labels Deprecated
 
+<g:plusone size="medium"></g:plusone>
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+
 = GWT Example Projects =
 
  == Project Import Notes ==
@@ -22,3 +25,7 @@
 
 == Eclipse Configuration ==
  [gwtEclipseFaqs How to configure eclipse for these projects.]
+ 
+ 
+ <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<g:plusone size="medium"></g:plusone>

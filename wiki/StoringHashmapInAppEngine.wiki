@@ -1,7 +1,7 @@
 #summary Google App Engine HashMap Persistance in JDO
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="110" width="760" border="0" />
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
 
 <wiki:toc max_depth="2" />
 
@@ -545,3 +545,7 @@ public class TaskData implements IsSerializable {
   }
 }
 }}}
+
+
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<g:plusone size="medium"></g:plusone>

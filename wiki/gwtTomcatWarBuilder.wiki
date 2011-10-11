@@ -1,6 +1,9 @@
 #summary gwt Tomcat War Builder
 #labels Deprecated
 
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<g:plusone size="medium"></g:plusone>
+
 = Deprecated This Page =
  I am going to stop support on the TomcatWarBuilder shortly. I didn't realize at the time that Ant could do the job so much better. Google has come up with an excellent system in 1.6+. I am excited about using future releases because of the entire change.
  * 1. gwt 1.6+ ant can build your project automatically by a click of a button.

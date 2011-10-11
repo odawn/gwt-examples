@@ -1,7 +1,7 @@
 #summary Testing rich text editing
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="95" width="735" border="0" />
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
 
 = Rich Text Editor =
  I am getting an error when adding a RichTextEditor to a DialogBox. I have tried a few workarounds and haven't found a good solution. I tried Timing the adding of the rta, this works for the first time the DialogBox is centered(). After hiding and trying for a second time to center() it, the Dialogbox will fail because of the rich text editor.
@@ -195,3 +195,6 @@ public class RTAEditorDialogPopup extends DialogBox implements ClickListener {
 }
 
 }}}
+
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<g:plusone size="medium"></g:plusone>

@@ -33,3 +33,7 @@
 == Java DMX Control ==
  512 DMX universe control using Java, RXTX.org lib on Ubuntu. 
  * [http://code.google.com/p/gwt-examples/source/browse/#svn/trunk/LightsForChristmas/dmx/org/gonevertical/loc/server/dmx Java DMX Source] - See the classes that control the lights
+ 
+ 
+ <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<g:plusone size="medium"></g:plusone>

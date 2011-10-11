@@ -1,6 +1,9 @@
 #summary GWT Tutorial Links
 #labels Deprecated
 
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<g:plusone size="medium"></g:plusone>
+
 = Links To Tutorials =
 
  * [http://code.google.com/p/google-web-toolkit-incubator/wiki/LoginSecurityFAQ Google Incumbator Login] - How to build a login manager widget

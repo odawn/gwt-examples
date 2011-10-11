@@ -1,7 +1,7 @@
 #summary testing google gadgets
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="96" width="740" border="0" scrolling=0/>
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" scrolling=0/>
 
 <wiki:toc max_depth="2" />
 
@@ -98,3 +98,6 @@ wiki:gadget url="http://demogwtgadget.appspot.com/demogwtgadget/org.gonevertical
 {{{
 <wiki:gadget url="http://demogwtjsni.appspot.com/gadget-gwt-tooltip.xml" height="100" width="400" border="1" />
 }}}
+
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<g:plusone size="medium"></g:plusone>

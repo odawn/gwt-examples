@@ -1,7 +1,7 @@
 #summary eclipse docs v2
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="95" width="735" border="0" />
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
 
 = Table of Contents = 
 <wiki:toc max_depth="2"/>
@@ -132,3 +132,7 @@ Unsatisfied dependency: [org.polarion.eclipse.team.svn.connector.javahl15.win32.
  * TODO Out of memory error
  * TODO files open limit
  * TODO 64bit/32bit erros 
+ 
+ 
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<g:plusone size="medium"></g:plusone>

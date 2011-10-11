@@ -86,3 +86,7 @@ public void test() {
  Although I thought this would work, oauth is much better. 
  * [http://demogwtgdata.appspot.com/ Demo] - Demo authentication process and use. currently using authsub.
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/DemoGwtGdata/src/org/gonevertical/gdata/server/servlet/FetcherServlet.java Source] - Find the source here.
+ 
+
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<g:plusone size="medium"></g:plusone>

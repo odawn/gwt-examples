@@ -45,3 +45,7 @@
   src: local('Ubuntu Bold Italic'), local('Ubuntu-BoldItalic'), url('http://themes.googleusercontent.com/font?kit=OMD20Sg9RTs7sUORCEN-7brIa-7acMAeDBVuclsi6Gc') format('woff');
 }
 }}}
+
+
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<g:plusone size="medium"></g:plusone>

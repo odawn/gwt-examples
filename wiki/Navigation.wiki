@@ -1,7 +1,7 @@
 #summary GWT application navigation and state management
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="95" width="735" border="0" />
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
 
 = Bubble Up =
  Here is another example of bubble up events.
@@ -41,3 +41,5 @@
  Applications should think more and have the user do less to accomplish the same task. There is so much opportunity to improve with automated efficiency it astounds me. When I look at a web page, I see opportunity for improvements to interact with the user. 
 
  
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<g:plusone size="medium"></g:plusone>

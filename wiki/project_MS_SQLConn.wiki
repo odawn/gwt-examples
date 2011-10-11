@@ -1,7 +1,7 @@
 #summary Microsoft SQL Server 2000/2005 JDBC connection
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="95" width="735" border="0" />
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
 
 == note about Microsoft JDBC Connector ==
  I have found working with the Microsoft JDBC connector a bit lacking. I wouldn't recommend using MS SQL database, but rather MySQL which is much more flexible and powerful in my opinion. But if you have to connect to a MS SQL database here is how I have done it.  
@@ -286,3 +286,6 @@ protected static int getResultSetSize(ResultSet resultSet) {
     return size;
 }
 }}}
+
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<g:plusone size="medium"></g:plusone>
