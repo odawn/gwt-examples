@@ -13,6 +13,34 @@
 == Use Lower case to match! ==
  Don't forget to use lowercase to match!
 
+== Set Index ==
+ Don't forget to set indexes for multiple type filter query drill down. Something like this:
+{{{
+<!-- this is war/WEB-INF/datastore-indexes.xml -->
+<?xml version="1.0" encoding="utf-8"?>
+<datastore-indexes autoGenerate="true">
+
+    <!-- SchoolJdo -->
+
+    <!-- PeopleJdo -->
+    <datastore-index kind="PeopleJdo" ancestor="false" source="manual">
+        <property name="search" direction="asc"/>
+        <property name="nameLast" direction="asc"/>
+    </datastore-index>
+    
+    <datastore-index kind="PeopleJdo" ancestor="false" source="manual">
+        <property name="accountId" direction="asc"/>
+        <property name="search" direction="asc"/>
+        <property name="nameLast" direction="asc"/>
+    </datastore-index>
+
+	<!-- LearningPlanJdo -->
+
+	<!-- CourseJdo -->
+
+</datastore-indexes>
+}}}
+
 == Here is a quick example 1 - Searching Text ==
  I'm including most of the class for your examination. Theres more than one way to do this!
 {{{
