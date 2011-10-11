@@ -10,6 +10,9 @@
 == I use the `HashSet<String>` Collection for my searches ==
  I use the hashset collection because it uniquely stores the combinations. 
 
+== Use Lower case to match! ==
+ Don't forget to use lowercase to match!
+
 == Here is a quick example 1 - Searching Text ==
  I'm including most of the class for your examination. Theres more than one way to do this!
 {{{
