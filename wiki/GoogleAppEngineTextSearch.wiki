@@ -11,7 +11,7 @@
  I use the hashset collection because it uniquely stores the combinations. 
 
 == Here is a quick example 1 - Searching Text ==
-
+ I'm including most of the class for your examination. Theres more than one way to do this!
 {{{
 /**
 * cedars are codes
