@@ -1,3 +1,149 @@
 #summary Searching textual data in app engine.
 
-= Introduction =
+= Searching Textual Data =
+ This is a real basic method for searching textual data in Google App Engine. When I set the data to the Entity, I create a Hashset collection of the possible searched words, characters and soundex, which is a unique set of words that represent the text. When you query, you can use multiple filters to drill for matching entities. 
+
+{{{
+/**
+* cedars are codes
+*/
+@PersistenceCapable
+public class CedarsJdo {
+
+  @NotPersistent
+  private static final Logger log = Logger.getLogger(CedarsJdo.class.getName());
+
+  @PrimaryKey
+  @Persistent
+  private String code;
+
+  @Persistent
+  private String name;
+
+  @Persistent
+  private Text description;
+
+  @Persistent
+  private Integer grade;
+
+  @Persistent
+  private HashSet<String> nameWords;
+
+  @Persistent
+  private HashSet<String> descriptionWords;
+
+  //...
+
+ public CedarsJdo(ServerPersistence sp) {
+    this.sp = sp;
+  }
+  private CedarsJdo() {
+  }
+
+  public void setData(String code, String name, String description, int grade) {
+    this.code = code;
+    this.name = name;
+    if (description != null) {
+      this.description = new Text(description);
+    } else {
+      this.description = null;
+    }
+    this.grade = grade;
+
+    setNameWords(name);
+    setDescriptionWords(description);
+  }
+
+  private void setNameWords(String v) {
+    if (v == null) {
+      this.nameWords = null;
+      return;
+    }
+    v = v.replaceAll("[^a-zA-Z0-9\040]","");
+    v = v.toLowerCase();
+
+    String[] s = v.split("\040");
+    List<String> list = Arrays.asList(s);
+
+    this.nameWords = new HashSet<String>(list);
+  }
+
+  private void setDescriptionWords(String v) {
+    if (v == null) {
+      descriptionWords = null;
+      return;
+    }
+    v = v.replaceAll("[^a-zA-Z0-9\040]","");
+    v = v.toLowerCase();
+
+    String[] s = v.split("\040");
+    List<String> list = Arrays.asList(s);
+
+    this.descriptionWords = new HashSet<String>(list);
+  }
+
+  //...
+
+  private CedarsItemData[] queryData(CedarsDataFilter filter) {
+
+    String qfilter = getFilter(filter);
+
+    ArrayList<CedarsItemData> a = new ArrayList<CedarsItemData>(); 
+    PersistenceManager pm = sp.getPersistenceManager();
+    try {
+      Query q = pm.newQuery(CedarsJdo.class);
+      if (qfilter != null) {
+        q.setFilter(qfilter);
+      }
+      q.setRange(filter.getRangeStart(), filter.getRangeFinish());
+      List<CedarsJdo> c = (List<CedarsJdo>) q.execute();
+      Iterator<CedarsJdo> itr = c.iterator();
+      while (itr.hasNext()) {
+        CedarsJdo j = itr.next();
+        if (j != null) {
+          CedarsJdo detatched = pm.detachCopy(j);
+          a.add(detatched.getData());
+        }
+      }
+      q.closeAll();
+    } catch (Exception e) { 
+      e.printStackTrace();
+      log.log(Level.SEVERE, "", e);
+    } finally {
+      pm.close();
+    }
+    if (a.size() == 0) {
+      return null;
+    }
+    CedarsItemData[] r = new CedarsItemData[a.size()];
+    a.toArray(r);
+    return r;
+  }
+
+  private String getFilter(CedarsDataFilter filter) {
+
+    String qfilter = "";
+
+    if (filter.getSearch() != null) {
+      for (int i=0; i < filter.getSearch().length; i++) {
+        qfilter += " nameWords==\"" + filter.getSearch()[i].toLowerCase().trim() + "\"";
+        if (i < filter.getSearch().length - 1) {
+          qfilter += " && ";
+        }
+      }
+    }
+    
+    if (filter.getCode() != null) {
+      qfilter += "code==\"" + filter.getCode() + "\"";
+    }
+
+    if (qfilter.length() == 0) {
+      qfilter = null;
+    }
+
+    return qfilter;
+  }
+
+
+}
+}}}
