@@ -3,7 +3,7 @@
 = Searching Textual Data In App Engine Quickly =
  This is a real basic method for searching textual data in Google App Engine. When I set the data to the Entity, I create a Hashset collection of the possible searched words, characters and soundex, which is a unique set of words that represent the text. When you query, you can use multiple filters to drill for matching entities. 
 
-== Here is a quick example 1 ==
+== Here is a quick example 1 - Searching Text ==
 
 {{{
 /**
@@ -150,7 +150,7 @@ public class CedarsJdo {
 }
 }}}
 
-== Here is another example 2 ==
+== Here is another example 2 - Search People's Names ==
  Here I  do more with individual characters left to right, which suites name searching quite well. What I don't have here yet is soundex integers that represent a possible sound match, and think this would be another good option similar to "Like" in sql, although a bit more subjective. 
  
  I included the whole class for your looksee. This is how I save my people. Notice private void setSearch(PeopleData data);
