@@ -16,7 +16,6 @@
  Some of the pictures of the game
  * [http://picasaweb.google.com/branflake2267/LightsOfChristmasGame# Picasa Photo Album]
 
-
 == Videos ==
  Some movies of the project
  * [http://www.youtube.com/watch?v=17yz6DNXE8s]
@@ -24,6 +23,9 @@
  * [http://www.youtube.com/watch?v=M3tfw8oKhmM]
  * [http://www.youtube.com/watch?v=UlAEHfS9gmY]
  * [http://www.youtube.com/watch?v=vkjibkF0WOM]
+
+== Presentation == 
+ * [https://docs.google.com/present/view?id=dcmxtrc3_78cg72pzd5 Presentation] - Slideshow of some of the highlights 
 
 == Library Reference ==
  * [http://rxtx.org/ rxtx] - Used for dmx communication
