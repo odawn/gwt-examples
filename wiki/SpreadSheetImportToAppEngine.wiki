@@ -1,0 +1,86 @@
+#summary Importing a Google Spreadsheet cells into app engine
+
+= Spread Sheet Importing =
+
+{{{
+  private void importData_People() {
+
+    schoolId = getSchoolId();
+
+    // TODO
+    int offsetRow = 1;
+    int limitRow = 10000;
+
+    dbSpread = new Db_Feed_Spreadsheet(sp, username, password);
+
+    WorksheetEntry worksheet = dbSpread.getWorksheet("SLP_student_parent_list_svs", 0);
+    if (worksheet == null) {
+      return;
+    }
+
+    URL url = worksheet.getCellFeedUrl();
+    CellFeed feed = null;
+    try {
+      feed = dbSpread.getService().getFeed(url, CellFeed.class);
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (ServiceException e) {
+      e.printStackTrace();
+    }
+
+    if (feed == null) {
+      return;
+    }
+
+    String grade = null;
+    String student = null;
+    String parent1 = null;
+    String parent2 = null;
+
+    int row = 0;
+    List<CellEntry> entries = feed.getEntries();
+    for (CellEntry entry : entries) {
+
+      Cell cell = entry.getCell();
+      row = cell.getRow();
+      int c = cell.getCol();
+      String v = cell.getValue();
+
+      System.out.println("row=" + row + " c=" + c + " v=" + v);
+
+
+      if ((row-1) >= offsetRow || (row-1) <= limitRow) {
+
+
+        if (c == 1) {
+          grade = cell.getValue();
+        }
+
+        if (c == 2) {
+          student = cell.getValue();
+        }
+
+        if (c == 3) {
+          parent1 = cell.getValue();
+        }
+
+        if (c == 4) {
+          parent2 = cell.getValue();
+        }
+
+        if (c == 5) {
+
+          save(row, grade, student, parent1, parent2);
+
+          grade = null;
+          student = null;
+          parent1 = null;
+          parent2 = null;
+        }
+
+      }
+
+    }
+
+  }
+}}}
