@@ -13,6 +13,7 @@
  * [https://groups.google.com/d/topic/google-web-toolkit/vBFmzz7R56M/discussion Group Thread] - Errors I had during building this project
 
 == Reference == 
+ * [http://code.google.com/p/google-web-toolkit/wiki/RequestFactoryInterfaceValidation Validation Tool Setup] - Setup the RequestFactory annotation processer
  * [http://www.objectdb.com/api/java/jpa ObjectDB JPA/JDO Reference] - good JPA annotation reference here
  * [http://www.datanucleus.org/products/accessplatform_3_0/jpa/annotations.html Datanuclueas JPA Annotations] - Annotation defs, @Entity or @Transient annotation reference here
  * [http://www.oracle.com/technetwork/middleware/ias/toplink-jpa-annotations-096251.html Toplink jpa annotations] - Annotation defs, @Entity or @Transient annotation reference here
@@ -62,9 +63,9 @@ exit;
 }}}
 
 == Request Factory Validation Tool - Automatic ==
- Setup the project to do it automatically. Right click on project > goto properties > Java Compiler > Annotation Process... then follow the wiki ref link directions.
+ Setup the project to do it automatically. Right click on project > goto properties > Java Compiler > Annotation Process... then follow the [http://code.google.com/p/google-web-toolkit/wiki/RequestFactoryInterfaceValidation Setup]  
 
- * [http://code.google.com/p/google-web-toolkit/wiki/RequestFactoryInterfaceValidation Wiki Ref] - Screen shots on how to do it.
+ * [http://code.google.com/p/google-web-toolkit/wiki/RequestFactoryInterfaceValidation Setup Request Factory Annotation Processer] - Screen shots on how to do it.
  * How to setup the client processor - should be automatic I think. [http://code.google.com/p/google-web-toolkit/wiki/RequestFactory_2_4#RequestFactorySource_and_Annotation_Processing]
 
 == Random Notes ==
