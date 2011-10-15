@@ -25,6 +25,13 @@
  * war/WEB-INF/lib/gwt-servlet-deps.jar - you'll need the org/json|org.json classes in this...
  * It is mandatory to have in the server entity method find[EntityClass](Long id) - [http://code.google.com/p/gwt-examples/source/browse/trunk/DemoRequestFactory/src/org/gonevertical/server/domain/NameData.java see source]
 
+== Request Factory Validation Tool - Automatic ==
+ Setup the project to do it automatically. Right click on project > goto properties > Java Compiler > Annotation Process... then follow the [http://code.google.com/p/google-web-toolkit/wiki/RequestFactoryInterfaceValidation Setup]  
+
+ * [http://code.google.com/p/google-web-toolkit/wiki/RequestFactoryInterfaceValidation Setup Request Factory Annotation Processer] - Screen shots on how to setup up the validation tool and annotation processer. 
+ * [http://code.google.com/p/google-web-toolkit/wiki/RequestFactory_2_4#RequestFactorySource_and_Annotation_Processing Annotation Processer Setup 2] - How to setup the client processor. 
+
+
 == Request Factory Validation Tool - Manual ==
  You'll have to run the validation tool to setup the RequestFactory piping! 
  * You know this worked if more files show up in your class path - next to the request factory
@@ -62,11 +69,6 @@ java -cp $CP com.google.web.bindery.requestfactory.apt.ValidationTool $OUTPUT \
 exit;
 }}}
 
-== Request Factory Validation Tool - Automatic ==
- Setup the project to do it automatically. Right click on project > goto properties > Java Compiler > Annotation Process... then follow the [http://code.google.com/p/google-web-toolkit/wiki/RequestFactoryInterfaceValidation Setup]  
-
- * [http://code.google.com/p/google-web-toolkit/wiki/RequestFactoryInterfaceValidation Setup Request Factory Annotation Processer] - Screen shots on how to do it.
- * How to setup the client processor - should be automatic I think. [http://code.google.com/p/google-web-toolkit/wiki/RequestFactory_2_4#RequestFactorySource_and_Annotation_Processing]
 
 == Random Notes ==
  Some random stuff I used in this project:
