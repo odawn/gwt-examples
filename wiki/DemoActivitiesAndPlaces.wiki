@@ -7,7 +7,7 @@
  I'm building the demo as we speak.
 
  * - demo
- * - source
+ * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FWalletInventory Source] - Wallet Inventory App source
 
 == Reference ==
  * [http://code.google.com/webtoolkit/doc/latest/DevGuideMvpActivitiesAndPlaces.html Activites & Places Dev Guide] - GWT docs
