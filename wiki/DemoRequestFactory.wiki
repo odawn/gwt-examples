@@ -28,7 +28,7 @@
 == Request Factory Validation Tool - Automatic ==
  Setup the project to do it automatically. Right click on project > goto properties > Java Compiler > Annotation Process... then follow the [http://code.google.com/p/google-web-toolkit/wiki/RequestFactoryInterfaceValidation Setup]  
 
- * [http://code.google.com/p/google-web-toolkit/wiki/RequestFactoryInterfaceValidation Setup Request Factory Annotation Processer] - Screen shots on how to setup up the validation tool and annotation processer. 
+ * [http://code.google.com/p/google-web-toolkit/wiki/RequestFactoryInterfaceValidation Setup RequestFactory Annotation Processer] - Screen shots on how to setup up the validation tool and annotation processer. 
  * [http://code.google.com/p/google-web-toolkit/wiki/RequestFactory_2_4#RequestFactorySource_and_Annotation_Processing Annotation Processer Setup 2] - How to setup the client processor. 
 
 
