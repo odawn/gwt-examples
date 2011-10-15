@@ -26,7 +26,7 @@
  * It is mandatory to have in the server entity method find[EntityClass](Long id) - [http://code.google.com/p/gwt-examples/source/browse/trunk/DemoRequestFactory/src/org/gonevertical/server/domain/NameData.java see source]
 
 == Request Factory Validation Tool - Automatic ==
- Setup the project to do it automatically. Right click on project > goto properties > Java Compiler > Annotation Process... then follow the [http://code.google.com/p/google-web-toolkit/wiki/RequestFactoryInterfaceValidation Setup]  
+ Setup the project to do it automatically. Right click on project > goto properties > Java Compiler > Annotation Processer... then follow the eclipse screen shot [http://code.google.com/p/google-web-toolkit/wiki/RequestFactoryInterfaceValidation Setup] directions.
 
  * [http://code.google.com/p/google-web-toolkit/wiki/RequestFactoryInterfaceValidation Setup RequestFactory Annotation Processer] - Screen shots on how to setup up the validation tool and annotation processer. 
  * [http://code.google.com/p/google-web-toolkit/wiki/RequestFactory_2_4#RequestFactorySource_and_Annotation_Processing Annotation Processer Setup 2] - How to setup the client processor. 
