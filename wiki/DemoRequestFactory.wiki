@@ -24,7 +24,7 @@
  * war/WEB-INF/lib/requestfactor-server.jar
  * war/WEB-INF/lib/gwt-servlet-deps.jar - you'll need the org/json|org.json classes in this...
  * It is mandatory to have in the server entity method find[EntityClass](Long id) - [http://code.google.com/p/gwt-examples/source/browse/trunk/DemoRequestFactory/src/org/gonevertical/server/domain/NameData.java see source]
- * Setup the servlet mapping!!!
+ * Setup the servlet mapping!!! Otherwise you get a 404 during the request.
 
 == Request Factory Validation Tool - Automatic ==
  Setup the project to do it automatically. Right click on project > goto properties > Java Compiler > Annotation Processer... then follow the eclipse screen shot [http://code.google.com/p/google-web-toolkit/wiki/RequestFactoryInterfaceValidation Setup] directions.
