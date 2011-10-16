@@ -1,26 +1,23 @@
 package com.gonevertical.client.views.impl;
 
 import com.gonevertical.client.app.ApplicationFactory;
-import com.gonevertical.client.app.activity.places.WalletEditPlace;
 import com.gonevertical.client.app.activity.places.WalletListPlace;
 import com.gonevertical.client.app.requestfactory.dto.UserDataProxy;
 import com.gonevertical.client.app.user.AuthEvent;
 import com.gonevertical.client.app.user.AuthEvent.Auth;
 import com.gonevertical.client.app.user.AuthEventHandler;
+import com.gonevertical.client.global.loadingwidget.LoadingWidget;
 import com.gonevertical.client.views.SignInView;
-import com.gonevertical.client.views.SignInView.Presenter;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.safehtml.shared.SimpleHtmlSanitizer;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
-import com.google.gwt.uibinder.client.UiField;
-import com.gonevertical.client.global.loadingwidget.LoadingWidget;
-import com.google.gwt.user.client.ui.HTML;
 
 public class SignInViewImpl extends Composite implements SignInView {
 

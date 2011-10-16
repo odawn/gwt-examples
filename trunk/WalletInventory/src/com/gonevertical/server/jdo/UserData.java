@@ -1,28 +1,32 @@
-package com.gonevertical.server.domain;
+package com.gonevertical.server.jdo;
 
 import java.util.Iterator;
 import java.util.List;
 
+import javax.jdo.PersistenceManager;
+import javax.jdo.Transaction;
+import javax.jdo.annotations.Extension;
+import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.NotPersistent;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Query;
-import javax.persistence.Version;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.annotations.Version;
+import javax.jdo.annotations.VersionStrategy;
 
-import com.gonevertical.server.EMF;
+import com.gonevertical.server.PMF;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
-@Entity
+@PersistenceCapable
+@Version(strategy = VersionStrategy.VERSION_NUMBER, extensions = { @Extension(vendorName = "datanucleus", key = "key", value = "version") })
 public class UserData {
 
-  public static final EntityManager entityManager() {
-    return EMF.get().createEntityManager();
+  public static PersistenceManager getPersistenceManager() {
+    return PMF.get().getPersistenceManager();
   }
 
   private static User getGoogleUser() {
@@ -33,7 +37,7 @@ public class UserData {
     User user = userService.getCurrentUser();
     return user;
   }
-  
+
   public static Long getLoggedInUserId() {
     User user = getGoogleUser();
     if (user == null) {
@@ -53,23 +57,22 @@ public class UserData {
     if (id == null) {
       return null;
     }
-    EntityManager em = entityManager();
+    PersistenceManager pm = getPersistenceManager();
     try {
-      UserData e = em.find(UserData.class, id);
+      UserData e = pm.getObjectById(UserData.class, id);
       return e;
     } finally {
-      em.close();
+      pm.close();
     }
   }
 
   public static UserData findUserDataByGoogleEmail(String googleEmail) {
-    EntityManager em = entityManager();
+    PersistenceManager pm = getPersistenceManager();
     try {
-      Query query = em.createQuery("select o from UserData o WHERE o.googleEmail =:googleEmail");
-      query.setFirstResult(0);
-      query.setMaxResults(1);
-      query.setParameter("googleEmail", googleEmail);
-      List<UserData> list = query.getResultList();
+      javax.jdo.Query query = pm.newQuery("select from " + UserData.class.getName());
+      query.setRange(0, 1);
+      query.setFilter("googleEmail==\""+ googleEmail + "\"");
+      List<UserData> list = (List<UserData>) query.execute();
       long size = list.size();
       if (size == 0) {
         return null;
@@ -78,18 +81,17 @@ public class UserData {
       UserData ud = itr.next();
       return ud;
     } finally {
-      em.close();
+      pm.close();
     }
   }
 
   public static UserData findUserDataByGoogleUserId(String googleUserId) {
-    EntityManager em = entityManager();
+    PersistenceManager pm = getPersistenceManager();
     try {
-      Query query = em.createQuery("select o from UserData o WHERE o.googleUserId =:googleUserId");
-      query.setFirstResult(0);
-      query.setMaxResults(1);
-      query.setParameter("googleUserId", googleUserId);
-      List<UserData> list = query.getResultList();
+      javax.jdo.Query query = pm.newQuery("select from " + UserData.class.getName());
+      query.setRange(0, 1);
+      query.setFilter("googleUserId==\"" + googleUserId + "\"");
+      List<UserData> list = (List<UserData>) query.execute();
       long size = list.size();
       if (size == 0) {
         return null;
@@ -98,38 +100,46 @@ public class UserData {
       UserData ud = itr.next();
       return ud;
     } finally {
-      em.close();
+      pm.close();
     }
   }
 
 
 
-  @Id
-  @Column(name = "id")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  @PrimaryKey
+  @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+  private Key key;
 
-  @Version
-  @Column(name = "version")
+  @Persistent
   private Integer version;
 
+  @Persistent
   private String googleUserId;
 
+  @Persistent
   private String googleEmail;
-  
+
+  @Persistent
   private String googleNickname;
-  
+
   @NotPersistent
   private String loginUrl;
-  
+
   @NotPersistent
   private String logoutUrl;
 
 
   public void setId(Long id) {
-    this.id = id;
+    if (id == null) {
+      return;
+    }
+    this.key = KeyFactory.createKey(UserData.class.getName(), id);
   }
   public Long getId() {
+    Long id = null;
+    if (key != null) {
+      id = key.getId();
+    }
     return id;
   }
 
@@ -163,7 +173,7 @@ public class UserData {
   public String getGoogleNickname() {
     return googleNickname;
   }
-  
+
   public void setLoginUrl() {
     UserService userService = UserServiceFactory.getUserService();
     loginUrl = userService.createLoginURL("/");
@@ -171,7 +181,7 @@ public class UserData {
   public String getLoginUrl() {
     return loginUrl;
   }
-  
+
   public void setLogoutUrl() {
     UserService userService = UserServiceFactory.getUserService();
     logoutUrl = userService.createLogoutURL("/");
@@ -179,11 +189,11 @@ public class UserData {
   public String getLogoutUrl() {
     return logoutUrl;
   }
- 
-  
+
+
   public static UserData createUserData() {
     UserData userData = null; 
-    
+
     UserService userService = UserServiceFactory.getUserService();
     if (userService.isUserLoggedIn() == false) {
       UserData r = new UserData();
@@ -191,7 +201,7 @@ public class UserData {
       //r.setLogoutUrl(); // not needed
       return r;
     }
-    
+
     User u = userService.getCurrentUser();
     if (u == null) {
       UserData r = new UserData();
@@ -199,39 +209,45 @@ public class UserData {
       //r.setLogoutUrl(); // not needed
       return r;
     }
-    
+
     // has the user been here before? lookup and or create
     userData = findUserDataByGoogleUserId(u.getUserId());
     if (userData == null) {
       userData = new UserData();
     }
-    
+
     userData.setGoogleUserId(u.getUserId());
     userData.setGoogleEmail(u.getEmail());
     userData.setGoogleNickname(u.getNickname());
     //userData.setLoginUrl(); // not needed
     userData.setLogoutUrl();
-    
+
     return userData.persist();
   }
 
   public UserData persist() {
-    EntityManager em = entityManager();
+    PersistenceManager pm = getPersistenceManager();
+    Transaction tx = pm.currentTransaction();
     try {
-      em.persist(this);
+      tx.begin();
+      pm.makePersistent(this);
+      tx.commit();
     } finally {
-      em.close();
+      pm.close();
     }
     return this;
   }
 
   public void remove() {
-    EntityManager em = entityManager();
+    PersistenceManager pm = getPersistenceManager();
+    Transaction tx = pm.currentTransaction();
     try {
-      WalletData attached = em.find(WalletData.class, this.id);
-      em.remove(attached);
+      UserData e = pm.getObjectById(UserData.class, key);
+      tx.begin();
+      pm.deletePersistent(e);
+      tx.commit();
     } finally {
-      em.close();
+      pm.close();
     }
   }
 }

@@ -5,23 +5,22 @@ import java.util.List;
 
 import com.gonevertical.client.app.ApplicationFactory;
 import com.gonevertical.client.app.requestfactory.dto.WalletDataProxy;
+import com.gonevertical.client.global.loadingwidget.LoadingWidget;
 import com.gonevertical.client.views.WalletListView;
-import com.gonevertical.client.views.WalletListView.Presenter;
 import com.gonevertical.client.views.widgets.WalletListItemWidget;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
-import com.gonevertical.client.global.loadingwidget.LoadingWidget;
 
 public class WalletListViewImpl extends Composite implements WalletListView {
 
@@ -103,7 +102,7 @@ public class WalletListViewImpl extends Composite implements WalletListView {
     pList.add(wItem);
     wItem.setPresenter(presenter);
     wItem.setAppFactory(appFactory);
-    wItem.setData(walletDataProxy);
+    wItem.setData(i, walletDataProxy);
     wItem.draw();
     return wItem;
   }

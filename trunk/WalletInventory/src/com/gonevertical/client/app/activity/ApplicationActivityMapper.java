@@ -4,13 +4,9 @@ import com.gonevertical.client.app.ApplicationFactory;
 import com.gonevertical.client.app.activity.places.SignInPlace;
 import com.gonevertical.client.app.activity.places.WalletEditPlace;
 import com.gonevertical.client.app.activity.places.WalletListPlace;
-import com.gonevertical.client.views.SignInView;
-import com.gonevertical.client.views.WalletEditView;
-import com.gonevertical.client.views.WalletListView;
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;
-import com.google.inject.Inject;
 
 public class ApplicationActivityMapper implements ActivityMapper {
   

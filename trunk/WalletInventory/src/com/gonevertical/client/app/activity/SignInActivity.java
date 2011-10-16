@@ -5,7 +5,6 @@ import com.gonevertical.client.app.activity.places.SignInPlace;
 import com.gonevertical.client.views.SignInView;
 import com.gonevertical.client.views.impl.SignInViewImpl;
 import com.google.gwt.activity.shared.AbstractActivity;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;

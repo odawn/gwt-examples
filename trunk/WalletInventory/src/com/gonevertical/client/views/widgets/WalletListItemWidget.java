@@ -8,29 +8,27 @@ import com.gonevertical.client.global.booleandialog.BooleanEvent;
 import com.gonevertical.client.global.booleandialog.BooleanEvent.Selected;
 import com.gonevertical.client.global.booleandialog.BooleanEventHandler;
 import com.gonevertical.client.views.WalletListView.Presenter;
-import com.gonevertical.server.domain.WalletData;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SimpleHtmlSanitizer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.web.bindery.requestfactory.shared.InstanceRequest;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
-import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.event.dom.client.ClickEvent;
 
 public class WalletListItemWidget extends Composite {
 
@@ -66,7 +64,8 @@ public class WalletListItemWidget extends Composite {
     setState(State.VIEW);
   }
 
-  public void setData(WalletDataProxy walletDataProxy) {
+  public void setData(int i, WalletDataProxy walletDataProxy) {
+    // TODO set style depending on i
     this.walletData = walletDataProxy; 
   }
 
@@ -80,7 +79,6 @@ public class WalletListItemWidget extends Composite {
 
   public void draw() {
 
-    // default
     setState(State.VIEW);
 
     drawName();

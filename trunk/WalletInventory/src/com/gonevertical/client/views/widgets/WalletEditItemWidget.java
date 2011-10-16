@@ -1,16 +1,12 @@
 package com.gonevertical.client.views.widgets;
 
 import com.gonevertical.client.app.ApplicationFactory;
-import com.gonevertical.client.app.activity.places.WalletEditPlace;
 import com.gonevertical.client.app.requestfactory.dto.WalletItemDataProxy;
-import com.gonevertical.client.app.requestfactory.dto.WalletDataProxy;
 import com.gonevertical.client.global.booleandialog.BooleanDialog;
 import com.gonevertical.client.global.booleandialog.BooleanEvent;
-import com.gonevertical.client.global.booleandialog.BooleanEventHandler;
 import com.gonevertical.client.global.booleandialog.BooleanEvent.Selected;
+import com.gonevertical.client.global.booleandialog.BooleanEventHandler;
 import com.gonevertical.client.views.WalletEditView.Presenter;
-import com.gonevertical.client.views.impl.WalletEditViewImpl.State;
-import com.gonevertical.server.domain.WalletItemData;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
@@ -26,16 +22,16 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SimpleHtmlSanitizer;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
-import com.google.gwt.user.client.ui.PushButton;
 
 public class WalletEditItemWidget extends Composite {
   
