@@ -9,12 +9,10 @@
 			<g:Cell verticalAlignment="ALIGN_MIDDLE">
 				<g:HTML wordWrap="true" ui:field="htmlName">Name</g:HTML>
 			</g:Cell>
-			<g:TextBox width="224px" ui:field="tbName"/>
+			<g:TextBox width="302px" ui:field="tbName"/>
+			<g:HTML wordWrap="true">&nbsp;</g:HTML>
 			<g:Cell verticalAlignment="ALIGN_MIDDLE">
-				<g:PushButton text="View"/>
-			</g:Cell>
-			<g:Cell verticalAlignment="ALIGN_MIDDLE">
-				<g:PushButton text="X"/>
+				<g:PushButton text="X" ui:field="bDelete"/>
 			</g:Cell>
 		</g:HorizontalPanel>
 	</g:VerticalPanel>

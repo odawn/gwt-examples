@@ -17,8 +17,8 @@ public interface WalletDataProxy extends EntityProxy {
   
   String getName();
   
-  void setItems(List<WallItemDataProxy> items);
+  void setItems(List<WalletItemDataProxy> items);
   
-  List<WallItemDataProxy> getItems();
+  List<WalletItemDataProxy> getItems();
   
 }

@@ -19,7 +19,7 @@ import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
 import com.google.gwt.uibinder.client.UiField;
-import com.gonevertical.client.global.LoadingWidget;
+import com.gonevertical.client.global.loadingwidget.LoadingWidget;
 import com.google.gwt.user.client.ui.HTML;
 
 public class SignInViewImpl extends Composite implements SignInView {
@@ -39,7 +39,6 @@ public class SignInViewImpl extends Composite implements SignInView {
 
   public SignInViewImpl() {
     initWidget(uiBinder.createAndBindUi(this));
-
   }
 
   @Override
@@ -108,9 +107,7 @@ public class SignInViewImpl extends Composite implements SignInView {
    * this will create/lookup a user in the datastore according to the Google Login
    */
   private void createUser() {
-
     wLoading.showLoading(true, "Loading...");
-
     Request<UserDataProxy> req = appFactory.getRequestFactory().getUserDataRequest().createUserData();
     req.fire(new Receiver<UserDataProxy>() {
       public void onSuccess(UserDataProxy data) {

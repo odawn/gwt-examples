@@ -14,7 +14,7 @@ public interface WalletListView extends IsWidget {
   
   void setAppFactory(ApplicationFactory appFactory);
   
-  void start();
+  void draw();
 
   
   

@@ -5,7 +5,7 @@ import com.google.web.bindery.requestfactory.shared.EntityProxy;
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
 
 @ProxyFor(WalletItemData.class)
-public interface WallItemDataProxy extends EntityProxy {
+public interface WalletItemDataProxy extends EntityProxy {
 
   Long getId();
   

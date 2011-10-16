@@ -17,7 +17,7 @@ public interface WalletEditView extends IsWidget {
   
   void setData(WalletDataProxy walletData);
   
-  void start();
+  void draw();
 
   
 }

@@ -31,7 +31,7 @@ public class WalletListActivity extends AbstractActivity implements WalletListVi
     view.setPresenter(this);
     view.setAppFactory(appFactory);
     containerWidget.setWidget(view.asWidget());
-    view.start();
+    view.draw();
   }
 
   /**

@@ -21,7 +21,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
-import com.gonevertical.client.global.LoadingWidget;
+import com.gonevertical.client.global.loadingwidget.LoadingWidget;
 
 public class WalletListViewImpl extends Composite implements WalletListView {
 
@@ -54,15 +54,17 @@ public class WalletListViewImpl extends Composite implements WalletListView {
     this.appFactory = appFactory;
   }
 
-  public void start() {
-    pList.clear();
-
+  public void draw() {
+    
     loadWallets();
-
+    
   }
 
   private void loadWallets() {
+    pList.clear();
+    
     wLoading.showLoading(true); 
+    
     Request<List<WalletDataProxy>> req = appFactory.getRequestFactory().getWalletDataRequest().findWalletDataByUser();
     req.fire(new Receiver<List<WalletDataProxy>>() {
       public void onSuccess(List<WalletDataProxy> walletData) {
@@ -78,15 +80,14 @@ public class WalletListViewImpl extends Composite implements WalletListView {
 
   private void process(List<WalletDataProxy> walletData) {
     this.walletData = walletData;
-    if (walletData == null) {
+    if (walletData == null || walletData.size() == 0) {
       return;
     }
-
     int i=0; 
     Iterator<WalletDataProxy> itr = walletData.iterator();
     while(itr.hasNext()) {
       WalletDataProxy d = itr.next();
-      add(i,d);
+      add(i, d);
       i++;
     }
   }
@@ -101,6 +102,7 @@ public class WalletListViewImpl extends Composite implements WalletListView {
     WalletListItemWidget wItem = new WalletListItemWidget();
     pList.add(wItem);
     wItem.setPresenter(presenter);
+    wItem.setAppFactory(appFactory);
     wItem.setData(walletDataProxy);
     wItem.draw();
     return wItem;

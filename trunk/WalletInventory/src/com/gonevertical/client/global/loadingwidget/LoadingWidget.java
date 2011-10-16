@@ -1,5 +1,6 @@
-package com.gonevertical.client.global;
+package com.gonevertical.client.global.loadingwidget;
 
+import com.gonevertical.client.global.UiImages;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.safehtml.shared.SimpleHtmlSanitizer;
 import com.google.gwt.uibinder.client.UiBinder;

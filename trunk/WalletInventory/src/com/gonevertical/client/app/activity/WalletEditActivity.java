@@ -36,7 +36,7 @@ public class WalletEditActivity extends AbstractActivity implements WalletEditVi
     view.setAppFactory(appFactory);
     containerWidget.setWidget(view.asWidget());
     view.setData(walletData);
-    view.start();
+    view.draw();
   }
 
   /**
