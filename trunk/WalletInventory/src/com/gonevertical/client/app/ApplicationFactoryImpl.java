@@ -37,7 +37,7 @@ public class ApplicationFactoryImpl implements ApplicationFactory {
   private SimplePanel appWidget = new SimplePanel();
   
   /**
-   * for global events
+   * for app's global events
    */
   private static final EventBus eventBus = new SimpleEventBus();
   
@@ -72,7 +72,7 @@ public class ApplicationFactoryImpl implements ApplicationFactory {
   private final PlaceController placeController = new PlaceController(eventBus);
   
   /**
-   * logged in user (or null user with url to login)
+   * logged in user (or null userid with the login url)
    */
   private UserDataProxy userData;
   

@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.Request;
+import com.google.web.bindery.requestfactory.shared.ServerFailure;
 import com.google.gwt.uibinder.client.UiField;
 import com.gonevertical.client.global.LoadingWidget;
 import com.google.gwt.user.client.ui.HTML;
@@ -113,10 +114,12 @@ public class SignInViewImpl extends Composite implements SignInView {
     Request<UserDataProxy> req = appFactory.getRequestFactory().getUserDataRequest().createUserData();
     req.fire(new Receiver<UserDataProxy>() {
       public void onSuccess(UserDataProxy data) {
-
         wLoading.showLoading(false);
-
         process(data);
+      }
+      public void onFailure(ServerFailure error) {
+        wLoading.showLoading(false);
+        super.onFailure(error);
       }
     });
   }

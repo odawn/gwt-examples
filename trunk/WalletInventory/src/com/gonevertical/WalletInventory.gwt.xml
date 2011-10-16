@@ -1,26 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='walletinventory'>
+
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
 
+
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <inherits name='com.google.gwt.user.theme.clean.Clean'/>
+
 
   <!-- Other module inherits                                      -->
   <inherits name='com.google.web.bindery.requestfactory.RequestFactory' />
   <inherits name="com.google.gwt.activity.Activity"/>
   <inherits name="com.google.gwt.place.Place"/>
 
+
   <!-- Specify the app entry point class.                         -->
   <entry-point class='com.gonevertical.client.WalletInventory'/>
 
-  <!-- Use ApplicationFactoryImpl by default -->
+
+  <!-- Use ApplicationFactoryImpl by default (Deferred Binding) -->
   <replace-with class="com.gonevertical.client.app.ApplicationFactoryImpl">
     <when-type-is class="com.gonevertical.client.app.ApplicationFactory"/>
   </replace-with>
 
+
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
   <source path='shared'/>
+
 
 </module>

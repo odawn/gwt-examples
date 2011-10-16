@@ -41,4 +41,8 @@ public class WalletListItemWidget extends Composite {
     
   }
 
+  public void edit() {
+    
+  }
+
 }

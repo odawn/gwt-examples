@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 public class WalletInventory implements EntryPoint {
 
   /**
-   * Global app stuff
+   * Global App Objects/Classes - using deferred binding to create object
    */
   private ApplicationFactory appFactory = GWT.create(ApplicationFactory.class);
   
@@ -37,7 +37,7 @@ public class WalletInventory implements EntryPoint {
    */
   public void onModuleLoad() {
 
-    // The stuff inits in ApplicationFactoryImpl
+    // The stuff inits in ApplicationFactoryImpl.java
     
     
   }
