@@ -15,6 +15,7 @@
 == App Factory ==
  more on this soon
 
+ [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/app/ApplicationFactoryImpl.java ApplicationFactoryImpl.java] - source 
 {{{
  source here
 }}}
