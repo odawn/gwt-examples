@@ -196,16 +196,16 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
 
   private void setStateView() {
     htmlName.setVisible(true);
-    tbName.setVisible(true);
+    tbName.setVisible(false);
   }
 
   private void setStateEdit() {
     htmlName.setVisible(false);
-    tbName.setVisible(false);
+    tbName.setVisible(true);
   }
   
   @UiHandler("tbName")
-  void onTbNameValueChange(ValueChangeEvent event) {
+  void onTbNameChange(ChangeEvent event) {
     setNameData();
     save();
     drawName();
@@ -234,4 +234,5 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
   void onBAddClick(ClickEvent event) {
     add();
   }
+
 }

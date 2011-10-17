@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
+import com.google.gwt.event.dom.client.ChangeEvent;
 
 public class WalletListItemWidget extends Composite {
 
@@ -212,7 +213,7 @@ public class WalletListItemWidget extends Composite {
   }
 
   @UiHandler("tbName")
-  public void onTbNameValueChange(ValueChangeEvent event) {
+  void onTbNameChange(ChangeEvent event) {
     setNameData();
     save();
     drawName();

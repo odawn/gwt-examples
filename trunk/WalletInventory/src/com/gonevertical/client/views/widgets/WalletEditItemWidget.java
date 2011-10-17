@@ -163,12 +163,12 @@ public class WalletEditItemWidget extends Composite {
 
   private void setStateView() {
     htmlName.setVisible(true);
-    tbName.setVisible(true);
+    tbName.setVisible(false);
   }
 
   private void setStateEdit() {
     htmlName.setVisible(false);
-    tbName.setVisible(false);
+    tbName.setVisible(true);
   }
 
   @UiHandler("tbName")
@@ -195,7 +195,7 @@ public class WalletEditItemWidget extends Composite {
   }
 
   @UiHandler("tbName")
-  public void onTbNameValueChange(ValueChangeEvent event) {
+  void onTbNameChange(ChangeEvent event) {
     setNameData();
     drawName();
     fireChange();
@@ -215,4 +215,5 @@ public class WalletEditItemWidget extends Composite {
     return addDomHandler(handler, ChangeEvent.getType());
   }
   
+ 
 }
