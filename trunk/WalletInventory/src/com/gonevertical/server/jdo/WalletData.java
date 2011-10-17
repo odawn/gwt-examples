@@ -58,10 +58,10 @@ public class WalletData {
     Long uid = UserData.getLoggedInUserId();
     PersistenceManager pm = getPersistenceManager();
     try {
-      javax.jdo.Query query = pm.newQuery("select count(o) from "+ WalletData.class.getName() + " o");
-      query.setFilter("o.userId==\"" + uid + "\"");
-      Long r = (Long) query.execute();
-      return r;
+      // TODO
+      //javax.jdo.Query query = pm.newQuery("select count(o) from WalletData o  where o.userId==\"" + uid + "\"");
+      //Long r = (Long) query.execute();
+      return 0l;
     } finally {
       pm.close();
     }
@@ -71,14 +71,17 @@ public class WalletData {
     Long uid = UserData.getLoggedInUserId();
     PersistenceManager pm = getPersistenceManager();
     try {
-      javax.jdo.Query query = pm.newQuery("select o from WalletData o");
-      query.setFilter("o.userId==\"" + uid + "\"");
+      javax.jdo.Query query = pm.newQuery("select from " + WalletData.class.getName());
+      query.setFilter("userId==\"" + uid + "\"");
       List<WalletData> list = (List<WalletData>) query.execute();
       list.size();
       return list;
+    } catch (Exception e) {
+      e.printStackTrace();
     } finally {
       pm.close();
     }
+    return null;
   }
 
   
