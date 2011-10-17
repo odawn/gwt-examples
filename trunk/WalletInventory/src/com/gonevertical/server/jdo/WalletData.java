@@ -1,5 +1,7 @@
 package com.gonevertical.server.jdo;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.jdo.PersistenceManager;
@@ -13,6 +15,8 @@ import javax.jdo.annotations.Version;
 import javax.jdo.annotations.VersionStrategy;
 
 import com.gonevertical.server.PMF;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 
 @PersistenceCapable
 @Version(strategy = VersionStrategy.VERSION_NUMBER, extensions = { @Extension(vendorName = "datanucleus", key = "key", value = "version") })
@@ -55,7 +59,7 @@ public class WalletData {
     PersistenceManager pm = getPersistenceManager();
     try {
       javax.jdo.Query query = pm.newQuery("select count(o) from "+ WalletData.class.getName() + " o");
-      query.setFilter("o.userId=\"" + uid + "\"");
+      query.setFilter("o.userId==\"" + uid + "\"");
       Long r = (Long) query.execute();
       return r;
     } finally {
@@ -81,7 +85,7 @@ public class WalletData {
   
   @PrimaryKey
   @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-  private Long id;
+  private Key key;
   
   @Persistent
   private Integer version;
@@ -100,9 +104,16 @@ public class WalletData {
  
   
   public void setId(Long id) {
-    this.id = id;
+    if (id == null) {
+      return;
+    }
+    this.key = KeyFactory.createKey(UserData.class.getName(), id);
   }
   public Long getId() {
+    Long id = null;
+    if (key != null) {
+      id = key.getId();
+    }
     return id;
   }
   
@@ -128,7 +139,24 @@ public class WalletData {
   }
   
   public void setItems(List<WalletItemData> items) {
-    this.items = items;
+    if (items == null) {
+      this.items = null;
+      return;
+    }
+    
+    // TODO I'm not sure request factory will do this or not yet.
+    ArrayList<WalletItemData> a = new ArrayList<WalletItemData>();
+    Iterator<WalletItemData> itr = items.iterator();
+    while(itr.hasNext()) {
+      WalletItemData d = itr.next();
+      if (d.getId() != null && d.getId() > 0) { // null on id to increment
+        // need parentKey, to reference the owned entities
+        d.setId(key, d.getId());
+      }
+      a.add(d);
+    }
+    
+    this.items = a;
   }
   public List<WalletItemData> getItems() {
     return items;
@@ -154,7 +182,7 @@ public class WalletData {
     PersistenceManager pm = getPersistenceManager();
     Transaction tx = pm.currentTransaction();
     try {
-      WalletData e = pm.getObjectById(WalletData.class, this.id);
+      WalletData e = pm.getObjectById(WalletData.class, key);
       tx.begin();
       pm.deletePersistent(e);
       tx.commit();
