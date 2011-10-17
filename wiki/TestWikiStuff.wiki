@@ -7,63 +7,92 @@
 Test this out
 
 {{{
-  private LearningPlanData[] queryData(LearningPlanDataFilter filter) {
 
-    String qfilter = null;
+@PersistenceCapable
+@Version(strategy = VersionStrategy.VERSION_NUMBER, extensions = { @Extension(vendorName = "datanucleus", key = "key", value = "version") })
+public class WalletData {
 
-    // filter a batch of ids
-    List<Key> keysList = null;
-    if (filter.getUseIds() == true) {
-      keysList = getFilterForIds(filter);
-      if (keysList != null) {
-        qfilter = ":keys.contains(key)";
-      }
-      if (keysList == null || keysList.size() == 0) {
-        return null;
-      }
+@PrimaryKey
+  @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+  private Key key;
+  
+  @Persistent
+  private Integer version;
+ 
+  /**
+   * entity owner - the person who's logged in
+   */
+  @Persistent
+  private Long userId; 
+  
+  @Persistent
+  private String name;
+  
+  @Persistent(defaultFetchGroup = "true", dependentElement = "true")  
+  private List<WalletItemData> items;
+ 
+  
+  public void setId(Long id) {
+    if (id == null) {
+      return;
     }
-
-    ArrayList<LearningPlanData> a = new ArrayList<LearningPlanData>(); 
-    PersistenceManager pm = sp.getPersistenceManager();
-    try {
-      Query q = pm.newQuery("select from " + LearningPlanJdo.class.getName());
-      if (qfilter != null) {
-        q.setFilter(qfilter);
-      }
-      q.setRange(filter.getRangeStart(), filter.getRangeFinish());
-
-      List<LearningPlanJdo> ids = null;
-      if (filter.getUseIds() == true && keysList != null) {
-        ids = (List<LearningPlanJdo>) q.execute(keysList);
-
-      } else {
-        ids = (List<LearningPlanJdo>) q.execute();
-      }
-
-      Iterator<LearningPlanJdo> itr = ids.iterator();
-      while (itr.hasNext()) {
-        LearningPlanJdo j = itr.next();
-        if (j != null) {
-          j.getData();
-          LearningPlanJdo detatched = pm.detachCopy(j);
-          a.add(detatched.getData());
-        }
-      }
-      q.closeAll();
-    } catch (Exception e) { 
-      e.printStackTrace();
-      log.log(Level.SEVERE, "", e);
-    } finally {
-      pm.close();
-    }
-    if (a.size() == 0) {
-      return null;
-    }
-    LearningPlanData[] r = new LearningPlanData[a.size()];
-    a.toArray(r);
-
-    return r;
+    this.key = KeyFactory.createKey(UserData.class.getName(), id);
   }
+  public Long getId() {
+    Long id = null;
+    if (key != null) {
+      id = key.getId();
+    }
+    return id;
+  }
+  
+  public void setVersion(Integer version) {
+    this.version = version;
+  }
+  public Integer getVersion() {
+    return version;
+  }
+  
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
+  public Long getUserId() {
+    return userId;
+  }
+  
+  public void setName(String name) {
+    this.name = name;
+  }
+  public String getName() {
+    return name;
+  }
+  
+  public void setItems(List<WalletItemData> items) {
+    if (items == null) {
+      this.items = null;
+      return;
+    }
+    
+    // TODO I'm not sure request factory will do this or not yet.
+    ArrayList<WalletItemData> a = new ArrayList<WalletItemData>();
+    Iterator<WalletItemData> itr = items.iterator();
+    while(itr.hasNext()) {
+      WalletItemData d = itr.next();
+      if (d.getId() != null && d.getId() > 0) { // null on id to increment
+        // need parentKey, to reference the owned entities
+        d.setId(key, d.getId());
+      }
+      a.add(d);
+    }
+    
+    this.items = a;
+  }
+  public List<WalletItemData> getItems() {
+    return items;
+  }
+
+}
+
 }}}
 
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
