@@ -107,7 +107,7 @@ public class WalletData {
     if (id == null) {
       return;
     }
-    this.key = KeyFactory.createKey(UserData.class.getName(), id);
+    this.key = KeyFactory.createKey(WalletData.class.getName(), id);
   }
   public Long getId() {
     Long id = null;
