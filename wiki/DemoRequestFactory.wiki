@@ -79,7 +79,32 @@ exit;
  notes on modifying a proxyDto object
  * You get a frozen freeze error after the request object returns and you try to modify it again.
  * creating and new proxyDto, do it after you grab the request context, otherwise you get a cross update error
-
+ [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/views/impl/WalletEditViewImpl.java#164 - Source Location]
+{{{
+  private void save() {
+    
+    WalletDataRequest req = appFactory.getRequestFactory().getWalletDataRequest();
+    
+    WalletDataProxy data = null;
+    if (walletData == null) { // insert|create
+      data = req.create(WalletDataProxy.class);
+      
+    } else { // update|edit
+      data = req.edit(walletData);
+    }
+    
+    data.setName(getName());
+    
+    req.persist().using(data).fire(new Receiver<WalletDataProxy>() {
+      public void onSuccess(WalletDataProxy walletData) {
+        process(walletData);
+      }
+      public void onFailure(ServerFailure error) {
+        super.onFailure(error);
+      }
+    });
+  }
+}}}
 
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-aff.xml" height="100" width="740" border="0" />
 <g:plusone size="medium"></g:plusone>
