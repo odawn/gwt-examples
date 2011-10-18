@@ -99,9 +99,12 @@ public class UserData {
       Iterator<UserData> itr = list.iterator();
       UserData ud = itr.next();
       return ud;
+    } catch (Exception e) {
+      e.printStackTrace();
     } finally {
       pm.close();
     }
+    return null;
   }
 
 
@@ -228,6 +231,9 @@ public class UserData {
   public UserData persist() {
     
     // JPA does this automatically, but JDO won't. Not sure why.
+    if (version == null) {
+      version = 0l;
+    }
     version++;
     
     PersistenceManager pm = getPersistenceManager();

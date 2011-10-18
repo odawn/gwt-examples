@@ -166,20 +166,29 @@ public class WalletData {
   }
   
   public WalletData persist() {
-    Long uid = UserData.getLoggedInUserId();
-    setUserId(uid);
     
-    // JPA @Version does this automatically, but JDO @Version is not working like that. Not sure why.
-    version++;
-    
-    PersistenceManager pm = getPersistenceManager();
-    Transaction tx = pm.currentTransaction();
     try {
-      tx.begin();
-      pm.makePersistent(this);
-      tx.commit();
-    } finally {
-      pm.close();
+      // set the owner of this entity
+      userId = UserData.getLoggedInUserId();
+      
+      // JPA @Version does this automatically, but JDO @Version is not working like that. Not sure why.
+      if (version == null) {
+        version = 0l;
+      }
+      version++;
+      
+      PersistenceManager pm = getPersistenceManager();
+      Transaction tx = pm.currentTransaction();
+      try {
+        tx.begin();
+        pm.makePersistent(this);
+        tx.commit();
+      } finally {
+        pm.close();
+      }
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
     return this;
   }

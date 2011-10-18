@@ -146,10 +146,13 @@ public class WalletItemData {
   
   
   public void persist() {
-    Long uid = UserData.getLoggedInUserId();
-    setUserId(uid);
+    // set the owner of this entity
+    userId = UserData.getLoggedInUserId();
     
     // JPA does this automatically, but JDO won't. Not sure why.
+    if (version == null) {
+      version = 0l;
+    }
     version++;
     
     PersistenceManager pm = getPersistenceManager();
