@@ -73,7 +73,7 @@ public class UserData {
       query.setRange(0, 1);
       query.setFilter("googleEmail==\""+ googleEmail + "\"");
       List<UserData> list = (List<UserData>) query.execute();
-      long size = list.size();
+      int size = list.size();
       if (size == 0) {
         return null;
       }
@@ -92,7 +92,7 @@ public class UserData {
       query.setRange(0, 1);
       query.setFilter("googleUserId==\"" + googleUserId + "\"");
       List<UserData> list = (List<UserData>) query.execute();
-      long size = list.size();
+      int size = list.size();
       if (size == 0) {
         return null;
       }
@@ -229,13 +229,13 @@ public class UserData {
   }
 
   public UserData persist() {
-    
+
     // JPA does this automatically, but JDO won't. Not sure why.
     if (version == null) {
       version = 0l;
     }
     version++;
-    
+
     PersistenceManager pm = getPersistenceManager();
     Transaction tx = pm.currentTransaction();
     try {

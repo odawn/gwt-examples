@@ -69,12 +69,15 @@ public class WalletData {
   
   public static List<WalletData> findWalletDataByUser() {
     Long uid = UserData.getLoggedInUserId();
+    
+    String qfilter = null; //"userId==\"" + uid + "\"";
+    
     PersistenceManager pm = getPersistenceManager();
     try {
       javax.jdo.Query query = pm.newQuery("select from " + WalletData.class.getName());
-      query.setFilter("userId==\"" + uid + "\"");
+      query.setFilter(qfilter);
       List<WalletData> list = (List<WalletData>) query.execute();
-      list.size();
+      int c = list.size();
       return list;
     } catch (Exception e) {
       e.printStackTrace();

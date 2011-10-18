@@ -152,10 +152,6 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
     tbName.setText(sh.asString());
     htmlName.setHTML(sh);
   }
-  
-  private void setNameData() {
-    walletData.setName(getName());
-  }
 
   private String getName() {
     String s = tbName.getText().trim();
@@ -169,16 +165,20 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
     
     WalletDataRequest req = appFactory.getRequestFactory().getWalletDataRequest();
     
-    if (walletData == null) {
-      walletData = req.create(WalletDataProxy.class);
+    WalletDataProxy data = null;
+    if (walletData == null) { // insert|create
+      data = req.create(WalletDataProxy.class);
+      
+    } else { // update|edit
+      data = req.edit(walletData);
     }
     
-    setNameData();
+    data.setName(getName());
    
     //TODO
     //setItemsData();
     
-    req.persist().using(walletData).fire(new Receiver<WalletDataProxy>() {
+    req.persist().using(data).fire(new Receiver<WalletDataProxy>() {
       public void onSuccess(WalletDataProxy walletData) {
         process(walletData);
       }
