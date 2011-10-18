@@ -75,6 +75,11 @@ exit;
  Some random stuff I used in this project:
  * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FDemoRequestFactory%2Fsrc%2Forg%2Fgonevertical%2Fclient%2Fnamelist Custom Event Handler Source] - Custom GWT Event Handler(s)
 
+== Modify ==
+ notes on modifying a proxyDto object
+ * You get a frozen freeze error after the request object returns and you try to modify it again.
+ * creating and new proxyDto, do it after you grab the request context, otherwise you get a cross update error
+
 
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-aff.xml" height="100" width="740" border="0" />
 <g:plusone size="medium"></g:plusone>
