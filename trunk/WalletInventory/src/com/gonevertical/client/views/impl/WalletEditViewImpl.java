@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.gonevertical.client.app.ApplicationFactory;
+import com.gonevertical.client.app.requestfactory.ApplicationRequestFactory;
+import com.gonevertical.client.app.requestfactory.WalletDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.WalletDataProxy;
 import com.gonevertical.client.app.requestfactory.dto.WalletItemDataProxy;
 import com.gonevertical.client.views.WalletEditView;
@@ -109,7 +111,6 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
     pList.add(wItem);
     wItem.addChangeHandler(new ChangeHandler() {
       public void onChange(ChangeEvent event) {
-        setItemsData();
         save();
       }
     });
@@ -121,9 +122,6 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
   }
 
   private void setItemsData() {
-    if (walletData == null) {
-      walletData = appFactory.getRequestFactory().getWalletDataRequest().create(WalletDataProxy.class);
-    }
     walletData.setItems(getItems());
   }
 
@@ -143,21 +141,19 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
     if (walletData == null || 
         walletData.getName() == null || 
         walletData.getName().trim().length() == 0) {
-      tbName.setText("");
-      htmlName.setHTML("");
+      String s = "My Wallet";
+      tbName.setText(s);
+      htmlName.setHTML(s);
       return;
     }
     
     String s = walletData.getName();
     SafeHtml sh = SimpleHtmlSanitizer.sanitizeHtml(s);
-    tbName.setText(sh.toString());
+    tbName.setText(sh.asString());
     htmlName.setHTML(sh);
   }
   
   private void setNameData() {
-    if (walletData == null) {
-      walletData = appFactory.getRequestFactory().getWalletDataRequest().create(WalletDataProxy.class);
-    }
     walletData.setName(getName());
   }
 
@@ -170,8 +166,19 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
   }
 
   private void save() {
-    Request<WalletDataProxy> req = appFactory.getRequestFactory().getWalletDataRequest().persist().using(walletData);
-    req.fire(new Receiver<WalletDataProxy>() {
+    
+    WalletDataRequest req = appFactory.getRequestFactory().getWalletDataRequest();
+    
+    if (walletData == null) {
+      walletData = req.create(WalletDataProxy.class);
+    }
+    
+    setNameData();
+   
+    //TODO
+    //setItemsData();
+    
+    req.persist().using(walletData).fire(new Receiver<WalletDataProxy>() {
       public void onSuccess(WalletDataProxy walletData) {
         process(walletData);
       }
@@ -206,7 +213,6 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
   
   @UiHandler("tbName")
   void onTbNameChange(ChangeEvent event) {
-    setNameData();
     save();
     drawName();
   }

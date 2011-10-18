@@ -22,7 +22,7 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
 @PersistenceCapable
-@Version(strategy = VersionStrategy.VERSION_NUMBER, extensions = { @Extension(vendorName = "datanucleus", key = "key", value = "version") })
+@Version(strategy=VersionStrategy.VERSION_NUMBER, column="version", extensions={@Extension(vendorName="datanucleus", key="key", value="version")})
 public class UserData {
 
   public static PersistenceManager getPersistenceManager() {
@@ -111,7 +111,7 @@ public class UserData {
   private Key key;
 
   @Persistent
-  private Integer version;
+  private Long version;
 
   @Persistent
   private String googleUserId;
@@ -143,10 +143,10 @@ public class UserData {
     return id;
   }
 
-  public void setVersion(Integer version) {
+  public void setVersion(Long version) {
     this.version = version;
   }
-  public Integer getVersion() {
+  public Long getVersion() {
     return version;
   }
 
@@ -226,6 +226,10 @@ public class UserData {
   }
 
   public UserData persist() {
+    
+    // JPA does this automatically, but JDO won't. Not sure why.
+    version++;
+    
     PersistenceManager pm = getPersistenceManager();
     Transaction tx = pm.currentTransaction();
     try {

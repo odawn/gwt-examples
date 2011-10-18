@@ -13,9 +13,9 @@
 			<g:Cell verticalAlignment="ALIGN_MIDDLE">
 				<g:HTML wordWrap="true">My Wallet:&nbsp;</g:HTML>
 			</g:Cell>
-			<g:VerticalPanel width="">
+			<g:VerticalPanel width="100%">
 				<g:Cell verticalAlignment="ALIGN_MIDDLE">
-					<g:HTML wordWrap="true" ui:field="htmlName">Name</g:HTML>
+					<g:HTML wordWrap="true" ui:field="htmlName" width="100%">Name</g:HTML>
 				</g:Cell>
 				<g:Cell verticalAlignment="ALIGN_MIDDLE">
 					<g:TextBox width="302px" ui:field="tbName"/>

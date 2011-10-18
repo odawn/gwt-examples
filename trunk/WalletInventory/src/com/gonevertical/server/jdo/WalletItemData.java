@@ -86,7 +86,7 @@ public class WalletItemData {
   private Key key;
 
   @Persistent
-  private Integer version;
+  private Long version;
   
   /**
    * the entity owner - the person who's logged in. Will set this on the client side. 
@@ -123,10 +123,10 @@ public class WalletItemData {
     return userId;
   }
   
-  public void setVersion(Integer version) {
+  public void setVersion(Long version) {
     this.version = version;
   }
-  public Integer getVersion() {
+  public Long getVersion() {
     return version;
   }
   
@@ -148,6 +148,9 @@ public class WalletItemData {
   public void persist() {
     Long uid = UserData.getLoggedInUserId();
     setUserId(uid);
+    
+    // JPA does this automatically, but JDO won't. Not sure why.
+    version++;
     
     PersistenceManager pm = getPersistenceManager();
     Transaction tx = pm.currentTransaction();

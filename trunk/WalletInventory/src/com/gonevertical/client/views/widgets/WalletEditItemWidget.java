@@ -56,6 +56,8 @@ public class WalletEditItemWidget extends Composite {
 
   private BooleanDialog wconfirm;
 
+  private int index;
+
   public WalletEditItemWidget() {
     initWidget(uiBinder.createAndBindUi(this));
   }
@@ -69,6 +71,7 @@ public class WalletEditItemWidget extends Composite {
   }
 
   public void setData(int i, WalletItemDataProxy itemData) {
+    this.index = i;
     // TODO set style depending on i
     this.itemData = itemData;
   }
@@ -99,8 +102,9 @@ public class WalletEditItemWidget extends Composite {
     if (itemData == null || 
         itemData.getName() == null || 
         itemData.getName().trim().length() == 0) {
-      tbName.setText("");
-      htmlName.setHTML("");
+      String s = index + " Frequent Card 1-800-781-xxxx ";
+      tbName.setText(s);
+      htmlName.setHTML(s);
       return;
     }
     
@@ -162,6 +166,7 @@ public class WalletEditItemWidget extends Composite {
   }
 
   private void setStateView() {
+    drawName();
     htmlName.setVisible(true);
     tbName.setVisible(false);
   }

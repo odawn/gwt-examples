@@ -19,7 +19,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 @PersistenceCapable
-@Version(strategy = VersionStrategy.VERSION_NUMBER, extensions = { @Extension(vendorName = "datanucleus", key = "key", value = "version") })
+@Version(strategy=VersionStrategy.VERSION_NUMBER, column="version", extensions={@Extension(vendorName="datanucleus", key="key", value="version")})
 public class WalletData {
   
   public static PersistenceManager getPersistenceManager() {
@@ -91,7 +91,7 @@ public class WalletData {
   private Key key;
   
   @Persistent
-  private Integer version;
+  private Long version;
  
   /**
    * entity owner - the person who's logged in
@@ -120,10 +120,10 @@ public class WalletData {
     return id;
   }
   
-  public void setVersion(Integer version) {
+  public void setVersion(Long version) {
     this.version = version;
   }
-  public Integer getVersion() {
+  public Long getVersion() {
     return version;
   }
   
@@ -168,6 +168,9 @@ public class WalletData {
   public WalletData persist() {
     Long uid = UserData.getLoggedInUserId();
     setUserId(uid);
+    
+    // JPA @Version does this automatically, but JDO @Version is not working like that. Not sure why.
+    version++;
     
     PersistenceManager pm = getPersistenceManager();
     Transaction tx = pm.currentTransaction();
