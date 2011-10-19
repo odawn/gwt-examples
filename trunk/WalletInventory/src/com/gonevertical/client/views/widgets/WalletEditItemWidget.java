@@ -1,6 +1,7 @@
 package com.gonevertical.client.views.widgets;
 
 import com.gonevertical.client.app.ApplicationFactory;
+import com.gonevertical.client.app.requestfactory.WalletDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.WalletItemDataProxy;
 import com.gonevertical.client.global.booleandialog.BooleanDialog;
 import com.gonevertical.client.global.booleandialog.BooleanEvent;
@@ -76,20 +77,16 @@ public class WalletEditItemWidget extends Composite {
     this.itemData = itemData;
   }
 
-  public WalletItemDataProxy getData() {
+  public WalletItemDataProxy getData(WalletDataRequest request) {
     if (itemData == null) {
-      itemData = appFactory.getRequestFactory().getWalletItemDataRequest().create(WalletItemDataProxy.class);
+      itemData = request.create(WalletItemDataProxy.class);
     }
+    
+    itemData.setName(getName());
+    
     return itemData;
   }
   
-  public void setNameData() {
-    if (itemData == null) {
-      itemData = appFactory.getRequestFactory().getWalletItemDataRequest().create(WalletItemDataProxy.class);
-    }    
-    itemData.setName(getName());
-  }
-
   public void draw() {
 
     // default
@@ -112,6 +109,17 @@ public class WalletEditItemWidget extends Composite {
     SafeHtml sh = SimpleHtmlSanitizer.sanitizeHtml(s);
     tbName.setText(sh.toString());
     htmlName.setHTML(sh);
+  }
+  
+  private void setName() {
+    String s = tbName.getText().trim();
+    if (s != null && s.length() == 0) {
+      s = "My Wallet";
+    }
+    if (itemData != null && s.equals(itemData.getName()) == false) {
+      htmlName.setHTML(SimpleHtmlSanitizer.sanitizeHtml(s));
+      fireChange();
+    }
   }
 
   private String getName() {
@@ -196,12 +204,12 @@ public class WalletEditItemWidget extends Composite {
 
   @UiHandler("tbName")
   public void onTbNameMouseOut(MouseOutEvent event) {
+    setName();
     setState(State.VIEW);
   }
 
   @UiHandler("tbName")
   void onTbNameChange(ChangeEvent event) {
-    setNameData();
     drawName();
     fireChange();
   }

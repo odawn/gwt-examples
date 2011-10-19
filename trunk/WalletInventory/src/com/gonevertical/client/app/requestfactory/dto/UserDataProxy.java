@@ -11,7 +11,7 @@ public interface UserDataProxy extends EntityProxy {
   
   String getLogoutUrl();
   
-  Long getId();
+  String getId();
 
   String getGoogleNickname();
   

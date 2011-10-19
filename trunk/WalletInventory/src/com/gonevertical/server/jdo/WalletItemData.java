@@ -23,14 +23,15 @@ public class WalletItemData {
     return PMF.get().getPersistenceManager();
   }
   
-  public static WalletItemData findWalletItemData(Long id) {
+  public static WalletItemData findWalletItemData(String id) {
     Long uid = UserData.getLoggedInUserId();
     if (id == null) {
       return null;
     }
+    Key key = KeyFactory.stringToKey(id);
     PersistenceManager pm = getPersistenceManager();
     try {
-      WalletItemData e = pm.getObjectById(WalletItemData.class, id);
+      WalletItemData e = pm.getObjectById(WalletItemData.class, key);
       if (e.getUserId() != uid) {
         e = null;
       }
@@ -102,16 +103,20 @@ public class WalletItemData {
   private String contact;
   
   
-  public void setId(Key parentKey, Long id) {
-    if (id == null) {
+  public void setId(Key parentKey, String id) {
+    if (parentKey == null || id == null) {
       return;
     }
-    this.key = KeyFactory.createKey(parentKey, WalletItemData.class.getName(), id);
+    Key k = KeyFactory.stringToKey(id);
+    this.key = KeyFactory.createKey(parentKey, WalletItemData.class.getName(), k.getId());
   }
-  public Long getId() {
-    Long id = null;
+  public void setId(String id) {
+    key = KeyFactory.stringToKey(id);
+  }
+  public String getId() {
+    String id = null;
     if (key != null) {
-      id = key.getId();
+      id = KeyFactory.keyToString(key);
     }
     return id;
   }

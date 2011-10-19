@@ -56,6 +56,8 @@ public class WalletListItemWidget extends Composite {
 
   private BooleanDialog wconfirm;
 
+  private int index;
+
   interface WalletListItemWidgetUiBinder extends UiBinder<Widget, WalletListItemWidget> {
   }
 
@@ -65,7 +67,8 @@ public class WalletListItemWidget extends Composite {
     setState(State.VIEW);
   }
 
-  public void setData(int i, WalletDataProxy walletDataProxy) {
+  public void setData(int index, WalletDataProxy walletDataProxy) {
+    this.index = index;
     // TODO set style depending on i
     this.walletData = walletDataProxy; 
   }
@@ -89,14 +92,15 @@ public class WalletListItemWidget extends Composite {
     if (walletData == null || 
         walletData.getName() == null || 
         walletData.getName().trim().length() == 0) {
-      tbName.setText("");
-      htmlName.setHTML("");
+      String s = index + " Item in wallet";
+      tbName.setText(s);
+      htmlName.setHTML(s);
       return;
     }
     
     String s = walletData.getName();
     SafeHtml sh = SimpleHtmlSanitizer.sanitizeHtml(s);
-    tbName.setText(sh.toString());
+    tbName.setText(sh.asString());
     htmlName.setHTML(sh);
   }
 
@@ -109,7 +113,8 @@ public class WalletListItemWidget extends Composite {
 
   private void setNameData() {
     if (walletData == null) {
-      walletData = appFactory.getRequestFactory().getWalletDataRequest().create(WalletDataProxy.class);
+      // this shouldn't happen
+      return;
     }
     walletData.setName(getName());
   }
@@ -181,12 +186,12 @@ public class WalletListItemWidget extends Composite {
 
   private void setStateView() {
     htmlName.setVisible(true);
-    tbName.setVisible(true);
+    tbName.setVisible(false);
   }
 
   private void setStateEdit() {
     htmlName.setVisible(false);
-    tbName.setVisible(false);
+    tbName.setVisible(true);
   }
 
   @UiHandler("tbName")
@@ -209,6 +214,7 @@ public class WalletListItemWidget extends Composite {
 
   @UiHandler("tbName")
   public void onTbNameMouseOut(MouseOutEvent event) {
+    
     setState(State.VIEW);
   }
 

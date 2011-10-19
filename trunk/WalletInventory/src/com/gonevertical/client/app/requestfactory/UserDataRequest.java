@@ -10,7 +10,7 @@ import com.google.web.bindery.requestfactory.shared.Service;
 @Service(UserData.class)
 public interface UserDataRequest extends RequestContext {
 
-  Request<UserDataProxy> findUserData(Long id);
+  Request<UserDataProxy> findUserData(String id);
   
   Request<UserDataProxy> createUserData();
   

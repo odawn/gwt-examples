@@ -115,7 +115,9 @@ public class ApplicationFactoryImpl implements ApplicationFactory {
     this.userData = userData;
     
     Auth auth = null;
-    if (userData != null && userData.getId() != null && userData.getId() > 0) {
+    if (userData != null && 
+        userData.getId() != null && 
+        userData.getId().matches(".*([0-9]+).*") == true) {
       auth = Auth.LOGGEDIN;
     } else {
       auth = Auth.LOGGEDOUT;

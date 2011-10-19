@@ -50,16 +50,20 @@ public class UserData {
     if (userData.getId() == null) {
       return null;
     }
-    return userData.getId();
+    
+    Long id = KeyFactory.createKey(UserData.class.getName(), userData.getId()).getId();
+    
+    return id;
   }
 
-  public static UserData findUserData(Long id) {
+  public static UserData findUserData(String id) {
     if (id == null) {
       return null;
     }
+    Key k = KeyFactory.stringToKey(id);
     PersistenceManager pm = getPersistenceManager();
     try {
-      UserData e = pm.getObjectById(UserData.class, id);
+      UserData e = pm.getObjectById(UserData.class, k);
       return e;
     } finally {
       pm.close();
@@ -132,16 +136,16 @@ public class UserData {
   private String logoutUrl;
 
 
-  public void setId(Long id) {
+  public void setId(String id) {
     if (id == null) {
       return;
     }
-    this.key = KeyFactory.createKey(UserData.class.getName(), id);
+    key = KeyFactory.stringToKey(id);
   }
-  public Long getId() {
-    Long id = null;
+  public String getId() {
+    String id = null;
     if (key != null) {
-      id = key.getId();
+      id = KeyFactory.keyToString(key);
     }
     return id;
   }

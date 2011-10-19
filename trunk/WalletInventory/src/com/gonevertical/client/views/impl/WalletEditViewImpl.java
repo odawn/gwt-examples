@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.gonevertical.client.app.ApplicationFactory;
+import com.gonevertical.client.app.activity.places.WalletListPlace;
 import com.gonevertical.client.app.requestfactory.ApplicationRequestFactory;
 import com.gonevertical.client.app.requestfactory.WalletDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.WalletDataProxy;
@@ -12,6 +13,7 @@ import com.gonevertical.client.app.requestfactory.dto.WalletItemDataProxy;
 import com.gonevertical.client.views.WalletEditView;
 import com.gonevertical.client.views.widgets.WalletEditItemWidget;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -121,18 +123,14 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
     return wItem;
   }
 
-  private void setItemsData() {
-    walletData.setItems(getItems());
-  }
-
-  private List<WalletItemDataProxy> getItems() {
+  private List<WalletItemDataProxy> getItems(WalletDataRequest request) {
     if (pList.getWidgetCount() == 0) {
       return null;
     }
     List<WalletItemDataProxy> items = new ArrayList<WalletItemDataProxy>();
     for (int i=0; i < pList.getWidgetCount(); i++) {
       WalletEditItemWidget wItem = (WalletEditItemWidget) pList.getWidget(i);
-      items.add(wItem.getData());
+      items.add(wItem.getData(request));
     }
     return items;
   }
@@ -152,6 +150,17 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
     tbName.setText(sh.asString());
     htmlName.setHTML(sh);
   }
+  
+  private void setName() {
+    String s = tbName.getText().trim();
+    if (s != null && s.length() == 0) {
+      s = "My Wallet";
+    }
+    if (walletData != null && s.equals(walletData.getName()) == false) {
+      htmlName.setHTML(SimpleHtmlSanitizer.sanitizeHtml(s));
+      save();
+    }
+  }
 
   private String getName() {
     String s = tbName.getText().trim();
@@ -163,22 +172,23 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
 
   private void save() {
     
-    WalletDataRequest req = appFactory.getRequestFactory().getWalletDataRequest();
+    WalletDataRequest request = appFactory.getRequestFactory().getWalletDataRequest();
     
     WalletDataProxy data = null;
     if (walletData == null) { // insert|create
-      data = req.create(WalletDataProxy.class);
+      data = request.create(WalletDataProxy.class);
       
     } else { // update|edit
-      data = req.edit(walletData);
+      data = request.edit(walletData);
     }
-    
+   
+    // set name
     data.setName(getName());
    
-    //TODO
-    //setItemsData();
+    // set items
+    data.setItems(getItems(request));
     
-    req.persist().using(data).fire(new Receiver<WalletDataProxy>() {
+    request.persist().using(data).fire(new Receiver<WalletDataProxy>() {
       public void onSuccess(WalletDataProxy walletData) {
         process(walletData);
       }
@@ -233,6 +243,7 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
   
   @UiHandler("pFocusName")
   void onPFocusNameMouseOut(MouseOutEvent event) {
+    setName();
     setState(State.VIEW); 
   }
   
@@ -241,4 +252,8 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
     add();
   }
 
+  @UiHandler("bFinished")
+  void onBFinishedClick(ClickEvent event) {
+    presenter.goTo(new WalletListPlace(null));
+  }
 }

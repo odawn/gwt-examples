@@ -12,7 +12,7 @@ import com.google.web.bindery.requestfactory.shared.Service;
 @Service(WalletData.class)
 public interface WalletDataRequest extends RequestContext {
 
-  Request<WalletDataProxy> findWalletData(Long id);
+  Request<WalletDataProxy> findWalletData(String id);
   
   Request<Long> countAll();
   

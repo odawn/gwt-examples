@@ -9,7 +9,7 @@ import com.google.web.bindery.requestfactory.shared.ProxyFor;
 @ProxyFor(WalletData.class)
 public interface WalletDataProxy extends EntityProxy {
   
-  Long getId();
+  String getId();
   
   Long getUserId();
   
