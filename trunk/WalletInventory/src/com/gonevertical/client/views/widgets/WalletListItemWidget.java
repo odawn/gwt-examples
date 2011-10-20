@@ -75,17 +75,6 @@ public class WalletListItemWidget extends Composite {
     this.index = index;
     // TODO set style depending on i
     this.walletData = walletDataProxy; 
-    
-    // TODO test
-    List<WalletItemDataProxy> it = walletData.getItems();
-    if (it == null) {
-      return;
-    }
-    Iterator<WalletItemDataProxy> itr = it.iterator();
-    while(itr.hasNext()) {
-      WalletItemDataProxy d = itr.next();
-      System.out.println(d.toString());
-    }
   }
 
   public void setPresenter(Presenter presenter) {

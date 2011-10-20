@@ -79,10 +79,8 @@ public class WalletData {
       javax.jdo.Query query = pm.newQuery("select from " + WalletData.class.getName());
       query.setFilter(qfilter);
       List<WalletData> list = (List<WalletData>) query.execute();
-      //int c = list.size();
-      
-      // TODO - This will get all the data including children
-      //   But request factory won't transport the children back. Now what......
+
+      //TODO I wonder if I can do the JPA trick .size();
       List<WalletData> r = (List<WalletData>) pm.detachCopyAll(list);
       
       return r;

@@ -64,7 +64,8 @@ public class WalletListViewImpl extends Composite implements WalletListView {
     
     wLoading.showLoading(true); 
     
-    Request<List<WalletDataProxy>> req = appFactory.getRequestFactory().getWalletDataRequest().findWalletDataByUser();
+    // its important to note, that to get the children you need to use .with("children");
+    Request<List<WalletDataProxy>> req = appFactory.getRequestFactory().getWalletDataRequest().findWalletDataByUser().with("items");
     req.fire(new Receiver<List<WalletDataProxy>>() {
       public void onSuccess(List<WalletDataProxy> walletData) {
         wLoading.showLoading(false);
