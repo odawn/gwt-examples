@@ -156,6 +156,7 @@ public class WalletData {
     }
     
     // TODO there seems like there is a better way to do this. moving on for now
+    // I couldn't get it to set directly
     ArrayList<WalletItemData> a = new ArrayList<WalletItemData>();
     Iterator<WalletItemData> itr = items.iterator();
     while(itr.hasNext()) {
