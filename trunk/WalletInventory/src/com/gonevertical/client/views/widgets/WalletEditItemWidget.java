@@ -1,6 +1,7 @@
 package com.gonevertical.client.views.widgets;
 
 import com.gonevertical.client.app.ApplicationFactory;
+import com.gonevertical.client.app.requestfactory.ApplicationRequestFactory;
 import com.gonevertical.client.app.requestfactory.WalletDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.WalletItemDataProxy;
 import com.gonevertical.client.global.booleandialog.BooleanDialog;
@@ -33,6 +34,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
+import com.google.gwt.user.client.ui.FocusPanel;
 
 public class WalletEditItemWidget extends Composite {
   
@@ -49,6 +51,7 @@ public class WalletEditItemWidget extends Composite {
   @UiField HTML htmlName;
   @UiField TextBox tbName;
   @UiField PushButton bDelete;
+  @UiField FocusPanel focusPanel;
 
   interface WalletEditItemWidgetUiBinder extends UiBinder<Widget, WalletEditItemWidget> {
   }
@@ -77,9 +80,11 @@ public class WalletEditItemWidget extends Composite {
     this.itemData = itemData;
   }
 
-  public WalletItemDataProxy getData(WalletDataRequest request) {
+  public WalletItemDataProxy getData(ApplicationRequestFactory requestFactory) {
     if (itemData == null) {
-      itemData = request.create(WalletItemDataProxy.class);
+      itemData = requestFactory.getWalletItemDataRequest().create(WalletItemDataProxy.class);
+    } else {
+      itemData = requestFactory.getWalletItemDataRequest().edit(itemData);
     }
     
     itemData.setName(getName());
@@ -99,7 +104,7 @@ public class WalletEditItemWidget extends Composite {
     if (itemData == null || 
         itemData.getName() == null || 
         itemData.getName().trim().length() == 0) {
-      String s = index + " Frequent Card 1-800-781-xxxx ";
+      String s = index + " Frequent Card 1-800-123-xxxx ";
       tbName.setText(s);
       htmlName.setHTML(s);
       return;
@@ -107,7 +112,7 @@ public class WalletEditItemWidget extends Composite {
     
     String s = itemData.getName();
     SafeHtml sh = SimpleHtmlSanitizer.sanitizeHtml(s);
-    tbName.setText(sh.toString());
+    tbName.setText(sh.asString());
     htmlName.setHTML(sh);
   }
   
@@ -199,13 +204,12 @@ public class WalletEditItemWidget extends Composite {
 
   @UiHandler("tbName")
   public void onTbNameMouseOver(MouseOverEvent event) {
-    setState(State.EDIT);
+    
   }
 
   @UiHandler("tbName")
   public void onTbNameMouseOut(MouseOutEvent event) {
-    setName();
-    setState(State.VIEW);
+   
   }
 
   @UiHandler("tbName")
@@ -229,4 +233,14 @@ public class WalletEditItemWidget extends Composite {
   }
   
  
+  @UiHandler("focusPanel")
+  void onFocusPanelMouseOver(MouseOverEvent event) {
+    setState(State.EDIT);
+  }
+  
+  @UiHandler("focusPanel")
+  void onFocusPanelMouseOut(MouseOutEvent event) {
+    setName();
+    setState(State.VIEW);
+  }
 }

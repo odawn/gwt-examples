@@ -36,6 +36,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
+import com.gonevertical.client.global.loadingwidget.LoadingWidget;
 
 public class WalletEditViewImpl extends Composite implements WalletEditView {
 
@@ -55,8 +56,13 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
   @UiField PushButton bFinished;
   @UiField PushButton bAdd;
   @UiField FocusPanel pFocusName;
+  @UiField LoadingWidget wLoading;
 
   private WalletDataProxy walletData;
+
+  private boolean savingInProgress;
+
+  private boolean scheduleSave;
 
   interface WalletEditViewUiBinder extends UiBinder<Widget, WalletEditViewImpl> {
   }
@@ -123,14 +129,14 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
     return wItem;
   }
 
-  private List<WalletItemDataProxy> getItems(WalletDataRequest request) {
+  private List<WalletItemDataProxy> getItems(ApplicationRequestFactory requestFactory) {
     if (pList.getWidgetCount() == 0) {
       return null;
     }
     List<WalletItemDataProxy> items = new ArrayList<WalletItemDataProxy>();
     for (int i=0; i < pList.getWidgetCount(); i++) {
       WalletEditItemWidget wItem = (WalletEditItemWidget) pList.getWidget(i);
-      items.add(wItem.getData(request));
+      items.add(wItem.getData(requestFactory));
     }
     return items;
   }
@@ -172,8 +178,21 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
 
   private void save() {
     
-    WalletDataRequest request = appFactory.getRequestFactory().getWalletDataRequest();
+    // lets make sure one trip at a time happens, otherwise some contention might happen in the datastore
+    if (savingInProgress == true) {
+      scheduleSave = true;
+      return;
+    }
+    savingInProgress = true;
     
+    wLoading.showLoading(true, "Saving");
+    
+    ApplicationRequestFactory requestFactory = appFactory.getRequestFactory();
+    
+    // get the requestContext
+    WalletDataRequest request = requestFactory.getWalletDataRequest();
+    
+    // is it create or edit
     WalletDataProxy data = null;
     if (walletData == null) { // insert|create
       data = request.create(WalletDataProxy.class);
@@ -182,17 +201,27 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
       data = request.edit(walletData);
     }
    
-    // set name
+    // persist these
     data.setName(getName());
-   
-    // set items
-    data.setItems(getItems(request));
+    data.setItems(getItems(requestFactory));
     
+    
+    // requestfactory call
     request.persist().using(data).fire(new Receiver<WalletDataProxy>() {
       public void onSuccess(WalletDataProxy walletData) {
+        wLoading.showLoading(false);
         process(walletData);
+        
+        savingInProgress = false;
+        if (scheduleSave == true) {
+          scheduleSave = false;
+          save();
+        }
       }
       public void onFailure(ServerFailure error) {
+        wLoading.hideTimed(5000, "Error occured");
+        savingInProgress = false;
+        scheduleSave = false;
         super.onFailure(error);
       }
     });

@@ -24,7 +24,7 @@ public class WalletEditPlace extends Place{
     return token;
   }
 
-  @Prefix("e")
+  @Prefix("WalletEdit")
   public static class Tokenizer implements PlaceTokenizer<WalletEditPlace> {
 
     @Override

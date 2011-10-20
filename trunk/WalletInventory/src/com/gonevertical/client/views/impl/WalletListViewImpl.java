@@ -72,7 +72,7 @@ public class WalletListViewImpl extends Composite implements WalletListView {
         process(walletData);
       }
       public void onFailure(ServerFailure error) {
-        wLoading.showLoading(false);
+        wLoading.hideTimed(4000, "Error Occured");
         super.onFailure(error);
       }
     });
