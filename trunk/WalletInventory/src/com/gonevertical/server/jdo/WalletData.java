@@ -82,7 +82,7 @@ public class WalletData {
       //int c = list.size();
       
       // TODO - This will get all the data including children
-      //   But request factory won't transport the children back. That Sucks! 
+      //   But request factory won't transport the children back. Now what......
       List<WalletData> r = (List<WalletData>) pm.detachCopyAll(list);
       
       return r;
