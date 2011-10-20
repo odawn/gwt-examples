@@ -258,6 +258,9 @@ public class UserData {
       pm.makePersistent(this);
       tx.commit();
     } finally {
+      if (tx.isActive()) {
+        tx.rollback();
+      }
       pm.close();
     }
     return this;
@@ -275,9 +278,12 @@ public class UserData {
         return;
       }
       tx.begin();
-      pm.deletePersistent(e);
+      pm.deletePersistent(this);
       tx.commit();
     } finally {
+      if (tx.isActive()) {
+        tx.rollback();
+      }
       pm.close();
     }
   }

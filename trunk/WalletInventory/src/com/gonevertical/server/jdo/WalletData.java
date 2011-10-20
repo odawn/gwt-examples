@@ -242,6 +242,9 @@ public class WalletData {
       tx.commit();
 
     } finally {
+      if (tx.isActive()) {
+        tx.rollback();
+      }
       pm.close();
     }
     return this;
@@ -261,9 +264,12 @@ public class WalletData {
         return; // TODO maybe return back something
       }
       tx.begin();
-      pm.deletePersistent(e);
+      pm.deletePersistent(this);
       tx.commit();
     } finally {
+      if (tx.isActive()) {
+        tx.rollback();
+      }
       pm.close();
     }
   }

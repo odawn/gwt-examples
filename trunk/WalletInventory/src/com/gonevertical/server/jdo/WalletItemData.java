@@ -167,14 +167,12 @@ public class WalletItemData {
     Long uid = UserData.getLoggedInUserId();
     setUserId(uid);
 
-
     // JPA does this automatically, but JDO won't. Not sure why.
     if (version == null) {
       version = 0l;
     }
     version++;
     
-
     PersistenceManager pm = getPersistenceManager();
     Transaction tx = pm.currentTransaction();
     try {
@@ -182,6 +180,9 @@ public class WalletItemData {
       pm.makePersistent(this);
       tx.commit();
     } finally {
+      if (tx.isActive()) {
+        tx.rollback();
+      }
       pm.close();
     }
   }
@@ -201,7 +202,12 @@ public class WalletItemData {
       tx.begin();
       pm.deletePersistent(e);
       tx.commit();
-    } finally {
+    } catch (Exception e) {
+     e.printStackTrace();
+    }finally {
+      if (tx.isActive()) {
+        tx.rollback();
+      }
       pm.close();
     }
   }
