@@ -1,11 +1,13 @@
 package com.gonevertical.server.jdo;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -19,12 +21,15 @@ import com.google.appengine.api.datastore.KeyFactory;
 @Version(strategy = VersionStrategy.VERSION_NUMBER, extensions = { @Extension(vendorName = "datanucleus", key = "key", value = "version") })
 public class WalletItemData {
 
+  @NotPersistent
+  private static final Logger log = Logger.getLogger(WalletItemData.class.getName());
+
   public static PersistenceManager getPersistenceManager() {
     return PMF.get().getPersistenceManager();
   }
 
   public static WalletItemData findWalletItemData(String id) {
-    Long uid = UserData.getLoggedInUserId();
+    //Long uid = UserData.getLoggedInUserId();
     if (id == null) {
       return null;
     }
@@ -32,9 +37,9 @@ public class WalletItemData {
     PersistenceManager pm = getPersistenceManager();
     try {
       WalletItemData e = pm.getObjectById(WalletItemData.class, key);
-      if (e.getUserId() != uid) {
-        e = null;
-      }
+      // if (e.getUserId() != uid) { // i'm not going to enforce this on a child here.
+      //e = null;
+      //}
       return e;
     } finally {
       pm.close();
@@ -135,6 +140,9 @@ public class WalletItemData {
     this.version = version;
   }
   public Long getVersion() {
+    if (version == null) {
+      return 0l;
+    }
     return version;
   }
 
@@ -154,14 +162,18 @@ public class WalletItemData {
 
 
   public void persist() {
+
     // set the owner of this entity
-    userId = UserData.getLoggedInUserId();
+    Long uid = UserData.getLoggedInUserId();
+    setUserId(uid);
+
 
     // JPA does this automatically, but JDO won't. Not sure why.
     if (version == null) {
       version = 0l;
     }
     version++;
+    
 
     PersistenceManager pm = getPersistenceManager();
     Transaction tx = pm.currentTransaction();
@@ -175,13 +187,17 @@ public class WalletItemData {
   }
 
   public void remove() {
-
-    Key key = null; // TODO, configure parent key,...
+    // for checking owner
+    Long uid = UserData.getLoggedInUserId();
 
     PersistenceManager pm = getPersistenceManager();
     Transaction tx = pm.currentTransaction();
     try {
-      WalletData e = pm.getObjectById(WalletData.class, key);
+      WalletItemData e = pm.getObjectById(WalletItemData.class, key);
+      if (e != null && e.getUserId() != null && e.getUserId() != uid) { // make sure only the owner can delete
+        log.severe("WalletItemData.remove() Error: Something weird going on in setting UID. e.getUserId=" + e.getUserId() + " uid=" + uid);
+        return; // TODO maybe return back something
+      }
       tx.begin();
       pm.deletePersistent(e);
       tx.commit();

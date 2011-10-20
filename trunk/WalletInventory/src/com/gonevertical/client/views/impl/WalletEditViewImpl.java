@@ -124,19 +124,20 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
     });
     wItem.setPresenter(presenter);
     wItem.setAppFactory(appFactory);
+    wItem.setLoading(wLoading);
     wItem.setData(i, itemData);
     wItem.draw();
     return wItem;
   }
 
-  private List<WalletItemDataProxy> getItems(ApplicationRequestFactory requestFactory) {
+  private List<WalletItemDataProxy> getItems(WalletDataRequest request) {
     if (pList.getWidgetCount() == 0) {
       return null;
     }
     List<WalletItemDataProxy> items = new ArrayList<WalletItemDataProxy>();
     for (int i=0; i < pList.getWidgetCount(); i++) {
       WalletEditItemWidget wItem = (WalletEditItemWidget) pList.getWidget(i);
-      items.add(wItem.getData(requestFactory));
+      items.add(wItem.getData(request));
     }
     return items;
   }
@@ -184,13 +185,10 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
       return;
     }
     savingInProgress = true;
-    
-    wLoading.showLoading(true, "Saving");
-    
-    ApplicationRequestFactory requestFactory = appFactory.getRequestFactory();
+    wLoading.showLoading(true, "Saving...");
     
     // get the requestContext
-    WalletDataRequest request = requestFactory.getWalletDataRequest();
+    WalletDataRequest request = appFactory.getRequestFactory().getWalletDataRequest();
     
     // is it create or edit
     WalletDataProxy data = null;
@@ -203,10 +201,8 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
    
     // persist these
     data.setName(getName());
-    data.setItems(getItems(requestFactory));
+    data.setItems(getItems(request));
     
-    
-    // requestfactory call
     request.persist().using(data).fire(new Receiver<WalletDataProxy>() {
       public void onSuccess(WalletDataProxy walletData) {
         wLoading.showLoading(false);
@@ -219,7 +215,7 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
         }
       }
       public void onFailure(ServerFailure error) {
-        wLoading.hideTimed(5000, "Error occured");
+        wLoading.showError();
         savingInProgress = false;
         scheduleSave = false;
         super.onFailure(error);

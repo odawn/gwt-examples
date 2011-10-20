@@ -14,6 +14,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class LoadingWidget extends Composite {
   
+  private static final String ERROR_MESSAGE = "Oops, a request error occured. Try again.";
+  private static final int DEFAULT_DELAY = 4000;
+  
   UiImages uiImages = GWT.create(UiImages.class);
 
   private static LoadingWidgetUiBinder uiBinder = GWT.create(LoadingWidgetUiBinder.class);
@@ -24,6 +27,11 @@ public class LoadingWidget extends Composite {
 
   interface LoadingWidgetUiBinder extends UiBinder<Widget, LoadingWidget> {
   }
+  
+  /**
+   * track hide timer
+   */
+  private boolean isRunning;
 
   public LoadingWidget() {
     initWidget(uiBinder.createAndBindUi(this));
@@ -31,6 +39,8 @@ public class LoadingWidget extends Composite {
     imgLoading.setResource(uiImages.loading());
     imgLoading.setSize("20px", "20px");
 
+    setStyleName("app-loadingwidget");
+    
     // set default state
     showLoading(false);
   }
@@ -50,13 +60,33 @@ public class LoadingWidget extends Composite {
     hideTimed(delayMillis);
   }
   
+  public void showError(int delayMillis) { 
+    showError(delayMillis, ERROR_MESSAGE);
+  }
+  
+  public void showError() { 
+    showError(DEFAULT_DELAY, ERROR_MESSAGE);
+  }
+  
+  public void showError(int delayMillis, String message) { 
+    showLoading(true, message);
+    hideTimed(delayMillis);
+    addStyleName("app-loadingwidget-error");
+  }
+  
   public void hideTimed(int delayMillis) {
     if (delayMillis == 0) {
-      delayMillis = 4000; // 4 sec
+      delayMillis = DEFAULT_DELAY; // default 4 secs if 0
     }
+    if (isRunning == true) { // make sure I don't have concurrent timers
+      return;
+    }
+    isRunning = true;
     Timer t = new Timer() {
       public void run() {
+        isRunning = false;
         showLoading(false);
+        removeStyleName("app-loadingwidget-error"); // not needed everytime...
       }
     };
     t.schedule(delayMillis);

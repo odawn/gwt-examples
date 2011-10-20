@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
 import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -23,6 +25,9 @@ import com.google.appengine.api.datastore.KeyFactory;
 @Version(strategy=VersionStrategy.VERSION_NUMBER, column="version", extensions={@Extension(vendorName="datanucleus", key="key", value="version")})
 public class WalletData {
 
+  @NotPersistent
+  private static final Logger log = Logger.getLogger(WalletData.class.getName());
+
   public static PersistenceManager getPersistenceManager() {
     return PMF.get().getPersistenceManager();
   }
@@ -36,7 +41,7 @@ public class WalletData {
     PersistenceManager pm = getPersistenceManager();
     try {
       WalletData e = pm.getObjectById(WalletData.class, key);
-      if (e.getUserId() != uid) {
+      if (e.getUserId() != uid) { // does the uid really own this wallet
         e = null;
       }
       return e;
@@ -69,9 +74,16 @@ public class WalletData {
     }
   }
 
+  /**
+   * get list of wallets for user
+   * Note: use .with("childEntity") to get children
+   * 
+   * @return
+   */
   public static List<WalletData> findWalletDataByUser() {
     Long uid = UserData.getLoggedInUserId();
 
+    // only pull up the owner's wallets
     String qfilter = "userId==" + uid + "";
 
     PersistenceManager pm = getPersistenceManager();
@@ -79,8 +91,8 @@ public class WalletData {
       javax.jdo.Query query = pm.newQuery("select from " + WalletData.class.getName());
       query.setFilter(qfilter);
       List<WalletData> list = (List<WalletData>) query.execute();
-
-      //TODO I wonder if I can do the JPA trick .size();
+      
+      // TODO i'm getting Object Manager has been closed here, something weird going on (lazy loader?)
       List<WalletData> r = (List<WalletData>) pm.detachCopyAll(list);
       
       return r;
@@ -93,11 +105,19 @@ public class WalletData {
   }
 
 
-
+  
+  /**
+   * primary id
+   * transposed to web safe id (base64) for transport
+   */
   @PrimaryKey
   @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
   private Key key;
 
+  /**
+   * mandatory parameter used with request factory
+   * @Version in JPA annotation
+   */
   @Persistent
   private Long version;
 
@@ -107,13 +127,22 @@ public class WalletData {
   @Persistent
   private Long userId; 
 
+  /**
+   * name of the wallet
+   */
   @Persistent
   private String name;
 
+  /**
+   * items in the wallet
+   * owned collection entities
+   */
   @Persistent(defaultFetchGroup = "true", dependentElement = "true")  
   private List<WalletItemData> items;
 
 
+  
+  
   public void setId(String id) {
     if (id == null) {
       return;
@@ -132,6 +161,9 @@ public class WalletData {
     this.version = version;
   }
   public Long getVersion() {
+    if (version == null) {
+      version = 0l;
+    }
     return version;
   }
 
@@ -154,17 +186,25 @@ public class WalletData {
       this.items = null;
       return;
     }
-    
-    // TODO there seems like there is a better way to do this. moving on for now
-    // I couldn't get it to set directly
-    ArrayList<WalletItemData> a = new ArrayList<WalletItemData>();
+
+    // set owner, so the owner can remove later
+    Long uid = UserData.getLoggedInUserId();
+
     Iterator<WalletItemData> itr = items.iterator();
+    if (itr == null) {
+      this.items = null;
+      return;
+    }
+    ArrayList<WalletItemData> a = new ArrayList<WalletItemData>();
     while(itr.hasNext()) {
       WalletItemData d = itr.next();
-      if (d.getId() != null) {
+      if (d != null && d.getId() != null) {
         d.setId(key, d.getId());
       }
-      a.add(d);
+      if (d != null) {
+        d.setUserId(uid);
+        a.add(d);
+      }
     }
     this.items = items;
   }
@@ -175,7 +215,7 @@ public class WalletData {
   public WalletData persist() {
 
     // set the owner of this entity
-    userId = UserData.getLoggedInUserId();
+    Long uid = UserData.getLoggedInUserId();
 
     // JPA @Version does this automatically, but JDO @Version is not working like that. Not sure why.
     if (version == null) {
@@ -186,9 +226,21 @@ public class WalletData {
     PersistenceManager pm = getPersistenceManager();
     Transaction tx = pm.currentTransaction();
     try {
+
+      // make sure the owner is making the modification
+      if (key != null) { 
+        WalletData e = pm.getObjectById(WalletData.class, key);
+        if (e != null && e.getUserId() != uid) {
+          log.severe("WalletData.persist() Error: Something weird going on in setting UID. e.getUserId=" + e.getUserId() + " uid=" + uid);
+          return null;
+        }
+      }
+
+      setUserId(uid);
       tx.begin();
       pm.makePersistent(this);
       tx.commit();
+
     } finally {
       pm.close();
     }
@@ -196,10 +248,18 @@ public class WalletData {
   }
 
   public void remove() {
+
+    // for checking owner
+    Long uid = UserData.getLoggedInUserId();
+
     PersistenceManager pm = getPersistenceManager();
     Transaction tx = pm.currentTransaction();
     try {
       WalletData e = pm.getObjectById(WalletData.class, key);
+      if (e != null && e.getUserId() != uid) { // make sure only the owner can delete
+        log.severe("WalletData.remove() Error: Something weird going on in setting UID. e.getUserId=" + e.getUserId() + " uid=" + uid);
+        return; // TODO maybe return back something
+      }
       tx.begin();
       pm.deletePersistent(e);
       tx.commit();

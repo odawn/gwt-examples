@@ -2,6 +2,7 @@ package com.gonevertical.server.jdo;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Transaction;
@@ -24,6 +25,9 @@ import com.google.appengine.api.users.UserServiceFactory;
 @PersistenceCapable
 @Version(strategy=VersionStrategy.VERSION_NUMBER, column="version", extensions={@Extension(vendorName="datanucleus", key="key", value="version")})
 public class UserData {
+  
+  @NotPersistent
+  private static final Logger log = Logger.getLogger(WalletData.class.getName());
 
   public static PersistenceManager getPersistenceManager() {
     return PMF.get().getPersistenceManager();
@@ -106,12 +110,9 @@ public class UserData {
       Iterator<UserData> itr = list.iterator();
       UserData ud = itr.next();
       return ud;
-    } catch (Exception e) {
-      e.printStackTrace();
     } finally {
       pm.close();
     }
-    return null;
   }
 
 
@@ -161,6 +162,9 @@ public class UserData {
     this.version = version;
   }
   public Long getVersion() {
+    if (version == null) {
+      version = 0l;
+    }
     return version;
   }
 
@@ -260,10 +264,16 @@ public class UserData {
   }
 
   public void remove() {
+    
+    Long uid = getLoggedInUserId();
+    
     PersistenceManager pm = getPersistenceManager();
     Transaction tx = pm.currentTransaction();
     try {
       UserData e = pm.getObjectById(UserData.class, key);
+      if (e != null && e.getKey() != null && e.getKey().getId() != uid) {
+        return;
+      }
       tx.begin();
       pm.deletePersistent(e);
       tx.commit();

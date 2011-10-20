@@ -8,6 +8,7 @@ import com.gonevertical.client.global.booleandialog.BooleanDialog;
 import com.gonevertical.client.global.booleandialog.BooleanEvent;
 import com.gonevertical.client.global.booleandialog.BooleanEvent.Selected;
 import com.gonevertical.client.global.booleandialog.BooleanEventHandler;
+import com.gonevertical.client.global.loadingwidget.LoadingWidget;
 import com.gonevertical.client.views.WalletEditView.Presenter;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
@@ -62,6 +63,8 @@ public class WalletEditItemWidget extends Composite {
 
   private int index;
 
+  private LoadingWidget wLoading;
+
   public WalletEditItemWidget() {
     initWidget(uiBinder.createAndBindUi(this));
   }
@@ -73,6 +76,10 @@ public class WalletEditItemWidget extends Composite {
   public void setAppFactory(ApplicationFactory appFactory) {
     this.appFactory = appFactory;
   }
+  
+  public void setLoading(LoadingWidget wLoading) {
+    this.wLoading = wLoading;
+  }
 
   public void setData(int i, WalletItemDataProxy itemData) {
     this.index = i;
@@ -80,11 +87,11 @@ public class WalletEditItemWidget extends Composite {
     this.itemData = itemData;
   }
 
-  public WalletItemDataProxy getData(ApplicationRequestFactory requestFactory) {
+  public WalletItemDataProxy getData(WalletDataRequest request) {
     if (itemData == null) {
-      itemData = requestFactory.getWalletItemDataRequest().create(WalletItemDataProxy.class);
+      itemData = request.create(WalletItemDataProxy.class);
     } else {
-      itemData = requestFactory.getWalletItemDataRequest().edit(itemData);
+      itemData = request.edit(itemData);
     }
     
     itemData.setName(getName());
@@ -157,13 +164,16 @@ public class WalletEditItemWidget extends Composite {
       fireChange();
       return;
     }
+    wLoading.showLoading(true);
     Request<Void> req = appFactory.getRequestFactory().getWalletItemDataRequest().remove().using(itemData);
     req.fire(new Receiver<Void>() {
       public void onSuccess(Void response) {
+        wLoading.showLoading(false);
         removeFromParent();
         fireChange();
       }
       public void onFailure(ServerFailure error) {
+        wLoading.showError();
         super.onFailure(error);
       }
     });
@@ -189,6 +199,15 @@ public class WalletEditItemWidget extends Composite {
     tbName.setVisible(true);
   }
 
+  private void fireChange() {
+    NativeEvent nativeEvent = Document.get().createChangeEvent();
+    ChangeEvent.fireNativeEvent(nativeEvent, this);
+  }
+
+  public HandlerRegistration addChangeHandler(ChangeHandler handler) {
+    return addDomHandler(handler, ChangeEvent.getType());
+  }
+  
   @UiHandler("tbName")
   public void onTbNameTouchStart(TouchStartEvent event) {
     if (stateIs == State.VIEW) {
@@ -197,21 +216,7 @@ public class WalletEditItemWidget extends Composite {
       setState(State.VIEW);
     }
   }
-
-  @UiHandler("tbName")
-  public void onTbNameTouchEnd(TouchEndEvent event) {
-  }
-
-  @UiHandler("tbName")
-  public void onTbNameMouseOver(MouseOverEvent event) {
-    
-  }
-
-  @UiHandler("tbName")
-  public void onTbNameMouseOut(MouseOutEvent event) {
-   
-  }
-
+  
   @UiHandler("tbName")
   void onTbNameChange(ChangeEvent event) {
     drawName();
@@ -223,16 +228,6 @@ public class WalletEditItemWidget extends Composite {
     delete();
   }
   
-  private void fireChange() {
-    NativeEvent nativeEvent = Document.get().createChangeEvent();
-    ChangeEvent.fireNativeEvent(nativeEvent, this);
-  }
-
-  public HandlerRegistration addChangeHandler(ChangeHandler handler) {
-    return addDomHandler(handler, ChangeEvent.getType());
-  }
-  
- 
   @UiHandler("focusPanel")
   void onFocusPanelMouseOver(MouseOverEvent event) {
     setState(State.EDIT);
@@ -243,4 +238,6 @@ public class WalletEditItemWidget extends Composite {
     setName();
     setState(State.VIEW);
   }
+
+
 }
