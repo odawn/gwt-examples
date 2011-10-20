@@ -5,7 +5,9 @@
 		
 	</ui:style>
 	<g:HorizontalPanel ui:field="pWidget">
-		<g:Image ui:field="imgLoading"/>
+		<g:Cell verticalAlignment="ALIGN_MIDDLE">
+			<g:Image ui:field="imgLoading" width="20px" height="20px"/>
+		</g:Cell>
 		<g:HTML wordWrap="true" ui:field="htmlSpacer">&nbsp;</g:HTML>
 		<g:Cell verticalAlignment="ALIGN_MIDDLE">
 			<g:HTML wordWrap="true" ui:field="htmlMessage"/>

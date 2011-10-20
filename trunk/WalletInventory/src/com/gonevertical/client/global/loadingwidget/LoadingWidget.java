@@ -29,6 +29,7 @@ public class LoadingWidget extends Composite {
     initWidget(uiBinder.createAndBindUi(this));
     
     imgLoading.setResource(uiImages.loading());
+    imgLoading.setSize("20px", "20px");
 
     // set default state
     showLoading(false);
@@ -42,6 +43,11 @@ public class LoadingWidget extends Composite {
   public void showLoading(boolean show, String message) {
     showLoading(show);
     setMessage(message);
+  }
+  
+  public void hideTimed(int delayMillis, String message) {
+    showLoading(true, message);
+    hideTimed(delayMillis);
   }
   
   public void hideTimed(int delayMillis) {
