@@ -1,3 +1,14 @@
+
+/* on module load loading */
 .app-loading {
 	padding-left: 5px;
+}
+
+
+/* loading widget */
+.app-loadingwidget {
+	color: #CC9900;
+}
+.app-loadingwidget-error {
+	color: #CC0033;
 }
