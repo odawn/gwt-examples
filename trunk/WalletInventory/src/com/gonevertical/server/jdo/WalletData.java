@@ -1,6 +1,7 @@
 package com.gonevertical.server.jdo;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -78,8 +79,13 @@ public class WalletData {
       javax.jdo.Query query = pm.newQuery("select from " + WalletData.class.getName());
       query.setFilter(qfilter);
       List<WalletData> list = (List<WalletData>) query.execute();
-      int c = list.size();
-      return list;
+      //int c = list.size();
+      
+      // TODO - This will get all the data including children
+      //   But request factory won't transport the children back. That Sucks! 
+      List<WalletData> r = (List<WalletData>) pm.detachCopyAll(list);
+      
+      return r;
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
@@ -150,18 +156,17 @@ public class WalletData {
       this.items = null;
       return;
     }
-    /*
+    
     // TODO there seems like there is a better way to do this. moving on for now
     ArrayList<WalletItemData> a = new ArrayList<WalletItemData>();
     Iterator<WalletItemData> itr = items.iterator();
     while(itr.hasNext()) {
       WalletItemData d = itr.next();
       if (d.getId() != null) {
-        d.setId(d.getId());
+        d.setId(key, d.getId());
       }
       a.add(d);
     }
-    */
     this.items = items;
   }
   public List<WalletItemData> getItems() {

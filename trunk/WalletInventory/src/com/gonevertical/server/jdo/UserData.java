@@ -51,9 +51,12 @@ public class UserData {
       return null;
     }
     
-    Long id = KeyFactory.createKey(UserData.class.getName(), userData.getId()).getId();
+    Key key = userData.getKey();
+    if (key == null) {
+      return null;
+    }
     
-    return id;
+    return key.getId();
   }
 
   public static UserData findUserData(String id) {
@@ -148,6 +151,10 @@ public class UserData {
       id = KeyFactory.keyToString(key);
     }
     return id;
+  }
+  
+  private Key getKey() {
+    return key;
   }
 
   public void setVersion(Long version) {

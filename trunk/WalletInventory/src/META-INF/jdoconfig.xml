@@ -11,5 +11,9 @@
        <property name="javax.jdo.option.NontransactionalWrite" value="true"/>
        <property name="javax.jdo.option.RetainValues" value="true"/>
        <property name="datanucleus.appengine.autoCreateDatastoreTxns" value="true"/>
+       
+       <!-- get dependent children up to 2 deep (not lazily) -->
+       <property name="datanucleus.maxFetchDepth" value="2"/>
+        
    </persistence-manager-factory>
 </jdoconfig>

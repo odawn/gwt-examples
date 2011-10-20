@@ -9,9 +9,11 @@ import com.gonevertical.client.app.user.AuthEventHandler;
 import com.gonevertical.client.global.loadingwidget.LoadingWidget;
 import com.gonevertical.client.views.SignInView;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
@@ -83,7 +85,12 @@ public class SignInViewImpl extends Composite implements SignInView {
       // this shouldn't happen, b/c we need the urls
       return;
     }
+   
     String url = userData.getLoginUrl();
+    String qs = Window.Location.getQueryString();
+    if (qs != null) {
+      url += URL.encode(qs);
+    }
     
     // This is a must, always clean before draw
     SafeHtmlBuilder builder = new SafeHtmlBuilder();

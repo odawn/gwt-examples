@@ -18,11 +18,11 @@ import com.google.appengine.api.datastore.KeyFactory;
 @PersistenceCapable
 @Version(strategy = VersionStrategy.VERSION_NUMBER, extensions = { @Extension(vendorName = "datanucleus", key = "key", value = "version") })
 public class WalletItemData {
-  
+
   public static PersistenceManager getPersistenceManager() {
     return PMF.get().getPersistenceManager();
   }
-  
+
   public static WalletItemData findWalletItemData(String id) {
     Long uid = UserData.getLoggedInUserId();
     if (id == null) {
@@ -40,7 +40,7 @@ public class WalletItemData {
       pm.close();
     }
   }
-  
+
   public static long countAll() {
     PersistenceManager pm = getPersistenceManager();
     try {
@@ -51,7 +51,7 @@ public class WalletItemData {
     }
     return 0l;
   }
-  
+
   public static long countWalletItemDataByUser() {
     Long uid = UserData.getLoggedInUserId();
     PersistenceManager pm = getPersistenceManager();
@@ -65,7 +65,7 @@ public class WalletItemData {
     }
     return 0l;
   }
-  
+
   public static List<WalletItemData> findWalletItemDataByUser() {
     Long uid = UserData.getLoggedInUserId();
     PersistenceManager pm = getPersistenceManager();
@@ -79,36 +79,39 @@ public class WalletItemData {
       pm.close();
     }
   }
-  
-  
-  
+
+
+
   @PrimaryKey
   @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
   private Key key;
 
   @Persistent
   private Long version;
-  
+
   /**
    * the entity owner - the person who's logged in. Will set this on the client side. 
    * I'm not to concerned b/c its a child of a parent. Keep for reference in debugging.
    */
   @Persistent
   private Long userId;
-  
+
   @Persistent
   private String name;
-  
+
   @Persistent
   private String contact;
-  
-  
+
+
   public void setId(Key parentKey, String id) {
-    if (parentKey == null || id == null) {
+    if (parentKey == null) {
       return;
     }
-    Key k = KeyFactory.stringToKey(id);
-    this.key = KeyFactory.createKey(parentKey, WalletItemData.class.getName(), k.getId());
+    if (id != null) {
+      setId(id);
+    } else {
+      key = KeyFactory.createKey(parentKey, WalletItemData.class.getName(), null);
+    }
   }
   public void setId(String id) {
     key = KeyFactory.stringToKey(id);
@@ -120,46 +123,46 @@ public class WalletItemData {
     }
     return id;
   }
-  
+
   public void setUserId(Long userId) {
     this.userId = userId;
   }
   public Long getUserId() {
     return userId;
   }
-  
+
   public void setVersion(Long version) {
     this.version = version;
   }
   public Long getVersion() {
     return version;
   }
-  
+
   public void setName(String name) {
     this.name = name;
   }
   public String getName() {
     return name;
   }
-  
+
   public void setContact(String contact) {
     this.contact = contact;
   }
   public String getContact() {
     return contact;
   }
-  
-  
+
+
   public void persist() {
     // set the owner of this entity
     userId = UserData.getLoggedInUserId();
-    
+
     // JPA does this automatically, but JDO won't. Not sure why.
     if (version == null) {
       version = 0l;
     }
     version++;
-    
+
     PersistenceManager pm = getPersistenceManager();
     Transaction tx = pm.currentTransaction();
     try {
@@ -172,9 +175,9 @@ public class WalletItemData {
   }
 
   public void remove() {
-    
+
     Key key = null; // TODO, configure parent key,...
-    
+
     PersistenceManager pm = getPersistenceManager();
     Transaction tx = pm.currentTransaction();
     try {

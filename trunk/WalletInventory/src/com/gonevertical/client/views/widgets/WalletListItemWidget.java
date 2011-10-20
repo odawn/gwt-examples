@@ -1,8 +1,12 @@
 package com.gonevertical.client.views.widgets;
 
+import java.util.Iterator;
+import java.util.List;
+
 import com.gonevertical.client.app.ApplicationFactory;
 import com.gonevertical.client.app.activity.places.WalletEditPlace;
 import com.gonevertical.client.app.requestfactory.dto.WalletDataProxy;
+import com.gonevertical.client.app.requestfactory.dto.WalletItemDataProxy;
 import com.gonevertical.client.global.booleandialog.BooleanDialog;
 import com.gonevertical.client.global.booleandialog.BooleanEvent;
 import com.gonevertical.client.global.booleandialog.BooleanEvent.Selected;
@@ -71,6 +75,17 @@ public class WalletListItemWidget extends Composite {
     this.index = index;
     // TODO set style depending on i
     this.walletData = walletDataProxy; 
+    
+    // TODO test
+    List<WalletItemDataProxy> it = walletData.getItems();
+    if (it == null) {
+      return;
+    }
+    Iterator<WalletItemDataProxy> itr = it.iterator();
+    while(itr.hasNext()) {
+      WalletItemDataProxy d = itr.next();
+      System.out.println(d.toString());
+    }
   }
 
   public void setPresenter(Presenter presenter) {
