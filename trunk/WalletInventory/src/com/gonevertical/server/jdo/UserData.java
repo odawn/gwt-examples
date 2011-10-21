@@ -269,14 +269,14 @@ public class UserData {
   public void remove() {
     
     Long uid = getLoggedInUserId();
+    if (key != null && uid != key.getId()) {
+      log.severe("UserData.remove() Error: Something weird going on in setting UID. userId=" + key.toString() + " uid=" + uid);
+      return;
+    }
     
     PersistenceManager pm = getPersistenceManager();
     Transaction tx = pm.currentTransaction();
     try {
-      UserData e = pm.getObjectById(UserData.class, key);
-      if (e != null && e.getKey() != null && e.getKey().getId() != uid) {
-        return;
-      }
       tx.begin();
       pm.deletePersistent(this);
       tx.commit();

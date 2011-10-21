@@ -254,15 +254,14 @@ public class WalletData {
 
     // for checking owner
     Long uid = UserData.getLoggedInUserId();
+    if (userId != null && uid != userId) {
+      log.severe("WalletData.remove() Error: Something weird going on in setting UID. userId=" + userId + " uid=" + uid);
+      return;
+    }
 
     PersistenceManager pm = getPersistenceManager();
     Transaction tx = pm.currentTransaction();
     try {
-      WalletData e = pm.getObjectById(WalletData.class, key);
-      if (e != null && e.getUserId() != uid) { // make sure only the owner can delete
-        log.severe("WalletData.remove() Error: Something weird going on in setting UID. e.getUserId=" + e.getUserId() + " uid=" + uid);
-        return; // TODO maybe return back something
-      }
       tx.begin();
       pm.deletePersistent(this);
       tx.commit();
