@@ -165,12 +165,16 @@ public class WalletEditItemWidget extends Composite {
       return;
     }
     wLoading.showLoading(true);
-    Request<Void> req = appFactory.getRequestFactory().getWalletItemDataRequest().remove().using(itemData);
-    req.fire(new Receiver<Void>() {
-      public void onSuccess(Void response) {
+    Request<Boolean> req = appFactory.getRequestFactory().getWalletItemDataRequest().deleteWalletItemData(itemData.getId());
+    req.fire(new Receiver<Boolean>() {
+      public void onSuccess(Boolean data) {
         wLoading.showLoading(false);
-        removeFromParent();
-        fireChange();
+        if (data != null || data.booleanValue() == true) {
+          removeFromParent();
+          fireChange();
+        } else {
+          wLoading.showError("Oops, I couldn't delete that.");
+        }
       }
       public void onFailure(ServerFailure error) {
         wLoading.showError();

@@ -22,5 +22,6 @@ public interface WalletDataRequest extends RequestContext {
   
   InstanceRequest<WalletDataProxy, WalletDataProxy> persist();
   
-  InstanceRequest<WalletDataProxy, Void> remove();
+  Request<Boolean> deleteWalletData(String id);
+  
 }

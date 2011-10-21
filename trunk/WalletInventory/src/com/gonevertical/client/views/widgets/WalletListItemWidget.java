@@ -164,14 +164,18 @@ public class WalletListItemWidget extends Composite {
   }
 
   private void deleteIt() {
-    if (walletData == null) {
+    if (walletData == null || walletData.getId() == null) {
       removeFromParent();
       return;
     }
-    Request<Void> req = appFactory.getRequestFactory().getWalletDataRequest().remove().using(walletData);
-    req.fire(new Receiver<Void>() {
-      public void onSuccess(Void response) {
-        removeFromParent();
+    Request<Boolean> req = appFactory.getRequestFactory().getWalletDataRequest().deleteWalletData(walletData.getId());
+    req.fire(new Receiver<Boolean>() {
+      public void onSuccess(Boolean data) {
+        if (data != null && data.booleanValue() == true) {
+          removeFromParent();
+        } else {
+          // TODO show error
+        }
       }
       public void onFailure(ServerFailure error) {
         super.onFailure(error);

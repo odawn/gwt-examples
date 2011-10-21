@@ -68,6 +68,10 @@ public class LoadingWidget extends Composite {
     showError(DEFAULT_DELAY, ERROR_MESSAGE);
   }
   
+  public void showError(String message) { 
+    showError(DEFAULT_DELAY, message);
+  }
+  
   public void showError(int delayMillis, String message) { 
     showLoading(true, message);
     hideTimed(delayMillis);

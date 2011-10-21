@@ -24,7 +24,7 @@ import com.google.appengine.api.datastore.KeyFactory;
 @PersistenceCapable
 @Version(strategy=VersionStrategy.VERSION_NUMBER, column="version", extensions={@Extension(vendorName="datanucleus", key="key", value="version")})
 public class WalletData {
- 
+
   @NotPersistent
   private static final Logger log = Logger.getLogger(WalletData.class.getName());
 
@@ -91,10 +91,10 @@ public class WalletData {
       javax.jdo.Query query = pm.newQuery("select from " + WalletData.class.getName());
       query.setFilter(qfilter);
       List<WalletData> list = (List<WalletData>) query.execute();
-      
+
       // TODO i'm getting Object Manager has been closed here, something weird going on (lazy loader?)
       List<WalletData> r = (List<WalletData>) pm.detachCopyAll(list);
-      
+
       return r;
     } catch (Exception e) {
       e.printStackTrace();
@@ -105,7 +105,7 @@ public class WalletData {
   }
 
 
-  
+
   /**
    * primary id
    * transposed to web safe id (base64) for transport
@@ -141,8 +141,8 @@ public class WalletData {
   private List<WalletItemData> items;
 
 
-  
-  
+
+
   public void setId(String id) {
     if (id == null) {
       return;
@@ -250,7 +250,10 @@ public class WalletData {
     return this;
   }
 
-  public void remove() {
+  /**
+   * this won't work - check walletItemData for more notes
+   */
+  private void remove() {
 
     // for checking owner
     Long uid = UserData.getLoggedInUserId();
@@ -273,5 +276,42 @@ public class WalletData {
     }
   }
 
+
+  public static Boolean deleteWalletData(String id) {
+
+    if (id == null) {
+      return false;
+    }
+    Long uid = UserData.getLoggedInUserId();
+
+    Key key = KeyFactory.stringToKey(id);
+
+    Boolean success = false;
+    PersistenceManager pm = getPersistenceManager();
+    Transaction tx = pm.currentTransaction();
+    try {
+
+      WalletItemData e = pm.getObjectById(WalletItemData.class, key);
+      if (e.getUserId() != uid) { // check owner
+        log.severe("WalletItemData.remove() Error: Something weird going on in setting UID. e.getUserId()=" + e.getUserId() + " uid=" + uid);
+        success = false;
+
+      } else {
+        tx.begin();
+        pm.deletePersistent(e);
+        tx.commit();
+        success = true;
+      }
+
+    } finally {
+      if (tx.isActive()) {
+        tx.rollback();
+        success = false;
+      }
+      pm.close();
+    }
+
+    return success;
+  }
 
 }

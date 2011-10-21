@@ -266,7 +266,7 @@ public class UserData {
     return this;
   }
 
-  public void remove() {
+  private void remove() {
     
     Long uid = getLoggedInUserId();
     if (key != null && uid != key.getId()) {

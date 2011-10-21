@@ -187,27 +187,70 @@ public class WalletItemData {
     }
   }
 
-  public void remove() {
+  /**
+   * can't use this 
+   *    - errors this -> Transient instances cant be deleted.
+   */
+  private void remove() {
     // for checking owner
     Long uid = UserData.getLoggedInUserId();
     if (userId != null && uid != userId) {
       log.severe("WalletItemData.remove() Error: Something weird going on in setting UID. userId=" + userId + " uid=" + uid);
       return;
     }
-
+    
     PersistenceManager pm = getPersistenceManager();
     Transaction tx = pm.currentTransaction();
     try {
       tx.begin();
-      pm.deletePersistent(this);
+      WalletItemData e = pm.detachCopy(this); // this won't fix it
+      pm.deletePersistent(e);
       tx.commit();
     } catch (Exception e) {
-     e.printStackTrace();
-    }finally {
+     e.printStackTrace(); 
+    } finally {
       if (tx.isActive()) {
         tx.rollback();
       }
       pm.close();
     }
   }
+  
+  public static Boolean deleteWalletItemData(String id) {
+    
+    if (id == null) {
+      return false;
+    }
+    Long uid = UserData.getLoggedInUserId();
+    
+    Key key = KeyFactory.stringToKey(id);
+    
+    Boolean success = false;
+    PersistenceManager pm = getPersistenceManager();
+    Transaction tx = pm.currentTransaction();
+    try {
+      
+      WalletItemData e = pm.getObjectById(WalletItemData.class, key);
+      if (e.getUserId() != uid) { // check owner
+        log.severe("WalletItemData.remove() Error: Something weird going on in setting UID. e.getUserId()=" + e.getUserId() + " uid=" + uid);
+        success = false;
+        
+      } else {
+        tx.begin();
+        pm.deletePersistent(e);
+        tx.commit();
+        success = true;
+      }
+      
+    } finally {
+      if (tx.isActive()) {
+        tx.rollback();
+        success = false;
+      }
+      pm.close();
+    }
+    
+    return success;
+  }
+  
 }
