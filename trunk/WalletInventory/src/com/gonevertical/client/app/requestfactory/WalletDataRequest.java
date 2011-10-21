@@ -3,7 +3,7 @@ package com.gonevertical.client.app.requestfactory;
 import java.util.List;
 
 import com.gonevertical.client.app.requestfactory.dto.WalletDataProxy;
-import com.gonevertical.server.jdo.WalletData;
+import com.gonevertical.server.domain.WalletData;
 import com.google.web.bindery.requestfactory.shared.InstanceRequest;
 import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.RequestContext;
