@@ -16,7 +16,7 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>com.google.gwt.eclipse.core.gwtProjectValidator</name>
+			<name>com.google.appengine.eclipse.core.enhancerbuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -26,7 +26,7 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>com.google.appengine.eclipse.core.enhancerbuilder</name>
+			<name>com.google.gwt.eclipse.core.gwtProjectValidator</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
