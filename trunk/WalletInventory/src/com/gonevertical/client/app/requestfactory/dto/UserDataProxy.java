@@ -1,6 +1,6 @@
 package com.gonevertical.client.app.requestfactory.dto;
 
-import com.gonevertical.server.jdo.UserData;
+import com.gonevertical.server.domain.UserData;
 import com.google.web.bindery.requestfactory.shared.EntityProxy;
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
 
