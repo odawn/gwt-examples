@@ -1,6 +1,6 @@
 package com.gonevertical.client.app.requestfactory.dto;
 
-import com.gonevertical.server.domain.WalletItemData;
+import com.gonevertical.server.jdo.WalletItemData;
 import com.google.web.bindery.requestfactory.shared.EntityProxy;
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
 
