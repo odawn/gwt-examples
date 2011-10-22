@@ -1,4 +1,4 @@
-package org.gonevertical.textboxexpand.client;
+package org.gonevertical.textboxexpand.client.old;
 
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
