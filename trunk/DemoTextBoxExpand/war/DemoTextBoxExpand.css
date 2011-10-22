@@ -10,10 +10,12 @@ body {
 	border: 0;
 }
 .AutoTextAreaEdit {
-	padding: 2px;
+}
+.AutoTextAreaEdit-Break {
+  	/*CSS3 long word breaking*/
+  	word-break: break-all;
 }
 .AutoTextAreaEdit-readonly {
-	padding: 4px;
 	border: 0;
 }
 
