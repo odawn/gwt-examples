@@ -14,7 +14,7 @@
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/DemoTextBoxExpand/src/org/gonevertical/textboxexpand/client/TextAreaExpandWidget.java Source] - Textarea
 
 
-== Cloning and Calculating ==
+== Cloning CSS and Calculating Size ==
  The challenge is to clone the css from the textbox to a html span and figure out the size and then set it back to the textbox. A textbox is easy to change the size, but the TextArea I have found there are more variables to deal with. 
  
 <g:plusone size="medium"></g:plusone>
