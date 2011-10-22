@@ -7,11 +7,11 @@
  I have made this better. Try out the demo - [http://demogwttextexpand.appspot.com/ Demo]
 
 = Auto Text Box Growth or Expansion =
- Goal is to auto expand textbox and textarea input boxes. Grow the textbox on keyup.
+TextBox and TextArea auto expand dynamically changing size during typing into the inputs. Grow the textbox on keyup.
  
- * [http://demogwttextexpand.appspot.com/ Demo] - Textbox auto expander demo
- * [http://code.google.com/p/gwt-examples/source/browse/trunk/DemoTextBoxExpand/src/org/gonevertical/textboxexpand/client/TextBoxExpandWidget.java Source] - Textbox
- * [http://code.google.com/p/gwt-examples/source/browse/trunk/DemoTextBoxExpand/src/org/gonevertical/textboxexpand/client/TextAreaExpandWidget.java Source] - Textarea
+ * [http://demogwttextexpand.appspot.com/ Demo] - Textbox Expansion Growth Demo
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/DemoTextBoxExpand/src/org/gonevertical/textboxexpand/client/AutoTextBoxEdit.java Textbox] - Source
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/DemoTextBoxExpand/src/org/gonevertical/textboxexpand/client/AutoTextAreaEdit.java Textarea] - Source
 
 
 == Cloning CSS and Calculating Size ==
