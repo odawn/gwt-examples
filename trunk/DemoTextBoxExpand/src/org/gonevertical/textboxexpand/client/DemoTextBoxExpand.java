@@ -18,6 +18,7 @@ public class DemoTextBoxExpand implements EntryPoint {
   
   public void onModuleLoad() {
   
+    
     // auto growth, but always show the border
     boolean hideBorderUntilHover = false;
     boolean growWidth = true;
@@ -37,18 +38,19 @@ public class DemoTextBoxExpand implements EntryPoint {
     growWidth = true;
     AutoTextAreaEdit taEdit3 = new AutoTextAreaEdit(hideBorderUntilHover, growWidth);
     //taEdit3.setSize("150px", "100px");
-    //taEdit3.setText("Type in me");
+    //taEdit3.setText("asdfkdf kdjfkdf kdfjdkf jdkfj kdfj kdfj kj kdfj kjdfkj kdj kj dkjdfkj dkj kjkdf jkd fjdkfj");
     
     
+    Grid grid = new Grid(3, 2);
     
     // show a grid of the textbox examples
-    Grid grid = new Grid(3, 2);
     grid.setWidget(0, 0, new HTML("TextBox (Grows)"));
     grid.setWidget(0, 1, tbEdit1);
     
     
     grid.setWidget(1, 0, new HTML("TextBox (Hovers & Grows)"));
     grid.setWidget(1, 1, tbEdit2);
+    
     
     grid.setWidget(2, 0, new HTML("TextArea (Grows)"));
     grid.setWidget(2, 1, taEdit3);

@@ -24,23 +24,42 @@ import com.google.gwt.event.logical.shared.AttachEvent;
 public class AutoTextAreaEdit extends TextArea {
 
   /**
-   * clone these style properties
+   * clone these style properties for size calculation
    */
   private String[] styles = { 
+      "color",
       "direction", 
+      
+      "fontFace", // @fontFace?
       "fontFamily", 
       "fontSize", 
       "fontSizeAdjust",
-      "fontStyle", 
+      "fontStretch",
+      "fontStyle",
+      "fontVariant",
       "fontWeight",
+      
       "letterSpacing", 
       "lineHeight", 
+      
       "padding",
+      "paddingBottom",
+      "paddingLeft",
+      "paddingRight",
+      "paddingTop",
+      
       "textAlign",
-      "textDecoration", 
+      "textDecoration",
+      "textIndent",
+      "textJustify",
+      "textOutline",
+      "textShawdow",
       "textTransform",
-      //"width",
-      "wordSpacing" 
+      
+      "wordSpacing"
+      
+      //"whiteSpacing" ?
+      //"punctuationTrim" ?
   };
 
   /**
@@ -95,13 +114,21 @@ public class AutoTextAreaEdit extends TextArea {
 
   private boolean delayedClone;
 
-  private HorizontalPanel hpTextContainer;
+  private boolean clonedOnce;
 
+  /**
+   * constructor
+   */
   public AutoTextAreaEdit() {
     super();
     setup(false, true);
   }
 
+  /**
+   * constructor
+   * @param hideBorderUntilHover - hover over box to see border
+   * @param grow - auto grow to size of text
+   */
   public AutoTextAreaEdit(boolean hideBorderUntilHover, boolean grow) {
     super();
     setup(hideBorderUntilHover, grow);
@@ -111,13 +138,9 @@ public class AutoTextAreaEdit extends TextArea {
 
     setStyleName("AutoTextAreaEdit");
 
-    setOriginalSize();
-
     setupGrow(grow);
 
-    setUpEditHover(hideBorderUntilHover);
-
-    setupHiddenPanel();
+    setUpEditHover(hideBorderUntilHover);    
   }
 
   /**
@@ -192,7 +215,22 @@ public class AutoTextAreaEdit extends TextArea {
   }
 
   private void setNewSize() {
-    getCurrentTextWidth();
+    
+    // only done once
+    setOriginalSize();
+    
+    // onlydone once - sets up a location to calculate size
+    setHiddenPanel();
+    
+    // only done once
+    cloneStyleOnce();
+    
+    // do everytime - check for textbox getting bigger
+    setMovingWidth();
+    
+    // everytime - calculate the size width and height of text
+    setCurrentTextSize();
+    
     
     /* only use height, but could do both
     if (width > originalWidth) {
@@ -205,13 +243,45 @@ public class AutoTextAreaEdit extends TextArea {
     }
   }
 
-  private void getCurrentTextWidth() {
+  /**
+   * for changing textbox width
+   */
+  private void setMovingWidth() {
+    if (htmlForSizeTesting == null) {
+      return;
+    }
+    //TODO what the heck is with the offset width differring. Maybe i'm tired. 
+    int left = 0;
+    try {
+      left = Integer.parseInt(ComputedStyle.getStyleProperty(this.getElement(), "width").replaceAll("[^0-9]", ""));
+    } catch (NumberFormatException e) {
+      e.printStackTrace();
+      return;
+    }
+    int right = htmlForSizeTesting.getOffsetWidth();
+    if (left != right) {
+      setTextContainerWidth(left + "");
+    }
+  }
+
+  private void cloneStyleOnce() {
+    if (clonedOnce == false) {
+      clonedOnce = true;
+      cloneStyle();
+    }
+  }
+
+  private void setCurrentTextSize() {
 
     String s = getText();
-    s = s.replaceAll("\040", "&nbsp;");
-    s = s.replaceAll("\r", "</br>");
+    s = s.replaceAll("\040\040", "\040&nbsp;"); // deal with double spacing context in html
+    s = s.replaceAll("\r\n", "</br>"); 
+    s = s.replaceAll("\n\r", "</br>"); 
+    s = s.replaceAll("\r", "</br>"); 
     s = s.replaceAll("\n", "</br>");
     //s = s.replaceAll("\t", "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+    
+    //System.out.println("s=" + s);
     
     //SafeHtml sh = SimpleHtmlSanitizer.sanitizeHtml(s); //encodes breaks, need to allow </br>
     htmlForSizeTesting.setHTML(s);
@@ -223,10 +293,11 @@ public class AutoTextAreaEdit extends TextArea {
     height += headroomHeightPadding; 
   }
 
-  private void setOriginalSize() {
+  private void setOriginalSize() {    
     if (orginalSet == false) {
       originalWidth = getOffsetWidth();
       originalHeight = getOffsetHeight();
+      //System.out.println("OriginalSize w=" + originalWidth + " h=" + originalHeight);
       orginalSet = true;
     }
   }
@@ -247,8 +318,12 @@ public class AutoTextAreaEdit extends TextArea {
       eright.getStyle().setProperty(styles[i], prop);
       
       // debug
-      //System.out.println("setStyle style=" + styles[i] + " prop=" + prop);
+      System.out.println("TextArea cloneStyle() style=" + styles[i] + " prop=" + prop);
     }
+    
+    eright.getStyle().setProperty("wordWrap", "break-word");
+    // css3 long word breaking like it will break aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa....
+    eright.getStyle().setProperty("wordBreak", "break-all");
   }
   
   /**
@@ -268,7 +343,10 @@ public class AutoTextAreaEdit extends TextArea {
     t.schedule(600);
   }
 
-  private void setupHiddenPanel() {
+  /**
+   * TODO move this to a shared hidden div.
+   */
+  private void setHiddenPanel() {
     if (htmlForSizeTesting != null) {
       return;
     }
@@ -276,38 +354,39 @@ public class AutoTextAreaEdit extends TextArea {
     // create a panel I can hide
     hiddenPanel = new AbsolutePanel();
     RootPanel.get().add(hiddenPanel);
-
-    // create a panel that won't go 100%
-    hpTextContainer = new HorizontalPanel();
-    
-    //hiddenPanel.add(hp, -1000, -1000); // hide it
-    hiddenPanel.add(hpTextContainer); // show it for debugging
     
     // create a spot to measure html
     // note text area you would want to wrap
-    htmlForSizeTesting = new HTML("asdfasdf asdfasdf asdf asdf asdf asdasdf asdfasdfasdfasdf asdf asdf asdf asdfas dasfd asasdfas"); 
-    hpTextContainer.add(htmlForSizeTesting);
+    htmlForSizeTesting = new HTML("", true); 
+    hiddenPanel.add(htmlForSizeTesting);
+    htmlForSizeTesting.setStyleName("AutoTextAreaEdit-Break"); // css3 long word breaking
+    //hiddenPanel.add(hp, -1000, -1000); // hide it from view
     
     // setup width constraint
     setTextContainerWidth(Integer.toString(getOffsetWidth()));
 
     // for debugging
     hiddenPanel.addStyleName("test1");
-    hpTextContainer.addStyleName("test2");
-    htmlForSizeTesting.addStyleName("test3");
+    htmlForSizeTesting.addStyleName("test2");
     
-    //hiddenPanel.setHeight("300px");
-    //hpTextContainer.setHeight("300px");
-
-    // for some reason, the computed style takes a sec to kick in.... hmmmm
-    cloneStyle();
+    // for some reason, the computed style takes a sec to kick in.... hmmmm, probably due to attaching time
+    //cloneStyle();
+  }
+  
+  private void setTextContainerWidth(String width) {
+    if (htmlForSizeTesting == null) {
+      return;
+    }
+    htmlForSizeTesting.setWidth(width + "px");
+    System.out.println("setTextContainerWidth=" + width);
   }
   
   @Override
   public void setText(String text) {
     super.setText(text);
     setNewSize();
-    // work around for intial setup not sure why
+    
+    // delay for attatching or whatever. workaround here
     cloneStyleTimed();
   };
 
@@ -340,15 +419,7 @@ public class AutoTextAreaEdit extends TextArea {
     
     setTextContainerWidth(width);
   }
-
-  private void setTextContainerWidth(String width) {
-    //hiddenPanel.setWidth(width + "px");
-    hpTextContainer.setWidth(width + "px");
-    //htmlForSizeTesting.setWidth(width + "px");
-    //htmlForSizeTesting.getElement().getStyle().setProperty("whiteSpace", "break-word");
-    System.out.println("setTextContainerWidth=" + width);
-  }
-
+  
   @Override
   public void setHeight(String height) {
     super.setHeight(height);
