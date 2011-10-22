@@ -15,7 +15,7 @@
 
 
 == Cloning CSS and Calculating Size ==
- The challenge is to clone the css from the textbox to a html span and figure out the size and then set it back to the textbox. A textbox is easy to change the size, but the TextArea I have found there are more variables to deal with. 
+ The challenge is to clone the css from the textbox to a html span and figure out the size and then set it back to the textbox. A textbox is easy to change the size, but the TextArea I have found more difficult because there are more variables to deal with. 
  
 <g:plusone size="medium"></g:plusone>
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
