@@ -321,7 +321,7 @@ public class AutoTextAreaEdit extends TextArea {
       System.out.println("TextArea cloneStyle() style=" + styles[i] + " prop=" + prop);
     }
     
-    eright.getStyle().setProperty("wordWrap", "break-word");
+    //eright.getStyle().setProperty("wordWrap", "break-word");
     // css3 long word breaking like it will break aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa....
     eright.getStyle().setProperty("wordBreak", "break-all");
   }
