@@ -3,9 +3,19 @@
 <g:plusone size="medium"></g:plusone>
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
 
-= Auto Text Box Expansion =
+= Updated 10/22/2011 =
+ I have made this better. Try out the demo - [http://demogwttextexpand.appspot.com/ Demo]
+
+= Auto Text Box Growth or Expansion =
  Goal is to auto expand textbox and textarea input boxes. Grow the textbox on keyup.
  
  * [http://demogwttextexpand.appspot.com/ Demo] - Textbox auto expander demo
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/DemoTextBoxExpand/src/org/gonevertical/textboxexpand/client/TextBoxExpandWidget.java Source] - Textbox
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/DemoTextBoxExpand/src/org/gonevertical/textboxexpand/client/TextAreaExpandWidget.java Source] - Textarea
+
+
+== Cloning and Calculating ==
+ The challenge is to clone the css from the textbox to a html span and figure out the size and then set it back to the textbox. A textbox is easy to change the size, but the TextArea I have found there are more variables to deal with. 
+ 
+<g:plusone size="medium"></g:plusone>
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
