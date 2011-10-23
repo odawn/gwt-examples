@@ -1,6 +1,6 @@
 package com.gonevertical.client.app.activity;
 
-import com.gonevertical.client.app.ApplicationFactory;
+import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.activity.places.SignInPlace;
 import com.gonevertical.client.views.SignInView;
 import com.gonevertical.client.views.impl.SignInViewImpl;
@@ -13,10 +13,10 @@ public class SignInActivity extends AbstractActivity implements SignInView.Prese
 
   private SignInView view;
   
-  private ApplicationFactory appFactory;
+  private ClientFactory clientFactory;
   
-  public SignInActivity(SignInPlace place, ApplicationFactory appFactory) {
-    this.appFactory = appFactory;
+  public SignInActivity(SignInPlace place, ClientFactory clientFactory) {
+    this.clientFactory = clientFactory;
   }
 
   /**
@@ -27,7 +27,7 @@ public class SignInActivity extends AbstractActivity implements SignInView.Prese
     if (view == null) {
       view = new SignInViewImpl();
     }
-    view.setAppFactory(appFactory);
+    view.setClientFactory(clientFactory);
     view.setPresenter(this);
     containerWidget.setWidget(view.asWidget());
     view.start();
@@ -44,7 +44,7 @@ public class SignInActivity extends AbstractActivity implements SignInView.Prese
    * Navigate to a new Place in the browser
    */
   public void goTo(Place place) {
-    appFactory.getPlaceController().goTo(place);
+    clientFactory.getPlaceController().goTo(place);
   }
   
 }

@@ -7,7 +7,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.PlaceController;
 
 
-public interface ApplicationFactory {
+public interface ClientFactory {
   
 	EventBus getEventBus();
 	

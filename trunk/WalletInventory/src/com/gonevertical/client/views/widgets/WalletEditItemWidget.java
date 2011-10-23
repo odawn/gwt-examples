@@ -2,7 +2,7 @@ package com.gonevertical.client.views.widgets;
 
 import org.gonevertical.core.client.input.WiseTextBox;
 
-import com.gonevertical.client.app.ApplicationFactory;
+import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.requestfactory.ApplicationRequestFactory;
 import com.gonevertical.client.app.requestfactory.WalletDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.WalletItemDataProxy;
@@ -48,7 +48,7 @@ public class WalletEditItemWidget extends Composite {
   
   private Presenter presenter;
 
-  private ApplicationFactory appFactory;
+  private ClientFactory clientFactory;
 
   private static WalletEditItemWidgetUiBinder uiBinder = GWT.create(WalletEditItemWidgetUiBinder.class);
   @UiField WiseTextBox tbName;
@@ -74,8 +74,8 @@ public class WalletEditItemWidget extends Composite {
     this.presenter = presenter;
   }
 
-  public void setAppFactory(ApplicationFactory appFactory) {
-    this.appFactory = appFactory;
+  public void setClientFactory(ClientFactory clientFactory) {
+    this.clientFactory = clientFactory;
   }
   
   public void setLoading(LoadingWidget wLoading) {
@@ -163,7 +163,7 @@ public class WalletEditItemWidget extends Composite {
       return;
     }
     wLoading.showLoading(true);
-    Request<Boolean> req = appFactory.getRequestFactory().getWalletItemDataRequest().deleteWalletItemData(itemData.getId());
+    Request<Boolean> req = clientFactory.getRequestFactory().getWalletItemDataRequest().deleteWalletItemData(itemData.getId());
     req.fire(new Receiver<Boolean>() {
       public void onSuccess(Boolean data) {
         wLoading.showLoading(false);

@@ -1,6 +1,6 @@
 package com.gonevertical.client.views;
 
-import com.gonevertical.client.app.ApplicationFactory;
+import com.gonevertical.client.app.ClientFactory;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.IsWidget;
 
@@ -12,7 +12,7 @@ public interface WalletListView extends IsWidget {
 
   void setPresenter(Presenter presenter);
   
-  void setAppFactory(ApplicationFactory appFactory);
+  void setClientFactory(ClientFactory clientFactory);
   
   void draw();
 

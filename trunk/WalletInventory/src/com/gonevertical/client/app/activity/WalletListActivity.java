@@ -1,6 +1,6 @@
 package com.gonevertical.client.app.activity;
 
-import com.gonevertical.client.app.ApplicationFactory;
+import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.activity.places.WalletListPlace;
 import com.gonevertical.client.views.WalletListView;
 import com.gonevertical.client.views.impl.WalletListViewImpl;
@@ -13,10 +13,10 @@ public class WalletListActivity extends AbstractActivity implements WalletListVi
 
   private WalletListView view;
 
-  private ApplicationFactory appFactory;
+  private ClientFactory clientFactory;
 
-  public WalletListActivity(WalletListPlace place, ApplicationFactory clientFactory) {
-    this.appFactory = clientFactory;
+  public WalletListActivity(WalletListPlace place, ClientFactory clientFactory) {
+    this.clientFactory = clientFactory;
   }
 
   /**
@@ -28,7 +28,7 @@ public class WalletListActivity extends AbstractActivity implements WalletListVi
       view = new WalletListViewImpl();
     }
     view.setPresenter(this);
-    view.setAppFactory(appFactory);
+    view.setClientFactory(clientFactory);
     containerWidget.setWidget(view.asWidget());
     view.draw();
   }
@@ -45,7 +45,7 @@ public class WalletListActivity extends AbstractActivity implements WalletListVi
    * Navigate to a new Place in the browser
    */
   public void goTo(Place place) {
-    appFactory.getPlaceController().goTo(place);
+    clientFactory.getPlaceController().goTo(place);
   }
   
 }

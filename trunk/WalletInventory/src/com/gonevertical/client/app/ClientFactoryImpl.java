@@ -18,7 +18,7 @@ import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public class ApplicationFactoryImpl implements ApplicationFactory {
+public class ClientFactoryImpl implements ClientFactory {
 
   /**
    * default start point in application - if nothing is in url
@@ -74,7 +74,7 @@ public class ApplicationFactoryImpl implements ApplicationFactory {
   /**
    * init
    */
-  public ApplicationFactoryImpl() {
+  public ClientFactoryImpl() {
     
     requestFactory.initialize(eventBus);
     

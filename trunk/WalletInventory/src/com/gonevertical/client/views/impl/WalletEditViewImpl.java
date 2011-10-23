@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.gonevertical.core.client.input.WiseTextBox;
 
-import com.gonevertical.client.app.ApplicationFactory;
+import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.activity.places.WalletListPlace;
 import com.gonevertical.client.app.requestfactory.ApplicationRequestFactory;
 import com.gonevertical.client.app.requestfactory.WalletDataRequest;
@@ -49,7 +49,7 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
   
   private Presenter presenter;
 
-  private ApplicationFactory appFactory;
+  private ClientFactory clientFactory;
 
   private static WalletEditViewUiBinder uiBinder = GWT.create(WalletEditViewUiBinder.class);
   @UiField VerticalPanel pList;
@@ -80,8 +80,8 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
   }
 
   @Override
-  public void setAppFactory(ApplicationFactory appFactory) {
-    this.appFactory = appFactory;
+  public void setClientFactory(ClientFactory clientFactory) {
+    this.clientFactory = clientFactory;
   }
 
   public void setData(WalletDataProxy walletData) {
@@ -126,7 +126,7 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
       }
     });
     wItem.setPresenter(presenter);
-    wItem.setAppFactory(appFactory);
+    wItem.setClientFactory(clientFactory);
     wItem.setLoading(wLoading);
     wItem.setData(i, itemData);
     wItem.draw();
@@ -188,7 +188,7 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
     wLoading.showLoading(true, "Saving...");
     
     // get the requestContext
-    WalletDataRequest request = appFactory.getRequestFactory().getWalletDataRequest();
+    WalletDataRequest request = clientFactory.getRequestFactory().getWalletDataRequest();
     
     // is it create or edit
     WalletDataProxy data = null;

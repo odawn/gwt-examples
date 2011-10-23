@@ -3,7 +3,7 @@ package com.gonevertical.client.views.impl;
 import java.util.Iterator;
 import java.util.List;
 
-import com.gonevertical.client.app.ApplicationFactory;
+import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.requestfactory.dto.WalletDataProxy;
 import com.gonevertical.client.global.loadingwidget.LoadingWidget;
 import com.gonevertical.client.views.WalletListView;
@@ -26,7 +26,7 @@ public class WalletListViewImpl extends Composite implements WalletListView {
 
   private Presenter presenter;
 
-  private ApplicationFactory appFactory;
+  private ClientFactory clientFactory;
 
   private static WalletListViewUiBinder uiBinder = GWT.create(WalletListViewUiBinder.class);
   @UiField HorizontalPanel hpMenu;
@@ -49,8 +49,8 @@ public class WalletListViewImpl extends Composite implements WalletListView {
   }
 
   @Override
-  public void setAppFactory(ApplicationFactory appFactory) {
-    this.appFactory = appFactory;
+  public void setClientFactory(ClientFactory clientFactory) {
+    this.clientFactory = clientFactory;
   }
 
   public void draw() {
@@ -65,7 +65,7 @@ public class WalletListViewImpl extends Composite implements WalletListView {
     wLoading.showLoading(true); 
     
     // its important to note, that to get the children you need to use .with("children");
-    Request<List<WalletDataProxy>> req = appFactory.getRequestFactory().getWalletDataRequest().findWalletDataByUser().with("items");
+    Request<List<WalletDataProxy>> req = clientFactory.getRequestFactory().getWalletDataRequest().findWalletDataByUser().with("items");
     req.fire(new Receiver<List<WalletDataProxy>>() {
       public void onSuccess(List<WalletDataProxy> walletData) {
         wLoading.showLoading(false);
@@ -102,7 +102,7 @@ public class WalletListViewImpl extends Composite implements WalletListView {
     WalletListItemWidget wItem = new WalletListItemWidget();
     pList.add(wItem);
     wItem.setPresenter(presenter);
-    wItem.setAppFactory(appFactory);
+    wItem.setClientFactory(clientFactory);
     wItem.setData(i, walletDataProxy);
     wItem.draw();
     return wItem;

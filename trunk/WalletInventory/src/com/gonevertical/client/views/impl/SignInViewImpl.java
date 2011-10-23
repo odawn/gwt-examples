@@ -1,6 +1,6 @@
 package com.gonevertical.client.views.impl;
 
-import com.gonevertical.client.app.ApplicationFactory;
+import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.activity.places.WalletListPlace;
 import com.gonevertical.client.app.requestfactory.dto.UserDataProxy;
 import com.gonevertical.client.app.user.AuthEvent;
@@ -25,7 +25,7 @@ public class SignInViewImpl extends Composite implements SignInView {
 
   private Presenter presenter;
 
-  private ApplicationFactory appFactory;
+  private ClientFactory clientFactory;
   
   private boolean alreadyInit;
 
@@ -46,13 +46,13 @@ public class SignInViewImpl extends Composite implements SignInView {
   }
 
   @Override
-  public void setAppFactory(ApplicationFactory appFactory) {
-    this.appFactory = appFactory;
+  public void setClientFactory(ClientFactory clientFactory) {
+    this.clientFactory = clientFactory;
     
     // this is overkill in here, but here for example
     if (alreadyInit == false) {
-      System.out.println("SignViewImpl.setAppFactory(): init");
-      appFactory.getEventBus().addHandler(AuthEvent.TYPE, new AuthEventHandler() {
+      System.out.println("SignViewImpl.setClientFactory(): init");
+      clientFactory.getEventBus().addHandler(AuthEvent.TYPE, new AuthEventHandler() {
         public void onAuthEvent(AuthEvent event) {
           Auth e = event.getAuthEvent();
           setState(e, event.getUserData());
@@ -112,7 +112,7 @@ public class SignInViewImpl extends Composite implements SignInView {
    */
   private void createUser() {
     wLoading.showLoading(true, "Loading...");
-    Request<UserDataProxy> req = appFactory.getRequestFactory().getUserDataRequest().createUserData();
+    Request<UserDataProxy> req = clientFactory.getRequestFactory().getUserDataRequest().createUserData();
     req.fire(new Receiver<UserDataProxy>() {
       public void onSuccess(UserDataProxy data) {
         wLoading.showLoading(false);
@@ -126,7 +126,7 @@ public class SignInViewImpl extends Composite implements SignInView {
   }
 
   private void process(UserDataProxy data) {
-    appFactory.setUserData(data);
+    clientFactory.setUserData(data);
     
     
   }

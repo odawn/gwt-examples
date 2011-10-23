@@ -1,6 +1,6 @@
 package com.gonevertical.client.app.activity;
 
-import com.gonevertical.client.app.ApplicationFactory;
+import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.activity.places.WalletEditPlace;
 import com.gonevertical.client.app.requestfactory.dto.WalletDataProxy;
 import com.gonevertical.client.views.WalletEditView;
@@ -14,13 +14,13 @@ public class WalletEditActivity extends AbstractActivity implements WalletEditVi
 
   private WalletEditView view;
 
-  private ApplicationFactory appFactory;
+  private ClientFactory clientFactory;
   
   private WalletDataProxy walletData;
 
-  public WalletEditActivity(WalletEditPlace place, ApplicationFactory appFactoryFactory) {
+  public WalletEditActivity(WalletEditPlace place, ClientFactory clientFactory) {
     this.walletData = place.getWalletData();
-    this.appFactory = appFactoryFactory;
+    this.clientFactory = clientFactory;
   }
 
   /**
@@ -32,7 +32,7 @@ public class WalletEditActivity extends AbstractActivity implements WalletEditVi
       view = new WalletEditViewImpl();
     }
     view.setPresenter(this);
-    view.setAppFactory(appFactory);
+    view.setClientFactory(clientFactory);
     containerWidget.setWidget(view.asWidget());
     view.setData(walletData);
     view.draw();
@@ -50,7 +50,7 @@ public class WalletEditActivity extends AbstractActivity implements WalletEditVi
    * Navigate to a new Place in the browser
    */
   public void goTo(Place place) {
-    appFactory.getPlaceController().goTo(place);
+    clientFactory.getPlaceController().goTo(place);
   }
   
 }

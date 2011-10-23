@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.gonevertical.core.client.input.WiseTextBox;
 
-import com.gonevertical.client.app.ApplicationFactory;
+import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.activity.places.WalletEditPlace;
 import com.gonevertical.client.app.requestfactory.dto.WalletDataProxy;
 import com.gonevertical.client.app.requestfactory.dto.WalletItemDataProxy;
@@ -49,7 +49,7 @@ public class WalletListItemWidget extends Composite {
 
   private Presenter presenter;
 
-  private ApplicationFactory appFactory;
+  private ClientFactory clientFactory;
 
   private static WalletListItemWidgetUiBinder uiBinder = GWT.create(WalletListItemWidgetUiBinder.class);
   @UiField WiseTextBox tbName;
@@ -82,8 +82,8 @@ public class WalletListItemWidget extends Composite {
     this.presenter = presenter;
   }
 
-  public void setAppFactory(ApplicationFactory appFactory) {
-    this.appFactory = appFactory;
+  public void setClientFactory(ClientFactory clientFactory) {
+    this.clientFactory = clientFactory;
   }
 
   public void draw() {
@@ -132,7 +132,7 @@ public class WalletListItemWidget extends Composite {
   }
 
   private void save() {
-    Request<WalletDataProxy> req = appFactory.getRequestFactory().getWalletDataRequest().persist().using(walletData);
+    Request<WalletDataProxy> req = clientFactory.getRequestFactory().getWalletDataRequest().persist().using(walletData);
     req.fire(new Receiver<WalletDataProxy>() {
       public void onSuccess(WalletDataProxy walletData) {
         process(walletData);
@@ -168,7 +168,7 @@ public class WalletListItemWidget extends Composite {
       removeFromParent();
       return;
     }
-    Request<Boolean> req = appFactory.getRequestFactory().getWalletDataRequest().deleteWalletData(walletData.getId());
+    Request<Boolean> req = clientFactory.getRequestFactory().getWalletDataRequest().deleteWalletData(walletData.getId());
     req.fire(new Receiver<Boolean>() {
       public void onSuccess(Boolean data) {
         if (data != null && data.booleanValue() == true) {

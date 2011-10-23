@@ -21,8 +21,8 @@
 
 
   <!-- Use ApplicationFactoryImpl by default (Deferred Binding) -->
-  <replace-with class="com.gonevertical.client.app.ApplicationFactoryImpl">
-    <when-type-is class="com.gonevertical.client.app.ApplicationFactory"/>
+  <replace-with class="com.gonevertical.client.app.ClientFactoryImpl">
+    <when-type-is class="com.gonevertical.client.app.ClientFactory"/>
   </replace-with>
 
 
