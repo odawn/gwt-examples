@@ -71,7 +71,7 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
   public WalletEditViewImpl() {
     initWidget(uiBinder.createAndBindUi(this));
     
-    tbName.setEdit(false);
+    tbName.setEditHover(true);
   }
 
   @Override
@@ -234,6 +234,7 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
     stateIs = state;
     if (state == State.VIEW) {
       setStateView();
+      
     } else if (state == State.EDIT) {
       setStateEdit();
     }
@@ -250,7 +251,6 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
   @UiHandler("tbName")
   void onTbNameChange(ChangeEvent event) {
     save();
-    drawName();
   }
   
   @UiHandler("pFocusName")

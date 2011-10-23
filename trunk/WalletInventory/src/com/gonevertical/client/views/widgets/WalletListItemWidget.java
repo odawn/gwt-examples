@@ -74,6 +74,8 @@ public class WalletListItemWidget extends Composite {
     initWidget(uiBinder.createAndBindUi(this));
     
     setState(State.VIEW);
+    
+    tbName.setEditHover(true);
   }
 
   public void setData(int index, WalletDataProxy walletDataProxy) {
@@ -208,6 +210,7 @@ public class WalletListItemWidget extends Composite {
     stateIs = state;
     if (state == State.VIEW) {
       setStateView();
+      
     } else if (state == State.EDIT) {
       setStateEdit();
     }
@@ -215,10 +218,12 @@ public class WalletListItemWidget extends Composite {
 
   private void setStateView() {
     tbName.setEdit(false);
+    bDelete.setVisible(false);
   }
 
   private void setStateEdit() {
     tbName.setEdit(true);
+    bDelete.setVisible(true);
   }
 
   @UiHandler("tbName")

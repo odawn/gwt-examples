@@ -68,6 +68,8 @@ public class WalletEditItemWidget extends Composite {
 
   public WalletEditItemWidget() {
     initWidget(uiBinder.createAndBindUi(this));
+    
+    tbName.setEditHover(true);
   }
 
   public void setPresenter(Presenter presenter) {
@@ -100,6 +102,14 @@ public class WalletEditItemWidget extends Composite {
     return itemData;
   }
   
+  private String getName() {
+    String s = tbName.getText().trim();
+    if (s.length() == 0) {
+      s = null;
+    }
+    return s;
+  }
+  
   public void draw() {
 
     // default
@@ -120,24 +130,6 @@ public class WalletEditItemWidget extends Composite {
     String s = itemData.getName();
     SafeHtml sh = SimpleHtmlSanitizer.sanitizeHtml(s);
     tbName.setText(sh.asString());
-  }
-  
-  private void setName() {
-    String s = tbName.getText().trim();
-    if (s != null && s.length() == 0) {
-      s = "My Wallet";
-    }
-    if (itemData != null && s.equals(itemData.getName()) == false) {
-      fireChange();
-    }
-  }
-
-  private String getName() {
-    String s = tbName.getText().trim();
-    if (s.length() == 0) {
-      s = null;
-    }
-    return s;
   }
 
   private void delete() {
@@ -185,6 +177,7 @@ public class WalletEditItemWidget extends Composite {
     stateIs = state;
     if (state == State.VIEW) {
       setStateView();
+      
     } else if (state == State.EDIT) {
       setStateEdit();
     }
@@ -192,10 +185,12 @@ public class WalletEditItemWidget extends Composite {
 
   private void setStateView() {
     tbName.setEdit(false);
+    bDelete.setVisible(false);
   }
 
   private void setStateEdit() {
     tbName.setEdit(true);
+    bDelete.setVisible(true);
   }
 
   private void fireChange() {
@@ -211,6 +206,7 @@ public class WalletEditItemWidget extends Composite {
   public void onTbNameTouchStart(TouchStartEvent event) {
     if (stateIs == State.VIEW) {
       setState(State.EDIT);
+      
     } else if (stateIs == State.EDIT) {
       setState(State.VIEW);
     }
@@ -218,7 +214,6 @@ public class WalletEditItemWidget extends Composite {
   
   @UiHandler("tbName")
   void onTbNameChange(ChangeEvent event) {
-    drawName();
     fireChange();
   }
 
@@ -234,8 +229,8 @@ public class WalletEditItemWidget extends Composite {
   
   @UiHandler("focusPanel")
   void onFocusPanelMouseOut(MouseOutEvent event) {
-    setName();
     setState(State.VIEW);
+    fireChange();
   }
 
 
