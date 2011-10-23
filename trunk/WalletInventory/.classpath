@@ -127,5 +127,6 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/GoneVertical-Core"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
