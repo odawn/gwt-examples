@@ -15,7 +15,6 @@
 			<param-value>WEB-INF/classes/symbolMaps/</param-value>
 		</init-param>
 	</servlet>
-
 	<servlet-mapping>
 		<servlet-name>requestFactoryServlet</servlet-name>
 		<url-pattern>/gwtRequest</url-pattern>
