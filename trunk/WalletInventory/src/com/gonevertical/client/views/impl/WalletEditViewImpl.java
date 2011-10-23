@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.gonevertical.core.client.input.WiseTextBox;
+
 import com.gonevertical.client.app.ApplicationFactory;
 import com.gonevertical.client.app.activity.places.WalletListPlace;
 import com.gonevertical.client.app.requestfactory.ApplicationRequestFactory;
@@ -51,8 +53,7 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
 
   private static WalletEditViewUiBinder uiBinder = GWT.create(WalletEditViewUiBinder.class);
   @UiField VerticalPanel pList;
-  @UiField HTML htmlName;
-  @UiField TextBox tbName;
+  @UiField WiseTextBox tbName;
   @UiField PushButton bFinished;
   @UiField PushButton bAdd;
   @UiField FocusPanel pFocusName;
@@ -69,6 +70,8 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
 
   public WalletEditViewImpl() {
     initWidget(uiBinder.createAndBindUi(this));
+    
+    tbName.setEdit(false);
   }
 
   @Override
@@ -148,14 +151,12 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
         walletData.getName().trim().length() == 0) {
       String s = "My Wallet";
       tbName.setText(s);
-      htmlName.setHTML(s);
       return;
     }
     
     String s = walletData.getName();
     SafeHtml sh = SimpleHtmlSanitizer.sanitizeHtml(s);
     tbName.setText(sh.asString());
-    htmlName.setHTML(sh);
   }
   
   private void setName() {
@@ -164,7 +165,6 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
       s = "My Wallet";
     }
     if (walletData != null && s.equals(walletData.getName()) == false) {
-      htmlName.setHTML(SimpleHtmlSanitizer.sanitizeHtml(s));
       save();
     }
   }
@@ -237,13 +237,11 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
   }
 
   private void setStateView() {
-    htmlName.setVisible(true);
-    tbName.setVisible(false);
+    tbName.setEdit(false);
   }
 
   private void setStateEdit() {
-    htmlName.setVisible(false);
-    tbName.setVisible(true);
+    tbName.setEdit(true);
   }
   
   @UiHandler("tbName")

@@ -3,6 +3,8 @@ package com.gonevertical.client.views.widgets;
 import java.util.Iterator;
 import java.util.List;
 
+import org.gonevertical.core.client.input.WiseTextBox;
+
 import com.gonevertical.client.app.ApplicationFactory;
 import com.gonevertical.client.app.activity.places.WalletEditPlace;
 import com.gonevertical.client.app.requestfactory.dto.WalletDataProxy;
@@ -50,8 +52,7 @@ public class WalletListItemWidget extends Composite {
   private ApplicationFactory appFactory;
 
   private static WalletListItemWidgetUiBinder uiBinder = GWT.create(WalletListItemWidgetUiBinder.class);
-  @UiField HTML htmlName;
-  @UiField TextBox tbName;
+  @UiField WiseTextBox tbName;
   @UiField FocusPanel pFocus;
   @UiField PushButton bDelete;
   @UiField PushButton bView;
@@ -98,14 +99,13 @@ public class WalletListItemWidget extends Composite {
         walletData.getName().trim().length() == 0) {
       String s = index + " Item in wallet";
       tbName.setText(s);
-      htmlName.setHTML(s);
       return;
     }
     
     String s = walletData.getName();
     SafeHtml sh = SimpleHtmlSanitizer.sanitizeHtml(s);
     tbName.setText(sh.asString());
-    htmlName.setHTML(sh);
+   
   }
 
   public void edit() {
@@ -193,13 +193,11 @@ public class WalletListItemWidget extends Composite {
   }
 
   private void setStateView() {
-    htmlName.setVisible(true);
-    tbName.setVisible(false);
+    tbName.setEdit(false);
   }
 
   private void setStateEdit() {
-    htmlName.setVisible(false);
-    tbName.setVisible(true);
+    tbName.setEdit(true);
   }
 
   @UiHandler("tbName")

@@ -1,5 +1,7 @@
 package com.gonevertical.client.views.widgets;
 
+import org.gonevertical.core.client.input.WiseTextBox;
+
 import com.gonevertical.client.app.ApplicationFactory;
 import com.gonevertical.client.app.requestfactory.ApplicationRequestFactory;
 import com.gonevertical.client.app.requestfactory.WalletDataRequest;
@@ -49,8 +51,7 @@ public class WalletEditItemWidget extends Composite {
   private ApplicationFactory appFactory;
 
   private static WalletEditItemWidgetUiBinder uiBinder = GWT.create(WalletEditItemWidgetUiBinder.class);
-  @UiField HTML htmlName;
-  @UiField TextBox tbName;
+  @UiField WiseTextBox tbName;
   @UiField PushButton bDelete;
   @UiField FocusPanel focusPanel;
 
@@ -113,14 +114,12 @@ public class WalletEditItemWidget extends Composite {
         itemData.getName().trim().length() == 0) {
       String s = index + " Frequent Card 1-800-123-xxxx ";
       tbName.setText(s);
-      htmlName.setHTML(s);
       return;
     }
     
     String s = itemData.getName();
     SafeHtml sh = SimpleHtmlSanitizer.sanitizeHtml(s);
     tbName.setText(sh.asString());
-    htmlName.setHTML(sh);
   }
   
   private void setName() {
@@ -129,7 +128,6 @@ public class WalletEditItemWidget extends Composite {
       s = "My Wallet";
     }
     if (itemData != null && s.equals(itemData.getName()) == false) {
-      htmlName.setHTML(SimpleHtmlSanitizer.sanitizeHtml(s));
       fireChange();
     }
   }
@@ -169,7 +167,7 @@ public class WalletEditItemWidget extends Composite {
     req.fire(new Receiver<Boolean>() {
       public void onSuccess(Boolean data) {
         wLoading.showLoading(false);
-        if (data != null || data.booleanValue() == true) {
+        if (data != null && data.booleanValue() == true) {
           removeFromParent();
           fireChange();
         } else {
@@ -193,14 +191,11 @@ public class WalletEditItemWidget extends Composite {
   }
 
   private void setStateView() {
-    drawName();
-    htmlName.setVisible(true);
-    tbName.setVisible(false);
+    tbName.setEdit(false);
   }
 
   private void setStateEdit() {
-    htmlName.setVisible(false);
-    tbName.setVisible(true);
+    tbName.setEdit(true);
   }
 
   private void fireChange() {
