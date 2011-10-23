@@ -21,8 +21,6 @@ public class WalletListPlace extends Place {
      */
     @Override 
     public String getToken(WalletListPlace place) {
-      System.out.println("WalletListPlace.getToken(place)");
-      
       return place.getToken();
     }
 
@@ -31,8 +29,6 @@ public class WalletListPlace extends Place {
      */
     @Override
     public WalletListPlace getPlace(String token) {
-      System.out.println("WalletListPlace.getPlace(token)");
-      
       return new WalletListPlace(token);
     }
 

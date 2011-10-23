@@ -18,7 +18,8 @@ public class SignInPlace extends Place {
     
     @Override
     public String getToken(SignInPlace place) {
-      return place.getToken();
+      String token = place.getToken();
+      return token;
     }
 
     @Override
