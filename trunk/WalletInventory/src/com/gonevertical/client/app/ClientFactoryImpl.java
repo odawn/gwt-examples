@@ -3,6 +3,8 @@ package com.gonevertical.client.app;
 import com.gonevertical.client.app.activity.ApplicationActivityMapper;
 import com.gonevertical.client.app.activity.ApplicationPlaceHistoryMapper;
 import com.gonevertical.client.app.activity.places.SignInPlace;
+import com.gonevertical.client.app.activity.places.WalletEditPlace;
+import com.gonevertical.client.app.activity.places.WalletListPlace;
 import com.gonevertical.client.app.requestfactory.ApplicationRequestFactory;
 import com.gonevertical.client.app.requestfactory.dto.UserDataProxy;
 import com.gonevertical.client.app.user.AuthEvent;
@@ -58,7 +60,7 @@ public class ClientFactoryImpl implements ClientFactory {
   /**
    * URL tokenizer's director (URL event flagger|flagman)
    */
-  private final PlaceHistoryHandler placeHistoryHandler = new PlaceHistoryHandler(historyMapper);
+  private final PlaceHistoryHandler placeHistoryHandler;
   
   /**
    * app place's director (internal flagger|flagman)
@@ -81,7 +83,13 @@ public class ClientFactoryImpl implements ClientFactory {
     // shell for app
     activityManager.setDisplay(appWidget);
     
-    // setup defaults
+    // 
+    historyMapper.setFactory(requestFactory);
+    
+    
+    placeHistoryHandler = new PlaceHistoryHandler(historyMapper);
+    
+    // This is not deprecated if you see it so!
     placeHistoryHandler.register(placeController, eventBus, defaultPlace);
     
     
@@ -137,7 +145,18 @@ public class ClientFactoryImpl implements ClientFactory {
   }
   
   
-
-
+  
+  /***
+   * how do these get registered, I'm assuming requestfactory picks them up due to the interface declaration
+   */
+  public SignInPlace.Tokenizer getSignInTokenizer() {
+    return new SignInPlace.Tokenizer(requestFactory);
+  }
+  public WalletListPlace.Tokenizer getWalletListTokenizer() {
+    return new WalletListPlace.Tokenizer(requestFactory);
+  }
+  public WalletEditPlace.Tokenizer getWalletEditTokenizer() {
+    return new WalletEditPlace.Tokenizer(requestFactory);
+  }
 
 }

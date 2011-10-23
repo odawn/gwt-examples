@@ -1,5 +1,8 @@
 package com.gonevertical.client.app;
 
+import com.gonevertical.client.app.activity.places.SignInPlace;
+import com.gonevertical.client.app.activity.places.WalletEditPlace;
+import com.gonevertical.client.app.activity.places.WalletListPlace;
 import com.gonevertical.client.app.requestfactory.ApplicationRequestFactory;
 import com.gonevertical.client.app.requestfactory.dto.UserDataProxy;
 import com.google.gwt.activity.shared.ActivityManager;
@@ -20,7 +23,11 @@ public interface ClientFactory {
   UserDataProxy getUserData();
 
   ActivityManager getActivityManager();
-
   
-	
+  
+  SignInPlace.Tokenizer getSignInTokenizer();
+  
+  WalletListPlace.Tokenizer getWalletListTokenizer();
+  
+  WalletEditPlace.Tokenizer getWalletEditTokenizer();
 }

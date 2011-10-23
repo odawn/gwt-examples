@@ -3,6 +3,10 @@ package com.gonevertical.client.views.widgets;
 import java.util.Iterator;
 import java.util.List;
 
+import org.gonevertical.core.client.dialog.bool.BooleanDialog;
+import org.gonevertical.core.client.dialog.bool.BooleanEvent;
+import org.gonevertical.core.client.dialog.bool.BooleanEventHandler;
+import org.gonevertical.core.client.dialog.bool.BooleanEvent.Selected;
 import org.gonevertical.core.client.input.WiseTextBox;
 import org.gonevertical.core.client.loading.LoadingWidget;
 
@@ -11,10 +15,6 @@ import com.gonevertical.client.app.activity.places.WalletEditPlace;
 import com.gonevertical.client.app.requestfactory.WalletDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.WalletDataProxy;
 import com.gonevertical.client.app.requestfactory.dto.WalletItemDataProxy;
-import com.gonevertical.client.global.booleandialog.BooleanDialog;
-import com.gonevertical.client.global.booleandialog.BooleanEvent;
-import com.gonevertical.client.global.booleandialog.BooleanEvent.Selected;
-import com.gonevertical.client.global.booleandialog.BooleanEventHandler;
 import com.gonevertical.client.views.WalletListView.Presenter;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

@@ -1,5 +1,9 @@
 package com.gonevertical.client.views.widgets;
 
+import org.gonevertical.core.client.dialog.bool.BooleanDialog;
+import org.gonevertical.core.client.dialog.bool.BooleanEvent;
+import org.gonevertical.core.client.dialog.bool.BooleanEventHandler;
+import org.gonevertical.core.client.dialog.bool.BooleanEvent.Selected;
 import org.gonevertical.core.client.input.WiseTextBox;
 import org.gonevertical.core.client.loading.LoadingWidget;
 
@@ -7,10 +11,6 @@ import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.requestfactory.ApplicationRequestFactory;
 import com.gonevertical.client.app.requestfactory.WalletDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.WalletItemDataProxy;
-import com.gonevertical.client.global.booleandialog.BooleanDialog;
-import com.gonevertical.client.global.booleandialog.BooleanEvent;
-import com.gonevertical.client.global.booleandialog.BooleanEvent.Selected;
-import com.gonevertical.client.global.booleandialog.BooleanEventHandler;
 import com.gonevertical.client.views.WalletEditView.Presenter;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;

@@ -1,11 +1,8 @@
 package com.gonevertical.client.app.activity;
 
-import com.gonevertical.client.app.activity.places.SignInPlace;
-import com.gonevertical.client.app.activity.places.WalletEditPlace;
-import com.gonevertical.client.app.activity.places.WalletListPlace;
-import com.google.gwt.place.shared.PlaceHistoryMapper;
+import com.google.gwt.place.shared.PlaceHistoryMapperWithFactory;
 import com.google.gwt.place.shared.PlaceTokenizer;
-import com.google.gwt.place.shared.WithTokenizers;
+import com.google.web.bindery.requestfactory.shared.RequestFactory;
 
 /**
  * PlaceHistoryMapper interface is used to attach all places which the
@@ -20,18 +17,6 @@ import com.google.gwt.place.shared.WithTokenizers;
  * 
  * @param <F> factory type
  */
-
-@WithTokenizers({ 
-  SignInPlace.Tokenizer.class, 
-  WalletListPlace.Tokenizer.class, 
-  WalletEditPlace.Tokenizer.class })
-public interface ApplicationPlaceHistoryMapper /*<F>*/ extends PlaceHistoryMapper {
-  
-  /**
-   * Sets the factory to be used to generate {@link PlaceTokenizer} instances.
-   *
-   * @param factory a factory of type F
-   */
-  //void setFactory(F factory);
-  
+// @WithTokenizers({ SignInPlace.Tokenizer.class, WalletListPlace.Tokenizer.class, WalletEditPlace.Tokenizer.class })
+public interface ApplicationPlaceHistoryMapper extends PlaceHistoryMapperWithFactory<RequestFactory> {
 }
