@@ -63,7 +63,7 @@ public class ClientFactoryImpl implements ClientFactory {
   private final PlaceHistoryHandler placeHistoryHandler;
   
   /**
-   * app place's director (internal flagger|flagman)
+   * app place's director (internal flagger|flagman) (not deprecated if your seeing it)
    */
   private final PlaceController placeController = new PlaceController(eventBus);
   
@@ -83,8 +83,8 @@ public class ClientFactoryImpl implements ClientFactory {
     // shell for app
     activityManager.setDisplay(appWidget);
     
-    // 
-    historyMapper.setFactory(requestFactory);
+    // tell the historyMapper there are tokenizers (below) to use in here. 
+    historyMapper.setFactory(this);
     
     
     placeHistoryHandler = new PlaceHistoryHandler(historyMapper);
@@ -146,15 +146,26 @@ public class ClientFactoryImpl implements ClientFactory {
   
   
   
+  
+  
   /***
-   * how do these get registered, I'm assuming requestfactory picks them up due to the interface declaration
+   * Used by the HistoryMapper { @link ApplicationPlaceHistoryMapper }
+   * Picked up by the historyMapper when needed.
+   * this way, I can send in objects like the requestFactory into them and use it
+   *  otherwise, the HistoryMapper runs decoupled with this here we can push objects into it.
    */
   public SignInPlace.Tokenizer getSignInTokenizer() {
     return new SignInPlace.Tokenizer(requestFactory);
   }
+  /**
+   * Used by the HistoryMapper { @link ApplicationPlaceHistoryMapper }
+   */
   public WalletListPlace.Tokenizer getWalletListTokenizer() {
     return new WalletListPlace.Tokenizer(requestFactory);
   }
+  /**
+   * Used by the HistoryMapper { @link ApplicationPlaceHistoryMapper }
+   */
   public WalletEditPlace.Tokenizer getWalletEditTokenizer() {
     return new WalletEditPlace.Tokenizer(requestFactory);
   }

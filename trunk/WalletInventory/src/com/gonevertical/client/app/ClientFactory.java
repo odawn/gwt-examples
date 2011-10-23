@@ -25,9 +25,19 @@ public interface ClientFactory {
   ActivityManager getActivityManager();
   
   
+  
+  
+  /**
+   * used by the historyMapper
+   */
   SignInPlace.Tokenizer getSignInTokenizer();
-  
+  /**
+   * used by the historyMapper
+   */
   WalletListPlace.Tokenizer getWalletListTokenizer();
-  
+  /**
+   * used by the historyMapper
+   */
   WalletEditPlace.Tokenizer getWalletEditTokenizer();
+  
 }
