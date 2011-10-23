@@ -14,6 +14,8 @@ public class SignInActivity extends AbstractActivity implements SignInView.Prese
   private SignInView view;
   
   private ClientFactory clientFactory;
+
+  private boolean running;
   
   public SignInActivity(SignInPlace place, ClientFactory clientFactory) {
     this.clientFactory = clientFactory;
@@ -33,12 +35,16 @@ public class SignInActivity extends AbstractActivity implements SignInView.Prese
     view.start();
   }
 
-  /* not needed
+  
   @Override
   public String mayStop() {
-    return "Please hold on. This activity is stopping.";
+    String s = null;
+    if (running == true) {
+      s = "Please hold on. This activity is stopping.";
+    }
+    return s;
   }
-  */
+  
 
   /**
    * Navigate to a new Place in the browser
@@ -47,4 +53,10 @@ public class SignInActivity extends AbstractActivity implements SignInView.Prese
     clientFactory.getPlaceController().goTo(place);
   }
   
+  /**
+   * setting this running, and activity move, then a warning dailog will popup
+   */
+  public void setRunning(boolean running) {
+    this.running = running;
+  }
 }

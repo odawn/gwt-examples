@@ -8,6 +8,8 @@ public interface SignInView extends IsWidget {
 
   interface Presenter {
     void goTo(Place place);
+    
+    void setRunning(boolean running);
   }
 
   void setPresenter(Presenter presenter);
@@ -15,6 +17,4 @@ public interface SignInView extends IsWidget {
   void setClientFactory(ClientFactory clientFactory);
   
   void start();
-
-  
 }

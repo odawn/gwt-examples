@@ -18,6 +18,8 @@ public class WalletEditActivity extends AbstractActivity implements WalletEditVi
   
   private WalletDataProxy walletData;
 
+  private boolean running;
+
   public WalletEditActivity(WalletEditPlace place, ClientFactory clientFactory) {
     this.walletData = place.getWalletData();
     this.clientFactory = clientFactory;
@@ -43,7 +45,11 @@ public class WalletEditActivity extends AbstractActivity implements WalletEditVi
    */
   @Override
   public String mayStop() {
-    return "Please hold on. This activity is stopping.";
+    String s = null;
+    if (running == true) {
+      s = "Please hold on. This activity is stopping.";
+    }
+    return s;
   }
 
   /**
@@ -51,6 +57,10 @@ public class WalletEditActivity extends AbstractActivity implements WalletEditVi
    */
   public void goTo(Place place) {
     clientFactory.getPlaceController().goTo(place);
+  }
+  
+  public void setRunning(boolean running) {
+    this.running = running;
   }
   
 }

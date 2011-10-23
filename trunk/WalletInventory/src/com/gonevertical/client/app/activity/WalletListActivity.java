@@ -9,11 +9,13 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-public class WalletListActivity extends AbstractActivity implements WalletListView.Presenter{
+public class WalletListActivity extends AbstractActivity implements WalletListView.Presenter {
 
   private WalletListView view;
 
   private ClientFactory clientFactory;
+  
+  private boolean running = false;
 
   public WalletListActivity(WalletListPlace place, ClientFactory clientFactory) {
     this.clientFactory = clientFactory;
@@ -38,7 +40,11 @@ public class WalletListActivity extends AbstractActivity implements WalletListVi
    */
   @Override
   public String mayStop() {
-    return "Please hold on. This activity is stopping.";
+    String s = null;
+    if (running == true) {
+      s = "Please hold on. This activity is stopping.";
+    } 
+    return s;
   }
 
   /**
@@ -46,6 +52,10 @@ public class WalletListActivity extends AbstractActivity implements WalletListVi
    */
   public void goTo(Place place) {
     clientFactory.getPlaceController().goTo(place);
+  }
+  
+  public void setRunning(boolean running) {
+    this.running = running;
   }
   
 }

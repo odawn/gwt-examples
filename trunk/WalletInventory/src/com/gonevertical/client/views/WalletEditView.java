@@ -9,6 +9,8 @@ public interface WalletEditView extends IsWidget {
 
   interface Presenter {
     void goTo(Place place);
+    
+    void setRunning(boolean running);
   }
 
   void setPresenter(Presenter presenter);
@@ -18,6 +20,4 @@ public interface WalletEditView extends IsWidget {
   void setData(WalletDataProxy walletData);
   
   void draw();
-
-  
 }

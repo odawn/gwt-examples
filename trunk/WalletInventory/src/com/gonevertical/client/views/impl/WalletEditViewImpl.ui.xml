@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.gonevertical.client.global.loadingwidget" xmlns:p2="urn:import:org.gonevertical.core.client.input">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:org.gonevertical.core.client.loading" xmlns:p2="urn:import:org.gonevertical.core.client.input">
 	<ui:style>
 		
 	</ui:style>

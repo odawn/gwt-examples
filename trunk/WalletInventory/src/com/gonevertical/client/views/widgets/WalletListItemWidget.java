@@ -4,9 +4,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.gonevertical.core.client.input.WiseTextBox;
+import org.gonevertical.core.client.loading.LoadingWidget;
 
 import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.activity.places.WalletEditPlace;
+import com.gonevertical.client.app.requestfactory.WalletDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.WalletDataProxy;
 import com.gonevertical.client.app.requestfactory.dto.WalletItemDataProxy;
 import com.gonevertical.client.global.booleandialog.BooleanDialog;
@@ -63,6 +65,8 @@ public class WalletListItemWidget extends Composite {
 
   private int index;
 
+  private LoadingWidget wLoading;
+
   interface WalletListItemWidgetUiBinder extends UiBinder<Widget, WalletListItemWidget> {
   }
 
@@ -85,6 +89,10 @@ public class WalletListItemWidget extends Composite {
   public void setClientFactory(ClientFactory clientFactory) {
     this.clientFactory = clientFactory;
   }
+  
+  public void setLoadingWidget(LoadingWidget wLoading) {
+    this.wLoading = wLoading;
+  }
 
   public void draw() {
 
@@ -97,7 +105,7 @@ public class WalletListItemWidget extends Composite {
     if (walletData == null || 
         walletData.getName() == null || 
         walletData.getName().trim().length() == 0) {
-      String s = index + " Item in wallet";
+      String s = index + " My Wallet";
       tbName.setText(s);
       return;
     }
@@ -105,22 +113,12 @@ public class WalletListItemWidget extends Composite {
     String s = walletData.getName();
     SafeHtml sh = SimpleHtmlSanitizer.sanitizeHtml(s);
     tbName.setText(sh.asString());
-   
   }
 
   public void edit() {
 
     // goto to edit view
     presenter.goTo(new WalletEditPlace(walletData));
-    
-  }
-
-  private void setNameData() {
-    if (walletData == null) {
-      // this shouldn't happen
-      return;
-    }
-    walletData.setName(getName());
   }
 
   private String getName() {
@@ -132,12 +130,29 @@ public class WalletListItemWidget extends Composite {
   }
 
   private void save() {
-    Request<WalletDataProxy> req = clientFactory.getRequestFactory().getWalletDataRequest().persist().using(walletData);
+    
+    // only update in this view
+    if (walletData == null) {
+      return;
+    }
+    
+    WalletDataRequest request = clientFactory.getRequestFactory().getWalletDataRequest();
+    walletData = request.edit(walletData);
+    
+    walletData.setName(getName());
+    
+    presenter.setRunning(true);
+    wLoading.showLoading(true);
+    Request<WalletDataProxy> req = request.persist().using(walletData);
     req.fire(new Receiver<WalletDataProxy>() {
       public void onSuccess(WalletDataProxy walletData) {
+        wLoading.showLoading(false);
         process(walletData);
+        presenter.setRunning(false);
       }
       public void onFailure(ServerFailure error) {
+        wLoading.showError();
+        presenter.setRunning(false);
         super.onFailure(error);
       }
     });
@@ -168,16 +183,22 @@ public class WalletListItemWidget extends Composite {
       removeFromParent();
       return;
     }
+    wLoading.showLoading(true);
+    presenter.setRunning(true);
     Request<Boolean> req = clientFactory.getRequestFactory().getWalletDataRequest().deleteWalletData(walletData.getId());
     req.fire(new Receiver<Boolean>() {
       public void onSuccess(Boolean data) {
+        wLoading.showLoading(false);
         if (data != null && data.booleanValue() == true) {
           removeFromParent();
         } else {
-          // TODO show error
+          wLoading.showError("Oops, I couldn't delete that for some reason.");
         }
+        presenter.setRunning(false);
       }
       public void onFailure(ServerFailure error) {
+        wLoading.showError();
+        presenter.setRunning(false);
         super.onFailure(error);
       }
     });
@@ -226,9 +247,7 @@ public class WalletListItemWidget extends Composite {
 
   @UiHandler("tbName")
   void onTbNameChange(ChangeEvent event) {
-    setNameData();
     save();
-    drawName();
   }
 
   @UiHandler("bDelete")
@@ -240,5 +259,7 @@ public class WalletListItemWidget extends Composite {
   public void onBViewClick(ClickEvent event) {
     edit();
   }
+
+  
 
 }

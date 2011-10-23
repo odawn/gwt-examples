@@ -3,9 +3,10 @@ package com.gonevertical.client.views.impl;
 import java.util.Iterator;
 import java.util.List;
 
+import org.gonevertical.core.client.loading.LoadingWidget;
+
 import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.requestfactory.dto.WalletDataProxy;
-import com.gonevertical.client.global.loadingwidget.LoadingWidget;
 import com.gonevertical.client.views.WalletListView;
 import com.gonevertical.client.views.widgets.WalletListItemWidget;
 import com.google.gwt.core.client.GWT;
@@ -103,6 +104,7 @@ public class WalletListViewImpl extends Composite implements WalletListView {
     pList.add(wItem);
     wItem.setPresenter(presenter);
     wItem.setClientFactory(clientFactory);
+    wItem.setLoadingWidget(wLoading);
     wItem.setData(i, walletDataProxy);
     wItem.draw();
     return wItem;

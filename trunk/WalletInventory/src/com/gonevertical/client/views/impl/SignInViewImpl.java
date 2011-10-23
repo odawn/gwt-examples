@@ -1,12 +1,13 @@
 package com.gonevertical.client.views.impl;
 
+import org.gonevertical.core.client.loading.LoadingWidget;
+
 import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.activity.places.WalletListPlace;
 import com.gonevertical.client.app.requestfactory.dto.UserDataProxy;
 import com.gonevertical.client.app.user.AuthEvent;
 import com.gonevertical.client.app.user.AuthEvent.Auth;
 import com.gonevertical.client.app.user.AuthEventHandler;
-import com.gonevertical.client.global.loadingwidget.LoadingWidget;
 import com.gonevertical.client.views.SignInView;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.URL;

@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.gonevertical.core.client.input.WiseTextBox;
+import org.gonevertical.core.client.loading.LoadingWidget;
 
 import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.activity.places.WalletListPlace;
@@ -38,7 +39,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
-import com.gonevertical.client.global.loadingwidget.LoadingWidget;
 
 public class WalletEditViewImpl extends Composite implements WalletEditView {
 
@@ -186,6 +186,7 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
     }
     savingInProgress = true;
     wLoading.showLoading(true, "Saving...");
+    presenter.setRunning(true);
     
     // get the requestContext
     WalletDataRequest request = clientFactory.getRequestFactory().getWalletDataRequest();
@@ -207,6 +208,7 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
       public void onSuccess(WalletDataProxy walletData) {
         wLoading.showLoading(false);
         process(walletData);
+        presenter.setRunning(false);
         
         savingInProgress = false;
         if (scheduleSave == true) {
@@ -218,6 +220,7 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
         wLoading.showError();
         savingInProgress = false;
         scheduleSave = false;
+        presenter.setRunning(false);
         super.onFailure(error);
       }
     });
