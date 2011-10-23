@@ -132,7 +132,7 @@ public class WiseTextArea extends TextArea {
 
   private void setup(boolean hideBorderUntilHover, boolean grow) {
 
-    setStyleName("gv-core-WiseTextArea");
+    addStyleName("gv-core-WiseTextArea");
 
     setupGrow(grow);
 

@@ -92,6 +92,8 @@ public class WiseTextBox extends TextBox {
 
   private boolean delayedClone;
 
+  private boolean hideBorderUntilHover;
+
   public WiseTextBox() {
     super();
     setup(false, true);
@@ -103,16 +105,22 @@ public class WiseTextBox extends TextBox {
   }
 
   private void setup(boolean hideBorderUntilHover, boolean grow) {
-
-    setStyleName("gv-core-WiseTextBox");
+    this.hideBorderUntilHover = hideBorderUntilHover;
+    
+    addStyleName("gv-core-WiseTextBox");
 
     setOriginalSize();
 
     setupGrow(grow);
 
-    setUpEditHover(hideBorderUntilHover);
+    setUpEditHover();
 
     setupHiddenPanel();
+  }
+  
+  public void setEditHover(boolean hideBorderUntilHover) {
+    this.hideBorderUntilHover = hideBorderUntilHover;
+    setUpEditHover();
   }
 
   /**
@@ -133,28 +141,32 @@ public class WiseTextBox extends TextBox {
   /**
    * hide border until hovering over the input
    */
-  private void setUpEditHover(boolean hideBorderUntilHover) {
-    if (hideBorderUntilHover == false) {
-      return;
+  private void setUpEditHover() {
+    if (hideBorderUntilHover == true) {
+      setEdit(false);
     }
-
-    setEdit(false);
 
     addMouseOverHandler(new MouseOverHandler() {
       public void onMouseOver(MouseOverEvent event) {
-        setEdit(true);
+        if (hideBorderUntilHover == true) {
+          setEdit(true);
+        }
       }
     });
 
     addMouseOutHandler(new MouseOutHandler() {
       public void onMouseOut(MouseOutEvent event) {
-        setEdit(false);
+        if (hideBorderUntilHover == true) {
+          setEdit(false);  
+        }
       }
     });
 
     addTouchStartHandler(new TouchStartHandler() {
       public void onTouchStart(TouchStartEvent event) {
-        setTouched();
+        if (hideBorderUntilHover == true) {
+          setTouched();  
+        }
       }
     });
   }
