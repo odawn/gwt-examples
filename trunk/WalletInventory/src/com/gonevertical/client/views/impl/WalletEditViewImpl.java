@@ -9,21 +9,18 @@ import org.gonevertical.core.client.loading.LoadingWidget;
 
 import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.activity.places.WalletListPlace;
-import com.gonevertical.client.app.requestfactory.ApplicationRequestFactory;
 import com.gonevertical.client.app.requestfactory.WalletDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.WalletDataProxy;
 import com.gonevertical.client.app.requestfactory.dto.WalletItemDataProxy;
 import com.gonevertical.client.views.WalletEditView;
 import com.gonevertical.client.views.widgets.WalletEditItemWidget;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SimpleHtmlSanitizer;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -31,11 +28,10 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.web.bindery.requestfactory.shared.EntityProxyId;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
@@ -93,6 +89,28 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
     drawName();
     
     drawItems();
+  }
+  
+  /**
+   * when loading data form url
+   */
+  public void draw(EntityProxyId<WalletDataProxy> walletDataId) {
+    wLoading.showLoading(true);
+    presenter.setRunning(true);
+    Request<WalletDataProxy> request = clientFactory.getRequestFactory().getWalletDataRequest().find(walletDataId);
+    request.fire(new Receiver<WalletDataProxy>() {
+      public void onSuccess(WalletDataProxy walletData) {
+        wLoading.showLoading(false);
+        setData(walletData);
+        draw();
+        presenter.setRunning(false);
+      }
+      public void onFailure(ServerFailure error) {
+        wLoading.showError();
+        presenter.setRunning(false);
+        super.onFailure(error);
+      }
+    });
   }
 
   private void drawItems() {
@@ -282,4 +300,6 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
   void onBFinishedClick(ClickEvent event) {
     presenter.goTo(new WalletListPlace(null));
   }
+
+ 
 }

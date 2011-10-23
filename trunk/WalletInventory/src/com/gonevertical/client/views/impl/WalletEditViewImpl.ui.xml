@@ -31,5 +31,9 @@
 			</g:Cell>
 		</g:HorizontalPanel>
 		<g:VerticalPanel ui:field="pList"/>
+		<g:HTML wordWrap="true">&nbsp;</g:HTML>
+		<g:Cell verticalAlignment="ALIGN_BOTTOM" horizontalAlignment="ALIGN_CENTER">
+			<g:HTML wordWrap="true">(Do not store actual account numbers here!)</g:HTML>
+		</g:Cell>
 	</g:VerticalPanel>
 </ui:UiBinder> 
