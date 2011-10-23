@@ -132,7 +132,7 @@ public class WiseTextArea extends TextArea {
 
   private void setup(boolean hideBorderUntilHover, boolean grow) {
 
-    setStyleName("AutoTextAreaEdit");
+    setStyleName("gv-core-WiseTextArea");
 
     setupGrow(grow);
 
@@ -203,11 +203,11 @@ public class WiseTextArea extends TextArea {
   }
 
   private void setEdit() {
-    removeStyleName("AutoTextAreaEdit-readonly");
+    removeStyleName("gv-core-WiseTextArea-readonly");
   }
 
   private void setView() {
-    addStyleName("AutoTextAreaEdit-readonly");
+    addStyleName("gv-core-WiseTextArea-readonly");
   }
 
   private void setNewSize() {
@@ -351,22 +351,13 @@ public class WiseTextArea extends TextArea {
     hiddenPanel = new AbsolutePanel();
     RootPanel.get().add(hiddenPanel);
     
-    // create a spot to measure html
-    // note text area you would want to wrap
+    // create a spot to measure html - note text area you would want to wrap
     htmlForSizeTesting = new HTML("", true); 
-    hiddenPanel.add(htmlForSizeTesting);
-    htmlForSizeTesting.setStyleName("AutoTextAreaEdit-Break"); // css3 long word breaking
-    //hiddenPanel.add(hp, -1000, -1000); // hide it from view
-    
+    hiddenPanel.add(htmlForSizeTesting, -1000, -1000); // hide it from view
+    htmlForSizeTesting.setStyleName("gv-core-WiseTextArea-Break"); // css3 long word breaking
+   
     // setup width constraint
     setTextContainerWidth(Integer.toString(getOffsetWidth()));
-
-    // for debugging
-    hiddenPanel.addStyleName("test1");
-    htmlForSizeTesting.addStyleName("test2");
-    
-    // for some reason, the computed style takes a sec to kick in.... hmmmm, probably due to attaching time
-    //cloneStyle();
   }
   
   private void setTextContainerWidth(String width) {

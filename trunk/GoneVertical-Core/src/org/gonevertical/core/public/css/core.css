@@ -1,17 +1,17 @@
 
-.AutoTextBoxEdit {
+.gv-core-WiseTextBox {
 	padding: 2px;
 }
-.AutoTextBoxEdit-readonly {
+.gv-core-WiseTextBox-readonly {
 	padding: 4px;
 	border: 0;
 }
-.AutoTextAreaEdit {
+.gv-core-WiseTextArea {
 }
-.AutoTextAreaEdit-Break {
+.gv-core-WiseTextArea-Break {
   	/*CSS3 long word breaking*/
   	word-break: break-all;
 }
-.AutoTextAreaEdit-readonly {
+.gv-core-WiseTextArea-readonly {
 	border: 0;
 }

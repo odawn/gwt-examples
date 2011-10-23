@@ -104,7 +104,7 @@ public class WiseTextBox extends TextBox {
 
   private void setup(boolean hideBorderUntilHover, boolean grow) {
 
-    setStyleName("AutoTextBoxEdit");
+    setStyleName("gv-core-WiseTextBox");
 
     setOriginalSize();
 
@@ -179,11 +179,11 @@ public class WiseTextBox extends TextBox {
   }
 
   private void setEdit() {
-    removeStyleName("AutoTextBoxEdit-readonly");
+    removeStyleName("gv-core-WiseTextBox-readonly");
   }
 
   private void setView() {
-    addStyleName("AutoTextBoxEdit-readonly");
+    addStyleName("gv-core-WiseTextBox-readonly");
   }
 
   private void setSize() {
