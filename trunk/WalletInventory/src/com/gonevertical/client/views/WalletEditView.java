@@ -4,6 +4,7 @@ import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.requestfactory.dto.WalletDataProxy;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.web.bindery.requestfactory.shared.EntityProxyId;
 
 public interface WalletEditView extends IsWidget {
 
@@ -20,4 +21,6 @@ public interface WalletEditView extends IsWidget {
   void setData(WalletDataProxy walletData);
   
   void draw();
+  
+  void draw(EntityProxyId<WalletDataProxy> walletDataId);
 }
