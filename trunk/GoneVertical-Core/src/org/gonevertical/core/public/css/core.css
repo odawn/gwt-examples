@@ -1,0 +1,17 @@
+
+.AutoTextBoxEdit {
+	padding: 2px;
+}
+.AutoTextBoxEdit-readonly {
+	padding: 4px;
+	border: 0;
+}
+.AutoTextAreaEdit {
+}
+.AutoTextAreaEdit-Break {
+  	/*CSS3 long word breaking*/
+  	word-break: break-all;
+}
+.AutoTextAreaEdit-readonly {
+	border: 0;
+}
