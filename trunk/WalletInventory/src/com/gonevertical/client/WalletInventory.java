@@ -21,7 +21,8 @@ public class WalletInventory implements EntryPoint {
   public void onModuleLoad() {
 
     // The stuff inits in ApplicationFactoryImpl.java
-    
+    // I'm tempted to put the RootPanel here, but seems to work better in the factory
+    // I'll probably move something here later :) It's easier to describe whats going on with it all in the clientFactory...hmmmm
     
   }
 
