@@ -1,0 +1,32 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		
+	</ui:style>
+	<g:FlowPanel>
+		<g:VerticalPanel width="314px" height="121px">
+			<g:Cell horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_MIDDLE">
+				<g:HorizontalPanel horizontalAlignment="ALIGN_CENTER" ui:field="pMessage">
+					<g:Cell verticalAlignment="ALIGN_MIDDLE" horizontalAlignment="ALIGN_CENTER">
+						<g:HTML wordWrap="true" ui:field="htmlMessage">&nbsp;</g:HTML>
+					</g:Cell>
+				</g:HorizontalPanel>
+			</g:Cell>
+			<g:Cell verticalAlignment="ALIGN_BOTTOM" horizontalAlignment="ALIGN_CENTER">
+				<g:HorizontalPanel>
+					<g:Cell horizontalAlignment="ALIGN_CENTER">
+						<g:PushButton text="Yes" width="55px" ui:field="bYes"/>
+					</g:Cell>
+					<g:HTML wordWrap="true">&nbsp;&nbsp;&nbsp;&nbsp;</g:HTML>
+					<g:Cell horizontalAlignment="ALIGN_CENTER">
+						<g:PushButton text="No" width="55px" ui:field="bNo"/>
+					</g:Cell>
+				</g:HorizontalPanel>
+			</g:Cell>
+			<g:Cell verticalAlignment="ALIGN_BOTTOM">
+				<g:HTML wordWrap="true">&nbsp;</g:HTML>
+			</g:Cell>
+		</g:VerticalPanel>
+	</g:FlowPanel>
+</ui:UiBinder> 

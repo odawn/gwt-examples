@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='goneverticalcore'>
+
+  <!-- When working with ui designer stick the User lib in here -->
+  <inherits name='com.google.gwt.user.User'/>
  
   <stylesheet src="css/core.css"/>
  
