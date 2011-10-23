@@ -9,19 +9,32 @@ import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.web.bindery.requestfactory.shared.EntityProxyId;
 
 public class WalletEditActivity extends AbstractActivity implements WalletEditView.Presenter {
 
   private WalletEditView view;
 
   private ClientFactory clientFactory;
-  
+
+  /**
+   * when place came from app
+   */
   private WalletDataProxy walletData;
 
+  /**
+   * when place came from url
+   */
+  private EntityProxyId<WalletDataProxy> walletDataId;
+  
+  /**
+   * running if loading from datastore or saving to datastore
+   */
   private boolean running;
 
   public WalletEditActivity(WalletEditPlace place, ClientFactory clientFactory) {
     this.walletData = place.getWalletData();
+    this.walletDataId = place.getWalletDataId();
     this.clientFactory = clientFactory;
   }
 
@@ -36,8 +49,14 @@ public class WalletEditActivity extends AbstractActivity implements WalletEditVi
     view.setPresenter(this);
     view.setClientFactory(clientFactory);
     containerWidget.setWidget(view.asWidget());
-    view.setData(walletData);
-    view.draw();
+    
+    if (walletDataId != null) { 
+      view.draw(walletDataId);
+      
+    } else {
+      view.setData(walletData);
+      view.draw();
+    }
   }
 
   /**
