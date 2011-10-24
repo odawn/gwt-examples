@@ -1,52 +1,38 @@
- package com.gonevertical.client.views.impl;
-
-import org.gonevertical.core.client.loading.LoadingWidget;
+package com.gonevertical.client.views.widgets;
 
 import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.activity.places.WalletListPlace;
 import com.gonevertical.client.app.requestfactory.dto.UserDataProxy;
 import com.gonevertical.client.app.user.AuthEvent;
-import com.gonevertical.client.app.user.AuthEvent.Auth;
 import com.gonevertical.client.app.user.AuthEventHandler;
-import com.gonevertical.client.views.SignInView;
+import com.gonevertical.client.app.user.AuthEvent.Auth;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.web.bindery.requestfactory.shared.Receiver;
-import com.google.web.bindery.requestfactory.shared.Request;
-import com.google.web.bindery.requestfactory.shared.ServerFailure;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.HTML;
 
-public class SignInViewImpl extends Composite implements SignInView {
+public class LoginWidget extends Composite {
 
-  private Presenter presenter;
-
+  private static LoginWidgetUiBinder uiBinder = GWT.create(LoginWidgetUiBinder.class);
+  @UiField HTML htmlNick;
+  @UiField HTML htmlUrl;
+  
   private ClientFactory clientFactory;
   
   private boolean alreadyInit;
 
-  private static SignInViewImplUiBinder uiBinder = GWT.create(SignInViewImplUiBinder.class);
-  @UiField LoadingWidget wLoading;
-  @UiField HTML htmlSignIn;
-
-  interface SignInViewImplUiBinder extends UiBinder<Widget, SignInViewImpl> {
+  interface LoginWidgetUiBinder extends UiBinder<Widget, LoginWidget> {
   }
 
-  public SignInViewImpl() {
+  public LoginWidget() {
     initWidget(uiBinder.createAndBindUi(this));
   }
-
-  @Override
-  public void setPresenter(Presenter presenter) {
-    this.presenter = presenter;
-  }
-
-  @Override
+  
   public void setClientFactory(ClientFactory clientFactory) {
     this.clientFactory = clientFactory;
     
@@ -62,16 +48,11 @@ public class SignInViewImpl extends Composite implements SignInView {
     }
     alreadyInit = true;
   }
-
-  public void start() {
-
-    createUser();
-
-  }
-
+  
   private void setState(Auth auth, UserDataProxy userData) {
     if (auth == Auth.LOGGEDIN) {
-      setLoggedIn();
+      setLoggedIn(userData);
+      
     } else if (auth == Auth.LOGGEDOUT) {
       setLoggedOut(userData);
     }
@@ -96,40 +77,47 @@ public class SignInViewImpl extends Composite implements SignInView {
     // This is a must, always clean before draw
     SafeHtmlBuilder builder = new SafeHtmlBuilder();
     builder.appendHtmlConstant("<a href='" + url + "'>")
-    .appendEscaped("Please Sign In")
+    .appendEscaped("Sign In")
     .appendHtmlConstant("</a>");
-    htmlSignIn.setHTML(builder.toSafeHtml());
+    htmlUrl.setHTML(builder.toSafeHtml());
   }
 
   /**
    * logged in, lets go to the wallet list
    */
-  private void setLoggedIn() {
-    presenter.goTo(new WalletListPlace(null));
+  private void setLoggedIn(UserDataProxy userData) {
+    if (userData == null) {
+      return;
+    }
+    
+    setNick(userData);
+   
+    String url = userData.getLogoutUrl();
+    String qs = Window.Location.getQueryString();
+    if (qs != null) {
+      url += URL.encode(qs);
+    }
+    
+    // This is a must, always clean before draw
+    SafeHtmlBuilder builder = new SafeHtmlBuilder();
+    builder.appendHtmlConstant("<a href='" + url + "'>")
+    .appendEscaped("Sign Out")
+    .appendHtmlConstant("</a>");
+    htmlUrl.setHTML(builder.toSafeHtml());
   }
 
-  /**
-   * this will create/lookup a user in the datastore according to the Google Login
-   */
-  private void createUser() {
-    wLoading.showLoading(true, "Loading...");
-    Request<UserDataProxy> req = clientFactory.getRequestFactory().getUserDataRequest().createUserData();
-    req.fire(new Receiver<UserDataProxy>() {
-      public void onSuccess(UserDataProxy data) {
-        wLoading.showLoading(false);
-        process(data);
-      }
-      public void onFailure(ServerFailure error) {
-        wLoading.showLoading(false);
-        super.onFailure(error);
-      }
-    });
-  }
-
-  private void process(UserDataProxy data) {
-    clientFactory.setUserData(data);
+  private void setNick(UserDataProxy userData) {
+    if (userData == null) {
+      return;
+    }
     
+    String nick = userData.getGoogleNickname();
     
+    // This is a must, always clean before draw
+    SafeHtmlBuilder builder = new SafeHtmlBuilder();
+    builder.appendEscaped(nick);
+    
+    htmlNick.setHTML(builder.toSafeHtml());
   }
 
 }

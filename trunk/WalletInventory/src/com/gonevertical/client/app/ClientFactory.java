@@ -8,6 +8,7 @@ import com.gonevertical.client.app.requestfactory.dto.UserDataProxy;
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.PlaceController;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 
 public interface ClientFactory {

@@ -9,6 +9,7 @@ import com.gonevertical.client.app.requestfactory.ApplicationRequestFactory;
 import com.gonevertical.client.app.requestfactory.dto.UserDataProxy;
 import com.gonevertical.client.app.user.AuthEvent;
 import com.gonevertical.client.app.user.AuthEvent.Auth;
+import com.gonevertical.client.layout.Layout;
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.core.client.GWT;
@@ -23,14 +24,14 @@ import com.google.gwt.user.client.ui.SimplePanel;
 public class ClientFactoryImpl implements ClientFactory {
 
   /**
+   * main content panel
+   */
+  private Layout layout = new Layout();
+  
+  /**
    * default start point in application - if nothing is in url
    */
   private Place defaultPlace = new SignInPlace(null);
-  
-  /**
-   * default shell for app (widget|container)
-   */
-  private SimplePanel appWidget = new SimplePanel();
   
   /**
    * for app's global events
@@ -78,11 +79,14 @@ public class ClientFactoryImpl implements ClientFactory {
    */
   public ClientFactoryImpl() {
     
+    RootPanel.get().add(layout);
+    
+    layout.setClientFactory(this);
+    
+    activityManager.setDisplay(layout.getContentPanel());
+    
     requestFactory.initialize(eventBus);
-    
-    // shell for app
-    activityManager.setDisplay(appWidget);
-    
+        
     // tell the historyMapper there are tokenizers (below) to use in here. 
     historyMapper.setFactory(this);
     
@@ -92,15 +96,9 @@ public class ClientFactoryImpl implements ClientFactory {
     // This is not deprecated if you see it so!
     placeHistoryHandler.register(placeController, eventBus, defaultPlace);
     
-    
-    RootPanel.get().add(appWidget);
-    
     // Goes to the place represented on URL else default place
     placeHistoryHandler.handleCurrentHistory();
   }
-
-
-
 
 
   @Override
