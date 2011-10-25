@@ -3,6 +3,7 @@ package com.gonevertical.server.jdo;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
@@ -44,9 +45,13 @@ public class WalletData {
         e = null;
       }
       return e;
+    } catch (Exception e) {
+      log.log(Level.SEVERE, "Error: WalletData.findWalletData(id): id=" + id, e);
+      e.printStackTrace();
     } finally {
       pm.close();
     }
+    return null;
   }
 
   public static Long countAll() {
@@ -54,6 +59,9 @@ public class WalletData {
     try {
       // TODO change to JDO
       //return ((Number) em.createQuery("select count(o) from WalletData o").getSingleResult()).longValue();
+    } catch (Exception e) {
+      log.log(Level.SEVERE, "Error: WalletData.countAll():", e);
+      e.printStackTrace();
     } finally {
       pm.close();
     }
@@ -68,9 +76,13 @@ public class WalletData {
       //javax.jdo.Query query = pm.newQuery("select count(o) from WalletData o  where o.userId==\"" + uid + "\"");
       //Long r = (Long) query.execute();
       return 0l;
+    } catch (Exception e) {
+      log.log(Level.SEVERE, "Error: WalletData.countWalletDataByUser():", e);
+      e.printStackTrace();
     } finally {
       pm.close();
     }
+    return null;
   }
 
   /**
@@ -96,6 +108,7 @@ public class WalletData {
 
       return r;
     } catch (Exception e) {
+      log.log(Level.SEVERE, "Error: WalletData.findWalletDataByUser(): qfilter=" + qfilter, e);
       e.printStackTrace();
     } finally {
       pm.close();
@@ -139,9 +152,19 @@ public class WalletData {
   @Persistent(defaultFetchGroup = "true", dependentElement = "true")  
   private List<WalletItemData> items;
 
-
-
-
+  
+  
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("key=" + key + ",");
+    sb.append("version=" + version + ",");
+    sb.append("userId=" + userId + ",");
+    sb.append("name=" + name);
+    sb.append("items={ " + items + " } ");
+    return sb.toString();
+  }
+  
   public void setId(String id) {
     if (id == null) {
       return;
@@ -240,6 +263,9 @@ public class WalletData {
       pm.makePersistent(this);
       tx.commit();
 
+    } catch (Exception e) {
+      log.log(Level.SEVERE, "Error: WalletData.persist(): this=" + this, e);
+      e.printStackTrace();
     } finally {
       if (tx.isActive()) {
         tx.rollback();
@@ -267,6 +293,9 @@ public class WalletData {
       tx.begin();
       pm.deletePersistent(this);
       tx.commit();
+    } catch (Exception e) {
+      log.log(Level.SEVERE, "Error: WalletData.remove(): this=" + this, e);
+      e.printStackTrace();
     } finally {
       if (tx.isActive()) {
         tx.rollback();
@@ -274,7 +303,6 @@ public class WalletData {
       pm.close();
     }
   }
-
 
   public static Boolean deleteWalletData(String id) {
 
@@ -302,6 +330,9 @@ public class WalletData {
         success = true;
       }
 
+    } catch (Exception e) {
+      log.log(Level.SEVERE, "Error: WalletData.deleteWalletData(id): id=" + id, e);
+      e.printStackTrace();
     } finally {
       if (tx.isActive()) {
         tx.rollback();
@@ -309,8 +340,9 @@ public class WalletData {
       }
       pm.close();
     }
-
     return success;
   }
+
+ 
 
 }

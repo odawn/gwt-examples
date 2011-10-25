@@ -14,6 +14,7 @@ import com.gonevertical.client.app.requestfactory.dto.WalletDataProxy;
 import com.gonevertical.client.app.requestfactory.dto.WalletItemDataProxy;
 import com.gonevertical.client.views.WalletEditView;
 import com.gonevertical.client.views.widgets.WalletEditItemWidget;
+import com.gonevertical.client.views.widgets.WalletListItemWidget.State;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -26,6 +27,7 @@ import com.google.gwt.safehtml.shared.SimpleHtmlSanitizer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.PushButton;
@@ -60,6 +62,8 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
   private boolean savingInProgress;
 
   private boolean scheduleSave;
+
+  private boolean timerRunning;
 
   interface WalletEditViewUiBinder extends UiBinder<Widget, WalletEditViewImpl> {
   }
@@ -248,13 +252,32 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
     this.walletData = walletData;
   }
   
+  /**
+   * on edit, lets wait a moment before moving back to view
+   * 
+   * @param state
+   */
   private void setState(State state) {
     stateIs = state;
+    if (timerRunning == true) {
+      return;
+    }
     if (state == State.VIEW) {
       setStateView();
-      
-    } else if (state == State.EDIT) {
+    } else {
       setStateEdit();
+      timerRunning = true;
+      Timer t = new Timer() {
+        public void run() {
+          timerRunning = false;
+          if (stateIs == State.EDIT) {
+            setState(State.EDIT);
+          } else {
+            setStateView();
+          }
+        }
+      };
+      t.schedule(3000);
     }
   }
 

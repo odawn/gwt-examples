@@ -2,6 +2,7 @@ package com.gonevertical.server.jdo;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
@@ -25,9 +26,9 @@ import com.google.appengine.api.users.UserServiceFactory;
 @PersistenceCapable
 @Version(strategy=VersionStrategy.VERSION_NUMBER, column="version", extensions={@Extension(vendorName="datanucleus", key="key", value="version")})
 public class UserData {
-   
+
   @NotPersistent
-  private static final Logger log = Logger.getLogger(WalletData.class.getName());
+  private static final Logger log = Logger.getLogger(UserData.class.getName());
 
   public static PersistenceManager getPersistenceManager() {
     return PMF.get().getPersistenceManager();
@@ -54,12 +55,12 @@ public class UserData {
     if (userData.getId() == null) {
       return null;
     }
-    
+
     Key key = userData.getKey();
     if (key == null) {
       return null;
     }
-    
+
     return key.getId();
   }
 
@@ -91,9 +92,13 @@ public class UserData {
       Iterator<UserData> itr = list.iterator();
       UserData ud = itr.next();
       return ud;
+    } catch (Exception e) {
+      log.log(Level.SEVERE, "Error: UserData.findUserDataByGoogleEmail(googleEmail): googleEmail=" + googleEmail, e);
+      e.printStackTrace();
     } finally {
       pm.close();
     }
+    return null;
   }
 
   public static UserData findUserDataByGoogleUserId(String googleUserId) {
@@ -110,9 +115,13 @@ public class UserData {
       Iterator<UserData> itr = list.iterator();
       UserData ud = itr.next();
       return ud;
+    } catch (Exception e) {
+      log.log(Level.SEVERE, "Error: UserData.findUserDataByGoogleUserId(googleUserId): googleUserId=" + googleUserId, e);
+      e.printStackTrace();
     } finally {
       pm.close();
     }
+    return null;
   }
 
 
@@ -138,7 +147,21 @@ public class UserData {
 
   @NotPersistent
   private String logoutUrl;
-
+  
+ 
+  
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("key=" + key + ",");
+    sb.append("version=" + version + ",");
+    sb.append("googleUserId=" + googleUserId + ",");
+    sb.append("googleEmail=" + googleEmail + ",");
+    sb.append("googleNickname=" + googleNickname + ",");
+    sb.append("loginUrl=" + loginUrl + ",");
+    sb.append("logoutUrl=" + logoutUrl + " ");
+    return sb.toString();
+  }
 
   public void setId(String id) {
     if (id == null) {
@@ -153,7 +176,7 @@ public class UserData {
     }
     return id;
   }
-  
+
   private Key getKey() {
     return key;
   }
@@ -208,7 +231,6 @@ public class UserData {
     return logoutUrl;
   }
 
-
   public static UserData createUserData() {
     UserData userData = null; 
 
@@ -257,6 +279,10 @@ public class UserData {
       tx.begin();
       pm.makePersistent(this);
       tx.commit();
+    } catch (Exception e) {
+      log.log(Level.SEVERE, "Error: UserData.persist(): this=" + this, e);
+      e.printStackTrace();
+      return null;
     } finally {
       if (tx.isActive()) {
         tx.rollback();
@@ -267,19 +293,22 @@ public class UserData {
   }
 
   private void remove() {
-    
+
     Long uid = getLoggedInUserId();
     if (key != null && uid != key.getId()) {
       log.severe("UserData.remove() Error: Something weird going on in setting UID. userId=" + key.toString() + " uid=" + uid);
       return;
     }
-    
+
     PersistenceManager pm = getPersistenceManager();
     Transaction tx = pm.currentTransaction();
     try {
       tx.begin();
       pm.deletePersistent(this);
       tx.commit();
+    } catch (Exception e) {
+      log.log(Level.SEVERE, "Error: UserData.remove(): this=" + this, e);
+      e.printStackTrace();
     } finally {
       if (tx.isActive()) {
         tx.rollback();
@@ -287,4 +316,6 @@ public class UserData {
       pm.close();
     }
   }
+  
+ 
 }

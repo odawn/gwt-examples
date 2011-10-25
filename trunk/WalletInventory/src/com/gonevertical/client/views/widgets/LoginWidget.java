@@ -21,9 +21,9 @@ public class LoginWidget extends Composite {
   private static LoginWidgetUiBinder uiBinder = GWT.create(LoginWidgetUiBinder.class);
   @UiField HTML htmlNick;
   @UiField HTML htmlUrl;
-  
+
   private ClientFactory clientFactory;
-  
+
   private boolean alreadyInit;
 
   interface LoginWidgetUiBinder extends UiBinder<Widget, LoginWidget> {
@@ -32,13 +32,12 @@ public class LoginWidget extends Composite {
   public LoginWidget() {
     initWidget(uiBinder.createAndBindUi(this));
   }
-  
+
   public void setClientFactory(ClientFactory clientFactory) {
     this.clientFactory = clientFactory;
-    
+
     // this is overkill in here, but here for example
     if (alreadyInit == false) {
-      System.out.println("SignViewImpl.setClientFactory(): init");
       clientFactory.getEventBus().addHandler(AuthEvent.TYPE, new AuthEventHandler() {
         public void onAuthEvent(AuthEvent event) {
           Auth e = event.getAuthEvent();
@@ -47,12 +46,17 @@ public class LoginWidget extends Composite {
       });
     }
     alreadyInit = true;
+    
+    // maybe userData has already been loaded before this inits
+    if (clientFactory.getUserData() != null) {
+      setState(Auth.LOGGEDIN, clientFactory.getUserData());
+    }
   }
-  
+
   private void setState(Auth auth, UserDataProxy userData) {
     if (auth == Auth.LOGGEDIN) {
       setLoggedIn(userData);
-      
+
     } else if (auth == Auth.LOGGEDOUT) {
       setLoggedOut(userData);
     }
@@ -67,13 +71,13 @@ public class LoginWidget extends Composite {
       // this shouldn't happen, b/c we need the urls
       return;
     }
-   
+
     String url = userData.getLoginUrl();
     String qs = Window.Location.getQueryString();
     if (qs != null) {
       url += URL.encode(qs);
     }
-    
+
     // This is a must, always clean before draw
     SafeHtmlBuilder builder = new SafeHtmlBuilder();
     builder.appendHtmlConstant("<a href='" + url + "'>")
@@ -89,15 +93,15 @@ public class LoginWidget extends Composite {
     if (userData == null) {
       return;
     }
-    
+
     setNick(userData);
-   
+
     String url = userData.getLogoutUrl();
     String qs = Window.Location.getQueryString();
     if (qs != null) {
       url += URL.encode(qs);
     }
-    
+
     // This is a must, always clean before draw
     SafeHtmlBuilder builder = new SafeHtmlBuilder();
     builder.appendHtmlConstant("<a href='" + url + "'>")
@@ -110,13 +114,13 @@ public class LoginWidget extends Composite {
     if (userData == null) {
       return;
     }
-    
+
     String nick = userData.getGoogleNickname();
-    
+
     // This is a must, always clean before draw
     SafeHtmlBuilder builder = new SafeHtmlBuilder();
     builder.appendEscaped(nick);
-    
+
     htmlNick.setHTML(builder.toSafeHtml());
   }
 

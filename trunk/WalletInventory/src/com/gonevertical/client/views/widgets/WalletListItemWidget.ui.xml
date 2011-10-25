@@ -13,6 +13,9 @@
 			<g:Cell verticalAlignment="ALIGN_MIDDLE" horizontalAlignment="ALIGN_CENTER">
 				<g:PushButton text="View" ui:field="bView"/>
 			</g:Cell>
+			<g:Cell verticalAlignment="ALIGN_MIDDLE">
+				<g:HTML wordWrap="true">&nbsp;</g:HTML>
+			</g:Cell>
 			<g:Cell verticalAlignment="ALIGN_MIDDLE" horizontalAlignment="ALIGN_CENTER">
 				<g:PushButton text="X" ui:field="bDelete"/>
 			</g:Cell>

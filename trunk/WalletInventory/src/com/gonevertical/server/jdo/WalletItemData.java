@@ -1,6 +1,7 @@
 package com.gonevertical.server.jdo;
 
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.jdo.PersistenceManager;
@@ -42,9 +43,13 @@ public class WalletItemData {
       //e = null;
       //}
       return e;
+    } catch (Exception e) {
+      log.log(Level.SEVERE, "Error:", e);
+      e.printStackTrace();
     } finally {
       pm.close();
     }
+    return null;
   }
 
   public static long countAll() {
@@ -66,6 +71,9 @@ public class WalletItemData {
       // TODO change to JDO
       //query.setParameter("userId", uid);
       //return ((Number) query.getSingleResult()).longValue();
+    } catch (Exception e) {
+      log.log(Level.SEVERE, "Error:", e);
+      e.printStackTrace();
     } finally {
       pm.close();
     }
@@ -81,9 +89,13 @@ public class WalletItemData {
       List<WalletItemData> list = (List<WalletItemData>) query.execute();
       list.size();
       return list;
+    } catch (Exception e) {
+      log.log(Level.SEVERE, "Error:", e);
+      e.printStackTrace();
     } finally {
       pm.close();
     }
+    return null;
   }
 
 
@@ -180,6 +192,9 @@ public class WalletItemData {
       tx.begin();
       pm.makePersistent(this);
       tx.commit();
+    } catch (Exception e) {
+      log.log(Level.SEVERE, "Error:", e);
+      e.printStackTrace();
     } finally {
       if (tx.isActive()) {
         tx.rollback();
@@ -208,7 +223,8 @@ public class WalletItemData {
       pm.deletePersistent(e);
       tx.commit();
     } catch (Exception e) {
-     e.printStackTrace(); 
+      log.log(Level.SEVERE, "Error:", e);
+      e.printStackTrace();
     } finally {
       if (tx.isActive()) {
         tx.rollback();
@@ -243,6 +259,9 @@ public class WalletItemData {
         success = true;
       }
       
+    } catch (Exception e) {
+      log.log(Level.SEVERE, "Error:", e);
+      e.printStackTrace();
     } finally {
       if (tx.isActive()) {
         tx.rollback();

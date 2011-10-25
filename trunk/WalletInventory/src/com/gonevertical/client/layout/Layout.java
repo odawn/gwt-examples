@@ -4,6 +4,7 @@ import com.gonevertical.client.app.ClientFactory;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -33,7 +34,7 @@ public class Layout extends Composite {
     //wLogin.addStyleName("test3");
     //adPanel.addStyleName("test4");
     
-    moveAdsDiv();
+    moveAdsDivTimed();
   }
 
   public void setClientFactory(ClientFactory clientFactory) {
@@ -43,6 +44,18 @@ public class Layout extends Composite {
   
   public SimplePanel getContentPanel() {
     return pContent;
+  }
+  
+  /**
+   * moving a few seconds later, for the effect only
+   */
+  private void moveAdsDivTimed() {
+    Timer t = new Timer() {
+      public void run() {
+        moveAdsDiv();
+      }
+    };
+    t.schedule(5000);
   }
   
   /**

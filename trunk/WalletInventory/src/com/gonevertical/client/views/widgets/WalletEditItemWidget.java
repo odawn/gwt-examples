@@ -11,6 +11,7 @@ import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.requestfactory.WalletDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.WalletItemDataProxy;
 import com.gonevertical.client.views.WalletEditView.Presenter;
+import com.gonevertical.client.views.widgets.WalletListItemWidget.State;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
@@ -26,6 +27,7 @@ import com.google.gwt.safehtml.shared.SimpleHtmlSanitizer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.PushButton;
@@ -48,7 +50,7 @@ public class WalletEditItemWidget extends Composite {
   private static WalletEditItemWidgetUiBinder uiBinder = GWT.create(WalletEditItemWidgetUiBinder.class);
   @UiField WiseTextBox tbName;
   @UiField PushButton bDelete;
-  @UiField FocusPanel focusPanel;
+  @UiField FocusPanel pFocus;
 
   interface WalletEditItemWidgetUiBinder extends UiBinder<Widget, WalletEditItemWidget> {
   }
@@ -60,6 +62,8 @@ public class WalletEditItemWidget extends Composite {
   private int index;
 
   private LoadingWidget wLoading;
+
+  private boolean timerRunning;
 
   public WalletEditItemWidget() {
     initWidget(uiBinder.createAndBindUi(this));
@@ -167,14 +171,33 @@ public class WalletEditItemWidget extends Composite {
       }
     });
   }
-
+  
+  /**
+   * on edit, lets wait a moment before moving back to view
+   * 
+   * @param state
+   */
   private void setState(State state) {
     stateIs = state;
+    if (timerRunning == true) {
+      return;
+    }
     if (state == State.VIEW) {
       setStateView();
-      
-    } else if (state == State.EDIT) {
+    } else {
       setStateEdit();
+      timerRunning = true;
+      Timer t = new Timer() {
+        public void run() {
+          timerRunning = false;
+          if (stateIs == State.EDIT) {
+            setState(State.EDIT);
+          } else {
+            setStateView();
+          }
+        }
+      };
+      t.schedule(3000);
     }
   }
 
@@ -186,6 +209,10 @@ public class WalletEditItemWidget extends Composite {
   private void setStateEdit() {
     tbName.setEdit(true);
     bDelete.setVisible(true);
+    
+    // b/c delete hides, it shrinks, set it
+    int width = pFocus.getOffsetWidth();
+    pFocus.setWidth(width + "px");
   }
 
   private void fireChange() {
@@ -217,13 +244,13 @@ public class WalletEditItemWidget extends Composite {
     delete();
   }
   
-  @UiHandler("focusPanel")
-  void onFocusPanelMouseOver(MouseOverEvent event) {
+  @UiHandler("pFocus")
+  void onPFocusMouseOver(MouseOverEvent event) {
     setState(State.EDIT);
   }
   
-  @UiHandler("focusPanel")
-  void onFocusPanelMouseOut(MouseOutEvent event) {
+  @UiHandler("pFocus")
+  void onPFocusMouseOut(MouseOutEvent event) {
     setState(State.VIEW);
     fireChange();
   }

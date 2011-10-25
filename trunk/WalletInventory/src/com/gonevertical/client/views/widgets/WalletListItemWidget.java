@@ -24,6 +24,7 @@ import com.google.gwt.safehtml.shared.SimpleHtmlSanitizer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.PushButton;
@@ -59,6 +60,10 @@ public class WalletListItemWidget extends Composite {
   private int index;
 
   private LoadingWidget wLoading;
+  
+  private int width;
+
+  private boolean timerRunning;
 
   interface WalletListItemWidgetUiBinder extends UiBinder<Widget, WalletListItemWidget> {
   }
@@ -68,7 +73,7 @@ public class WalletListItemWidget extends Composite {
     
     setState(State.VIEW);
     
-    tbName.setEditHover(true);
+    tbName.setEditHover(false);
   }
 
   public void setData(int index, WalletDataProxy walletDataProxy) {
@@ -199,13 +204,32 @@ public class WalletListItemWidget extends Composite {
     });
   }
 
+  /**
+   * on edit, lets wait a moment before moving back to view
+   * 
+   * @param state
+   */
   private void setState(State state) {
     stateIs = state;
+    if (timerRunning == true) {
+      return;
+    }
     if (state == State.VIEW) {
       setStateView();
-      
-    } else if (state == State.EDIT) {
+    } else {
       setStateEdit();
+      timerRunning = true;
+      Timer t = new Timer() {
+        public void run() {
+          timerRunning = false;
+          if (stateIs == State.EDIT) {
+            setState(State.EDIT);
+          } else {
+            setStateView();
+          }
+        }
+      };
+      t.schedule(3000);
     }
   }
 
@@ -217,6 +241,10 @@ public class WalletListItemWidget extends Composite {
   private void setStateEdit() {
     tbName.setEdit(true);
     bDelete.setVisible(true);
+    
+    // b/c delete hides, it shrinks, set it
+    width = pFocus.getOffsetWidth();
+    pFocus.setWidth(width + "px");
   }
 
   @UiHandler("tbName")
@@ -239,7 +267,6 @@ public class WalletListItemWidget extends Composite {
 
   @UiHandler("tbName")
   public void onTbNameMouseOut(MouseOutEvent event) {
-    
     setState(State.VIEW);
   }
 
@@ -258,6 +285,12 @@ public class WalletListItemWidget extends Composite {
     edit();
   }
 
-  
-
+  @UiHandler("bView")
+  void onBViewMouseOver(MouseOverEvent event) {
+    setState(State.EDIT);
+  }
+  @UiHandler("bView")
+  void onBViewMouseOut(MouseOutEvent event) {
+    setState(State.VIEW);
+  }
 }
