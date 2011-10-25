@@ -4,8 +4,13 @@
 	<ui:style>
 		
 	</ui:style>
-	<g:VerticalPanel>
-		<p1:LoginWidget ui:field="wLogin"/>
-		<g:SimplePanel ui:field="pContent"/>
+	<g:VerticalPanel width="100%">
+		<g:Cell horizontalAlignment="ALIGN_RIGHT" verticalAlignment="ALIGN_MIDDLE">
+			<p1:LoginWidget ui:field="wLogin"/>
+		</g:Cell>
+		<g:FlowPanel ui:field="adPanel"/>
+		<g:Cell horizontalAlignment="ALIGN_CENTER">
+			<g:SimplePanel ui:field="pContent"/>
+		</g:Cell>
 	</g:VerticalPanel>
 </ui:UiBinder> 

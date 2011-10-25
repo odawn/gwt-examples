@@ -6,6 +6,7 @@
 	</ui:style>
 	<g:HorizontalPanel>
 		<g:HTML wordWrap="true" ui:field="htmlNick">&nbsp;</g:HTML>
+		<g:HTML wordWrap="true">&nbsp;&nbsp;</g:HTML>
 		<g:HTML wordWrap="true" ui:field="htmlUrl">&nbsp;</g:HTML>
 	</g:HorizontalPanel>
 </ui:UiBinder> 
