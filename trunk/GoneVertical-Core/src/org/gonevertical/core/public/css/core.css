@@ -15,3 +15,12 @@
 .gv-core-WiseTextArea-readonly {
 	border: 0;
 }
+
+
+/* loading widget */
+.gv-core-loadingwidget {
+	color: #CC9900;
+}
+.gv-core-loadingwidget-error {
+	color: #CC0033;
+}

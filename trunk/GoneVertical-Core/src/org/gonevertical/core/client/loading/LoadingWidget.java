@@ -40,7 +40,7 @@ public class LoadingWidget extends Composite {
     imgLoading.setResource(uiImages.loading());
     imgLoading.setSize("20px", "20px");
 
-    setStyleName("app-loadingwidget");
+    setStyleName("gv-core-loadingwidget");
     
     // set default state
     showLoading(false);
@@ -76,7 +76,7 @@ public class LoadingWidget extends Composite {
   public void showError(int delayMillis, String message) { 
     showLoading(true, message);
     hideTimed(delayMillis);
-    addStyleName("app-loadingwidget-error");
+    addStyleName("gv-core-loadingwidget-error");
   }
   
   public void hideTimed(int delayMillis) {
@@ -91,7 +91,7 @@ public class LoadingWidget extends Composite {
       public void run() {
         isRunning = false;
         showLoading(false);
-        removeStyleName("app-loadingwidget-error"); // not needed everytime...
+        removeStyleName("gv-core-loadingwidget-error"); // not needed everytime...
       }
     };
     t.schedule(delayMillis);
