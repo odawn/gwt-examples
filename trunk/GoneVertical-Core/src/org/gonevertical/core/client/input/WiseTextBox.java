@@ -2,6 +2,10 @@ package org.gonevertical.core.client.input;
 
 import org.gonevertical.core.client.style.ComputedStyle;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -94,6 +98,10 @@ public class WiseTextBox extends TextBox {
 
   private boolean hideBorderUntilHover;
 
+  private String defaultText;
+
+  private boolean grow;
+
   public WiseTextBox() {
     super();
     setup(false, true);
@@ -106,45 +114,16 @@ public class WiseTextBox extends TextBox {
 
   private void setup(boolean hideBorderUntilHover, boolean grow) {
     this.hideBorderUntilHover = hideBorderUntilHover;
-    
+    this.grow = grow;
+
     addStyleName("gv-core-WiseTextBox");
 
-    setOriginalSize();
-
-    setupGrow(grow);
-
     setUpEditHover();
 
-    setupHiddenPanel();
-  }
-  
-  public void setEditHover(boolean hideBorderUntilHover) {
-    this.hideBorderUntilHover = hideBorderUntilHover;
-    setUpEditHover();
+    setupHandlers();
   }
 
-  /**
-   * grow the input
-   * @param grow
-   */
-  private void setupGrow(boolean grow) {
-    if (grow == false) {
-      return;
-    }
-    addKeyUpHandler(new KeyUpHandler() {
-      public void onKeyUp(KeyUpEvent event) {
-        setSize();
-      }
-    });
-  }
-
-  /**
-   * hide border until hovering over the input
-   */
-  private void setUpEditHover() {
-    if (hideBorderUntilHover == true) {
-      setEdit(false);
-    }
+  private void setupHandlers() {
 
     addMouseOverHandler(new MouseOverHandler() {
       public void onMouseOver(MouseOverEvent event) {
@@ -169,6 +148,62 @@ public class WiseTextBox extends TextBox {
         }
       }
     });
+
+    addKeyUpHandler(new KeyUpHandler() {
+      public void onKeyUp(KeyUpEvent event) {
+        if (defaultText != null) {
+          drawDefaultText();
+        }
+      }
+    });
+
+    addKeyPressHandler(new KeyPressHandler() {
+      public void onKeyPress(KeyPressEvent event) {
+        if (grow == true) {
+          setNewSize();
+        }
+      }
+    });
+    
+    addChangeHandler(new ChangeHandler() {
+      public void onChange(ChangeEvent event) {
+        if (getText().trim().length() == 0) {
+          addStyleName("gv-core-WiseTextBox-default");
+          setText(defaultText); 
+        }
+      }
+    });
+  }
+
+  public void setEditHover(boolean hideBorderUntilHover) {
+    this.hideBorderUntilHover = hideBorderUntilHover;
+    setUpEditHover();
+  }
+
+  public void setDefaultText(String defaultText) {
+    this.defaultText = defaultText;
+    addStyleName("gv-core-WiseTextBox-default");
+    setText(defaultText);
+  }
+
+  private void drawDefaultText() {
+    if (defaultText == null) {
+      return;
+    }
+    if (getText().trim().equals(defaultText) == true) {
+      addStyleName("gv-core-WiseTextBox-default");
+    } else {
+      removeStyleName("gv-core-WiseTextBox-default");
+    }
+  }
+
+  /**
+   * hide border until hovering over the input
+   */
+  private void setUpEditHover() {
+    if (hideBorderUntilHover == true) {
+      setEdit(false);
+    }   
   }
 
   public void setEdit(boolean edit) {
@@ -198,11 +233,21 @@ public class WiseTextBox extends TextBox {
     addStyleName("gv-core-WiseTextBox-readonly");
   }
 
-  private void setSize() {
+  private void setNewSize() {
+    
+    // only done once
+    setOriginalSize();
+    
+    // only done once
+    setupHiddenPanel();
+    
+    // doevery time
     getCurrentTextWidth();
+    
     if (width > originalWidth) {
       setWidth(width + "px");
     }
+    
   }
 
   private void getCurrentTextWidth() {
@@ -240,12 +285,12 @@ public class WiseTextBox extends TextBox {
     for (int i=0; i < styles.length; i++) {
       String prop = ComputedStyle.getStyleProperty(eleft, styles[i]);
       eright.getStyle().setProperty(styles[i], prop);
-      
+
       // debug
       //System.out.println("setStyle style=" + styles[i] + " prop=" + prop);
     }
   }
-  
+
   /**
    * delay the clone style, b/c computed style seems to take a moment longer than.. not sure why
    */
@@ -257,7 +302,7 @@ public class WiseTextBox extends TextBox {
     Timer t = new Timer() {
       public void run() {
         cloneStyle();
-        setSize();
+        setNewSize();
       }
     };
     t.schedule(600);
@@ -287,11 +332,11 @@ public class WiseTextBox extends TextBox {
     // for some reason, the computed style takes a sec to kick in.... hmmmm
     cloneStyle();
   }
-  
+
   @Override
   public void setText(String text) {
     super.setText(text);
-    setSize();
+    setNewSize();
     // work around for intial setup not sure why
     cloneStyleTimed();
   };
@@ -333,11 +378,13 @@ public class WiseTextBox extends TextBox {
     } catch (NumberFormatException e) {
     }
   }
-  
+
   @Override
   public void setSize(String width, String height) {
     setWidth(width);
     setHeight(height);
   }
+
+
 
 }

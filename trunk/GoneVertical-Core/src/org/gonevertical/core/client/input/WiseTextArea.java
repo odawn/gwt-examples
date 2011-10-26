@@ -2,6 +2,10 @@ package org.gonevertical.core.client.input;
 
 import org.gonevertical.core.client.style.ComputedStyle;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -112,6 +116,12 @@ public class WiseTextArea extends TextArea {
 
   private boolean clonedOnce;
 
+  private boolean hideBorderUntilHover;
+
+  private boolean grow;
+  
+  private String defaultText;
+
   /**
    * constructor
    */
@@ -131,56 +141,93 @@ public class WiseTextArea extends TextArea {
   }
 
   private void setup(boolean hideBorderUntilHover, boolean grow) {
-
+    this.hideBorderUntilHover = hideBorderUntilHover;
+    this.grow = grow;
+    
     addStyleName("gv-core-WiseTextArea");
 
-    setupGrow(grow);
-
-    setUpEditHover(hideBorderUntilHover);    
+    setUpEditHover();  
+    
+    setupHandlers();
   }
 
-  /**
-   * grow the input
-   * @param grow
-   */
-  private void setupGrow(boolean grow) {
-    if (grow == false) {
-      return;
-    }
-    addKeyUpHandler(new KeyUpHandler() {
-      public void onKeyUp(KeyUpEvent event) {
-        setNewSize();
-      }
-    });
-  }
-
-  /**
-   * hide border until hovering over the input
-   */
-  private void setUpEditHover(boolean hideBorderUntilHover) {
-    if (hideBorderUntilHover == false) {
-      return;
-    }
-
-    setEdit(false);
+  private void setupHandlers() {
 
     addMouseOverHandler(new MouseOverHandler() {
       public void onMouseOver(MouseOverEvent event) {
-        setEdit(true);
+        if (hideBorderUntilHover == true) {
+          setEdit(true);
+        }
       }
     });
 
     addMouseOutHandler(new MouseOutHandler() {
       public void onMouseOut(MouseOutEvent event) {
-        setEdit(false);
+        if (hideBorderUntilHover == true) {
+          setEdit(false);  
+        }
       }
     });
 
     addTouchStartHandler(new TouchStartHandler() {
       public void onTouchStart(TouchStartEvent event) {
-        setTouched();
+        if (hideBorderUntilHover == true) {
+          setTouched();  
+        }
       }
     });
+
+    addKeyUpHandler(new KeyUpHandler() {
+      public void onKeyUp(KeyUpEvent event) {
+        if (defaultText != null) {
+          drawDefaultText();
+        }
+      }
+    });
+
+    addKeyPressHandler(new KeyPressHandler() {
+      public void onKeyPress(KeyPressEvent event) {
+        if (grow == true) {
+          setNewSize();
+        }
+      }
+    });
+    
+    addChangeHandler(new ChangeHandler() {
+      public void onChange(ChangeEvent event) {
+        if (getText().trim().length() == 0) {
+          addStyleName("gv-core-WiseTextArea-default");
+          setText(defaultText); 
+        }
+      }
+    });
+    
+  }
+  
+  public void setDefaultText(String defaultText) {
+    this.defaultText = defaultText;
+    addStyleName("gv-core-WiseTextArea-default");
+    setText(defaultText);
+  }
+  
+  private void drawDefaultText() {
+    if (defaultText == null) {
+      return;
+    }
+    if (getText().trim().equals(defaultText) == true) {
+      addStyleName("gv-core-WiseTextArea-default");
+    } else {
+      removeStyleName("gv-core-WiseTextArea-default");
+    }
+  }
+
+  /**
+   * hide border until hovering over the input
+   */
+  private void setUpEditHover() {
+    if (hideBorderUntilHover == true) {
+      setEdit(false);
+    }
   }
 
   public void setEdit(boolean edit) {

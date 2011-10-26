@@ -6,6 +6,12 @@
 	padding: 4px;
 	border: 0;
 }
+.gv-core-WiseTextBox-default {
+	padding: 2px;
+	color: grey;
+	font-style: italic;
+}
+ 
 .gv-core-WiseTextArea {
 }
 .gv-core-WiseTextArea-Break {
@@ -14,6 +20,10 @@
 }
 .gv-core-WiseTextArea-readonly {
 	border: 0;
+}
+.gv-core-WiseTextArea-default {
+	color: grey;
+	font-style: italic;
 }
 
 
