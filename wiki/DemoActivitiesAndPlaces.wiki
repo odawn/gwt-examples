@@ -7,7 +7,8 @@
  I'm building the demo as we speak.
 
  * [https://mywalletinventory.appspot.com Wallet Inventory App] - App Demo (keep your phone numbers incase it gets stolen)
- * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FWalletInventory Source] - Wallet Inventory App source
+ * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FWalletInventory Main App Source] - Wallet Inventory App source
+ * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FGoneVertical-Core%2Fsrc%2Forg%2Fgonevertical%2Fcore%2Fclient Source] - Included module source, with the WiseTextBox and a couple other core widgets
 
 == Reference ==
  * [http://code.google.com/webtoolkit/doc/latest/DevGuideMvpActivitiesAndPlaces.html Activites & Places Dev Guide] - GWT docs
