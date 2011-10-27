@@ -16,6 +16,7 @@
  * [http://code.google.com/webtoolkit/doc/latest/DevGuideMvpActivitiesAndPlaces.html Activites & Places Dev Guide] - GWT docs
  
 = Features Used =
+ I think I've used some fun features in this project.  
 
 == Activities ==
  * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FWalletInventory%2Fsrc%2Fcom%2Fgonevertical%2Fclient%2Fapp%2Factivity Activities Source]
