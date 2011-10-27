@@ -40,6 +40,7 @@
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/WalletInventory.gwt.xml WalletInventory.gwt.xml Source] - use a independent decoupled module for core widgets that cross projects
 
 == Google Web Fonts ==
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/war/WalletInventory.css#19 WalletInventory.css Source] - Import Google Fonts 
 
 == Javascript Injection == 
 
