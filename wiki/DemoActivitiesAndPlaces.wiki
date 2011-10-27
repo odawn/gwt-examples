@@ -17,16 +17,31 @@
  
 = Features Used =
 
+== Activities ==
+ * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FWalletInventory%2Fsrc%2Fcom%2Fgonevertical%2Fclient%2Fapp%2Factivity Activities]
+
+== Places ==
+ * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FWalletInventory%2Fsrc%2Fcom%2Fgonevertical%2Fclient%2Fapp%2Factivity%2Fplaces Places] 
+
+== RequestFactory ==
+ * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FWalletInventory%2Fsrc%2Fcom%2Fgonevertical%2Fclient%2Fapp%2Frequestfactory RequestFactory]
+
 == Client Factory ==
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/app/ClientFactory.java ClientFactory.java] - Interface
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/app/ClientFactoryImpl.java ClientFactoryImpl.java] - Implementation using deferred binding.
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/WalletInventory.gwt.xml WalletInventory.gwt.xml] - Deferred binding done in the project configuration xml file
 
 == 100% UI == 
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/public/css/style.css style.css] - bootstrap style overriding clean module style
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/war/WalletInventory.css WalletInventory.css] - the main stylesheet
 
 == Module Include == 
+ * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FGoneVertical-Core%2Fsrc%2Forg%2Fgonevertical%2Fcore%2Fclient%2Finput GoneVertical-Core] - Core source code for modules that can cross project boundaries. Add this project to the build path and then add the module to the config file.
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/WalletInventory.gwt.xml WalletInventory.gwt.xml] - use a independent decoupled module for core widgets that cross projects
 
+== Google Web Fonts ==
 
+== Javascript Injection == 
 
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-aff.xml" height="100" width="740" border="0" />
 
