@@ -11,7 +11,7 @@
 == Working Application ==
  * [https://mywalletinventory.appspot.com Wallet Inventory App] - App Demo (keep your phone numbers incase it gets stolen)
 
- == Reference ==
+ == Application Source ==
  * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FWalletInventory Main App Source] - Wallet Inventory App source
  * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FGoneVertical-Core%2Fsrc%2Forg%2Fgonevertical%2Fcore%2Fclient Included Module Source] - Included module source, with the WiseTextBox and a couple other core widgets
 
