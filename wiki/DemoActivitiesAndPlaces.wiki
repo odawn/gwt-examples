@@ -47,9 +47,10 @@
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/war/WalletInventory.html WalletInventory.html Source] - adsense use
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/layout/Layout.java Layout.java Source] - move the ads to better location, look for moveAdsDivTimed();
 
-== Javascript Injection == 
+== Javascript Injection Google +1 & Facebook Like == 
  * [demogwtshare More Info] - See DemoGWTShare wiki page for more info
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/layout/Layout.java#85 Layout.java Source] - Google Plus One +1 script injection and use
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/layout/Layout.java#102 Layout.java Source] - Facebook like button
 
 == Google Analytics ==
  * TODO
