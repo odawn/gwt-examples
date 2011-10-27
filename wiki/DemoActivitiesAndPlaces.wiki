@@ -42,6 +42,10 @@
 == Google Web Fonts ==
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/war/WalletInventory.css#19 WalletInventory.css Source] - Import Google Fonts 
 
+== Adsense ==
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/war/WalletInventory.html WalletInventory.html Source] - adsense use
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/layout/Layout.java Layout.java Source] - move the ads to better location, look for moveAdsDivTimed();
+
 == Javascript Injection == 
 
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-aff.xml" height="100" width="740" border="0" />
