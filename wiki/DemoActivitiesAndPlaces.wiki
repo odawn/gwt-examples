@@ -15,12 +15,17 @@
 == Reference ==
  * [http://code.google.com/webtoolkit/doc/latest/DevGuideMvpActivitiesAndPlaces.html Activites & Places Dev Guide] - GWT docs
  
-== The ClientFactory ==
- more on this soon
+= Features Used =
 
-{{{
- source here
-}}}
+== Client Factory ==
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/app/ClientFactory.java ClientFactory.java] - Interface
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/app/ClientFactoryImpl.java ClientFactoryImpl.java] - Implementation using deferred binding.
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/WalletInventory.gwt.xml WalletInventory.gwt.xml] - Deferred binding done in the project configuration xml file
+
+== 100% UI == 
+
+== Module Include == 
+
 
 
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-aff.xml" height="100" width="740" border="0" />
