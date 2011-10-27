@@ -48,6 +48,7 @@
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/layout/Layout.java Layout.java Source] - move the ads to better location, look for moveAdsDivTimed();
 
 == Javascript Injection == 
+ * [demogwtshare More Info] - See DemoGWTShare wiki page for more info
  * TODO - Google Plus One +1 script injection and use
 
 == Google Analytics ==
