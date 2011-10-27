@@ -31,6 +31,7 @@ public class Layout extends Composite {
   @UiField VerticalPanel vpFooter;
   @UiField VerticalPanel vpMain;
   @UiField FlowPanel fpPlusOne;
+  @UiField HTML htmlFacebook;
   
   private ClientFactory clientFactory;
 
@@ -51,6 +52,8 @@ public class Layout extends Composite {
     });
     
     drawPlusOne();
+    
+    drawFacebook();
     
     //addStyleName("test1");
     //vpWidget.addStyleName("test2");
@@ -94,4 +97,31 @@ public class Layout extends Composite {
     script.setLang("javascript");
     doc.getBody().appendChild(script);
   }
+  
+  /**
+   * draw facebook thingy at bottom 
+   * it was was
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=158427050894091";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+  */
+  private void drawFacebook() {
+    String s = "<div class=\"fb-like\" data-href=\"https://mywalletinventory.appspot.com\" data-send=\"true\" data-width=\"450\" data-show-faces=\"true\"></div><div id=\"fb-root\"></div>";
+    htmlFacebook.setHTML(s);
+        
+    Document doc = Document.get();
+    ScriptElement script = doc.createScriptElement();
+    script.setSrc("https://connect.facebook.net/en_US/all.js#xfbml=1&appId=158427050894091");
+    script.setType("text/javascript");
+    script.setLang("javascript");
+    doc.getBody().appendChild(script);
+  }
+  
+  
+  
 }

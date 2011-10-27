@@ -17,10 +17,12 @@
 			</g:Cell>
 		</g:VerticalPanel>
 		</g:Cell>
-		<g:Cell horizontalAlignment="ALIGN_CENTER">
+		<g:Cell horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_BOTTOM">
 			<g:VerticalPanel horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_BOTTOM" ui:field="vpFooter">
 			<g:HorizontalPanel>
 				<g:FlowPanel ui:field="fpPlusOne"/>
+				<g:HTML wordWrap="true">&nbsp;&nbsp;</g:HTML>
+				<g:HTML wordWrap="true" ui:field="htmlFacebook"/>
 			</g:HorizontalPanel>
 		</g:VerticalPanel>
 		</g:Cell>
