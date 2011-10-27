@@ -16,6 +16,10 @@
   <inherits name='org.gonevertical.core.Core'/>
 
 
+  <!-- load css com/gonevertical/public/css/style.css -->
+  <stylesheet src="css/style.css"/>
+
+
   <!-- Specify the app entry point class.                         -->
   <entry-point class='com.gonevertical.client.WalletInventory'/>
 

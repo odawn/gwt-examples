@@ -24,6 +24,9 @@ public class Layout extends Composite {
   @UiField SimplePanel pContent;
   @UiField LoginWidget wLogin;
   @UiField FlowPanel adPanel;
+  @UiField VerticalPanel vpWidget;
+  @UiField VerticalPanel vpFooter;
+  @UiField VerticalPanel vpMain;
   
   private ClientFactory clientFactory;
 
@@ -44,6 +47,10 @@ public class Layout extends Composite {
       }
     });
     
+    addStyleName("test1");
+    //vpWidget.addStyleName("test2");
+    //vpMain.addStyleName("test3");
+    //vpFooter.addStyleName("test4");
   }
   
   public SimplePanel getContentPanel() {

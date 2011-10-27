@@ -23,7 +23,7 @@ public class HelpDialog extends PopupPanel {
     setWidget(uiBinder.createAndBindUi(this));
     
     setAnimationEnabled(true);
-    //setAutoHideEnabled(true);
+    setAutoHideEnabled(true);
   }
   
   public void setHelpText(String html) {
