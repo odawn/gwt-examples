@@ -15,7 +15,7 @@
 		<g:FocusPanel ui:field="pFocusName">
 			<g:HorizontalPanel width="100%" height="30px">
 			<g:Cell verticalAlignment="ALIGN_MIDDLE">
-				<g:HTML wordWrap="true">My Wallet:&nbsp;</g:HTML>
+				<g:HTML wordWrap="true">My wallets name is&nbsp;</g:HTML>
 			</g:Cell>
 			<g:Cell verticalAlignment="ALIGN_MIDDLE">
 				<g:VerticalPanel width="100%">
@@ -27,7 +27,7 @@
 		<g:HorizontalPanel>
 			<g:PushButton text="Add" ui:field="bAdd"/>
 			<g:Cell verticalAlignment="ALIGN_MIDDLE">
-				<g:HTML wordWrap="true">&nbsp;My Wallet Items</g:HTML>
+				<g:HTML wordWrap="true">&nbsp;Items in my wallet</g:HTML>
 			</g:Cell>
 		</g:HorizontalPanel>
 		<g:VerticalPanel ui:field="pList"/>

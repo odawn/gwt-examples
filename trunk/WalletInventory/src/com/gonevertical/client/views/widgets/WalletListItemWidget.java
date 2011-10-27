@@ -74,6 +74,10 @@ public class WalletListItemWidget extends Composite {
     setState(State.VIEW);
     
     tbName.setEditHover(false);
+    
+    setTitle("Enter a name for your wallet, purse or handbag.");
+    bDelete.setTitle("Delete this wallet and its contents forever.");
+    bView.setTitle("See and edit what you have in your wallet.");
   }
 
   public void setData(int index, WalletDataProxy walletDataProxy) {

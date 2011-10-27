@@ -5,8 +5,16 @@
 		
 	</ui:style>
 	<g:HorizontalPanel>
-		<g:HTML wordWrap="true" ui:field="htmlNick">&nbsp;</g:HTML>
+		<g:Cell verticalAlignment="ALIGN_MIDDLE">
+			<g:HTML wordWrap="true" ui:field="htmlNick">&nbsp;</g:HTML>
+		</g:Cell>
 		<g:HTML wordWrap="true">&nbsp;&nbsp;</g:HTML>
-		<g:HTML wordWrap="true" ui:field="htmlUrl">&nbsp;</g:HTML>
+		<g:Cell verticalAlignment="ALIGN_MIDDLE">
+			<g:HTML wordWrap="true" ui:field="htmlUrl">&nbsp;</g:HTML>
+		</g:Cell>
+		<g:HTML wordWrap="true">&nbsp;</g:HTML>
+		<g:Cell verticalAlignment="ALIGN_MIDDLE" horizontalAlignment="ALIGN_RIGHT">
+			<g:Image ui:field="imgHelp" url="images/help.png"/>
+		</g:Cell>
 	</g:HorizontalPanel>
 </ui:UiBinder> 

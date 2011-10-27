@@ -26,7 +26,7 @@ public class ClientFactoryImpl implements ClientFactory {
   /**
    * main content panel
    */
-  private Layout layout = new Layout();
+  private Layout layout = new Layout(this);
   
   /**
    * default start point in application - if nothing is in url
@@ -80,8 +80,6 @@ public class ClientFactoryImpl implements ClientFactory {
   public ClientFactoryImpl() {
     
     RootPanel.get().add(layout);
-    
-    layout.setClientFactory(this);
     
     activityManager.setDisplay(layout.getContentPanel());
     

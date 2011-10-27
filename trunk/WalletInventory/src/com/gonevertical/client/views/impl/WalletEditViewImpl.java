@@ -70,8 +70,12 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
 
   public WalletEditViewImpl() {
     initWidget(uiBinder.createAndBindUi(this));
+        
+    tbName.setEditHover(false);
     
-    tbName.setEditHover(true);
+    bFinished.setTitle("You can go back to your wallet list by clicking this.");
+    tbName.setTitle("Give your wallet a name in this textbox.");
+    bAdd.setTitle("Add another item to this wallet.");
   }
 
   @Override
@@ -171,8 +175,8 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
     if (walletData == null || 
         walletData.getName() == null || 
         walletData.getName().trim().length() == 0) {
-      String s = "My Wallet";
-      tbName.setText(s);
+      String s = "My Wallet Name";
+      tbName.setDefaultText(s);
       return;
     }
     

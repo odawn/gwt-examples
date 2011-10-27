@@ -1,6 +1,10 @@
 package com.gonevertical.client.layout;
 
 import com.gonevertical.client.app.ClientFactory;
+import com.gonevertical.client.app.ClientFactoryImpl;
+import com.gonevertical.client.app.user.AuthEvent;
+import com.gonevertical.client.app.user.AuthEventHandler;
+import com.gonevertical.client.app.user.AuthEvent.Auth;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.Element;
@@ -26,20 +30,20 @@ public class Layout extends Composite {
   interface LayoutUiBinder extends UiBinder<Widget, Layout> {
   }
 
-  public Layout() {
+  public Layout(ClientFactory clientFactory) {
+    this.clientFactory = clientFactory;
     initWidget(uiBinder.createAndBindUi(this));
     
-    //addStyleName("test1");
-    //pContent.addStyleName("test2");
-    //wLogin.addStyleName("test3");
-    //adPanel.addStyleName("test4");
     
-    moveAdsDivTimed();
-  }
-
-  public void setClientFactory(ClientFactory clientFactory) {
-    this.clientFactory = clientFactory;
     wLogin.setClientFactory(clientFactory);
+    
+    clientFactory.getEventBus().addHandler(AuthEvent.TYPE, new AuthEventHandler() {
+      public void onAuthEvent(AuthEvent event) {
+        //Auth e = event.getAuthEvent();
+        moveAdsDivTimed();
+      }
+    });
+    
   }
   
   public SimplePanel getContentPanel() {
@@ -55,7 +59,7 @@ public class Layout extends Composite {
         moveAdsDiv();
       }
     };
-    t.schedule(5000);
+    t.schedule(500);
   }
   
   /**

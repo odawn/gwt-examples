@@ -68,7 +68,10 @@ public class WalletEditItemWidget extends Composite {
   public WalletEditItemWidget() {
     initWidget(uiBinder.createAndBindUi(this));
     
-    tbName.setEditHover(true);
+    tbName.setEditHover(false);
+    
+    setTitle("Enter a name for an item that is in your wallet and the contact number or email to call if its stolen. Do not enter account information.");
+    bDelete.setTitle("Delete this item from your wallet forever.");
   }
 
   public void setPresenter(Presenter presenter) {
@@ -121,8 +124,8 @@ public class WalletEditItemWidget extends Composite {
     if (itemData == null || 
         itemData.getName() == null || 
         itemData.getName().trim().length() == 0) {
-      String s = index + " Frequent Card 1-800-123-xxxx ";
-      tbName.setText(s);
+      String s = index + ". Enter your inventory Item";
+      tbName.setDefaultText(s);
       return;
     }
     
