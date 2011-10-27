@@ -35,6 +35,16 @@
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/app/ClientFactoryImpl.java ClientFactoryImpl.java Source] - Implementation using deferred binding.
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/WalletInventory.gwt.xml WalletInventory.gwt.xml Source] - Deferred binding done in the project configuration xml file
 
+== Google Account == 
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/views/impl/SignInViewImpl.java#114 SignInViewImpl] - Google Account UserData Use
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/views/widgets/LoginWidget.java LoginWidget.java Source] - LoginWidget on the top right of the app 
+
+== Custom Event ==
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/#WalletInventory%2Fsrc%2Fcom%2Fgonevertical%2Fclient%2Fapp%2Fuser Login Events] - Global custom events used for login
+
+== App Engine SSL Hosting ==
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/war/WEB-INF/web.xml#8 web.xml Source] - Servlet SSL configuration for App Engine
+
 == 100% Width & Height UI == 
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/public/css/style.css style.css Source] - bootstrap style overriding clean module style
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/war/WalletInventory.css WalletInventory.css Source] - the main stylesheet
@@ -54,6 +64,8 @@
  * [demogwtshare More Info] - See DemoGWTShare wiki page for more info
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/layout/Layout.java#85 Layout.java Source] - Google Plus One +1 script injection and use
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/layout/Layout.java#102 Layout.java Source] - Facebook like button
+
+
 
 == Google Analytics ==
  * TODO
