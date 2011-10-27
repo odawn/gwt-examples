@@ -31,7 +31,7 @@
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/app/ClientFactoryImpl.java ClientFactoryImpl.java Source] - Implementation using deferred binding.
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/WalletInventory.gwt.xml WalletInventory.gwt.xml Source] - Deferred binding done in the project configuration xml file
 
-== 100% UI == 
+== 100% Width & Height UI == 
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/public/css/style.css style.css Source] - bootstrap style overriding clean module style
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/war/WalletInventory.css WalletInventory.css Source] - the main stylesheet
 
