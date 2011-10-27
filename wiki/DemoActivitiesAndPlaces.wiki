@@ -1,9 +1,9 @@
 #summary Demo Activities Places with RequestFactory
 
-#sidebar TableOfContents
-
 <g:plusone size="medium"></g:plusone>
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-aff.xml" height="100" width="740" border="0" />
+
+<wiki:toc max_depth="2" />
 
 = Demo Activities and Places =
  I'm building the demo as we speak.
