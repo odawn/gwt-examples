@@ -17,7 +17,13 @@
 			</g:Cell>
 		</g:VerticalPanel>
 		</g:Cell>
-		<g:VerticalPanel horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_BOTTOM" ui:field="vpFooter"/>
+		<g:Cell horizontalAlignment="ALIGN_CENTER">
+			<g:VerticalPanel horizontalAlignment="ALIGN_CENTER" verticalAlignment="ALIGN_BOTTOM" ui:field="vpFooter">
+			<g:HorizontalPanel>
+				<g:FlowPanel ui:field="fpPlusOne"/>
+			</g:HorizontalPanel>
+		</g:VerticalPanel>
+		</g:Cell>
 	</g:VerticalPanel>
 	
 </ui:UiBinder> 

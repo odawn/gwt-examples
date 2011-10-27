@@ -26,5 +26,7 @@ public class WalletInventory implements EntryPoint {
     // rootpanel in clientfactory
     
   }
+  
+  
 
 }

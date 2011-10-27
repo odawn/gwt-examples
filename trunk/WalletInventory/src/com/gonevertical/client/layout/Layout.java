@@ -6,10 +6,13 @@ import com.gonevertical.client.app.user.AuthEvent;
 import com.gonevertical.client.app.user.AuthEventHandler;
 import com.gonevertical.client.app.user.AuthEvent.Auth;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.uibinder.client.UiField;
@@ -27,6 +30,7 @@ public class Layout extends Composite {
   @UiField VerticalPanel vpWidget;
   @UiField VerticalPanel vpFooter;
   @UiField VerticalPanel vpMain;
+  @UiField FlowPanel fpPlusOne;
   
   private ClientFactory clientFactory;
 
@@ -37,7 +41,6 @@ public class Layout extends Composite {
     this.clientFactory = clientFactory;
     initWidget(uiBinder.createAndBindUi(this));
     
-    
     wLogin.setClientFactory(clientFactory);
     
     clientFactory.getEventBus().addHandler(AuthEvent.TYPE, new AuthEventHandler() {
@@ -46,6 +49,8 @@ public class Layout extends Composite {
         moveAdsDivTimed();
       }
     });
+    
+    drawPlusOne();
     
     //addStyleName("test1");
     //vpWidget.addStyleName("test2");
@@ -77,4 +82,16 @@ public class Layout extends Composite {
     adPanel.add(w);
   }
   
+  private void drawPlusOne() {
+    String s = "<g:plusone href=\"https://mywalletinventory.appspot.com\"></g:plusone>";
+    HTML h = new HTML(s);
+    fpPlusOne.add(h);
+    
+    Document doc = Document.get();
+    ScriptElement script = doc.createScriptElement();
+    script.setSrc("https://apis.google.com/js/plusone.js");
+    script.setType("text/javascript");
+    script.setLang("javascript");
+    doc.getBody().appendChild(script);
+  }
 }
