@@ -18,7 +18,7 @@
 == Reference ==
  * [http://code.google.com/webtoolkit/doc/latest/DevGuideMvpActivitiesAndPlaces.html Activites & Places Dev Guide] - GWT docs
  
-= Features Used =
+= GWT Features Used =
  I think I've used some fun features in this project.  
 
 == Activities ==
