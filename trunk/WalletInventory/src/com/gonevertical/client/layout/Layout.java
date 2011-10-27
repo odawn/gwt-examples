@@ -47,7 +47,7 @@ public class Layout extends Composite {
       }
     });
     
-    addStyleName("test1");
+    //addStyleName("test1");
     //vpWidget.addStyleName("test2");
     //vpMain.addStyleName("test3");
     //vpFooter.addStyleName("test4");

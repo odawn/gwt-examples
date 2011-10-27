@@ -38,6 +38,8 @@ public class LoginWidget extends Composite {
 
   public LoginWidget() {
     initWidget(uiBinder.createAndBindUi(this));
+    
+    addStyleName("app-loginwidget");
   }
 
   public void setClientFactory(ClientFactory clientFactory) {
