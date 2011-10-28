@@ -26,7 +26,8 @@
 
 == Places ==
  * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FWalletInventory%2Fsrc%2Fcom%2Fgonevertical%2Fclient%2Fapp%2Factivity%2Fplaces Places Source] 
- * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/app/activity/places/WalletEditPlace.java#20 WalletEditPlace] - Edit Place with url tokenizer
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/app/activity/places/WalletEditPlace.java#20 WalletEditPlace.java Source] - Edit Place with url tokenizer
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/app/ClientFactoryImpl.java#153 ClientFactoryImpl Source] - use the request factory in your tokenizers!!!
 
 == `RequestFactory` ==
  * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FWalletInventory%2Fsrc%2Fcom%2Fgonevertical%2Fclient%2Fapp%2Frequestfactory RequestFactory Source]
@@ -69,6 +70,9 @@
 
 
 == Google Analytics ==
+ * TODO
+
+== Growing TextBox ==
  * TODO
 
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-aff.xml" height="100" width="740" border="0" />
