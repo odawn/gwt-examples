@@ -8,4 +8,6 @@ public interface UiImages extends ClientBundle {
   @Source("loading.gif")
   ImageResource loading();
   
+  @Source("help.png")
+  ImageResource help();
 }

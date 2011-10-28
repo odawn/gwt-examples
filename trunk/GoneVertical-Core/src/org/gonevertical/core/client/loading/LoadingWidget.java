@@ -18,7 +18,7 @@ public class LoadingWidget extends Composite {
   private static final String ERROR_MESSAGE = "Oops, a request error occured. Try again.";
   private static final int DEFAULT_DELAY = 4000;
   
-  UiImages uiImages = GWT.create(UiImages.class);
+  private UiImages uiImages = GWT.create(UiImages.class);
 
   private static LoadingWidgetUiBinder uiBinder = GWT.create(LoadingWidgetUiBinder.class);
   @UiField Image imgLoading;

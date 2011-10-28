@@ -2,8 +2,12 @@ package org.gonevertical.core.client.input;
 
 import org.gonevertical.core.client.style.ComputedStyle;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -164,13 +168,22 @@ public class WiseTextBox extends TextBox {
         }
       }
     });
-    
+
     addChangeHandler(new ChangeHandler() {
       public void onChange(ChangeEvent event) {
-        if (getText().trim().length() == 0) {
-          addStyleName("gv-core-WiseTextBox-default");
-          setText(defaultText); 
-        }
+        setDefaultTextIntoTextBox();
+      }
+    });
+
+    addFocusHandler(new FocusHandler() {
+      public void onFocus(FocusEvent event) {
+        setZeroText();
+      }
+    });
+
+    addBlurHandler(new BlurHandler() {
+      public void onBlur(BlurEvent event) {
+        setDefaultTextIntoTextBox();
       }
     });
   }
@@ -186,6 +199,14 @@ public class WiseTextBox extends TextBox {
     setText(defaultText);
   }
 
+  private void setDefaultTextIntoTextBox() {
+    if (getText().trim().length() != 0) {
+      return;
+    }
+    addStyleName("gv-core-WiseTextBox-default");
+    setText(defaultText); 
+  }
+
   private void drawDefaultText() {
     if (defaultText == null) {
       return;
@@ -194,6 +215,18 @@ public class WiseTextBox extends TextBox {
       addStyleName("gv-core-WiseTextBox-default");
     } else {
       removeStyleName("gv-core-WiseTextBox-default");
+    }
+  }
+
+  /**
+   * when focusing, and the default text is set, set it to zero text
+   */
+  private void setZeroText() {
+    if (defaultText == null) {
+      return;
+    }
+    if (defaultText.equals(getText().trim()) == true) {
+      setText("");
     }
   }
 
@@ -234,20 +267,20 @@ public class WiseTextBox extends TextBox {
   }
 
   private void setNewSize() {
-    
+
     // only done once
     setOriginalSize();
-    
+
     // only done once
     setupHiddenPanel();
-    
+
     // doevery time
     getCurrentTextWidth();
-    
+
     if (width > originalWidth) {
       setWidth(width + "px");
     }
-    
+
   }
 
   private void getCurrentTextWidth() {

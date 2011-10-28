@@ -2,8 +2,12 @@ package org.gonevertical.core.client.input;
 
 import org.gonevertical.core.client.style.ComputedStyle;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -195,10 +199,19 @@ public class WiseTextArea extends TextArea {
     
     addChangeHandler(new ChangeHandler() {
       public void onChange(ChangeEvent event) {
-        if (getText().trim().length() == 0) {
-          addStyleName("gv-core-WiseTextArea-default");
-          setText(defaultText); 
-        }
+        setDefaultTextIntoTextBox();
+      }
+    });
+
+    addFocusHandler(new FocusHandler() {
+      public void onFocus(FocusEvent event) {
+        setZeroText();
+      }
+    });
+
+    addBlurHandler(new BlurHandler() {
+      public void onBlur(BlurEvent event) {
+        setDefaultTextIntoTextBox();
       }
     });
     
@@ -220,7 +233,28 @@ public class WiseTextArea extends TextArea {
       removeStyleName("gv-core-WiseTextArea-default");
     }
   }
+  
 
+  /**
+   * when focusing, and the default text is set, set it to zero text
+   */
+  private void setZeroText() {
+    if (defaultText == null) {
+      return;
+    }
+    if (defaultText.equals(getText().trim()) == true) {
+      setText("");
+    }
+  }
+
+  private void setDefaultTextIntoTextBox() {
+    if (getText().trim().length() != 0) {
+      return;
+    }
+    addStyleName("gv-core-WiseTextBox-default");
+    setText(defaultText); 
+  }
+  
   /**
    * hide border until hovering over the input
    */
