@@ -7,11 +7,15 @@ import com.google.web.bindery.requestfactory.shared.RequestFactory;
 
 public class SignInPlace extends Place {
   
+  /** 
+   * I'm not really using the tokenizer here, but good for example
+   */
   @Prefix("Entry")
   public static class Tokenizer implements PlaceTokenizer<SignInPlace> {
 
     private RequestFactory requestFactory;
 
+    
     public Tokenizer(RequestFactory requestFactory) {
       this.requestFactory = requestFactory;
     }
@@ -19,12 +23,12 @@ public class SignInPlace extends Place {
     @Override
     public String getToken(SignInPlace place) {
       String token = place.getToken();
-      return token;
+      return "";
     }
 
     @Override
     public SignInPlace getPlace(String token) {
-      return new SignInPlace(token);
+      return new SignInPlace("");
     }
 
   }

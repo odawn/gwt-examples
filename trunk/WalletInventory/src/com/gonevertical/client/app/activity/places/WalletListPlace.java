@@ -7,6 +7,9 @@ import com.google.web.bindery.requestfactory.shared.RequestFactory;
 
 public class WalletListPlace extends Place {
   
+  /**
+   *  I'm not really using the tokenizer here, but its good for the example
+   */
   @Prefix("MyWallets")
   public static class Tokenizer implements PlaceTokenizer<WalletListPlace> {
 
@@ -21,7 +24,8 @@ public class WalletListPlace extends Place {
      */
     @Override 
     public String getToken(WalletListPlace place) {
-      return place.getToken();
+      String token = place.getToken();
+      return "";
     }
 
     /**
@@ -29,7 +33,7 @@ public class WalletListPlace extends Place {
      */
     @Override
     public WalletListPlace getPlace(String token) {
-      return new WalletListPlace(token);
+      return new WalletListPlace("");
     }
 
   }

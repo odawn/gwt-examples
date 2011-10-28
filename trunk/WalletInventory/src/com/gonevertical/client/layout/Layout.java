@@ -100,7 +100,7 @@ public class Layout extends Composite {
   
   /**
    * draw facebook thingy at bottom 
-   * it was was
+   * it was 
     <div id="fb-root"></div>
     <script>(function(d, s, id) {
       var js, fjs = d.getElementsByTagName(s)[0];
@@ -111,7 +111,7 @@ public class Layout extends Composite {
     }(document, 'script', 'facebook-jssdk'));</script>
   */
   private void drawFacebook() {
-    String s = "<div class=\"fb-like\" data-href=\"https://mywalletinventory.appspot.com\" data-send=\"true\" data-width=\"450\" data-show-faces=\"true\"></div><div id=\"fb-root\"></div>";
+    String s = "<div class=\"fb-like\" data-href=\"https://mywalletinventory.appspot.com\" data-send=\"false\" data-layout=\"button_count\" data-show-faces=\"true\"></div><div id=\"fb-root\"></div>";
     htmlFacebook.setHTML(s);
         
     Document doc = Document.get();
