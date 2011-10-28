@@ -40,6 +40,7 @@
 == Google Account == 
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/views/impl/SignInViewImpl.java#114 SignInViewImpl] - Google Account UserData Use
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/views/widgets/LoginWidget.java LoginWidget.java Source] - LoginWidget on the top right of the app 
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/server/jdo/UserData.java UserData.java Source] - Using Google User as the auth and tracking of the owner, whos who
 
 == Custom Event ==
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/#WalletInventory%2Fsrc%2Fcom%2Fgonevertical%2Fclient%2Fapp%2Fuser Login Events] - Global custom events used for login
@@ -67,7 +68,8 @@
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/layout/Layout.java#85 Layout.java Source] - Google Plus One +1 script injection and use
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/layout/Layout.java#102 Layout.java Source] - Facebook like button
 
-
+== App Engine JDO ==
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/server/jdo/WalletData.java WalletData Source] - JDO owned relationships with key serialization and key web safe transport. 
 
 == Google Analytics ==
  * TODO
