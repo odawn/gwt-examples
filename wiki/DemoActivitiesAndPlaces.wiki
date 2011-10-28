@@ -71,6 +71,10 @@
 == App Engine JDO ==
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/server/jdo/WalletData.java WalletData Source] - JDO owned relationships with key serialization and key web safe transport. 
 
+== Image Bundling ==
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/GoneVertical-Core/src/org/gonevertical/core/client/images/UiImages.java UiImages.java Source] - Bundled Images in the included module
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/GoneVertical-Core/src/org/gonevertical/core/client/loading/LoadingWidget.java#21 LoadingWidget.java Source] - One of the places I use the image resource
+
 == Google Analytics ==
  * TODO
 
