@@ -75,7 +75,7 @@
  * TODO
 
 == Growing TextBox ==
- * TODO
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/GoneVertical-Core/src/org/gonevertical/core/client/input/WiseTextBox.java WiseTextBox.java Source] - Included Module TextBox that grows as you type
 
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-aff.xml" height="100" width="740" border="0" />
 
