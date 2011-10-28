@@ -26,6 +26,7 @@
 
 == Places ==
  * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FWalletInventory%2Fsrc%2Fcom%2Fgonevertical%2Fclient%2Fapp%2Factivity%2Fplaces Places Source] 
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/WalletInventory/src/com/gonevertical/client/app/activity/places/WalletEditPlace.java#20 WalletEditPlace] - Edit Place with url tokenizer
 
 == `RequestFactory` ==
  * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FWalletInventory%2Fsrc%2Fcom%2Fgonevertical%2Fclient%2Fapp%2Frequestfactory RequestFactory Source]
