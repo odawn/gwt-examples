@@ -1,5 +1,6 @@
 package com.gonevertical.client.layout;
 
+import com.gonevertical.client.WalletInventory;
 import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.ClientFactoryImpl;
 import com.gonevertical.client.app.user.AuthEvent;
@@ -32,6 +33,9 @@ public class Layout extends Composite {
   @UiField VerticalPanel vpMain;
   @UiField FlowPanel fpPlusOne;
   @UiField HTML htmlFacebook;
+  @UiField HTML htmlVersion;
+  @UiField HTML htmlAbout;
+  @UiField HTML htmlCopyright;
   
   private ClientFactory clientFactory;
 
@@ -54,6 +58,10 @@ public class Layout extends Composite {
     drawPlusOne();
     
     drawFacebook();
+    
+    drawVersion();
+    
+    drawCopyright();
     
     //addStyleName("test1");
     //vpWidget.addStyleName("test2");
@@ -122,6 +130,14 @@ public class Layout extends Composite {
     doc.getBody().appendChild(script);
   }
   
+  private void drawVersion() {
+    String s = "version " + WalletInventory.VERSION;
+    htmlVersion.setHTML(s);
+  }
   
+  private void drawCopyright() {
+    String s = "\u00A9 Gone Vertical LLC.&nbsp;&nbsp;";
+    htmlCopyright.setHTML(s);
+  }
   
 }

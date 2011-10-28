@@ -24,7 +24,10 @@
 				<g:HTML wordWrap="true">&nbsp;&nbsp;</g:HTML>
 				<g:HTML wordWrap="true" ui:field="htmlFacebook"/>
 				<g:HTML wordWrap="true">&nbsp;&nbsp;</g:HTML>
-				<g:HTML wordWrap="true"><a href="http://code.google.com/p/gwt-examples/wiki/DemoActivitiesAndPlaces" target="_blank">About</a></g:HTML>
+				<g:HTML wordWrap="true" ui:field="htmlVersion">&nbsp;</g:HTML>
+				<g:HTML wordWrap="true">&nbsp;&nbsp;</g:HTML>
+				<g:HTML wordWrap="true" ui:field="htmlCopyright">&nbsp;</g:HTML>
+				<g:HTML wordWrap="true" ui:field="htmlAbout"><a href="http://code.google.com/p/gwt-examples/wiki/DemoActivitiesAndPlaces" target="_blank">About</a></g:HTML>
 			</g:HorizontalPanel>
 		</g:VerticalPanel>
 		</g:Cell>

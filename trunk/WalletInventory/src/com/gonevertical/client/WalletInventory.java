@@ -13,6 +13,11 @@ import com.google.gwt.user.client.ui.SimplePanel;
 public class WalletInventory implements EntryPoint {
 
   /**
+   * I change this when I deploy to app engine
+   */
+  public static final int VERSION = 14;
+  
+  /**
    * Global App Objects/Classes - using deferred binding to create object
    */
   private ClientFactory clientFactory = GWT.create(ClientFactory.class);
