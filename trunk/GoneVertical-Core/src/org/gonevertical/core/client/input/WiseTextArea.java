@@ -451,6 +451,9 @@ public class WiseTextArea extends TextArea {
   
   @Override
   public void setText(String text) {
+    if (defaultText != null) {
+      removeStyleName("gv-core-WiseTextBox-default"); // TODO setup a method for this
+    }
     super.setText(text);
     setNewSize();
     

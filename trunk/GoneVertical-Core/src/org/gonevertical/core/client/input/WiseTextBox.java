@@ -171,7 +171,7 @@ public class WiseTextBox extends TextBox {
 
     addChangeHandler(new ChangeHandler() {
       public void onChange(ChangeEvent event) {
-        setDefaultTextIntoTextBox();
+        setDefaultText();
       }
     });
 
@@ -183,7 +183,7 @@ public class WiseTextBox extends TextBox {
 
     addBlurHandler(new BlurHandler() {
       public void onBlur(BlurEvent event) {
-        setDefaultTextIntoTextBox();
+        setDefaultText();
       }
     });
   }
@@ -199,7 +199,7 @@ public class WiseTextBox extends TextBox {
     setText(defaultText);
   }
 
-  private void setDefaultTextIntoTextBox() {
+  private void setDefaultText() {
     if (getText().trim().length() != 0) {
       return;
     }
@@ -368,6 +368,9 @@ public class WiseTextBox extends TextBox {
 
   @Override
   public void setText(String text) {
+    if (defaultText != null) {
+      removeStyleName("gv-core-WiseTextBox-default"); // TODO setup a method for this
+    }
     super.setText(text);
     setNewSize();
     // work around for intial setup not sure why
