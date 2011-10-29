@@ -6,7 +6,12 @@ import java.util.List;
 import org.gonevertical.core.client.loading.LoadingWidget;
 
 import com.gonevertical.client.app.ClientFactory;
+import com.gonevertical.client.app.activity.places.SignInPlace;
+import com.gonevertical.client.app.requestfactory.dto.UserDataProxy;
 import com.gonevertical.client.app.requestfactory.dto.WalletDataProxy;
+import com.gonevertical.client.app.user.AuthEvent;
+import com.gonevertical.client.app.user.AuthEventHandler;
+import com.gonevertical.client.app.user.AuthEvent.Auth;
 import com.gonevertical.client.views.WalletListView;
 import com.gonevertical.client.views.widgets.WalletListItemWidget;
 import com.google.gwt.core.client.GWT;
@@ -37,6 +42,8 @@ public class WalletListViewImpl extends Composite implements WalletListView {
 
   private List<WalletDataProxy> walletData;
 
+  private boolean alreadyInit;
+
   interface WalletListViewUiBinder extends UiBinder<Widget, WalletListViewImpl> {
   }
 
@@ -52,12 +59,48 @@ public class WalletListViewImpl extends Composite implements WalletListView {
   @Override
   public void setClientFactory(ClientFactory clientFactory) {
     this.clientFactory = clientFactory;
+    
+    // this is overkill in here, but here for example
+    if (alreadyInit == false) {
+      //System.out.println("SignViewImpl.setClientFactory(): init");
+      clientFactory.getEventBus().addHandler(AuthEvent.TYPE, new AuthEventHandler() {
+        public void onAuthEvent(AuthEvent event) {
+          Auth e = event.getAuthEvent();
+          if (e == Auth.LOGGEDIN) {
+            setLoggedIn();
+          } else if (e == Auth.LOGGEDOUT) {
+            setLoggedOut();
+          }
+        }
+      });
+    }
+    alreadyInit = true;
   }
 
   public void draw() {
     
-    loadWallets();
+    if (clientFactory.getIsLoggedIn() == null) {
+      // wait for login event b/c hasn't happened yet
+      
+    } else if (clientFactory.getIsLoggedIn() == true) {
+      setLoggedIn();
+      
+    } else if (clientFactory.getIsLoggedIn() == false) { 
+      setLoggedOut();
+    }
     
+  }
+
+  private void setLoggedOut() {
+    presenter.goTo(new SignInPlace());
+  }
+
+  private void setLoggedIn() {
+    
+    // debug
+    System.out.println("WalletListViewImpl.setLoggedIn(): Loading wallets");
+    
+    loadWallets();
   }
 
   private void loadWallets() {

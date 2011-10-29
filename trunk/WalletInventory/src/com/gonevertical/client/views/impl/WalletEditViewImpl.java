@@ -8,10 +8,14 @@ import org.gonevertical.core.client.input.WiseTextBox;
 import org.gonevertical.core.client.loading.LoadingWidget;
 
 import com.gonevertical.client.app.ClientFactory;
+import com.gonevertical.client.app.activity.places.SignInPlace;
 import com.gonevertical.client.app.activity.places.WalletListPlace;
 import com.gonevertical.client.app.requestfactory.WalletDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.WalletDataProxy;
 import com.gonevertical.client.app.requestfactory.dto.WalletItemDataProxy;
+import com.gonevertical.client.app.user.AuthEvent;
+import com.gonevertical.client.app.user.AuthEventHandler;
+import com.gonevertical.client.app.user.AuthEvent.Auth;
 import com.gonevertical.client.views.WalletEditView;
 import com.gonevertical.client.views.widgets.WalletEditItemWidget;
 import com.gonevertical.client.views.widgets.WalletListItemWidget.State;
@@ -56,6 +60,8 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
   @UiField PushButton bAdd;
   @UiField FocusPanel pFocusName;
   @UiField LoadingWidget wLoading;
+  @UiField VerticalPanel pLoggedIn;
+  @UiField VerticalPanel pLoggedOut;
 
   private WalletDataProxy walletData;
 
@@ -64,6 +70,8 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
   private boolean scheduleSave;
 
   private boolean timerRunning;
+
+  private boolean alreadyInit;
 
   interface WalletEditViewUiBinder extends UiBinder<Widget, WalletEditViewImpl> {
   }
@@ -86,6 +94,22 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
   @Override
   public void setClientFactory(ClientFactory clientFactory) {
     this.clientFactory = clientFactory;
+    
+    // this is overkill in here, but here for example
+    if (alreadyInit == false) {
+      //System.out.println("SignViewImpl.setClientFactory(): init");
+      clientFactory.getEventBus().addHandler(AuthEvent.TYPE, new AuthEventHandler() {
+        public void onAuthEvent(AuthEvent event) {
+          Auth e = event.getAuthEvent();
+          if (e == Auth.LOGGEDIN) {
+            setLoggedIn();
+          } else if (e == Auth.LOGGEDOUT) {
+            setLoggedOut();
+          }
+        }
+      });
+    }
+    alreadyInit = true;
   }
 
   public void setData(WalletDataProxy walletData) {
@@ -93,10 +117,33 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
   }
 
   public void draw() {
-
-    drawName();
+    if (clientFactory.getIsLoggedIn() == null) {
+      // wait for login event b/c hasn't happened yet
+      
+    } else if (clientFactory.getIsLoggedIn() == true) {
+      setLoggedIn();
+      
+    } else if (clientFactory.getIsLoggedIn() == false) { 
+      setLoggedOut();
+    }
+  }
+  
+  private void setLoggedIn() {
+    pLoggedIn.setVisible(true);
+    pLoggedOut.setVisible(false);
     
+    drawName();
     drawItems();
+  }
+
+  /**
+   * allow the person to sign in directly from here, so they could load the wallet by id
+   */
+  private void setLoggedOut() {
+    pLoggedIn.setVisible(false);
+    pLoggedOut.setVisible(true);
+    
+    // TODO announce they must sign in
   }
   
   /**
@@ -105,7 +152,7 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
   public void draw(EntityProxyId<WalletDataProxy> walletDataId) {
     wLoading.showLoading(true);
     presenter.setRunning(true);
-    Request<WalletDataProxy> request = clientFactory.getRequestFactory().getWalletDataRequest().find(walletDataId);
+    Request<WalletDataProxy> request = clientFactory.getRequestFactory().getWalletDataRequest().find(walletDataId).with("items");
     request.fire(new Receiver<WalletDataProxy>() {
       public void onSuccess(WalletDataProxy walletData) {
         wLoading.showLoading(false);
@@ -325,7 +372,7 @@ public class WalletEditViewImpl extends Composite implements WalletEditView {
 
   @UiHandler("bFinished")
   void onBFinishedClick(ClickEvent event) {
-    presenter.goTo(new WalletListPlace(null));
+    presenter.goTo(new WalletListPlace());
   }
 
  

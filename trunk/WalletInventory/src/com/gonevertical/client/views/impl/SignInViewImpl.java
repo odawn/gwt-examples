@@ -52,7 +52,7 @@ public class SignInViewImpl extends Composite implements SignInView {
     
     // this is overkill in here, but here for example
     if (alreadyInit == false) {
-      System.out.println("SignViewImpl.setClientFactory(): init");
+      //System.out.println("SignViewImpl.setClientFactory(): init");
       clientFactory.getEventBus().addHandler(AuthEvent.TYPE, new AuthEventHandler() {
         public void onAuthEvent(AuthEvent event) {
           Auth e = event.getAuthEvent();
@@ -64,9 +64,17 @@ public class SignInViewImpl extends Composite implements SignInView {
   }
 
   public void start() {
-
-    createUser();
-
+    wLoading.showLoading(true);
+    
+    if (clientFactory.getIsLoggedIn() == null) {
+      // wait for login event b/c hasn't happened yet
+      
+    } else if (clientFactory.getIsLoggedIn() == true) {
+      setLoggedIn();
+      
+    } else if (clientFactory.getIsLoggedIn() == false) { 
+      setLoggedOut(clientFactory.getUserData());
+    }
   }
 
   private void setState(Auth auth, UserDataProxy userData) {
@@ -76,12 +84,19 @@ public class SignInViewImpl extends Composite implements SignInView {
       setLoggedOut(userData);
     }
   }
+  
+  private void setLoggedIn() {
+    wLoading.showLoading(false);
+    presenter.goTo(new WalletListPlace());
+  }
+
 
   /**
    * lets use the url to show where to login at
    * @param userData
    */
   private void setLoggedOut(UserDataProxy userData) {
+    wLoading.showLoading(false);
     if (userData == null) {
       // this shouldn't happen, b/c we need the urls
       return;
@@ -99,37 +114,6 @@ public class SignInViewImpl extends Composite implements SignInView {
     .appendEscaped("Please Sign In")
     .appendHtmlConstant("</a>");
     htmlSignIn.setHTML(builder.toSafeHtml());
-  }
-
-  /**
-   * logged in, lets go to the wallet list
-   */
-  private void setLoggedIn() {
-    presenter.goTo(new WalletListPlace(null));
-  }
-
-  /**
-   * this will create/lookup a user in the datastore according to the Google Login
-   */
-  private void createUser() {
-    wLoading.showLoading(true, "Loading...");
-    Request<UserDataProxy> req = clientFactory.getRequestFactory().getUserDataRequest().createUserData();
-    req.fire(new Receiver<UserDataProxy>() {
-      public void onSuccess(UserDataProxy data) {
-        wLoading.showLoading(false);
-        process(data);
-      }
-      public void onFailure(ServerFailure error) {
-        wLoading.showLoading(false);
-        super.onFailure(error);
-      }
-    });
-  }
-
-  private void process(UserDataProxy data) {
-    clientFactory.setUserData(data);
-    
-    
   }
 
 }

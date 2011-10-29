@@ -42,18 +42,8 @@ public class Layout extends Composite {
   interface LayoutUiBinder extends UiBinder<Widget, Layout> {
   }
 
-  public Layout(ClientFactory clientFactory) {
-    this.clientFactory = clientFactory;
+  public Layout() {
     initWidget(uiBinder.createAndBindUi(this));
-    
-    wLogin.setClientFactory(clientFactory);
-    
-    clientFactory.getEventBus().addHandler(AuthEvent.TYPE, new AuthEventHandler() {
-      public void onAuthEvent(AuthEvent event) {
-        //Auth e = event.getAuthEvent();
-        moveAdsDivTimed();
-      }
-    });
     
     drawPlusOne();
     
@@ -67,6 +57,22 @@ public class Layout extends Composite {
     //vpWidget.addStyleName("test2");
     //vpMain.addStyleName("test3");
     //vpFooter.addStyleName("test4");
+  }
+  
+  public void setClientFactory(ClientFactory clientFactory) {
+    this.clientFactory = clientFactory;
+    
+    // inits credentials process - gets UserData or creates a user....
+    wLogin.setClientFactory(clientFactory);
+    
+    // move ads after login event
+    clientFactory.getEventBus().addHandler(AuthEvent.TYPE, new AuthEventHandler() {
+      public void onAuthEvent(AuthEvent event) {
+        
+        //moveAdsDivTimed();
+        
+      }
+    });
   }
   
   public SimplePanel getContentPanel() {

@@ -14,6 +14,7 @@ import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -24,6 +25,10 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.web.bindery.requestfactory.shared.Receiver;
+import com.google.web.bindery.requestfactory.shared.Request;
+import com.google.web.bindery.requestfactory.shared.ServerFailure;
+import org.gonevertical.core.client.loading.LoadingWidget;
 
 public class LoginWidget extends Composite {
 
@@ -32,6 +37,7 @@ public class LoginWidget extends Composite {
   @UiField HTML htmlUrl;
   @UiField Image imgHelp;
   @UiField HTML htmlPlusOne;
+  @UiField LoadingWidget wLoading;
 
   private UiImages uiImages = GWT.create(UiImages.class);
   
@@ -46,7 +52,7 @@ public class LoginWidget extends Composite {
 
   public LoginWidget() {
     initWidget(uiBinder.createAndBindUi(this));
-    
+
     imgHelp.setResource(uiImages.help());
     imgHelp.setSize("16px", "16px");
     
@@ -57,27 +63,40 @@ public class LoginWidget extends Composite {
 
   public void setClientFactory(ClientFactory clientFactory) {
     this.clientFactory = clientFactory;
-
-    clientFactory.getEventBus().addHandler(AuthEvent.TYPE, new AuthEventHandler() {
-      public void onAuthEvent(AuthEvent event) {
-        Auth e = event.getAuthEvent();
-        setState(e, event.getUserData());
+    
+    createUser();
+  }
+  
+  /**
+   * this will create/lookup a user in the datastore according to the Google Login
+   *  (if logged in or has logged in)
+   */
+  private void createUser() {
+    wLoading.showLoading(true, "Checking credentials...&nbsp;");
+    Request<UserDataProxy> req = clientFactory.getRequestFactory().getUserDataRequest().createUserData();
+    req.fire(new Receiver<UserDataProxy>() {
+      public void onSuccess(UserDataProxy data) {
+        wLoading.showLoading(false);
+        process(data);
+      }
+      public void onFailure(ServerFailure error) {
+        wLoading.showError("Oops, I couldn't process credentials...Try reloading this page...&nbsp;");
+        super.onFailure(error);
       }
     });
-
-    // maybe userData has already been loaded before this inits
-    if (clientFactory.getUserData() != null) {
-      setState(Auth.LOGGEDIN, clientFactory.getUserData());
-    }
   }
 
-  private void setState(Auth auth, UserDataProxy userData) {
-    if (auth == Auth.LOGGEDIN) {
+  private void process(UserDataProxy userData) {
+    if (userData != null && 
+        userData.getId() != null && 
+        userData.getId().matches(".*([0-9]+).*") == true) {
       setLoggedIn(userData);
-
-    } else if (auth == Auth.LOGGEDOUT) {
+    } else {
       setLoggedOut(userData);
     }
+    
+    // tell the rest of the app a login event has happened
+    clientFactory.setUserData(userData);
   }
 
   /**
@@ -92,10 +111,14 @@ public class LoginWidget extends Composite {
 
     String url = userData.getLoginUrl();
     String qs = Window.Location.getQueryString();
+    String token = History.getToken();
     if (qs != null) {
       url += URL.encode(qs);
     }
-
+    if (token != null && token.length() > 0) {
+      url += URL.encode("#" + token);
+    }
+    
     // This is a must, always clean before draw
     SafeHtmlBuilder builder = new SafeHtmlBuilder();
     builder.appendHtmlConstant("<a href='" + url + "'>")
@@ -177,4 +200,21 @@ public class LoginWidget extends Composite {
   void onImgHelpMouseOver(MouseOverEvent event) {
     drawHelp();
   }
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+ 
+  
+  
+  
+  
 }
