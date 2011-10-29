@@ -24,14 +24,14 @@ import com.google.gwt.user.client.ui.SimplePanel;
 public class ClientFactoryImpl implements ClientFactory {
 
   /**
-   * main content panel
+   * shell for the app - includes LoginWidget - processes the credentials
    */
-  private Layout layout = new Layout(this);
+  private Layout layout = new Layout();
   
   /**
    * default start point in application - if nothing is in url
    */
-  private Place defaultPlace = new SignInPlace(null);
+  private Place defaultPlace = new SignInPlace();
   
   /**
    * for app's global events
@@ -72,6 +72,11 @@ public class ClientFactoryImpl implements ClientFactory {
    * logged in user (or null userid with the login url)
    */
   private UserDataProxy userData;
+
+  /**
+   * is the user loggedin or loggedout, null hasn't happened yet
+   */
+  private Boolean isLoggedIn;
   
   
   /**
@@ -93,6 +98,9 @@ public class ClientFactoryImpl implements ClientFactory {
     
     // This is not deprecated if you see it so!
     placeHistoryHandler.register(placeController, eventBus, defaultPlace);
+    
+    // the loginWidget needs all the stuff setup to fetch userData - inits credentials process
+    layout.setClientFactory(this);
     
     // Goes to the place represented on URL else default place
     placeHistoryHandler.handleCurrentHistory();
@@ -123,8 +131,10 @@ public class ClientFactoryImpl implements ClientFactory {
         userData.getId() != null && 
         userData.getId().matches(".*([0-9]+).*") == true) {
       auth = Auth.LOGGEDIN;
+      isLoggedIn = true;
     } else {
       auth = Auth.LOGGEDOUT;
+      isLoggedIn = false;
     }
     eventBus.fireEvent(new AuthEvent(auth, userData));
   }
@@ -134,10 +144,14 @@ public class ClientFactoryImpl implements ClientFactory {
     return userData;
   }
 
-
   @Override
   public ActivityManager getActivityManager() {
     return activityManager;
+  }
+  
+  @Override
+  public Boolean getIsLoggedIn() {
+    return isLoggedIn;
   }
   
   

@@ -25,7 +25,7 @@ public interface ClientFactory {
 
   ActivityManager getActivityManager();
   
-  
+  Boolean getIsLoggedIn();
   
   
   /**
@@ -40,5 +40,7 @@ public interface ClientFactory {
    * used by the historyMapper
    */
   WalletEditPlace.Tokenizer getWalletEditTokenizer();
+
+  
   
 }

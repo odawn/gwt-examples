@@ -33,7 +33,7 @@ public class WalletListPlace extends Place {
      */
     @Override
     public WalletListPlace getPlace(String token) {
-      return new WalletListPlace("");
+      return new WalletListPlace();
     }
 
   }
@@ -42,8 +42,8 @@ public class WalletListPlace extends Place {
 
   private String token;
 
-  public WalletListPlace(String token) {
-    this.token = token;
+  public WalletListPlace() {
+    //this.token = token;
   }
 
   public String getToken() {

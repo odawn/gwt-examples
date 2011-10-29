@@ -28,7 +28,7 @@ public class SignInPlace extends Place {
 
     @Override
     public SignInPlace getPlace(String token) {
-      return new SignInPlace("");
+      return new SignInPlace();
     }
 
   }
@@ -37,8 +37,8 @@ public class SignInPlace extends Place {
 
   private String token;
 
-  public SignInPlace(String token) {
-    this.token = token;
+  public SignInPlace() {
+    //this.token = token;
   }
 
   public String getToken() {
