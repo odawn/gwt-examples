@@ -173,7 +173,7 @@ public class WiseRichTextArea extends RichTextArea {
 
     // deal with messy pasting
     /**
-     * TODO - No Worky - iframe? I see the ook events in the RichTextAreaImpl and how come I can't hook them in here?
+     * TODO - No Worky - iframe? I see the hook events in the RichTextAreaImpl and how come I can't hook them in here?
      */
     sinkEvents(Event.ONPASTE); // TODO ? no worky
     DOM.sinkEvents(getElement(), Event.ONPASTE); //TODO ? no worky
@@ -199,7 +199,7 @@ public class WiseRichTextArea extends RichTextArea {
   
   
   /**
-   * TODO corresponding to sink - no events coming in yet
+   * TODO corresponding to sink - no events coming in yet for OnPaste that is
    */
   @Override 
   public void onBrowserEvent(Event event) { 
