@@ -15,6 +15,8 @@ import com.google.gwt.event.dom.client.DomEvent.Type;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -26,9 +28,14 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Event.NativePreviewHandler;
+import com.google.gwt.user.client.EventPreview;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RichTextArea;
@@ -165,9 +172,49 @@ public class WiseRichTextArea extends RichTextArea {
 
 
     // deal with messy pasting
-    sinkEvents(Event.ONPASTE);
-    sinkEvents(Event.ONKEYUP);
+    /**
+     * TODO - No Worky - iframe? I see the ook events in the RichTextAreaImpl and how come I can't hook them in here?
+     */
+    sinkEvents(Event.ONPASTE); // TODO ? no worky
+    DOM.sinkEvents(getElement(), Event.ONPASTE); //TODO ? no worky
+    
+    //sinkEvents(Event.ONKEYUP);
+
+    /**
+     * TODO this won't work either, b/c it won't capture once focued on richtextarea  
+     */
+    Event.addNativePreviewHandler(new NativePreviewHandler() {
+      public void onPreviewNativeEvent(NativePreviewEvent event) {
+        NativeEvent ne = event.getNativeEvent();
+        if (event.getTypeInt() == Event.ONPASTE) {
+          System.out.println("Pasting?????");
+          Window.alert("works");
+        }
+        System.out.println("event.toDebutString()=" + event.toDebugString() + " ne.getType=" + ne.getType() + " ne.toString=" + ne.toString() + " charCode=" + ne.getCharCode() + " key=" + (char)ne.getCharCode());
+      }
+    });
+
   }
+  
+  
+  
+  /**
+   * TODO corresponding to sink - no events coming in yet
+   */
+  @Override 
+  public void onBrowserEvent(Event event) { 
+    super.onBrowserEvent(event); 
+    switch (event.getTypeInt()) { 
+    case Event.ONPASTE: 
+      System.out.println("PASTE DETECTED"); 
+      Window.alert("Works 2");
+      break; 
+    } 
+  } 
+
+  
+  
+  
 
   private void setupHandlers() {
 
@@ -208,11 +255,20 @@ public class WiseRichTextArea extends RichTextArea {
 
     addKeyPressHandler(new KeyPressHandler() {
       public void onKeyPress(KeyPressEvent event) {
+        NativeEvent ne = event.getNativeEvent();
+        System.out.println("KeyPressHandler=" + ne.getType() + " key=" + (char)ne.getCharCode());
         if (grow == true) {
           if (event.getCharCode() == KeyCodes.KEY_ENTER) {
             setNewSize(true);
           }
         }
+      }
+    });
+    
+    addKeyDownHandler(new KeyDownHandler() {
+      public void onKeyDown(KeyDownEvent event) {
+        NativeEvent ne = event.getNativeEvent();
+        //System.out.println("KeyDownHandler=" + ne.getType() + " key=" + (char)ne.getCharCode());
       }
     });
 
@@ -541,30 +597,6 @@ public class WiseRichTextArea extends RichTextArea {
 
 
 
-  /**
-   * no worky yet...
-   */
-  @Override
-  public void onBrowserEvent(Event event) {
-    
-    //System.out.println("event.getTypeInt()=" + event.getTypeInt());
-    
-    switch (event.getTypeInt()) {
-
-    case Event.ONPASTE: {
-      String newValue = OnPasteUtils.getPastedText(event);
-      System.out.println("OnPaste=" + newValue);
-      if (newValue != null && newValue.trim().length() > 0) {
-        //setText(newValue);
-      }
-      break;
-    }
-    default: {
-      super.onBrowserEvent(event);
-    }
-
-    }
-  }
 
 
 }
