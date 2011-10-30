@@ -7,8 +7,8 @@
  I made this bourne shell script to speedup the GWT source download and setup. 
 
 == Reference ==
- * [http://code.google.com/webtoolkit/makinggwtbetter.html Making GWT Better]
- * [http://code.google.com/p/google-web-toolkit/source/browse/trunk/eclipse/README.txt ReadMe.txt] - eclipse setup
+ * [http://code.google.com/webtoolkit/makinggwtbetter.html Making GWT Better] - This script follows the directions here.
+ * [http://code.google.com/p/google-web-toolkit/source/browse/trunk/eclipse/README.txt ReadMe.txt] - More detailed Eclipse setup directions.
 
 == Setup Source ==
  [http://code.google.com/p/gwt-examples/source/browse/trunk/GWT_Source_Setup/scripts/gwt_source_setup.sh Souce] - Find the latest source here.
