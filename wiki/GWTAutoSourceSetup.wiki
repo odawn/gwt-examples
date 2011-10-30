@@ -1,5 +1,8 @@
 #summary Save some time setting up GWT source.
 
+<g:plusone size="medium"></g:plusone>
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-aff.xml" height="100" width="740" border="0" />
+
 = Setting up GWT Source =
  I made this bourne shell script to speedup the GWT source download and setup. 
 
@@ -64,3 +67,8 @@ ant
 
 echo "Finished downloading GWT source and setup.";
 }}}
+
+
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-aff.xml" height="100" width="740" border="0" />
+
+<g:plusone size="medium"></g:plusone>
