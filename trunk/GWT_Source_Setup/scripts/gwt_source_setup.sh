@@ -2,6 +2,7 @@
 # created by Brandon Donnelson
 #
 # Help with the download and setup of GWT source
+# http://code.google.com/p/gwt-examples/wiki/GWTAutoSourceSetup?ts=1320016754&updated=GWTAutoSourceSetup - this script is here
 #
 # http://code.google.com/webtoolkit/makinggwtbetter.html
 # http://code.google.com/p/google-web-toolkit/source/browse/trunk/eclipse/README.txt
