@@ -7,13 +7,21 @@
 # http://code.google.com/p/google-web-toolkit/source/browse/trunk/eclipse/README.txt
 #
 
-echo "starting gwt source download and setup..."
+echo "starting GWT source download and setup..."
+
+# install svn?
+hash svn 2>&- || { echo >&2 "Oops, but you need svn. Install svn.  Aborting setup, Exiting."; exit 1; }
+
+# install ant?
+hash ant 2>&- || { echo >&2 "Oops, but you need ant. Install ant.  Aborting setup, Exiting."; exit 1; }
+
 
 # goto home directory - not needed, but useful to show root location
 cd ~
 
 # remove gwt working directory
-rm -rf ~/gwt
+# OPTIONAL
+#rm -rf ~/gwt
 
 # make a working directory
 mkdir ~/gwt
