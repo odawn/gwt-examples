@@ -2,7 +2,7 @@
 .gv-core-WiseTextBox {
 	padding: 2px;
 }
-.gv-core-WiseTextBox-readonly {
+.gv-core-WiseTextBox-noborder {
 	padding: 4px;
 	border: 0;
 }
@@ -12,16 +12,32 @@
 	font-style: italic;
 }
  
+ 
 .gv-core-WiseTextArea {
 }
-.gv-core-WiseTextArea-Break {
+.gv-core-WiseTextArea-break {
   	/*CSS3 long word breaking*/
   	word-break: break-all;
 }
-.gv-core-WiseTextArea-readonly {
+.gv-core-WiseTextArea-noborder {
 	border: 0;
 }
 .gv-core-WiseTextArea-default {
+	color: grey;
+	font-style: italic;
+}
+
+
+.gv-core-WiseRichTextArea {
+}
+.gv-core-WiseRichTextArea-break {
+  	/*CSS3 long word breaking*/
+  	word-break: break-all;
+}
+.gv-core-WiseRichTextArea-noborder {
+	border: 0;
+}
+.gv-core-WiseRichTextArea-default {
 	color: grey;
 	font-style: italic;
 }

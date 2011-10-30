@@ -1,14 +1,20 @@
-package org.gonevertical.core.client.input;
+package org.gonevertical.core.client.input.richtext;
 
 import org.gonevertical.core.client.html.HtmlSanitizerUtils;
+import org.gonevertical.core.client.onpaste.OnPasteUtils;
 import org.gonevertical.core.client.style.ComputedStyle;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.DomEvent.Type;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -21,47 +27,66 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.RichTextArea;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
 
-public class WiseTextBox extends TextBox {
+public class WiseRichTextArea extends RichTextArea {
 
   /**
-   * clone these style properties
+   * clone these style properties for size calculation
    */
   private String[] styles = { 
+      "color",
       "direction", 
+
+      "fontFace", // @fontFace?
       "fontFamily", 
       "fontSize", 
       "fontSizeAdjust",
-      "fontStyle", 
+      "fontStretch",
+      "fontStyle",
+      "fontVariant",
       "fontWeight",
+
       "letterSpacing", 
       "lineHeight", 
+
       "padding",
+      "paddingBottom",
+      "paddingLeft",
+      "paddingRight",
+      "paddingTop",
+
       "textAlign",
-      "textDecoration", 
+      "textDecoration",
+      "textIndent",
+      "textJustify",
+      "textOutline",
+      "textShawdow",
       "textTransform",
-      //"width",
-      "wordSpacing" 
+
+      "wordSpacing"
+
+      //"whiteSpacing" ?
+      //"punctuationTrim" ?
   };
 
   /**
-   * original textbox size set
+   * original TextArea size set
    */
   private boolean orginalSet;
 
   /**
-   * original textbox width
+   * original TextArea width
    */
   private int originalWidth;
 
   /**
-   * orginal textbox height
+   * orginal TextArea height
    */
   private int originalHeight;
 
@@ -73,7 +98,7 @@ public class WiseTextBox extends TextBox {
   /**
    * allow for some room below the cursor
    */
-  private int headroomHeightPadding = 7;
+  private int headroomHeightPadding = 14;
 
   /**
    * someone for the htmlForSizeTesting to hide in
@@ -102,18 +127,28 @@ public class WiseTextBox extends TextBox {
 
   private boolean delayedClone;
 
-  private boolean hideBorderUntilHover;
+  private boolean clonedOnce;
 
-  private String defaultText;
+  private boolean hideBorderUntilHover;
 
   private boolean grow;
 
-  public WiseTextBox() {
+  private String defaultText;
+
+  /**
+   * constructor
+   */
+  public WiseRichTextArea() {
     super();
     setup(false, true);
   }
 
-  public WiseTextBox(boolean hideBorderUntilHover, boolean grow) {
+  /**
+   * constructor
+   * @param hideBorderUntilHover - hover over box to see border
+   * @param grow - auto grow to size of text
+   */
+  public WiseRichTextArea(boolean hideBorderUntilHover, boolean grow) {
     super();
     setup(hideBorderUntilHover, grow);
   }
@@ -122,11 +157,16 @@ public class WiseTextBox extends TextBox {
     this.hideBorderUntilHover = hideBorderUntilHover;
     this.grow = grow;
 
-    addStyleName("gv-core-WiseTextBox");
+    addStyleName("gv-core-WiseRichTextArea");
 
-    setUpEditHover();
+    setUpEditHover();  
 
     setupHandlers();
+
+
+    // deal with messy pasting
+    sinkEvents(Event.ONPASTE);
+    sinkEvents(Event.ONKEYUP);
   }
 
   private void setupHandlers() {
@@ -160,22 +200,29 @@ public class WiseTextBox extends TextBox {
         if (defaultText != null) {
           drawDefaultText();
         }
+        if (grow == true) {
+          setNewSize(false);
+        }
       }
     });
 
     addKeyPressHandler(new KeyPressHandler() {
       public void onKeyPress(KeyPressEvent event) {
         if (grow == true) {
-          setNewSize();
+          if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+            setNewSize(true);
+          }
         }
       }
     });
 
+    /* TODO ????
     addChangeHandler(new ChangeHandler() {
       public void onChange(ChangeEvent event) {
-        setDefaultText();
+        setDefaultTextIntoTextBox();
       }
     });
+     */
 
     addFocusHandler(new FocusHandler() {
       public void onFocus(FocusEvent event) {
@@ -185,28 +232,16 @@ public class WiseTextBox extends TextBox {
 
     addBlurHandler(new BlurHandler() {
       public void onBlur(BlurEvent event) {
-        setDefaultText();
+        setDefaultTextIntoTextBox();
       }
     });
-  }
 
-  public void setEditHover(boolean hideBorderUntilHover) {
-    this.hideBorderUntilHover = hideBorderUntilHover;
-    setUpEditHover();
   }
 
   public void setDefaultText(String defaultText) {
     this.defaultText = defaultText;
-    addStyleName("gv-core-WiseTextBox-default");
-    setText(defaultText);
-  }
-
-  private void setDefaultText() {
-    if (getText().trim().length() != 0) {
-      return;
-    }
-    addStyleName("gv-core-WiseTextBox-default");
-    setText(defaultText); 
+    addStyleName("gv-core-WiseRichTextArea-default");
+    setHTML(defaultText);
   }
 
   private void drawDefaultText() {
@@ -214,11 +249,12 @@ public class WiseTextBox extends TextBox {
       return;
     }
     if (getText().trim().equals(defaultText) == true) {
-      addStyleName("gv-core-WiseTextBox-default");
+      addStyleName("gv-core-WiseRichTextArea-default");
     } else {
-      removeStyleName("gv-core-WiseTextBox-default");
+      removeStyleName("gv-core-WiseRichTextArea-default");
     }
   }
+
 
   /**
    * when focusing, and the default text is set, set it to zero text
@@ -228,8 +264,16 @@ public class WiseTextBox extends TextBox {
       return;
     }
     if (defaultText.equals(getText().trim()) == true) {
-      setText("");
+      setHTML("");
     }
+  }
+
+  private void setDefaultTextIntoTextBox() {
+    if (getText().trim().length() != 0) {
+      return;
+    }
+    addStyleName("gv-core-WiseTextBox-default");
+    setHTML(defaultText); 
   }
 
   /**
@@ -238,7 +282,7 @@ public class WiseTextBox extends TextBox {
   private void setUpEditHover() {
     if (hideBorderUntilHover == true) {
       setEdit(false);
-    }   
+    }
   }
 
   public void setEdit(boolean edit) {
@@ -261,50 +305,101 @@ public class WiseTextBox extends TextBox {
   }
 
   private void setEdit() {
-    removeStyleName("gv-core-WiseTextBox-noborder");
+    removeStyleName("gv-core-WiseRichTextArea-noborder");
   }
 
   private void setView() {
-    addStyleName("gv-core-WiseTextBox-noborder");
+    addStyleName("gv-core-WiseRichTextArea-noborder");
   }
 
-  private void setNewSize() {
+  private void setNewSize(boolean forceNewLine) {
 
     // only done once
     setOriginalSize();
 
+    // onlydone once - sets up a location to calculate size
+    setHiddenPanel();
+
     // only done once
-    setupHiddenPanel();
+    cloneStyleOnce();
 
-    // doevery time
-    getCurrentTextWidth();
+    // do everytime - check for textbox getting bigger
+    //setMovingWidth();
 
+    // everytime - calculate the size width and height of text
+    setCurrentTextSize(forceNewLine);
+
+
+    /* only use height, but could do both
     if (width > originalWidth) {
-      super.setWidth(width + "px");
+      setWidth(width + "px");
     }
+     */
 
+    if (height > originalHeight) {
+      super.setHeight(height + "px");
+    }
   }
 
-  private void getCurrentTextWidth() {
+  /**
+   * for changing textbox width
+   */
+  private void setMovingWidth() {
+    if (htmlForSizeTesting == null) {
+      return;
+    }
+    //TODO what the heck is with the offset width differring. Maybe i'm tired. 
+    int left = 0;
+    try {
+      left = Integer.parseInt(ComputedStyle.getStyleProperty(this.getElement(), "width").replaceAll("[^0-9]", ""));
+    } catch (NumberFormatException e) {
+      e.printStackTrace();
+      return;
+    }
+    int right = htmlForSizeTesting.getOffsetWidth();
+    if (left != right) {
+      setTextContainerWidth(left + "");
+    }
+  }
 
-    String s = getText();
-    s = s.replaceAll("\040", "&nbsp;");
-    
-    
-    SafeHtml sh = HtmlSanitizerUtils.sanitizeHtml(s); // allowing more through the gate
+  private void cloneStyleOnce() {
+    if (clonedOnce == false) {
+      clonedOnce = true;
+      cloneStyle();
+    }
+  }
+
+  /**
+   * resize input 
+   * @param forceNewLine - on enter, think ahead and set size, so no scroll bars appear
+   */
+  private void setCurrentTextSize(boolean forceNewLine) {
+
+    String s = getHTML();
+
+    if (forceNewLine == true) { // thing forward on height spacing
+      s += "<br>";
+    }
+
+    System.out.println("s=" + s);
+
+    SafeHtml sh = HtmlSanitizerUtils.sanitizeHtml(s); // I'm allowing more through the door here
     htmlForSizeTesting.setHTML(sh);
 
     width = htmlForSizeTesting.getOffsetWidth();
     width += headroomWidthPadding;
 
-    //height = htmlForSizeTesting.getOffsetHeight();
-    //height += headroomHeightPadding; 
+    height = htmlForSizeTesting.getOffsetHeight();
+    height += headroomHeightPadding; 
+
+    //System.out.println("setCurrentTextSize(): width=" + (width-headroomWidthPadding) + " height=" + (height-headroomHeightPadding));
   }
 
-  private void setOriginalSize() {
+  private void setOriginalSize() {    
     if (orginalSet == false) {
       originalWidth = getOffsetWidth();
       originalHeight = getOffsetHeight();
+      //System.out.println("setOriginalSize(): originalWidth=" + originalWidth + " originalHeight=" + originalHeight);
       orginalSet = true;
     }
   }
@@ -325,8 +420,12 @@ public class WiseTextBox extends TextBox {
       eright.getStyle().setProperty(styles[i], prop);
 
       // debug
-      //System.out.println("setStyle style=" + styles[i] + " prop=" + prop);
+      //System.out.println("TextArea cloneStyle() style=" + styles[i] + " prop=" + prop);
     }
+
+    //eright.getStyle().setProperty("wordWrap", "break-word");
+    // css3 long word breaking like it will break aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa....
+    eright.getStyle().setProperty("wordBreak", "break-all");
   }
 
   /**
@@ -340,13 +439,16 @@ public class WiseTextBox extends TextBox {
     Timer t = new Timer() {
       public void run() {
         cloneStyle();
-        setNewSize();
+        setNewSize(false);
       }
     };
     t.schedule(600);
   }
 
-  private void setupHiddenPanel() {
+  /**
+   * TODO move this to a shared hidden div.
+   */
+  private void setHiddenPanel() {
     if (htmlForSizeTesting != null) {
       return;
     }
@@ -355,30 +457,38 @@ public class WiseTextBox extends TextBox {
     hiddenPanel = new AbsolutePanel();
     RootPanel.get().add(hiddenPanel);
 
-    // create a panel that won't go 100%
-    HorizontalPanel hp = new HorizontalPanel();
-    hiddenPanel.add(hp, 1000, 1000); // hide it
-    //hiddenPanel.add(hp); // show it for debugging
+    // create a spot to measure html - note text area you would want to wrap
+    htmlForSizeTesting = new HTML("", true); 
+    //hiddenPanel.add(htmlForSizeTesting, -1000, -1000); // hide it from view
+    hiddenPanel.add(htmlForSizeTesting);
+    htmlForSizeTesting.setStyleName("gv-core-WiseRichTextArea-break"); // css3 long word breaking
 
-    // create a spot to measure html
-    htmlForSizeTesting = new HTML("", false); // note text area you would want to wrap
-    hp.add(htmlForSizeTesting);
+    // setup width constraint
+    setTextContainerWidth(Integer.toString(getOffsetWidth()));
 
-    // for debugging
-    //hp.addStyleName("test1");
+    //debug
+    hiddenPanel.addStyleName("test1");
+    htmlForSizeTesting.addStyleName("test2");
+  }
 
-    // for some reason, the computed style takes a sec to kick in.... hmmmm
-    cloneStyle();
+  private void setTextContainerWidth(String width) {
+    if (htmlForSizeTesting == null) {
+      return;
+    }
+    htmlForSizeTesting.setWidth(width + "px");
+    //System.out.println("setTextContainerWidth=" + width);
   }
 
   @Override
-  public void setText(String text) {
-    if (defaultText != null && text.equals(defaultText) == false) {
+  public void setHTML(String html) {
+    if (defaultText != null && html.equals(defaultText) == false) {
       removeStyleName("gv-core-WiseTextBox-default"); // TODO setup a method for this
     }
-    super.setText(text);
-    setNewSize();
-    // work around for intial setup not sure why
+    //TODO SafeHtml sh = HtmlSanitizerUtils.sanitizeHtml(html);
+    super.setHTML(html);
+    setNewSize(false);
+
+    // delay for attatching or whatever. workaround here
     cloneStyleTimed();
   };
 
@@ -408,12 +518,14 @@ public class WiseTextBox extends TextBox {
       originalWidth = Integer.parseInt(width);
     } catch (NumberFormatException e) {
     }
+
+    setTextContainerWidth(width);
   }
 
   @Override
   public void setHeight(String height) {
     super.setHeight(height);
-    height = height.replaceAll("^[0-9]", "");
+    height = height.replaceAll("[^0-9]", "");
     try {
       originalHeight = Integer.parseInt(height);
     } catch (NumberFormatException e) {
@@ -426,6 +538,33 @@ public class WiseTextBox extends TextBox {
     setHeight(height);
   }
 
+
+
+
+  /**
+   * no worky yet...
+   */
+  @Override
+  public void onBrowserEvent(Event event) {
+    
+    //System.out.println("event.getTypeInt()=" + event.getTypeInt());
+    
+    switch (event.getTypeInt()) {
+
+    case Event.ONPASTE: {
+      String newValue = OnPasteUtils.getPastedText(event);
+      System.out.println("OnPaste=" + newValue);
+      if (newValue != null && newValue.trim().length() > 0) {
+        //setText(newValue);
+      }
+      break;
+    }
+    default: {
+      super.onBrowserEvent(event);
+    }
+
+    }
+  }
 
 
 }
