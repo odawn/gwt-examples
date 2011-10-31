@@ -8,6 +8,11 @@
 # http://code.google.com/p/google-web-toolkit/source/browse/trunk/eclipse/README.txt
 #
 
+if [ "$1" = "-h" ]
+then
+    echo "sh ./gwt_source_setup.sh -o [-o=overrite|replace previous download]"
+fi 
+
 echo "starting GWT source download and setup..."
 
 # install svn?
@@ -22,7 +27,11 @@ cd ~
 
 # remove gwt working directory
 # OPTIONAL
-#rm -rf ~/gwt
+if [ "$1" = "-o" ]
+then
+	rm -rf ~/gwt    
+fi 
+
 
 # make a working directory
 mkdir ~/gwt
