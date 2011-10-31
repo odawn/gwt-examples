@@ -6,9 +6,6 @@
 = Setting up GWT Source =
  I made this bourne shell script to speedup the GWT source download and setup. 
 
-= Eclipse Update Sites Needed =
- * [http://eclipse-cs.sf.net/update/] - install Check Style 
-
 == Reference ==
  * [http://code.google.com/webtoolkit/makinggwtbetter.html Making GWT Better] - This script follows the directions here.
  * [http://code.google.com/p/google-web-toolkit/source/browse/trunk/eclipse/README.txt ReadMe.txt] - More detailed Eclipse setup directions.
@@ -71,6 +68,9 @@ ant
 echo "Finished downloading GWT source and setup.";
 }}}
 
+
+= Eclipse Install Notes =
+ * [http://eclipse-cs.sf.net/update/] - install Check Style in eclipse
 
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-aff.xml" height="100" width="740" border="0" />
 
