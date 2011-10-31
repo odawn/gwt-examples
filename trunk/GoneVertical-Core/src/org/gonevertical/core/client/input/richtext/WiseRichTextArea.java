@@ -40,6 +40,7 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RichTextArea;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.impl.RichTextAreaImpl;
 
 public class WiseRichTextArea extends RichTextArea {
 
@@ -177,8 +178,6 @@ public class WiseRichTextArea extends RichTextArea {
      */
     sinkEvents(Event.ONPASTE); // TODO ? no worky
     DOM.sinkEvents(getElement(), Event.ONPASTE); //TODO ? no worky
-    
-    //sinkEvents(Event.ONKEYUP);
 
     /**
      * TODO this won't work either, b/c it won't capture once focued on richtextarea  
@@ -188,15 +187,25 @@ public class WiseRichTextArea extends RichTextArea {
         NativeEvent ne = event.getNativeEvent();
         if (event.getTypeInt() == Event.ONPASTE) {
           System.out.println("Pasting?????");
-          Window.alert("works");
+          Window.alert("Works 1");
         }
         System.out.println("event.toDebutString()=" + event.toDebugString() + " ne.getType=" + ne.getType() + " ne.toString=" + ne.toString() + " charCode=" + ne.getCharCode() + " key=" + (char)ne.getCharCode());
       }
     });
+    
 
+    test();
   }
   
+  public native void test() /*-{
+    var o = this.@org.gonevertical.core.client.input.richtext.WiseRichTextArea::impl.getElement();
+    test2(o);
+  }-*/;
   
+  public void test2(Element e) {
+
+    System.out.println("e=" + e);
+  }
   
   /**
    * TODO corresponding to sink - no events coming in yet for OnPaste that is
@@ -437,7 +446,7 @@ public class WiseRichTextArea extends RichTextArea {
       s += "<br>";
     }
 
-    System.out.println("s=" + s);
+    //System.out.println("s=" + s);
 
     SafeHtml sh = HtmlSanitizerUtils.sanitizeHtml(s); // I'm allowing more through the door here
     htmlForSizeTesting.setHTML(sh);
