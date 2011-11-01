@@ -3,38 +3,6 @@
 <g:plusone size="medium"></g:plusone>
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
 
-= Rich Text Editor =
- I am getting an error when adding a RichTextEditor to a DialogBox. I have tried a few workarounds and haven't found a good solution. I tried Timing the adding of the rta, this works for the first time the DialogBox is centered(). After hiding and trying for a second time to center() it, the Dialogbox will fail because of the rich text editor.
-
- * Built with GWT Version 0.0.2415_M2
- * project located in source code. Source > trunk > gwt-test-RichTextEditor [http://code.google.com/p/gwt-examples/source/browse source]
- * Demo of error (compiled war project) - [http://gawkat.com/RichTextEditorPopUp/]
- * [http://code.google.com/p/gwt-examples/downloads/list?can=1&q=RichTextEditor&colspec=Filename+Summary+Uploaded+Size+DownloadCount Download WAR]
-
-== Bug ==
- [http://code.google.com/p/google-web-toolkit/issues/detail?id=2396 Issue 2396]
-
-=== Details ===
- Error in eclipse Developments shell debugger
-{{{
-[ERROR] Uncaught exception escaped
-java.lang.RuntimeException: Failed to invoke native method: @com.google.gwt.user.client.ui.impl.RichTextAreaImplStandard::unhookEvents() with 0 arguments.
-	at com.google.gwt.dev.shell.moz.LowLevelMoz.invoke(LowLevelMoz.java:132)
-	at com.google.gwt.dev.shell.moz.ModuleSpaceMoz.doInvoke(ModuleSpaceMoz.java:98)
-	at com.google.gwt.dev.shell.ModuleSpace.invokeNative(ModuleSpace.java:474)
-	at com.google.gwt.dev.shell.ModuleSpace.invokeNativeVoid(ModuleSpace.java:275)
-	at com.google.gwt.dev.shell.JavaScriptHost.invokeNativeVoid(JavaScriptHost.java:121)
-	at com.google.gwt.user.client.ui.impl.RichTextAreaImplStandard.unhookEvents(RichTextAreaImplStandard.java:308)
-	at com.google.gwt.user.client.ui.impl.RichTextAreaImplStandard.uninitElement(RichTextAreaImplStandard.java:228)
-	at com.google.gwt.user.client.ui.RichTextArea.onDetach(RichTextArea.java:435)
-	at com.google.gwt.user.client.ui.Panel.doDetachChildren(Panel.java:174)
-	at com.google.gwt.user.client.ui.Widget.onDetach(Widget.java:146)
-}}}
-
- Error in firefox (from demo)
-{{{
-Error: uncaught exception: [Exception... "Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIDOMEventTarget.removeEventListener]"  nsresult: "0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame :: http://gawkat.com/RichTextEditorPopUp/8BB667AFA4257A2DB4290D56312C8A25.cache.html :: kB :: line 381"  data: no]
-}}}
 
 
 = Researching Paste =
@@ -91,6 +59,46 @@ Error: uncaught exception: [Exception... "Component returned failure code: 0x800
     };
   }-*/;
 }}}
+
+
+
+
+= Rich Text Editor (older)=
+ I am getting an error when adding a RichTextEditor to a DialogBox. I have tried a few workarounds and haven't found a good solution. I tried Timing the adding of the rta, this works for the first time the DialogBox is centered(). After hiding and trying for a second time to center() it, the Dialogbox will fail because of the rich text editor.
+
+ * Built with GWT Version 0.0.2415_M2
+ * project located in source code. Source > trunk > gwt-test-RichTextEditor [http://code.google.com/p/gwt-examples/source/browse source]
+ * Demo of error (compiled war project) - [http://gawkat.com/RichTextEditorPopUp/]
+ * [http://code.google.com/p/gwt-examples/downloads/list?can=1&q=RichTextEditor&colspec=Filename+Summary+Uploaded+Size+DownloadCount Download WAR]
+
+== I found a Bug ==
+ [http://code.google.com/p/google-web-toolkit/issues/detail?id=2396 Issue 2396]
+
+=== Details ===
+ Error in eclipse Developments shell debugger
+{{{
+[ERROR] Uncaught exception escaped
+java.lang.RuntimeException: Failed to invoke native method: @com.google.gwt.user.client.ui.impl.RichTextAreaImplStandard::unhookEvents() with 0 arguments.
+	at com.google.gwt.dev.shell.moz.LowLevelMoz.invoke(LowLevelMoz.java:132)
+	at com.google.gwt.dev.shell.moz.ModuleSpaceMoz.doInvoke(ModuleSpaceMoz.java:98)
+	at com.google.gwt.dev.shell.ModuleSpace.invokeNative(ModuleSpace.java:474)
+	at com.google.gwt.dev.shell.ModuleSpace.invokeNativeVoid(ModuleSpace.java:275)
+	at com.google.gwt.dev.shell.JavaScriptHost.invokeNativeVoid(JavaScriptHost.java:121)
+	at com.google.gwt.user.client.ui.impl.RichTextAreaImplStandard.unhookEvents(RichTextAreaImplStandard.java:308)
+	at com.google.gwt.user.client.ui.impl.RichTextAreaImplStandard.uninitElement(RichTextAreaImplStandard.java:228)
+	at com.google.gwt.user.client.ui.RichTextArea.onDetach(RichTextArea.java:435)
+	at com.google.gwt.user.client.ui.Panel.doDetachChildren(Panel.java:174)
+	at com.google.gwt.user.client.ui.Widget.onDetach(Widget.java:146)
+}}}
+
+ Error in firefox (from demo)
+{{{
+Error: uncaught exception: [Exception... "Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIDOMEventTarget.removeEventListener]"  nsresult: "0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame :: http://gawkat.com/RichTextEditorPopUp/8BB667AFA4257A2DB4290D56312C8A25.cache.html :: kB :: line 381"  data: no]
+}}}
+
+
+
+
 
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
 <g:plusone size="medium"></g:plusone>
