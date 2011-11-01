@@ -11,10 +11,10 @@
  * Demo of error (compiled war project) - [http://gawkat.com/RichTextEditorPopUp/]
  * [http://code.google.com/p/gwt-examples/downloads/list?can=1&q=RichTextEditor&colspec=Filename+Summary+Uploaded+Size+DownloadCount Download WAR]
 
- == Bug ==
+== Bug ==
  [http://code.google.com/p/google-web-toolkit/issues/detail?id=2396 Issue 2396]
 
- = Details =
+=== Details ===
  Error in eclipse Developments shell debugger
 {{{
 [ERROR] Uncaught exception escaped
@@ -36,164 +36,60 @@ java.lang.RuntimeException: Failed to invoke native method: @com.google.gwt.user
 Error: uncaught exception: [Exception... "Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIDOMEventTarget.removeEventListener]"  nsresult: "0x80004005 (NS_ERROR_FAILURE)"  location: "JS frame :: http://gawkat.com/RichTextEditorPopUp/8BB667AFA4257A2DB4290D56312C8A25.cache.html :: kB :: line 381"  data: no]
 }}}
 
- RichTextEditor in my DialogBox Class
+
+= Researching Paste =
+ I want to intercept paste or onpaste in richtextarea
+== First Hack ==
+ I found where to intercept a paste event - See the wnd.addEventListener('paste', elem.__gwt_test, true);... 
 {{{
-public class RTAEditorDialogPopup extends DialogBox implements ClickListener {
+// RichTextAreaImplSafari.java source hack
+  @Override
+  protected native void hookEvents() /*-{
+    var elem = this.@com.google.gwt.user.client.ui.impl.RichTextAreaImpl::elem;
+    var wnd = elem.contentWindow;
 
-		// change listeners for this widget
-		private ChangeListenerCollection changeListeners;
-		
-		// main panel
-		private VerticalPanel pWidget = new VerticalPanel();
-		
-		//use this for testing
-		private VerticalPanel pInputTest = new VerticalPanel();
-		
-		//rta input (in popout editor)
-		private RichTextArea input = new RichTextArea();
-	
-		// Buttons
-		private PushButton bUpdate = new PushButton("Update");
-		private PushButton bClose = new PushButton("Cancel");
-		
-		// Vars
-		private String sSelected = null;
-		
-		/**
-		 * constructor - init widget
-		 */
-		public RTAEditorDialogPopup() {
+    elem.__gwt_handler = function(evt) {
+      if (elem.__listener) {
+        if (@com.google.gwt.user.client.impl.DOMImpl::isMyListener(Ljava/lang/Object;)(elem.__listener)) {
+          @com.google.gwt.user.client.DOM::dispatchEvent(Lcom/google/gwt/user/client/Event;Lcom/google/gwt/user/client/Element;Lcom/google/gwt/user/client/EventListener;)(evt, elem, elem.__listener);
+        }
+      }
+    };
+    
+    elem.__gwt_test = function(evt) {
+      alert('pasted');
+      __gwt_handler(evt);
+    };
+    wnd.addEventListener('paste', elem.__gwt_test, true);
+    
+    alert('I loaded');
 
-			setText("RTA Edit");
+    wnd.addEventListener('keydown', elem.__gwt_handler, true);
+    wnd.addEventListener('keyup', elem.__gwt_handler, true);
+    wnd.addEventListener('keypress', elem.__gwt_handler, true);
+    wnd.addEventListener('mousedown', elem.__gwt_handler, true);
+    wnd.addEventListener('mouseup', elem.__gwt_handler, true);
+    wnd.addEventListener('mousemove', elem.__gwt_handler, true);
+    wnd.addEventListener('mouseover', elem.__gwt_handler, true);
+    wnd.addEventListener('mouseout', elem.__gwt_handler, true);
+    wnd.addEventListener('click', elem.__gwt_handler, true);
 
-			//buttons
-			HorizontalPanel hpButtons = new HorizontalPanel();
-			hpButtons.setSpacing(4);
-			hpButtons.add(bClose);
-			hpButtons.add(bUpdate);
-			
-			//toolbar
-		    RichTextToolbar tb = new RichTextToolbar(input);
+    // Focus/blur event handlers. For some reason, [add|remove]eventListener()
+    // doesn't work on the iframe element (at least not for focus/blur). Don't
+    // dispatch through the normal handler method, as some of the querying we do
+    // there interferes with focus.
+    wnd.onfocus = function(evt) {
+      if (elem.__listener) {
+        @com.google.gwt.user.client.DOM::dispatchEvent(Lcom/google/gwt/user/client/Event;Lcom/google/gwt/user/client/Element;Lcom/google/gwt/user/client/EventListener;)(evt, elem, elem.__listener);
+      }
+    };
 
-		    //setup widget
-		    pWidget.add(tb);
-		    pWidget.add(input);
-		    pWidget.add(pInputTest); //testing below not used on post
-			pWidget.add(hpButtons);
-			
-			// init widget
-			setWidget(pWidget);
-			
-			//Style
-			pWidget.setCellHorizontalAlignment(hpButtons, HorizontalPanel.ALIGN_CENTER);
-			input.setWidth("100%");
-			input.setHeight("300");
-			
-			// observe
-			bUpdate.addClickListener(this);
-			bClose.addClickListener(this);
-		
-		}
-		
-		/**
-		 * get rta text
-		 * 
-		 * @return html
-		 */
-		public String getRTAText() {
-			return input.getHTML();
-		}
-		
-		/**
-		 * set rta text
-		 * 
-		 * @param text html
-		 */
-		public void setRTAText(String text) {
-			input.setHTML(text);
-		}
-		
-		
-		/**
-		 * draw rta timed
-		 * 
-		 * this will work, but only the first time 
-		 */
-		private void drawRTATimed() {
-			
-			Timer t = new Timer() {
-				public void run() {
-					drawRta();
-				}
-			};
-			t.schedule(5);
-			
-		}
-		
-		/**
-		 * init rta after timed event
-		 */
-		private void drawRta() {
-			
-			// init rta
-			RichTextArea rtaInput = new RichTextArea();
-			
-			// init rta toolbar
-			RichTextToolbar rtaToolbar = new RichTextToolbar(rtaInput);
-			
-			pInputTest.add(rtaToolbar);
-			pInputTest.add(rtaInput);
-			
-			rtaInput.setWidth("100%");
-			rtaInput.setHeight("300");
-			
-			this.center();
-		}
-		
-		/**
-		 * observe
-		 */
-		public void onClick(Widget sender) {
-				
-			if (sender == bUpdate) {
-				this.sSelected = "update";
-			}
-			
-			if (sender == bClose) {
-				this.sSelected = "close";
-			}
-			
-			//notify calendar of change
-			if (changeListeners != null) {
-				changeListeners.fireChange(this);
-			}
-
-		}
-		
-		/**
-		 * get selected 
-		 * @return
-		 */
-		public String getSelected() {
-			return this.sSelected;
-		}
-
-		/**
-		 * observers
-		 * @param listener
-		 */
-		public void addChangeListener(ChangeListener listener) {
-			if (changeListeners == null)
-				changeListeners = new ChangeListenerCollection();
-			changeListeners.add(listener);
-		}
-
-		public void removeChangeListener(ChangeListener listener) {
-			if (changeListeners != null)
-				changeListeners.remove(listener);
-		}
-}
-
+    wnd.onblur = function(evt) {
+      if (elem.__listener) {
+        @com.google.gwt.user.client.DOM::dispatchEvent(Lcom/google/gwt/user/client/Event;Lcom/google/gwt/user/client/Element;Lcom/google/gwt/user/client/EventListener;)(evt, elem, elem.__listener);
+      }
+    };
+  }-*/;
 }}}
 
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
