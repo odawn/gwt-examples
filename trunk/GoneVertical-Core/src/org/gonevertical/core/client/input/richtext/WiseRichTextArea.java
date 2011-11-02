@@ -2,6 +2,7 @@ package org.gonevertical.core.client.input.richtext;
 
 import org.gonevertical.core.client.html.HtmlSanitizerUtils;
 import org.gonevertical.core.client.input.richtext.workaround.RichTextArea;
+import org.gonevertical.core.client.onpaste.PasteUtils;
 import org.gonevertical.core.client.style.ComputedStyle;
 
 import com.google.gwt.dom.client.NativeEvent;
@@ -166,7 +167,7 @@ public class WiseRichTextArea extends RichTextArea {
      * 
      * org.gonevertical.core.client.input.richtext.workaround.RichTextArea
      */
-    sinkEvents(Event.ONPASTE);
+    //sinkEvents(Event.ONPASTE);
   }
   
   /**
@@ -174,15 +175,25 @@ public class WiseRichTextArea extends RichTextArea {
    */
   @Override 
   public void onBrowserEvent(Event event) { 
+    
     switch (event.getTypeInt()) { 
     case Event.ONPASTE: // intercept paste and don't send it on
-      System.out.println("PASTE DETECTED"); 
-      Window.alert("Works 2");
+      event.stopPropagation();
+      System.out.println("paste detected"); 
+      setPasted(event);
       break; 
       default:
         super.onBrowserEvent(event); 
+        
     } 
   } 
+
+  private void setPasted(Event event) {
+    String text = PasteUtils.getClipboardPastedText(event);
+    if (text != null) {
+      setText(" <<<<<<" + text + ">>>>>> ");
+    }
+  }
 
   private void setupHandlers() {
 
