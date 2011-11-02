@@ -7,11 +7,32 @@
 
 = Researching Paste =
  I want to intercept paste or onpaste in richtextarea
-== First Hack ==
+== Paste Hack ==
  I found where to intercept a paste event - See the wnd.addEventListener('paste', elem.__gwt_test, true);... 
 {{{
+// for use
+
+
+  //....
+    sinkEvents(Event.ONPASTE);
+  }
+  
+  /**
+   * TODO corresponding to sink - no events coming in yet for OnPaste that is
+   */
+  @Override 
+  public void onBrowserEvent(Event event) { 
+    super.onBrowserEvent(event); 
+    switch (event.getTypeInt()) { 
+    case Event.ONPASTE: 
+      System.out.println("Paste Detected"); 
+      Window.alert("Paste Works!!! Yippie!!!");
+      break; 
+    } 
+  } 
+
 // RichTextAreaImplSafari.java source hack
-  @Override
+ @Override
   protected native void hookEvents() /*-{
     var elem = this.@com.google.gwt.user.client.ui.impl.RichTextAreaImpl::elem;
     var wnd = elem.contentWindow;
@@ -22,15 +43,7 @@
           @com.google.gwt.user.client.DOM::dispatchEvent(Lcom/google/gwt/user/client/Event;Lcom/google/gwt/user/client/Element;Lcom/google/gwt/user/client/EventListener;)(evt, elem, elem.__listener);
         }
       }
-    };
-    
-    elem.__gwt_test = function(evt) {
-      alert('pasted');
-      __gwt_handler(evt);
-    };
-    wnd.addEventListener('paste', elem.__gwt_test, true);
-    
-    alert('I loaded');
+    };    
 
     wnd.addEventListener('keydown', elem.__gwt_handler, true);
     wnd.addEventListener('keyup', elem.__gwt_handler, true);
@@ -41,6 +54,9 @@
     wnd.addEventListener('mouseover', elem.__gwt_handler, true);
     wnd.addEventListener('mouseout', elem.__gwt_handler, true);
     wnd.addEventListener('click', elem.__gwt_handler, true);
+
+    // Whats needed . this works.
+    wnd.addEventListener('paste', elem.__gwt_handler, true);
 
     // Focus/blur event handlers. For some reason, [add|remove]eventListener()
     // doesn't work on the iframe element (at least not for focus/blur). Don't
