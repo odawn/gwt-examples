@@ -5,7 +5,7 @@
 
 
 
-= Researching Paste =
+= RichTextArea Paste Hack =
  I want to intercept paste or onpaste in richtextarea
 
 == Paste Hack ==
