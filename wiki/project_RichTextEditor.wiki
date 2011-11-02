@@ -4,6 +4,9 @@
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
 
 
+== My Workaround to Pasting ==
+ In development, but here you go if your early.
+ * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FGoneVertical-Core%2Fsrc%2Forg%2Fgonevertical%2Fcore%2Fclient%2Finput%2Frichtext%2Fworkaround WorkAround Source] - I only added to hook events in the impl classes.
 
 = RichTextArea Paste Hack =
  I want to intercept paste or onpaste in richtextarea
