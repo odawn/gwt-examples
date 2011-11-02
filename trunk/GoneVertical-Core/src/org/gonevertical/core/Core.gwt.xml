@@ -4,6 +4,9 @@
   <!-- When working with ui designer stick the User lib in here -->
   <inherits name='com.google.gwt.user.User'/>
   
+  <!-- Copied from Google Source. My work around for the paste event, until it can be fixed -->
+  <inherits name='org.gonevertical.core.RichText'/>
+  
   <stylesheet src="css/core.css"/>
  
   <source path='client'/>

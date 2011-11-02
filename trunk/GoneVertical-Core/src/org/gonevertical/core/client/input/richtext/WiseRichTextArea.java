@@ -1,17 +1,12 @@
 package org.gonevertical.core.client.input.richtext;
 
 import org.gonevertical.core.client.html.HtmlSanitizerUtils;
-import org.gonevertical.core.client.onpaste.OnPasteUtils;
+import org.gonevertical.core.client.input.richtext.workaround.RichTextArea;
 import org.gonevertical.core.client.style.ComputedStyle;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.DomEvent.Type;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -28,19 +23,13 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Event.NativePreviewHandler;
-import com.google.gwt.user.client.EventPreview;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.RichTextArea;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.impl.RichTextAreaImpl;
 
 public class WiseRichTextArea extends RichTextArea {
 
@@ -172,58 +161,28 @@ public class WiseRichTextArea extends RichTextArea {
     setupHandlers();
 
 
-    // deal with messy pasting
     /**
-     * TODO - No Worky - iframe? I see the hook events in the RichTextAreaImpl and how come I can't hook them in here?
+     * I'm using a work around to get this to work.
+     * 
+     * org.gonevertical.core.client.input.richtext.workaround.RichTextArea
      */
-    sinkEvents(Event.ONPASTE); // TODO ? no worky
-    DOM.sinkEvents(getElement(), Event.ONPASTE); //TODO ? no worky
-
-    /**
-     * TODO this won't work either, b/c it won't capture once focued on richtextarea  
-     */
-    Event.addNativePreviewHandler(new NativePreviewHandler() {
-      public void onPreviewNativeEvent(NativePreviewEvent event) {
-        NativeEvent ne = event.getNativeEvent();
-        if (event.getTypeInt() == Event.ONPASTE) {
-          System.out.println("Pasting?????");
-          Window.alert("Works 1");
-        }
-        System.out.println("event.toDebutString()=" + event.toDebugString() + " ne.getType=" + ne.getType() + " ne.toString=" + ne.toString() + " charCode=" + ne.getCharCode() + " key=" + (char)ne.getCharCode());
-      }
-    });
-    
-
-    test();
-  }
-  
-  public native void test() /*-{
-    var o = this.@org.gonevertical.core.client.input.richtext.WiseRichTextArea::impl.getElement();
-    test2(o);
-  }-*/;
-  
-  public void test2(Element e) {
-
-    System.out.println("e=" + e);
+    sinkEvents(Event.ONPASTE);
   }
   
   /**
-   * TODO corresponding to sink - no events coming in yet for OnPaste that is
+   * this works if the paste event is hooked
    */
   @Override 
   public void onBrowserEvent(Event event) { 
-    super.onBrowserEvent(event); 
     switch (event.getTypeInt()) { 
-    case Event.ONPASTE: 
+    case Event.ONPASTE: // intercept paste and don't send it on
       System.out.println("PASTE DETECTED"); 
       Window.alert("Works 2");
       break; 
+      default:
+        super.onBrowserEvent(event); 
     } 
   } 
-
-  
-  
-  
 
   private void setupHandlers() {
 
