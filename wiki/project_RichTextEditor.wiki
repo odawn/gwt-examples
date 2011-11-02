@@ -10,16 +10,26 @@
 == Paste Hack ==
  I found where to intercept a paste event - See the wnd.addEventListener('paste', elem.__gwt_test, true);... 
 {{{
-// for use
 
+  // my inherited RichTextArea
+  public WiseRichTextArea(boolean hideBorderUntilHover, boolean grow) {
+    super();
+    setup(hideBorderUntilHover, grow);
+  }
 
-  //....
+  private void setup(boolean hideBorderUntilHover, boolean grow) {
+    this.hideBorderUntilHover = hideBorderUntilHover;
+    this.grow = grow;
+
+    addStyleName("gv-core-WiseRichTextArea");
+
+    setUpEditHover();  
+
+    setupHandlers();
+
     sinkEvents(Event.ONPASTE);
   }
-  
-  /**
-   * TODO corresponding to sink - no events coming in yet for OnPaste that is
-   */
+
   @Override 
   public void onBrowserEvent(Event event) { 
     super.onBrowserEvent(event); 
@@ -30,7 +40,9 @@
       break; 
     } 
   } 
+}}}
 
+{{{
 // RichTextAreaImplSafari.java source hack
  @Override
   protected native void hookEvents() /*-{
