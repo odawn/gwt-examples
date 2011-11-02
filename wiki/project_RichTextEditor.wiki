@@ -88,7 +88,7 @@
   }-*/;
 }}}
 
-
+https://google-web-toolkit.googlegroups.com/attach/36acd0598bc9022a/RichTextAreaInheritance.png?view=1&part=4&.jpg
 
 
 = Rich Text Editor (older)=
