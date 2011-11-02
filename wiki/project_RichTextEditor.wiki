@@ -7,10 +7,10 @@
 
 = Researching Paste =
  I want to intercept paste or onpaste in richtextarea
+
 == Paste Hack ==
  I found where to intercept a paste event - See the wnd.addEventListener('paste', elem.__gwt_test, true);... 
 {{{
-
   // my inherited RichTextArea
   public WiseRichTextArea(boolean hideBorderUntilHover, boolean grow) {
     super();
@@ -41,7 +41,7 @@
     } 
   } 
 }}}
-
+ My hack:
 {{{
 // RichTextAreaImplSafari.java source hack
  @Override
