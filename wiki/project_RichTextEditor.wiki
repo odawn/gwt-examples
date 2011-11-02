@@ -92,7 +92,7 @@
 https://google-web-toolkit.googlegroups.com/attach/36acd0598bc9022a/RichTextAreaInheritance.png?view=1&part=4&.jpg
 
 
-= Rich Text Editor (older)=
+= (older notes) =
  I am getting an error when adding a RichTextEditor to a DialogBox. I have tried a few workarounds and haven't found a good solution. I tried Timing the adding of the rta, this works for the first time the DialogBox is centered(). After hiding and trying for a second time to center() it, the Dialogbox will fail because of the rich text editor.
 
  * Built with GWT Version 0.0.2415_M2
