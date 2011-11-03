@@ -6,6 +6,7 @@
   
   <!-- Copied from Google Source. My work around for the paste event, until it can be fixed -->
   <inherits name='org.gonevertical.core.RichText'/>
+  <inherits name='org.gonevertical.core.ClipBoardApi'/>
   
   <stylesheet src="css/core.css"/>
  

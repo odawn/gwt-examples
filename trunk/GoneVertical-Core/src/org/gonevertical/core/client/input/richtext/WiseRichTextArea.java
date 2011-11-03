@@ -2,7 +2,7 @@ package org.gonevertical.core.client.input.richtext;
 
 import org.gonevertical.core.client.html.HtmlSanitizerUtils;
 import org.gonevertical.core.client.input.richtext.workaround.RichTextArea;
-import org.gonevertical.core.client.onpaste.PasteUtils;
+import org.gonevertical.core.client.onpaste.ClipBoardApi;
 import org.gonevertical.core.client.style.ComputedStyle;
 
 import com.google.gwt.dom.client.NativeEvent;
@@ -174,6 +174,7 @@ public class WiseRichTextArea extends RichTextArea {
   
   /**
    * this works if the paste event is hooked
+   * TODO NOT WORKING!!!!! in firefox, let alone I'm replacing not inserting
    */
   @Override 
   public void onBrowserEvent(Event event) {
@@ -188,10 +189,17 @@ public class WiseRichTextArea extends RichTextArea {
     } 
   } 
 
+  /**
+   * oops its not there yet. set into the spot selected... ugh!
+   * @param event
+   */
   private void setPasted(Event event) {
-    String text = PasteUtils.getClipboardPastedText(event);
+    System.out.println("Paste Detected!");
+    String text = new ClipBoardApi().getText(event);
     if (text != null) {
+      System.out.println("setPasted=" + text);
       setText(text);
+      //setNewSize(false);
     }
   }
 
@@ -494,8 +502,8 @@ public class WiseRichTextArea extends RichTextArea {
 
     // create a spot to measure html - note text area you would want to wrap
     htmlForSizeTesting = new HTML("", true); 
-    //hiddenPanel.add(htmlForSizeTesting, -1000, -1000); // hide it from view
-    hiddenPanel.add(htmlForSizeTesting);
+    hiddenPanel.add(htmlForSizeTesting, -1000, -1000); // hide it from view
+    //hiddenPanel.add(htmlForSizeTesting);
     htmlForSizeTesting.setStyleName("gv-core-WiseRichTextArea-break"); // css3 long word breaking
 
     // setup width constraint
@@ -512,6 +520,19 @@ public class WiseRichTextArea extends RichTextArea {
     }
     htmlForSizeTesting.setWidth(width + "px");
     //System.out.println("setTextContainerWidth=" + width);
+  }
+  
+  public String getValue() {
+    String s = getHTML().toString(); 
+    return s;
+  }
+  
+  public void setValue(String value) {
+    if (value == null) {
+     return; 
+    }
+    SafeHtml v = HtmlSanitizerUtils.sanitizeHtml(value);
+    setHTML(v);
   }
 
   @Override

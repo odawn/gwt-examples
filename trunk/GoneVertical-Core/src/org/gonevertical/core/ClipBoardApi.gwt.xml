@@ -1,0 +1,44 @@
+<!-- Deferred binding rules for browser selection.                          -->
+<!--                                                                        -->
+<module>
+
+  <!-- IE-specific implementation -->
+  <replace-with
+    class="org.gonevertical.core.client.onpaste.ClipBoardApiImpl_IE6">
+    <when-type-is
+      class="org.gonevertical.core.client.onpaste.ClipBoardApiImpl" />
+    <any>
+      <when-property-is name="user.agent" value="ie6" />
+      <when-property-is name="user.agent" value="ie8" />
+      <when-property-is name="user.agent" value="ie9" />
+    </any>
+  </replace-with>
+
+  <!-- Mozilla-specific implementation -->
+  <replace-with
+    class="org.gonevertical.core.client.onpaste.ClipBoardApiImpl_Mozilla">
+    <when-type-is
+      class="org.gonevertical.core.client.onpaste.ClipBoardApiImpl" />
+    <when-property-is name="user.agent" value="gecko1_8" />
+  </replace-with>
+
+  <!-- Safari-specific implementation -->
+  <replace-with
+    class="org.gonevertical.core.client.onpaste.ClipBoardApiImpl_Safari">
+    <when-type-is
+      class="org.gonevertical.core.client.onpaste.ClipBoardApiImpl" />
+    <any>
+      <when-property-is name="user.agent" value="safari" />
+    </any>
+  </replace-with>
+
+  <!-- Opera-specific implementation -->
+  <replace-with
+    class="org.gonevertical.core.client.onpaste.ClipBoardApiImpl_Opera">
+    <when-type-is
+      class="org.gonevertical.core.client.onpaste.ClipBoardApiImpl" />
+    <any>
+      <when-property-is name="user.agent" value="opera" />
+    </any>
+  </replace-with>
+</module>
