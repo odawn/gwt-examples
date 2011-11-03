@@ -26,6 +26,8 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
+import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -161,11 +163,11 @@ public class WiseRichTextArea extends RichTextArea {
 
     setupHandlers();
 
-
     /**
      * I'm using a work around to get this to work.
      * 
      * org.gonevertical.core.client.input.richtext.workaround.RichTextArea
+     * not needed b/c it won't work. not sure why yet, other than the iframe...
      */
     //sinkEvents(Event.ONPASTE);
   }
@@ -174,24 +176,22 @@ public class WiseRichTextArea extends RichTextArea {
    * this works if the paste event is hooked
    */
   @Override 
-  public void onBrowserEvent(Event event) { 
-    
+  public void onBrowserEvent(Event event) {
+    // intercept paste and don't send it on
     switch (event.getTypeInt()) { 
-    case Event.ONPASTE: // intercept paste and don't send it on
-      event.stopPropagation();
-      System.out.println("paste detected"); 
+    case Event.ONPASTE: 
+      event.preventDefault();
       setPasted(event);
       break; 
       default:
         super.onBrowserEvent(event); 
-        
     } 
   } 
 
   private void setPasted(Event event) {
     String text = PasteUtils.getClipboardPastedText(event);
     if (text != null) {
-      setText(" <<<<<<" + text + ">>>>>> ");
+      setText(text);
     }
   }
 
