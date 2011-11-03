@@ -19,7 +19,7 @@ public class PasteUtils {
       if (event.clipboardData) {
           try {
               text = event.clipboardData.getData("Text");
-              alert('text1=' + text);
+              //alert('text1=' + text);
               return text;
           } catch (e) {}
       }
@@ -27,7 +27,7 @@ public class PasteUtils {
       if ($wnd.clipboardData) { // IE
           try {
               text = $wnd.clipboardData.getData("Text");
-              alert('text2=' + text);
+              //alert('text2=' + text);
               return text;
           } catch (e) {}
       }
@@ -63,7 +63,7 @@ public class PasteUtils {
       if (str) str = str.value.QueryInterface(Components.interfaces.nsISupportsString);
       if (str) text = str.data.substring(0, strLength.value / 2);
 
-      alert('text3=' + text);
+      //alert('text3=' + text);
 
       return text;
 
