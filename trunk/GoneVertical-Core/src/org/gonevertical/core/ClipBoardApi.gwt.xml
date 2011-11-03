@@ -4,9 +4,9 @@
 
   <!-- IE-specific implementation -->
   <replace-with
-    class="org.gonevertical.core.client.onpaste.ClipBoardApiImpl_IE6">
+    class="org.gonevertical.core.client.input.clipboardapi.ClipBoardApiImpl_IE6">
     <when-type-is
-      class="org.gonevertical.core.client.onpaste.ClipBoardApiImpl" />
+      class="org.gonevertical.core.client.input.clipboardapi.ClipBoardApiImpl" />
     <any>
       <when-property-is name="user.agent" value="ie6" />
       <when-property-is name="user.agent" value="ie8" />
@@ -16,17 +16,17 @@
 
   <!-- Mozilla-specific implementation -->
   <replace-with
-    class="org.gonevertical.core.client.onpaste.ClipBoardApiImpl_Mozilla">
+    class="org.gonevertical.core.client.input.clipboardapi.ClipBoardApiImpl_Mozilla">
     <when-type-is
-      class="org.gonevertical.core.client.onpaste.ClipBoardApiImpl" />
+      class="org.gonevertical.core.client.input.clipboardapi.ClipBoardApiImpl" />
     <when-property-is name="user.agent" value="gecko1_8" />
   </replace-with>
 
   <!-- Safari-specific implementation -->
   <replace-with
-    class="org.gonevertical.core.client.onpaste.ClipBoardApiImpl_Safari">
+    class="org.gonevertical.core.client.input.clipboardapi.ClipBoardApiImpl_Safari">
     <when-type-is
-      class="org.gonevertical.core.client.onpaste.ClipBoardApiImpl" />
+      class="org.gonevertical.core.client.input.clipboardapi.ClipBoardApiImpl" />
     <any>
       <when-property-is name="user.agent" value="safari" />
     </any>
@@ -34,9 +34,9 @@
 
   <!-- Opera-specific implementation -->
   <replace-with
-    class="org.gonevertical.core.client.onpaste.ClipBoardApiImpl_Opera">
+    class="org.gonevertical.core.client.input.clipboardapi.ClipBoardApiImpl_Opera">
     <when-type-is
-      class="org.gonevertical.core.client.onpaste.ClipBoardApiImpl" />
+      class="org.gonevertical.core.client.input.clipboardapi.ClipBoardApiImpl" />
     <any>
       <when-property-is name="user.agent" value="opera" />
     </any>
