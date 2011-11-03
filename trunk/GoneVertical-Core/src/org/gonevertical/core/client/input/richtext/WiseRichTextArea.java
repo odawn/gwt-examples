@@ -1,8 +1,8 @@
 package org.gonevertical.core.client.input.richtext;
 
 import org.gonevertical.core.client.html.HtmlSanitizerUtils;
+import org.gonevertical.core.client.input.clipboardapi.ClipBoardApi;
 import org.gonevertical.core.client.input.richtext.workaround.RichTextArea;
-import org.gonevertical.core.client.onpaste.ClipBoardApi;
 import org.gonevertical.core.client.style.ComputedStyle;
 
 import com.google.gwt.dom.client.NativeEvent;
