@@ -1,9 +1,13 @@
 #summary Javascript event
 
+<g:plusone size="medium"></g:plusone>
+<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+
 = Event Members =
+ Javascript event members | properties
 
 {{{
-var s = '';
+      var s = '';
       s += 'altKey=' + evt.altKey + ' \n';
       s += 'altLeft=' + evt.altLeft + ' \n';
       s += 'attrChange=' + evt.attrChange + ' \n';
