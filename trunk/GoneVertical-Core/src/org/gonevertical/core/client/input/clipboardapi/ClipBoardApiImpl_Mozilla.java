@@ -2,7 +2,12 @@ package org.gonevertical.core.client.input.clipboardapi;
 
 import com.google.gwt.user.client.Event;
 
-
+/**
+ * 
+ * this sucks
+ *  
+ *
+ */
 public class ClipBoardApiImpl_Mozilla extends ClipBoardApiImpl_Standard {
   
   @Override
@@ -12,17 +17,37 @@ public class ClipBoardApiImpl_Mozilla extends ClipBoardApiImpl_Standard {
   }
   
   public native String getTextJsni(Event event) /*-{
+    
+    alert('event=' + event.toString());
+    
     var text = "";
+    
+     if ($wnd.clipboardData) {
+      try {
+        text = $wnd.clipboardData.getData("Text");
+        alert('text0=' + text + ' event=' + event.toString());
+        return text;
+      } catch (e) {}
+    }
   
-    // ????
+    // lets try the standard - http://dev.w3.org/2006/webapi/clipops/
+    if (event.clipboardData) {
+      try {
+        text = event.clipboardData.getData("Text");
+        alert('text1=' + text + ' event=' + event.toString());
+        return text;
+      } catch (e) {}
+    }
+  
+    // firefox probably won't work
     try {
-        if (netscape.security.PrivilegeManager.enablePrivilege) {
-          netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
-        } else {
-            //return "";
-        }
+      if (netscape.security.PrivilegeManager.enablePrivilege) {
+        netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+      } else {
+          //return "";
+      }
     } catch (ex) {
-        //return "";
+        return "";
     }
   
     var clip = Components.classes["@mozilla.org/widget/clipboard;1"].getService(Components.interfaces.nsIClipboard);
