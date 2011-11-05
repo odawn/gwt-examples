@@ -242,8 +242,6 @@ public class WiseRichTextArea extends RichTextArea {
 
     addKeyPressHandler(new KeyPressHandler() {
       public void onKeyPress(KeyPressEvent event) {
-        NativeEvent ne = event.getNativeEvent();
-        System.out.println("KeyPressHandler=" + ne.getType() + " key=" + (char)ne.getCharCode());
         if (grow == true) {
           if (event.getCharCode() == KeyCodes.KEY_ENTER) {
             setNewSize(true);
@@ -538,8 +536,8 @@ public class WiseRichTextArea extends RichTextArea {
     setTextContainerWidth(Integer.toString(getOffsetWidth()));
 
     //debug
-    hiddenPanel.addStyleName("test1");
-    htmlForSizeTesting.addStyleName("test2");
+    //hiddenPanel.addStyleName("test1");
+    //htmlForSizeTesting.addStyleName("test2");
   }
 
   private void setTextContainerWidth(String width) {
