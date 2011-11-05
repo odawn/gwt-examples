@@ -19,7 +19,7 @@ TextBox and TextArea auto expand dynamically changing size during typing into th
 
 = RichTextArea =
  Couple things I like to note for RichTextArea
- * I've added pasted intercepting. This way pasting doesn't add any formatting. Although, firefox/mozilla doesn't like you digging into the clipboard api. 
+ * I've added paste intercepting. This way pasting doesn't add any formatting. Although, firefox/mozilla doesn't like you digging into the clipboard api. 
  * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FGoneVertical-Core%2Fsrc%2Forg%2Fgonevertical%2Fcore%2Fclient%2Finput%2Fclipboardapi ClipBoard Api Source Directory] - My clipboard api cross browser impl. (well...sorta)
  * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FGoneVertical-Core%2Fsrc%2Forg%2Fgonevertical%2Fcore%2Fclient%2Finput%2Frichtext%2Fworkaround RichTextArea Source] - Hacking RichTextArea to work with paste and double clicking. 
  
