@@ -1,0 +1,20 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+		
+	</ui:style>
+	<g:VerticalPanel spacing="7">
+		<g:Cell horizontalAlignment="ALIGN_CENTER">
+			<g:HTML wordWrap="true">Paste your text into the input box.</g:HTML>
+		</g:Cell>
+		<g:Cell horizontalAlignment="ALIGN_CENTER">
+			<g:TextArea ui:field="textArea" width="250px" height="79px"/>
+		</g:Cell>
+		<g:Cell horizontalAlignment="ALIGN_CENTER">
+			<g:HorizontalPanel>
+			<g:PushButton text="Cancel" ui:field="pushButton"/>
+		</g:HorizontalPanel>
+		</g:Cell>
+	</g:VerticalPanel>
+</ui:UiBinder> 

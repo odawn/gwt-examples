@@ -16,20 +16,13 @@ public class ClipBoardApiImpl_Mozilla extends ClipBoardApiImpl_Standard {
     return getTextJsni(event);
   }
   
+  /**
+   * this probably won't work
+   */
   public native String getTextJsni(Event event) /*-{
-    
-    alert('event=' + event.toString());
     
     var text = "";
     
-     if ($wnd.clipboardData) {
-      try {
-        text = $wnd.clipboardData.getData("Text");
-        alert('text0=' + text + ' event=' + event.toString());
-        return text;
-      } catch (e) {}
-    }
-  
     // lets try the standard - http://dev.w3.org/2006/webapi/clipops/
     if (event.clipboardData) {
       try {
@@ -44,10 +37,10 @@ public class ClipBoardApiImpl_Mozilla extends ClipBoardApiImpl_Standard {
       if (netscape.security.PrivilegeManager.enablePrivilege) {
         netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
       } else {
-          //return "";
+          return null;
       }
     } catch (ex) {
-        return "";
+        return null;
     }
   
     var clip = Components.classes["@mozilla.org/widget/clipboard;1"].getService(Components.interfaces.nsIClipboard);

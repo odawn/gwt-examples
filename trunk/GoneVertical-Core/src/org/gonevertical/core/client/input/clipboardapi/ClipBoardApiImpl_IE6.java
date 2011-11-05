@@ -16,7 +16,6 @@ public class ClipBoardApiImpl_IE6 extends ClipBoardApiImpl_Standard {
     if ($wnd.clipboardData) { // IE
       try {
         text = $wnd.clipboardData.getData("Text");
-        //alert('text2=' + text);
         return text;
       } catch (e) {}
     }

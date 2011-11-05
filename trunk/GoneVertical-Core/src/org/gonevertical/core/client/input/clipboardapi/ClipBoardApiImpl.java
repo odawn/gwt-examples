@@ -20,7 +20,6 @@ public class ClipBoardApiImpl {
     if (event.clipboardData) {
       try {
         text = event.clipboardData.getData("Text");
-        //alert('text1=' + text);
         return text;
       } catch (e) {}
     }
