@@ -1,6 +1,9 @@
 package org.gonevertical.textboxexpand.client;
 
 
+import org.gonevertical.core.client.input.WiseTextArea;
+import org.gonevertical.core.client.input.WiseTextBox;
+import org.gonevertical.core.client.input.richtext.WiseRichTextArea;
 import org.gonevertical.textboxexpand.client.old.V3.AutoTextAreaEdit;
 import org.gonevertical.textboxexpand.client.old.V3.AutoTextBoxEdit;
 
@@ -18,46 +21,61 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class DemoTextBoxExpand implements EntryPoint {
 
-  
+  /**
+   * These widgets are now in -> GoneVertical-Core project as an included module
+   * see the project.gwt.xml module inheritance  
+   * http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FGoneVertical-Core%2Fsrc%2Forg%2Fgonevertical%2Fcore%2Fclient%2Finput
+   */
   public void onModuleLoad() {
   
     
     // auto growth, but always show the border
     boolean hideBorderUntilHover = false;
     boolean growWidth = true;
-    AutoTextBoxEdit tbEdit1 = new AutoTextBoxEdit(hideBorderUntilHover, growWidth);
+    WiseTextBox tbEdit1 = new WiseTextBox(hideBorderUntilHover, growWidth);
     tbEdit1.setWidth("150px");
     tbEdit1.setText("test 1 2 3");
     
     
+    
     hideBorderUntilHover = true;
     growWidth = true;
-    AutoTextBoxEdit tbEdit2 = new AutoTextBoxEdit(hideBorderUntilHover, growWidth);
+    WiseTextBox tbEdit2 = new WiseTextBox(hideBorderUntilHover, growWidth);
     tbEdit1.setWidth("170px");
     tbEdit2.setText("Hover over me (grows too)");
     
     
+    
     hideBorderUntilHover = false;
     growWidth = true;
-    AutoTextAreaEdit taEdit3 = new AutoTextAreaEdit(hideBorderUntilHover, growWidth);
+    WiseTextArea taEdit3 = new WiseTextArea(hideBorderUntilHover, growWidth);
     //taEdit3.setSize("150px", "100px");
     //taEdit3.setText("asdfkdf kdjfkdf kdfjdkf jdkfj kdfj kdfj kj kdfj kjdfkj kdj kj dkjdfkj dkj kjkdf jkd fjdkfj");
     
     
-    Grid grid = new Grid(3, 2);
     
-    // show a grid of the textbox examples
+    hideBorderUntilHover = false;
+    growWidth = true;
+    WiseRichTextArea taEdit4 = new WiseRichTextArea(hideBorderUntilHover, growWidth);
+    
+    
+    Grid grid = new Grid(4, 2);
+    
+    //1. show a grid of the textbox examples
     grid.setWidget(0, 0, new HTML("TextBox (Grows)"));
     grid.setWidget(0, 1, tbEdit1);
     
-    
+    //2. textbox
     grid.setWidget(1, 0, new HTML("TextBox (Hovers & Grows)"));
     grid.setWidget(1, 1, tbEdit2);
     
-    
+    //3. textarea
     grid.setWidget(2, 0, new HTML("TextArea (Grows)"));
     grid.setWidget(2, 1, taEdit3);
     
+    //4. richtextarea
+    grid.setWidget(3, 0, new HTML("RichTextArea (Grows & Paste Intercepting & Double Click)</br>Only inserts plain text (firefox/mozilla may not work due to its security)"));
+    grid.setWidget(3, 1, taEdit4);
     
     // center layout
     VerticalPanel vp = new VerticalPanel();
