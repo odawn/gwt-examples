@@ -1,6 +1,9 @@
 package org.gonevertical.textboxexpand.client;
 
 
+import org.gonevertical.textboxexpand.client.old.V3.AutoTextAreaEdit;
+import org.gonevertical.textboxexpand.client.old.V3.AutoTextBoxEdit;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyUpEvent;
