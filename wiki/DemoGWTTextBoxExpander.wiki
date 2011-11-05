@@ -10,9 +10,9 @@
 TextBox and TextArea auto expand dynamically changing size during typing into the inputs. Grow the textbox on keyup.
  
  * [http://demogwttextexpand.appspot.com/ Demo] - Textbox Expansion Growth Demo
- * [http://code.google.com/p/gwt-examples/source/browse/trunk/DemoTextBoxExpand/src/org/gonevertical/textboxexpand/client/AutoTextBoxEdit.java Textbox] - Source
- * [http://code.google.com/p/gwt-examples/source/browse/trunk/DemoTextBoxExpand/src/org/gonevertical/textboxexpand/client/AutoTextAreaEdit.java Textarea] - Source
-
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/GoneVertical-Core/src/org/gonevertical/core/client/input/WiseTextArea.java WiseTextArea.java Source]
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/GoneVertical-Core/src/org/gonevertical/core/client/input/WiseTextBox.java WiseTextBox.java Source]
+ * [http://code.google.com/p/gwt-examples/source/browse/trunk/GoneVertical-Core/src/org/gonevertical/core/client/input/richtext/WiseRichTextArea.java WiseRichTextArea.java Source]
 
 == Cloning CSS and Calculating Size ==
  The challenge is to clone the css from the textbox to a html span and figure out the size and then set it back to the textbox. A textbox is easy to change the size, but the TextArea I have found more difficult because there are more variables to deal with. 
