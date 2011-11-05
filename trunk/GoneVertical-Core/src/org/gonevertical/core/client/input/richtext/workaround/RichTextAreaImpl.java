@@ -33,6 +33,7 @@ import com.google.gwt.user.client.Event;
 public class RichTextAreaImpl {
 
   protected Element elem;
+  
   protected HasInitializeHandlers owner;
 
   public RichTextAreaImpl() {
@@ -101,7 +102,7 @@ public class RichTextAreaImpl {
 
   protected void hookEvents() {
     DOM.sinkEvents(elem, Event.MOUSEEVENTS | Event.KEYEVENTS | Event.ONCHANGE
-        | Event.ONCLICK | Event.FOCUSEVENTS);
+        | Event.ONCLICK | Event.FOCUSEVENTS | Event.ONPASTE | Event.ONDBLCLICK);
   }
 
   protected void onElementInitialized() {
@@ -110,4 +111,5 @@ public class RichTextAreaImpl {
       InitializeEvent.fire(owner);
     }
   }
+  
 }

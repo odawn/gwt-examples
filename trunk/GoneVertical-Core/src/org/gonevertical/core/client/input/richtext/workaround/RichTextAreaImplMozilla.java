@@ -25,6 +25,64 @@ public class RichTextAreaImplMozilla extends RichTextAreaImplStandard {
    * initialization.
    */
   boolean isFirstFocus;
+  
+  /**
+   * I need to intercept the paste, so I can warn about formatting for mozilla
+   */
+  @Override
+  protected native void hookEvents() /*-{
+    var elem = this.@org.gonevertical.core.client.input.richtext.workaround.RichTextAreaImpl::elem;
+    var wnd = elem.contentWindow;
+
+    elem.__gwt_handler = $entry(function(evt) {
+      if (elem.__listener) {
+        if (@com.google.gwt.user.client.impl.DOMImpl::isMyListener(Ljava/lang/Object;)(elem.__listener)) {
+          @com.google.gwt.user.client.DOM::dispatchEvent(Lcom/google/gwt/user/client/Event;Lcom/google/gwt/user/client/Element;Lcom/google/gwt/user/client/EventListener;)(evt, elem, elem.__listener);
+        }
+      }
+    });
+
+    elem.__gwt_focusHandler = function(evt) {
+      if (elem.__gwt_isFocused) {
+        return;
+      }
+
+      elem.__gwt_isFocused = true;
+      elem.__gwt_handler(evt);
+    };
+
+    elem.__gwt_blurHandler = function(evt) {
+      if (!elem.__gwt_isFocused) {
+        return;
+      }
+
+      elem.__gwt_isFocused = false;
+      elem.__gwt_handler(evt);
+    };
+    
+    elem.__pasting = function(evt) {
+      
+      
+      // pass it on
+      elem.__gwt_handler(evt);
+    };
+
+    wnd.addEventListener('keydown', elem.__gwt_handler, true);
+    wnd.addEventListener('keyup', elem.__gwt_handler, true);
+    wnd.addEventListener('keypress', elem.__gwt_handler, true);
+    wnd.addEventListener('mousedown', elem.__gwt_handler, true);
+    wnd.addEventListener('mouseup', elem.__gwt_handler, true);
+    wnd.addEventListener('mousemove', elem.__gwt_handler, true);
+    wnd.addEventListener('mouseover', elem.__gwt_handler, true);
+    wnd.addEventListener('mouseout', elem.__gwt_handler, true);
+    wnd.addEventListener('click', elem.__gwt_handler, true);
+
+    wnd.addEventListener('focus', elem.__gwt_focusHandler, true);
+    wnd.addEventListener('blur', elem.__gwt_blurHandler, true);
+    
+    wnd.addEventListener('paste', elem.__pasting, true);
+    wnd.addEventListener('dblclick', elem.__gwt_handler, true);
+  }-*/;
 
   @Override
   public native void initElement() /*-{

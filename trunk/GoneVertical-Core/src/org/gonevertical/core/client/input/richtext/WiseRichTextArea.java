@@ -1,13 +1,19 @@
 package org.gonevertical.core.client.input.richtext;
 
+import org.gonevertical.core.client.dialog.paster.PasteEvent;
+import org.gonevertical.core.client.dialog.paster.PasteEventHandler;
+import org.gonevertical.core.client.dialog.paster.TextAreaPaster;
 import org.gonevertical.core.client.html.HtmlSanitizerUtils;
 import org.gonevertical.core.client.input.clipboardapi.ClipBoardApi;
 import org.gonevertical.core.client.input.richtext.workaround.RichTextArea;
+import org.gonevertical.core.client.input.richtext.workaround.RichTextArea.Formatter;
 import org.gonevertical.core.client.style.ComputedStyle;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -26,13 +32,11 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Event.NativePreviewEvent;
-import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextBox;
 
 public class WiseRichTextArea extends RichTextArea {
 
@@ -135,6 +139,8 @@ public class WiseRichTextArea extends RichTextArea {
 
   private String defaultText;
 
+  private TextAreaPaster dialogPaster;
+
   /**
    * constructor
    */
@@ -171,36 +177,30 @@ public class WiseRichTextArea extends RichTextArea {
      */
     //sinkEvents(Event.ONPASTE);
   }
-  
+
   /**
    * this works if the paste event is hooked
-   * TODO NOT WORKING!!!!! in firefox, let alone I'm replacing not inserting
+   * TODO Not working in firefox!!!!! in firefox, let alone I'm replacing not inserting
+   * intercept paste and don't send it on
    */
   @Override 
   public void onBrowserEvent(Event event) {
-    // intercept paste and don't send it on
     switch (event.getTypeInt()) { 
     case Event.ONPASTE: 
-      event.preventDefault();
-      setPasted(event);
+      setPasteData(event);
       break; 
-      default:
-        super.onBrowserEvent(event); 
+    default:
+      super.onBrowserEvent(event); 
     } 
   } 
 
-  /**
-   * oops its not there yet. set into the spot selected... ugh!
-   * @param event
-   */
-  private void setPasted(Event event) {
-    System.out.println("Paste Detected!");
-    String text = new ClipBoardApi().getText(event);
-    if (text != null) {
-      System.out.println("setPasted=" + text);
-      setText(text);
-      //setNewSize(false);
+  private void setPasteData(Event event) {
+    ClipBoardApi cba = new ClipBoardApi();
+    String text = cba.getText(event);
+    if (text == null) {
+      return;
     }
+    getFormatter().insertHTML(text);
   }
 
   private void setupHandlers() {
@@ -251,11 +251,10 @@ public class WiseRichTextArea extends RichTextArea {
         }
       }
     });
-    
+
     addKeyDownHandler(new KeyDownHandler() {
       public void onKeyDown(KeyDownEvent event) {
-        NativeEvent ne = event.getNativeEvent();
-        //System.out.println("KeyDownHandler=" + ne.getType() + " key=" + (char)ne.getCharCode());
+
       }
     });
 
@@ -279,6 +278,35 @@ public class WiseRichTextArea extends RichTextArea {
       }
     });
 
+    addDoubleClickHandler(new DoubleClickHandler() {
+      public void onDoubleClick(DoubleClickEvent event) {
+        drawDialogTextAreaPaster();
+      }
+    });
+  }
+
+  private void drawDialogTextAreaPaster() {
+    
+    if (dialogPaster == null) {
+      dialogPaster = new TextAreaPaster();
+      dialogPaster.addPasteHandler(new PasteEventHandler() {
+        public void onEvent(PasteEvent event) {
+          if (event.getData() != null) {
+            insertPasteData(event.getData());
+          }
+        }
+      });
+    }
+    dialogPaster.showRelativeTo(this);
+  }
+
+  protected void insertPasteData(String text) {
+    Formatter formatter = getFormatter();
+    if (formatter == null) {
+      // hmmm, formatter not working, your out of luck.
+      return;
+    }
+    formatter.insertHTML(text);
   }
 
   public void setDefaultText(String defaultText) {
@@ -385,7 +413,7 @@ public class WiseRichTextArea extends RichTextArea {
   }
 
   /**
-   * for changing textbox width
+   * for changing textbox width - like in chrome
    */
   private void setMovingWidth() {
     if (htmlForSizeTesting == null) {
@@ -521,15 +549,15 @@ public class WiseRichTextArea extends RichTextArea {
     htmlForSizeTesting.setWidth(width + "px");
     //System.out.println("setTextContainerWidth=" + width);
   }
-  
+
   public String getValue() {
     String s = getHTML().toString(); 
     return s;
   }
-  
+
   public void setValue(String value) {
     if (value == null) {
-     return; 
+      return; 
     }
     SafeHtml v = HtmlSanitizerUtils.sanitizeHtml(value);
     setHTML(v);

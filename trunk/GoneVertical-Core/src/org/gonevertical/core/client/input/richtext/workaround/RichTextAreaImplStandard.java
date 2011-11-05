@@ -16,12 +16,12 @@
  */
 package org.gonevertical.core.client.input.richtext.workaround;
 
+import org.gonevertical.core.client.input.richtext.workaround.RichTextArea.FontSize;
+import org.gonevertical.core.client.input.richtext.workaround.RichTextArea.Justification;
+
 import com.google.gwt.core.client.JavaScriptException;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.ui.RichTextArea;
-import com.google.gwt.user.client.ui.RichTextArea.FontSize;
-import com.google.gwt.user.client.ui.RichTextArea.Justification;
 
 /**
  * Basic rich text platform implementation.
@@ -350,6 +350,7 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
     wnd.addEventListener('blur', elem.__gwt_blurHandler, true);
     
     wnd.addEventListener('paste', elem.__gwt_handler, true);
+    wnd.addEventListener('dblclick', elem.__gwt_handler, true);
   }-*/;
 
   protected native boolean isEnabledImpl() /*-{
@@ -427,6 +428,7 @@ public abstract class RichTextAreaImplStandard extends RichTextAreaImpl implemen
     wnd.removeEventListener('blur', elem.__gwt_blurHandler, true);
     
     wnd.removeEventListener('paste', elem.__gwt_blurHandler, true);
+    wnd.removeEventListener('dblclick', elem.__gwt_handler, true);
 
     elem.__gwt_handler = null;
     elem.__gwt_focusHandler = null;

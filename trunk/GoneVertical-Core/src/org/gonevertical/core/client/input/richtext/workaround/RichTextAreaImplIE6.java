@@ -104,6 +104,8 @@ public class RichTextAreaImplIE6 extends RichTextAreaImplStandard {
       }
     });
 
+    body.onpaste =
+    body.ondblclick = 
     body.onkeydown =
     body.onkeyup =
     body.onkeypress =
@@ -144,6 +146,8 @@ public class RichTextAreaImplIE6 extends RichTextAreaImplStandard {
     if (body) {
       // The body can be undefined in the relatively obscure case that the RTA
       // is attached and detached before it has a chance to finish initializing.
+      body.onpaste =
+      body.ondblclick =
       body.onkeydown =
       body.onkeyup =
       body.onkeypress =

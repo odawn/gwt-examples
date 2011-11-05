@@ -58,6 +58,7 @@ public class RichTextAreaImplSafari extends RichTextAreaImplStandard {
     wnd.addEventListener('click', elem.__gwt_handler, true);
 
     wnd.addEventListener('paste', elem.__gwt_handler, true);
+    wnd.addEventListener('dblclick', elem.__gwt_handler, true);
 
     // Focus/blur event handlers. For some reason, [add|remove]eventListener()
     // doesn't work on the iframe element (at least not for focus/blur). Don't
@@ -96,7 +97,8 @@ public class RichTextAreaImplSafari extends RichTextAreaImplStandard {
     wnd.removeEventListener('mouseout', elem.__gwt_handler, true);
     wnd.removeEventListener('click', elem.__gwt_handler, true);
     
-    wnd.removeEventListener('paste', elem.__gwt_handler, true);
+    wnd.removeEventListener('paste', elem.__gwt_handler, true); 
+    wnd.removeEventListener('dblclick', elem.__gwt_handler, true);
 
     elem.__gwt_handler = null;
 
