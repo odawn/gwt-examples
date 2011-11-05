@@ -11,6 +11,7 @@
   
 
   <!-- Other module inherits                                      -->
+  <inherits name='org.gonevertical.core.Core'/>
 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='org.gonevertical.textboxexpand.client.DemoTextBoxExpand'/>
