@@ -35,10 +35,13 @@ public class TestComputedStyle extends GWTTestCase {
   public void testWidth() {
     html.setWidth("126px");
     String expected = ComputedStyle.getStyleProperty(html.getElement(), "width");
-    System.out.println("width=" + expected + " = " + "126px");
+    System.out.println("width1=" + expected + " = " + "126px");
     assertEquals(expected, "126px");
   }
   
+  /**
+   * no worky yet. Why?
+   */
   public void testWidthViaCss() {
     html.setStyleName("test_width");
     String expected = ComputedStyle.getStyleProperty(html.getElement(), "width");
@@ -46,6 +49,9 @@ public class TestComputedStyle extends GWTTestCase {
     assertEquals(expected, "205px");
   }
   
+  /**
+   * hmmmm....
+   */
   public void testWebFont() {
     html.setStyleName("test_webfont");
     String expected = ComputedStyle.getStyleProperty(html.getElement(), "fontFamily");
