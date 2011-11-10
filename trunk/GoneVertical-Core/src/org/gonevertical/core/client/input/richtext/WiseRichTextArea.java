@@ -45,8 +45,9 @@ public class WiseRichTextArea extends RichTextArea {
    */
   private String[] styles = { 
       "color",
-      "direction", 
-
+      "direction",
+      
+      "font",
       "fontFace", // @fontFace?
       "fontFamily", 
       "fontSize", 
@@ -141,31 +142,19 @@ public class WiseRichTextArea extends RichTextArea {
 
   private TextAreaPaster dialogPaster;
 
+  private boolean debug;
+
   /**
    * constructor
    */
   public WiseRichTextArea() {
     super();
-    setup(false, true);
+    setup();
   }
 
-  /**
-   * constructor
-   * @param hideBorderUntilHover - hover over box to see border
-   * @param grow - auto grow to size of text
-   */
-  public WiseRichTextArea(boolean hideBorderUntilHover, boolean grow) {
-    super();
-    setup(hideBorderUntilHover, grow);
-  }
-
-  private void setup(boolean hideBorderUntilHover, boolean grow) {
-    this.hideBorderUntilHover = hideBorderUntilHover;
-    this.grow = grow;
+  private void setup() {
 
     addStyleName("gv-core-WiseRichTextArea");
-
-    setUpEditHover();  
 
     setupHandlers();
 
@@ -266,7 +255,7 @@ public class WiseRichTextArea extends RichTextArea {
 
     addFocusHandler(new FocusHandler() {
       public void onFocus(FocusEvent event) {
-        setZeroText();
+        setEmptyText();
       }
     });
 
@@ -283,8 +272,22 @@ public class WiseRichTextArea extends RichTextArea {
     });
   }
 
+  public void setFeatureHideBorderUntilHover(boolean enabled) {
+    hideBorderUntilHover = enabled;
+
+    setUpEditHover();
+  }
+  
+  public void setFeatureDebug(boolean enabled) {
+    debug = enabled;
+  }
+
+  public void setFeatureGrow(boolean enabled) {
+    grow = enabled;
+  }
+
   private void drawDialogTextAreaPaster() {
-    
+
     if (dialogPaster == null) {
       dialogPaster = new TextAreaPaster();
       dialogPaster.addPasteHandler(new PasteEventHandler() {
@@ -324,11 +327,10 @@ public class WiseRichTextArea extends RichTextArea {
     }
   }
 
-
   /**
    * when focusing, and the default text is set, set it to zero text
    */
-  private void setZeroText() {
+  private void setEmptyText() {
     if (defaultText == null) {
       return;
     }
@@ -392,11 +394,11 @@ public class WiseRichTextArea extends RichTextArea {
     // only done once
     cloneStyleOnce();
 
-    // do everytime - check for textbox getting bigger
+    // TODO do everytime - check for textbox getting bigger
     //setMovingWidth();
 
     // everytime - calculate the size width and height of text
-    setCurrentTextSize(forceNewLine);
+    getCurrentSize(forceNewLine);
 
 
     /* only use height, but could do both
@@ -442,7 +444,7 @@ public class WiseRichTextArea extends RichTextArea {
    * resize input 
    * @param forceNewLine - on enter, think ahead and set size, so no scroll bars appear
    */
-  private void setCurrentTextSize(boolean forceNewLine) {
+  private void getCurrentSize(boolean forceNewLine) {
 
     String s = getHTML();
 
@@ -511,7 +513,7 @@ public class WiseRichTextArea extends RichTextArea {
         setNewSize(false);
       }
     };
-    t.schedule(600);
+    t.schedule(10);
   }
 
   /**
@@ -527,9 +529,14 @@ public class WiseRichTextArea extends RichTextArea {
     RootPanel.get().add(hiddenPanel);
 
     // create a spot to measure html - note text area you would want to wrap
-    htmlForSizeTesting = new HTML("", true); 
-    hiddenPanel.add(htmlForSizeTesting, -1000, -1000); // hide it from view
-    //hiddenPanel.add(htmlForSizeTesting);
+    htmlForSizeTesting = new HTML("", true);
+    
+    if (debug == true) {
+      hiddenPanel.add(htmlForSizeTesting);
+    } else {
+      hiddenPanel.add(htmlForSizeTesting, -1000, -1000); // hide it from view
+    }
+    
     htmlForSizeTesting.setStyleName("gv-core-WiseRichTextArea-break"); // css3 long word breaking
 
     // setup width constraint
@@ -557,23 +564,57 @@ public class WiseRichTextArea extends RichTextArea {
     if (value == null) {
       return; 
     }
-    SafeHtml v = HtmlSanitizerUtils.sanitizeHtml(value);
-    setHTML(v);
+    SafeHtml sh = HtmlSanitizerUtils.sanitizeHtml(value);
+    setHTML_Clean(sh.asString());
   }
-
+  
+  @Override
+  public void setText(String text) {
+    if (text == null) {
+      text = "";
+    }
+    SafeHtml sh = HtmlSanitizerUtils.sanitizeHtml(text);
+    setHTML_Clean(sh.asString());
+  };
+  
+  @Override
+  public void setHTML(SafeHtml safeHtml) {
+    String s = "";
+    if (safeHtml == null) {
+      s = "";
+    } else {
+      s = safeHtml.asString();
+    }
+    setHTML_Clean(s);
+  }
+  
   @Override
   public void setHTML(String html) {
+    if (html == null) {
+      html = "";
+    }
+    SafeHtml sh = HtmlSanitizerUtils.sanitizeHtml(html);
+    setHTML_Clean(sh.asString());
+  }
+
+  public void setHTML_Clean(String html) {
+    if (html == null) {
+      html = "";
+    }
+    
     if (defaultText != null && html.equals(defaultText) == false) {
       removeStyleName("gv-core-WiseTextBox-default"); // TODO setup a method for this
     }
-    //TODO SafeHtml sh = HtmlSanitizerUtils.sanitizeHtml(html);
+    
+    //TODO SafeHtml sh = HtmlSanitizerUtils.sanitizeHtml(html);!!!!
+    
     super.setHTML(html);
     setNewSize(false);
 
     // delay for attatching or whatever. workaround here
     cloneStyleTimed();
   };
-
+  
   @Override
   public void setStyleDependentName(String styleSuffix, boolean add) {
     super.setStyleDependentName(styleSuffix, add);
@@ -620,7 +661,9 @@ public class WiseRichTextArea extends RichTextArea {
     setHeight(height);
   }
 
-
+  public HTML getHtmlSizingPanel() {
+    return htmlForSizeTesting;
+  }
 
 
 

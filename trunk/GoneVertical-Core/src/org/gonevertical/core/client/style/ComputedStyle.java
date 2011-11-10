@@ -18,16 +18,4 @@ public class ComputedStyle {
     
   }-*/;
     
-  
-  /*
-   * 
-   var computedStyle; 
-    if (typeof element.currentStyle != 'undefined') { 
-      computedStyle = element.currentStyle; 
-    } else { 
-      computedStyle = document.defaultView.getComputedStyle(element, null); 
-    } 
-    return computedStyle[prop];
-     
-   */
 }

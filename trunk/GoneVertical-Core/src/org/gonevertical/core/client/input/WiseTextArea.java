@@ -38,6 +38,7 @@ public class WiseTextArea extends TextArea {
       "color",
       "direction", 
 
+      "font",
       "fontFace", // @fontFace?
       "fontFamily", 
       "fontSize", 

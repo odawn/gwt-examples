@@ -35,6 +35,7 @@ public class WiseTextBox extends TextBox {
    */
   private String[] styles = { 
       "direction", 
+      "font",
       "fontFamily", 
       "fontSize", 
       "fontSizeAdjust",
