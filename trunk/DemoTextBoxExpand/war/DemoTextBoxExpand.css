@@ -2,6 +2,8 @@ body {
 	
 }
 
+@import url(http://fonts.googleapis.com/css?family=Rammetto+One);
+
 .AutoTextBoxEdit {
 	padding: 2px;
 }
@@ -43,4 +45,13 @@ body {
 }
 .test8 {
   border:1px solid #FFFF00;
+}
+
+
+.test_webfont {
+  font-family: 'Rammetto One', cursive;
+}
+
+.test_width {
+  width: 205px;
 }
