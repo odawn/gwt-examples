@@ -50,7 +50,7 @@ public class TestComputedStyle extends GWTTestCase {
   }
   
   /**
-   * hmmmm....
+   * hmmmm.... timing?
    */
   public void testWebFont() {
     html.setStyleName("test_webfont");
