@@ -53,13 +53,18 @@ public class DemoTextBoxExpand implements EntryPoint {
     //taEdit3.setText("asdfkdf kdjfkdf kdfjdkf jdkfj kdfj kdfj kj kdfj kjdfkj kdj kj dkjdfkj dkj kjkdf jkd fjdkfj");
     
     
+    // Rich Text Area 1
+    WiseRichTextArea taEdit4 = new WiseRichTextArea();
+    taEdit4.setFeatureGrow(true);
     
-    hideBorderUntilHover = false;
-    growWidth = true;
-    WiseRichTextArea taEdit4 = new WiseRichTextArea(hideBorderUntilHover, growWidth);
+    
+    // Rich Text Area 1    
+    WiseRichTextArea taEdit5 = new WiseRichTextArea();
+    taEdit5.setFeatureGrow(true);
+    taEdit5.setStyleName("test_webfont");
     
     
-    Grid grid = new Grid(4, 2);
+    Grid grid = new Grid(5, 2);
     
     //1. show a grid of the textbox examples
     grid.setWidget(0, 0, new HTML("TextBox (Grows)"));
@@ -76,6 +81,10 @@ public class DemoTextBoxExpand implements EntryPoint {
     //4. richtextarea
     grid.setWidget(3, 0, new HTML("RichTextArea (Grows & Paste Intercepting & Double Click)</br>Only inserts plain text (firefox/mozilla may not work due to its security)"));
     grid.setWidget(3, 1, taEdit4);
+    
+    //4. richtextarea
+    grid.setWidget(4, 0, new HTML("RichTextArea (Grows & Paste Intercepting & Double Click)</br>Only inserts plain text (firefox/mozilla may not work due to its security)"));
+    grid.setWidget(4, 1, taEdit5);
     
     // center layout
     VerticalPanel vp = new VerticalPanel();
