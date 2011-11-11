@@ -40,7 +40,7 @@ public class TestComputedStyle extends GWTTestCase {
   }
   
   /**
-   * no worky yet. Why?
+   * works now, due to loading style sheet in module config
    */
   public void testWidthViaCss() {
     html.setStyleName("test_width");
@@ -50,7 +50,7 @@ public class TestComputedStyle extends GWTTestCase {
   }
   
   /**
-   * hmmmm.... timing?
+   * works now, due to loading style sheet in module config
    */
   public void testWebFont() {
     html.setStyleName("test_webfont");
