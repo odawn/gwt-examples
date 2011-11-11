@@ -458,10 +458,10 @@ public class WiseRichTextArea extends RichTextArea {
     htmlForSizeTesting.setHTML(sh);
 
     width = htmlForSizeTesting.getOffsetWidth();
-    width += headroomWidthPadding;
+    //width += headroomWidthPadding;
 
     height = htmlForSizeTesting.getOffsetHeight();
-    height += headroomHeightPadding; 
+    //height += headroomHeightPadding; 
 
     //System.out.println("setCurrentTextSize(): width=" + (width-headroomWidthPadding) + " height=" + (height-headroomHeightPadding));
   }
@@ -533,6 +533,7 @@ public class WiseRichTextArea extends RichTextArea {
     
     if (debug == true) {
       hiddenPanel.add(htmlForSizeTesting);
+      hiddenPanel.addStyleName("test1");
     } else {
       hiddenPanel.add(htmlForSizeTesting, -1000, -1000); // hide it from view
     }
