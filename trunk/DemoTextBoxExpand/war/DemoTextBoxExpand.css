@@ -1,24 +1,9 @@
+/* be sure to look in org.gonevertical.textboxexpand.public for other stylesheet */
+
+html {
+}
+
 body {
-	
-}
-
-@import url(http://fonts.googleapis.com/css?family=Rammetto+One);
-
-.AutoTextBoxEdit {
-	padding: 2px;
-}
-.AutoTextBoxEdit-readonly {
-	padding: 4px;
-	border: 0;
-}
-.AutoTextAreaEdit {
-}
-.AutoTextAreaEdit-Break {
-  	/*CSS3 long word breaking*/
-  	word-break: break-all;
-}
-.AutoTextAreaEdit-readonly {
-	border: 0;
 }
 
 
@@ -48,10 +33,6 @@ body {
 }
 
 
-.test_webfont {
-  font-family: 'Rammetto One', cursive;
-}
+/* using for GWT TestCase below */
+/* be sure to look in org.gonevertical.textboxexpand.public for other stylesheet */
 
-.test_width {
-  width: 205px;
-}
