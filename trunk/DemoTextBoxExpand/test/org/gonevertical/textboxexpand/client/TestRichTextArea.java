@@ -105,15 +105,22 @@ public class TestRichTextArea extends GWTTestCase {
     assertEquals(left, right);
   }
    
-  public void testCloneFontFamily_WebFont() {
+  public void testCloneFontFamily_WebFont1() {
     rta.setStyleName("test_webfont");
     rta.setText("Test");
     String property = "fontFamily";
-    String left = ComputedStyle.getStyleProperty(rta.getElement(), property);
-    String right = ComputedStyle.getStyleProperty(rta.getHtmlSizingPanel().getElement(), property);
-    System.out.println("property=" + property + " left=" + left + " right=" + right);
-    assertEquals(left, "Rammetto One");
-    assertEquals(right, "Rammetto One");
+    String expected = ComputedStyle.getStyleProperty(rta.getElement(), property);
+    System.out.println("exptecte=" + expected + " = Rammetto One");
+    assertEquals(expected, "\"Rammetto One\" cursive");
+  }
+  
+  public void testCloneFontFamily_WebFont2() {
+    rta.setStyleName("test_webfont");
+    rta.setText("Test");
+    String property = "fontFamily";
+    String expected = ComputedStyle.getStyleProperty(rta.getHtmlSizingPanel().getElement(), property);
+    System.out.println("exptecte=" + expected + " = Rammetto One");
+    assertEquals(expected, "\"Rammetto One\" cursive");
   }
   
   public void testCloneFontSize() {

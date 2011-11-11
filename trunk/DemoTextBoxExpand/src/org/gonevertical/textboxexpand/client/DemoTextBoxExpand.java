@@ -62,6 +62,7 @@ public class DemoTextBoxExpand implements EntryPoint {
     WiseRichTextArea taEdit5 = new WiseRichTextArea();
     taEdit5.setFeatureGrow(true);
     taEdit5.setStyleName("test_webfont");
+    taEdit5.setFeatureDebug(true);
     
     
     Grid grid = new Grid(5, 2);
