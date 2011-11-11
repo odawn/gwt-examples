@@ -7,11 +7,16 @@
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->
   <!-- any one of the following lines.                       -->      
-  <inherits name='com.google.gwt.user.theme.standard.Standard'/>
+  <!--  <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->
   
-
+  
   <!-- Other module inherits                                      -->
   <inherits name='org.gonevertical.core.Core'/>
+
+  
+  <!-- located org.gonevertical.textboxexpand.public -->  
+  <stylesheet src="css/style.css"/>
+
 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='org.gonevertical.textboxexpand.client.DemoTextBoxExpand'/>
