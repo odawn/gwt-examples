@@ -7,28 +7,41 @@
 Test this out
 
 {{{
- // deal with messy pasting
-    /**
-     * TODO - No Worky - iframe? I see the ook events in the RichTextAreaImpl and how come I can't hook them in here?
-     */
-    sinkEvents(Event.ONPASTE); // TODO ? no worky
-    DOM.sinkEvents(getElement(), Event.ONPASTE); //TODO ? no worky
-    
-    //sinkEvents(Event.ONKEYUP);
+public abstract class Handler {
 
-    /**
-     * TODO this won't work either, b/c it won't capture once focued on richtextarea  
-     */
-    Event.addNativePreviewHandler(new NativePreviewHandler() {
-      public void onPreviewNativeEvent(NativePreviewEvent event) {
-        NativeEvent ne = event.getNativeEvent();
-        if (event.getTypeInt() == Event.ONPASTE) {
-          System.out.println("Pasting?????");
-          Window.alert("works");
-        }
-        System.out.println("event.toDebutString()=" + event.toDebugString() + " ne.getType=" + ne.getType() + " ne.toString=" + ne.toString() + " charCode=" + ne.getCharCode() + " key=" + (char)ne.getCharCode());
-      }
-    });
+  /**
+   * TODO
+   * @param w
+   * @param eventName
+   * @param handler
+   */
+  public static native void addHandler(MapWidget w, String eventName, Handler handler) /*-{
+    var jso = w.@com.gonevertical.apis.googlemaps.client.MapWidget::getJso()();
+    var callback = function(event) { 
+      @com.gonevertical.apis.googlemaps.client.events.Handler::onCallback(Lcom/gonevertical/apis/googlemaps/client/events/Handler;Lcom/google/gwt/ajaxloader/client/Properties;)(handler, event);
+    };
+    $wnd.google.maps.MapsEventListener.addListener(jso, eventName, callback)
+  }-*/;
+
+  @SuppressWarnings("unused")
+  private static void onCallback(final Handler handler, final Properties properties) {
+    try {
+      handler.onEvent(properties);
+    } catch (Throwable x) {
+      GWT.getUncaughtExceptionHandler().onUncaughtException(x);
+    }
+  }
+
+  /**
+   * This method should be overridden by event-specific Handler subclasses. The
+   * subclass should extract the event properties (if any), create a GWT Event
+   * bean object, and pass it to the event-specific callback.
+   * 
+   * @param properties The JavaScriptObject containing data about the event.
+   * @throws TypeException If some property of the event has an unexpected type.
+   */
+  protected abstract void onEvent(Properties properties) throws TypeException;
+}
 }}}
 
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
