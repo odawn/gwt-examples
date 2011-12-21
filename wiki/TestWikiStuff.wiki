@@ -27,15 +27,21 @@ public abstract class MapEvent<H extends MapHandler<E>, E> extends GwtEvent<H> {
   protected abstract void dispatch(H handler);
    
 }
+}}}
 
+{{{
 public interface MapEventFormatter<E extends MapEvent> {
   public E createEvent(Properties properties);
 }
+}}}
 
+{{{
 public interface MapHandler<E> extends EventHandler {
   public void onEvent(E event);
 }
+}}}
  
+{{{
 public class MapHandlerRegistration {
 
   /**
@@ -114,11 +120,14 @@ public class ClickEventFormatter implements MapEventFormatter<ClickMapEvent> {
   }
 
 }
+}}}
 
-public interface ClickMapHandler extends MapHandler<ClickMapEvent> {
-  
+{{{
+public interface ClickMapHandler extends MapHandler<ClickMapEvent> {  
 }
+}}}
 
+{{{
 public class ClickMapEvent extends MapEvent<ClickMapHandler, ClickMapEvent> {
 
   public static Type<ClickMapHandler> TYPE = new Type<ClickMapHandler>();
