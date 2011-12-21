@@ -8,6 +8,9 @@
 = Demo Activities and Places =
  I'm building the demo as we speak.
 
+= Other Developer Demos =
+ * [http://www.mikemitterer.at/infopoint/programmierung/gwt-requestfactory/] - Nice request factory demo here
+
 == Working Application ==
  * [https://mywalletinventory.appspot.com Wallet Inventory App] - App Demo (keep your phone numbers incase it gets stolen)
 
