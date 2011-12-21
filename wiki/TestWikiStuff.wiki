@@ -7,79 +7,9 @@
 Test this out
 
 {{{
-public class MapHandlerRegistration {
-
-  /**
-   * create a handler for eventName
-   * @param w
-   * @param eventName
-   * @param handler
-   * @return
-   */
-  public static HandlerRegistration addHandler(MapWidget w, String eventName, MapHandler<?> handler) {
-    final JavaScriptObject listener = addHandlerImpl(w, eventName, handler);
-    HandlerRegistration registration = new HandlerRegistration() {
-      public void removeHandler() { 
-        removeHandlerImpl(listener);
-      }
-    };
-    return registration;
+  public HandlerRegistration addClickHandler(ClickMapHandler handler) {
+    return MapHandlerRegistration.addHandler(this, "click", handler);
   }
-
-  /**
-   * maps v3 event observation
-   * @param w
-   * @param eventName
-   * @param handler
-   * @return
-   */
-  private static native JavaScriptObject addHandlerImpl(MapWidget w, String eventName, MapHandler<?> handler) /*-{
-    var jso = w.@com.gonevertical.apis.googlemaps.client.MapWidget::getJso()();
-    var callback = function(event) { 
-      @com.gonevertical.apis.googlemaps.client.events.MapHandlerRegistration::onCallback(Lcom/gonevertical/apis/googlemaps/client/events/MapHandler;Lcom/google/gwt/ajaxloader/client/Properties;)(handler, event);
-    };          
-    return $wnd.google.maps.event.addListener(jso, eventName, callback)
-  }-*/;
-  
-  /**
-   * HandlerRegistration call when finished
-   * @param listener
-   */
-  private static native void removeHandlerImpl(JavaScriptObject listener) /*-{
-    $wnd.google.maps.MapsEventListener.addListener(listener);
-  }-*/;
-
-  /**
-   * Process event and next step is to format it into an event that extends format handler
-   * @param handler
-   * @param properties
-   */
-  @SuppressWarnings("unused")
-  protected static void onCallback(final MapHandler<?> handler, final Properties properties) {
-    try {
-      formatEvent(handler, properties);
-    } catch (Throwable x) {
-      GWT.getUncaughtExceptionHandler().onUncaughtException(x);
-    }
-  }
-
-  /**
-   * format the event and tell the handler so parent can then work with it
-   * @param handler
-   * @param properties
-   */
-  private static void formatEvent(MapHandler<?> handler, Properties properties) {
-    
-    if (handler instanceof ClickMapHandler) {
-      System.out.println("tes2");
-      
-    } else {
-      System.out.println("test3");
-    }
-    
-  }
-
-}
 }}}
 
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
