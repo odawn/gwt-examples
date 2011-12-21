@@ -8,6 +8,18 @@ Test this out
 
 {{{
 
+public class MapWidget extends Composite implements RequiresResize {
+
+  //...
+
+  public HandlerRegistration addClickHandler(ClickMapHandler handler) {
+    return MapHandlerRegistration.addHandler(this, "click", handler, new ClickEventFormatter());
+  }
+
+  //...  
+}
+
+
 public abstract class MapEvent<H extends MapHandler<E>, E> extends GwtEvent<H> {
 
   protected Properties properties;
