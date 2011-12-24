@@ -57,7 +57,7 @@ public class TestGwtAppLoading extends TestCase {
   }
 
   @Test
-  public void testGoogleSearch() {
+  public void testElement() {
     
     
     // navigate to gwt app
