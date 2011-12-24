@@ -7,163 +7,83 @@
 Test this out
 
 {{{
+package com.gonevertical.client;
 
-public class MapWidget extends Composite implements RequiresResize {
+import java.io.IOException;
+import java.util.Arrays;
 
-  //...
+import junit.framework.TestCase;
 
-  public HandlerRegistration addClickHandler(ClickMapHandler handler) {
-    return MapHandlerRegistration.addHandler(this, "click", handler, new ClickEventFormatter());
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.BlockJUnit4ClassRunner;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+/**
+ * {@link http://c.gwt-examples.com} 
+ */
+@RunWith(BlockJUnit4ClassRunner.class)
+public class TestGwtAppLoading extends TestCase {
+
+  private static WebDriver driver;
+
+  @BeforeClass
+  public static void initWebDriver() throws IOException {
+    
+    // set the path to the chrome driver
+    // http://code.google.com/p/chromium/downloads/list
+    System.setProperty("webdriver.chrome.driver", "/Users/branflake2267/bin/chromedriver");
+    
+    // chrome driver will load with no extras, so lets tell it to load with gwtdev plugin
+    // get plugin here in chrome url type > "chrome://plugins/" > hit top right details + > find gwt dev mode pluging location:
+    DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+    String gwtDevPluginPath = "--load-plugin=/Users/branflake2267/Library/Application Support/Google/Chrome/Default/Extensions/jpjpnpmbddbjkfaccnmhnkdgjideieim/1.0.9738_0/Darwin-gcc3/gwtDev.plugin";
+    capabilities.setCapability("chrome.switches", Arrays.asList(gwtDevPluginPath));
+    
+    // init driver
+    driver = new ChromeDriver(capabilities);
   }
 
-  //...  
-}
-
-
-public abstract class MapEvent<H extends MapHandler<E>, E> extends GwtEvent<H> {
-
-  protected Properties properties;
-
-  public MapEvent(Properties properties) {
-    this.properties = properties;
-  }
-  
-  public Properties getProperties() {
-    return properties;
-  }
-  
-  @Override
-  public abstract Type<H> getAssociatedType();
-
-  @Override
-  protected abstract void dispatch(H handler);
-   
-}
-}}}
-
-{{{
-public interface MapEventFormatter<E extends MapEvent> {
-  public E createEvent(Properties properties);
-}
-}}}
-
-{{{
-public interface MapHandler<E> extends EventHandler {
-  public void onEvent(E event);
-}
-}}}
- 
-{{{
-public class MapHandlerRegistration {
-
-  /**
-   * setup handler registration for event bus to use
-   * @param w
-   * @param eventName
-   * @param handler
-   * @param formatter
-   * @return
-   */
-  public static <E extends MapEvent> HandlerRegistration addHandler(MapWidget w, String eventName, MapHandler<E> handler, MapEventFormatter<E> formatter) {
-    final JavaScriptObject listener = addHandlerImpl(w, eventName, handler, formatter);
-    HandlerRegistration registration = new HandlerRegistration() {
-      public void removeHandler() { 
-        removeHandlerImpl(listener);
-      }
-    };
-    return registration;
+  @AfterClass
+  public static void theEnd() {
+    driver.quit();
   }
 
-  /**
-   * add maps jso handler for event name
-   * @param w
-   * @param eventName
-   * @param handler
-   * @param formatter
-   * @return
-   */
-  private static native <E extends MapEvent> JavaScriptObject addHandlerImpl(MapWidget w, String eventName, MapHandler<E> handler, MapEventFormatter<E> formatter) /*-{
-    var jso = w.@com.gonevertical.apis.googlemaps.client.MapWidget::getJso()();
-    var callback = function(event) { 
-      @com.gonevertical.apis.googlemaps.client.events.MapHandlerRegistration::onCallback(Lcom/gonevertical/apis/googlemaps/client/events/MapHandler;Lcom/google/gwt/ajaxloader/client/Properties;Lcom/gonevertical/apis/googlemaps/client/events/MapEventFormatter;)(handler, event, formatter);
-    };          
-    return $wnd.google.maps.event.addListener(jso, eventName, callback)
-  }-*/;
-  
-  /**
-   * HandlerRegistration call when finished
-   * @param listener
-   */
-  private static native void removeHandlerImpl(JavaScriptObject listener) /*-{
-    $wnd.google.maps.MapsEventListener.addListener(listener);
-  }-*/;
-
-  /**
-   * process generic handler callback
-   * @param handler
-   * @param properties
-   * @param formatter
-   */
-  @SuppressWarnings("unused")
-  protected static <E extends MapEvent> void onCallback(final MapHandler<E> handler, final Properties properties, final MapEventFormatter<E> formatter) {
-    try {
-      formatEvent(handler, properties, formatter);
-    } catch (Throwable x) {
-      GWT.getUncaughtExceptionHandler().onUncaughtException(x);
-    }
+  @Before
+  public void before() {
   }
 
-  /**
-   * create a map event
-   * @param handler
-   * @param properties
-   * @param formatter
-   */
-  private static <E extends MapEvent> void formatEvent(MapHandler<E> handler, Properties properties,  MapEventFormatter<E> formatter) {
-    E event = formatter.createEvent(properties);
-    handler.onEvent(event);
+  @After
+  public void after() {
   }
 
-public class ClickEventFormatter implements MapEventFormatter<ClickMapEvent> {
+  @Test
+  public void testGoogleSearch() {
+    
+    
+    // navigate to gwt app
+    String pathToGwtApp = "http://127.0.0.1:8888/index.html?gwt.codesvr=127.0.0.1:9997";
+    driver.get(pathToGwtApp);
 
-  @Override
-  public ClickMapEvent createEvent(Properties properties) {
-    return new ClickMapEvent(properties);
-  }
-
-}
-}}}
-
-{{{
-public interface ClickMapHandler extends MapHandler<ClickMapEvent> {  
-}
-}}}
-
-{{{
-public class ClickMapEvent extends MapEvent<ClickMapHandler, ClickMapEvent> {
-
-  public static Type<ClickMapHandler> TYPE = new Type<ClickMapHandler>();
-  
-  public ClickMapEvent(Properties properties) {
-    super(properties);
-  }
-
-  @Override
-  public com.google.gwt.event.shared.GwtEvent.Type<ClickMapHandler> getAssociatedType() {
-    return TYPE;
-  }
-
-  @Override
-  protected void dispatch(ClickMapHandler handler) {
-    handler.onEvent(this);
-  }
-
-  public MouseEvent getMouseEvent() {
-    return new MouseEvent(properties);
+    
+    WebElement element = driver.findElement(By.id("content"));
+    // do something with the element
+    
+    
+    // set a break point on this, b/c there isn't any pausing
+    System.out.println("finished");
+    
   }
   
 }
-
 }}}
 
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
