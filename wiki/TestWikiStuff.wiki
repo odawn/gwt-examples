@@ -93,8 +93,8 @@ public class TestGwtAppLoading extends TestCase {
   <artifactId>SLP_Testing</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   
-  		<!-- add this to install selenium -->
-  		<dependencies>
+        <!-- add this to install selenium -->
+        <dependencies>
             <dependency>
                 <groupId>org.seleniumhq.selenium</groupId>
                 <artifactId>selenium-java</artifactId>
