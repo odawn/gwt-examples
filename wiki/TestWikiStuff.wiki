@@ -7,175 +7,51 @@
 Test this out
 
 {{{
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
+@Test
+  public void testSignIn() {
+    
+    // navigate to gwt app
+    String pathToGwtApp = "http://127.0.0.1:8888/index.html?gwt.codesvr=127.0.0.1:9997";
+    driver.get(pathToGwtApp);
 
-import javax.jdo.PersistenceManager;
-import javax.jdo.Transaction;
-import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.NotPersistent;
-import javax.jdo.annotations.PersistenceCapable;
-import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-
-import com.gonevertical.client.layout.school.user.learingplan.classes.ClassData;
-import com.gonevertical.client.layout.school.user.learingplan.classhours.ClassProgressData;
-import com.gonevertical.server.ServerPersistence;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-
-@PersistenceCapable
-public class ClassJdo {
-  
-  @NotPersistent
-  private ServerPersistence sp;
-
-  @PrimaryKey
-  @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-  private Key key;
-
-  @Persistent
-  private Integer index;
-
-  @Persistent
-  private Date dateCreated;
-
-  @Persistent
-  private Integer semester;
-
-  @Persistent
-  private String name;
-
-  @Persistent
-  private Integer hoursHome;
-
-  @Persistent
-  private Integer hoursSchool;
-
-  @Persistent(defaultFetchGroup = "true", dependentElement = "true")
-  private LinkedHashSet<ClassProgressJdo> progress;
-
-  /**
-   * init
-   */
-  public ClassJdo(ServerPersistence sp) {
-    this.sp = sp;
-  }
-  public ClassJdo(ServerPersistence sp, Key parentKey, ClassData data) {
-    this.sp = sp;
-    if (data == null) {
-      return;
-    }
-    setId(parentKey, data.getId());
-    index = data.getIndex();
-    semester = data.getSemester();
-    name = data.getName();
-    hoursHome = data.getHoursHome();
-    hoursSchool = data.getHoursSchool();
-    setProgress(data.getProgress());
-    //System.out.println("SchoolPlanClassJdo(): this=" + this);
-  }
-
-  public ClassData getData() {
-    ClassData d = new ClassData();
-    d.setId(getId());
-    d.setIndex(index);
-    d.setSemester(semester);
-    d.setName(name);
-    d.setHoursHome(hoursHome);
-    d.setHoursSchool(hoursSchool);
-    d.setProgress(getProgress());
-    //System.out.println("SchoolPlanClassJdo.getData(): this=" + this);
-    return d;
-  }
-
-  private void setId(Key parentKey, Long id) {
-    if (id == null || id == 0 || parentKey == null) {
-      dateCreated = new Date();
-      return;
-    }
-    key = KeyFactory.createKey(parentKey, ClassJdo.class.getSimpleName(), id);
-  }
-  private Long getId() {
-    Long id = null;
-    if (key != null) {
-      id = key.getId();
-    }
-    return id;
-  }
- 
-  private LinkedHashSet<ClassProgressData> getProgress() {
-    if (progress == null || progress.size() == 0) {
-      return null;
-    }
-    LinkedHashSet<ClassProgressData> r = new LinkedHashSet<ClassProgressData>();
-    Iterator<ClassProgressJdo> itr = progress.iterator();
-    while(itr.hasNext()) {
-      ClassProgressJdo j = itr.next(); 
-      if (j != null) {
-        r.add(j.getData());
+    // wait till the app is ready for use
+    (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
+      public Boolean apply(WebDriver d) {
+        WebElement element = driver.findElement(By.id("gwt-debug-Login_SignIn"));
+        return element.isEnabled();
       }
-    }
-    return r;
-  }
-
-  private void setProgress(LinkedHashSet<ClassProgressData> progress) {
-    if (progress == null || progress.size() == 0) {
-      this.progress = null;
-      return;
-    }
-    LinkedHashSet<ClassProgressJdo> lhs = new LinkedHashSet<ClassProgressJdo>();
-    Iterator<ClassProgressData> itr = progress.iterator();
-    while(itr.hasNext()) {
-      ClassProgressData d = itr.next();
-      ClassProgressJdo j = new ClassProgressJdo(key, d);
-      lhs.add(j);
-    }
-    this.progress = lhs;
-  }
-
-  public boolean deletePlanClass(Long parentId, Long id) {
-    if (parentId == null || id == null) {
-      return true;
-    }
-    boolean success = false;
-    PersistenceManager pm = sp.getPersistenceManager();
-    Transaction tx = pm.currentTransaction();
-    try {
-      Key keyParent = KeyFactory.createKey(LearningPlanJdo.class.getSimpleName(), parentId);
-      Key key = KeyFactory.createKey(keyParent, ClassJdo.class.getSimpleName(), id);
-      ClassJdo j = pm.getObjectById(ClassJdo.class, key); 
-      if (sp.getIsSchoolAdmin() == true) { 
-        tx.begin();
-        pm.deletePersistent(j);
-        tx.commit();
+    });
+    
+    WebElement element = driver.findElement(By.id("gwt-debug-Login_SignIn"));
+    element.click();
+    
+    // wait till where on the dev login page
+    (new WebDriverWait(driver, 2)).until(new ExpectedCondition<Boolean>() {
+      public Boolean apply(WebDriver d) {
+        WebElement isAdmin = driver.findElement(By.id("isAdmin"));
+        return isAdmin.isEnabled();
       }
-      success = true;
-    } catch (Exception e) {
-      success = false;
-    }  finally {
-      if (tx.isActive()) {
-        tx.rollback();
+    });
+    
+    // click on isAdmin
+    WebElement isAdmin = driver.findElement(By.id("isAdmin"));
+    isAdmin.click();
+    
+    // click on login
+    WebElement form = driver.findElement(By.xpath("/html/body/form/div/p[3]/input[1]"));
+    form.click();
+    
+    // wait till we get back to the user logged in with there tabs 
+    (new WebDriverWait(driver, 20)).until(new ExpectedCondition<Boolean>() {
+      public Boolean apply(WebDriver d) {
+        WebElement element = driver.findElement(By.id("gwt-debug-tabsSchoolUser"));
+        return element.isEnabled();
       }
-      pm.close();
-    }
-    return success;
+    });
+    
+    // set a break point on this, b/c there isn't any pausing
+    System.out.println("finished");
   }
-  
-  public String toString() {
-    String s = "";
-    s += "key=" + key + " ";
-    s += "index=" + index + " ";
-    s += "semester=" + semester + " ";
-    s += "name=" + name + " ";
-    s += "hoursHome=" + hoursHome + " ";
-    s += "hoursSchool=" + hoursSchool + " ";
-    s += "progress={ " + progress + " } ";
-    return s;
-  }
-  
-}
 }}}
 
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
