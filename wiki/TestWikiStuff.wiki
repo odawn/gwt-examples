@@ -7,51 +7,30 @@
 Test this out
 
 {{{
-@Test
-  public void testSignIn() {
-    
-    // navigate to gwt app
-    String pathToGwtApp = "http://127.0.0.1:8888/index.html?gwt.codesvr=127.0.0.1:9997";
-    driver.get(pathToGwtApp);
-
-    // wait till the app is ready for use
-    (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-      public Boolean apply(WebDriver d) {
-        WebElement element = driver.findElement(By.id("gwt-debug-Login_SignIn"));
-        return element.isEnabled();
-      }
-    });
-    
-    WebElement element = driver.findElement(By.id("gwt-debug-Login_SignIn"));
-    element.click();
-    
-    // wait till where on the dev login page
-    (new WebDriverWait(driver, 2)).until(new ExpectedCondition<Boolean>() {
-      public Boolean apply(WebDriver d) {
-        WebElement isAdmin = driver.findElement(By.id("isAdmin"));
-        return isAdmin.isEnabled();
-      }
-    });
-    
-    // click on isAdmin
-    WebElement isAdmin = driver.findElement(By.id("isAdmin"));
-    isAdmin.click();
-    
-    // click on login
-    WebElement form = driver.findElement(By.xpath("/html/body/form/div/p[3]/input[1]"));
-    form.click();
-    
-    // wait till we get back to the user logged in with there tabs 
-    (new WebDriverWait(driver, 20)).until(new ExpectedCondition<Boolean>() {
-      public Boolean apply(WebDriver d) {
-        WebElement element = driver.findElement(By.id("gwt-debug-tabsSchoolUser"));
-        return element.isEnabled();
-      }
-    });
-    
-    // set a break point on this, b/c there isn't any pausing
-    System.out.println("finished");
+  public HandlerRegistration addClickHandler(ClickMapHandler handler) {
+    return MapHandlerRegistration.addHandler(impl, MapEventType.CLICK, handler, new ClickEventFormatter());
   }
+
+    LatLng center = LatLng.newInstance(49.496675,-102.65625);
+    MapOptions opts = MapOptions.newInstance();
+    opts.setZoom(4);
+    opts.setCenter(center);
+    opts.setMapTypeId(MapTypeId.HYBRID);
+    
+    mapWidget = new MapWidget(opts);
+    pWidget.add(mapWidget);
+    mapWidget.setSize("500px", "500px");
+    
+    mapWidget.addClickHandler(new ClickMapHandler() {
+      public void onEvent(ClickMapEvent event) {
+        // TODO fix the event getting, getting ....
+        System.out.println("clicked on latlng=" + event.getMouseEvent().getLatLng());
+      }
+    });
+
+
+
+
 }}}
 
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
