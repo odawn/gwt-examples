@@ -6,7 +6,7 @@
 <wiki:toc max_depth="2" />
 
 = Demo Activities and Places =
- I'm building the demo as we speak.
+https://mywalletinventory.appspot.com/ - Demo
 
 = Other Developer Demos =
  * [http://www.mikemitterer.at/infopoint/programmierung/gwt-requestfactory/] - Nice request factory demo here
