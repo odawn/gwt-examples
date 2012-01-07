@@ -1,26 +1,30 @@
 
 
 html {
-  font-family: 'Rammetto One', cursive;
+  /* font-family: 'Rammetto One', cursive; */
 }
 
 body {
-  font-family: 'Rammetto One', cursive;
+  /* font-family: 'Rammetto One', cursive; */
 }
 
 
-@import url(http://fonts.googleapis.com/css?family=Rammetto+One);
+/* @import url(http://fonts.googleapis.com/css?family=Rammetto+One); */
 
 
 .gv-core-WiseRichTextArea { 
-  font-family: 'Rammetto One', cursive;
+  /* font-family: 'Rammetto One', cursive; */
 }
+
+
 
 /* using for GWT TestCase below */
 
 .test_webfont {
-  font-family: 'Rammetto One', cursive;
+  /* font-family: 'Rammetto One', cursive; */
 }
+
+
 
 .test_width {
   width: 205px;
