@@ -90,4 +90,9 @@ public class TextAreaPaster extends DialogBox {
   void onPushButtonClick(ClickEvent event) {
     close();
   }
+
+  public void setFocus() {
+    textArea.setFocus(true);
+  }
+  
 }
