@@ -109,23 +109,12 @@ public class WiseTextBox extends TextBox {
 
   private boolean grow;
 
+  private boolean debug;
+
   public WiseTextBox() {
     super();
-    setup(false, true);
-  }
-
-  public WiseTextBox(boolean hideBorderUntilHover, boolean grow) {
-    super();
-    setup(hideBorderUntilHover, grow);
-  }
-
-  private void setup(boolean hideBorderUntilHover, boolean grow) {
-    this.hideBorderUntilHover = hideBorderUntilHover;
-    this.grow = grow;
-
+    
     addStyleName("gv-core-WiseTextBox");
-
-    setUpEditHover();
 
     setupHandlers();
   }
@@ -190,6 +179,21 @@ public class WiseTextBox extends TextBox {
       }
     });
   }
+  
+  public void setFeatureHideBorderUntilHover(boolean enabled) {
+    hideBorderUntilHover = enabled;
+
+    setUpEditHover();
+  }
+  
+  public void setFeatureDebug(boolean enabled) {
+    debug = enabled;
+  }
+
+  public void setFeatureGrow(boolean enabled) {
+    grow = enabled;
+  }
+
 
   public void setEditHover(boolean hideBorderUntilHover) {
     this.hideBorderUntilHover = hideBorderUntilHover;
@@ -356,17 +360,16 @@ public class WiseTextBox extends TextBox {
     hiddenPanel = new AbsolutePanel();
     RootPanel.get().add(hiddenPanel);
 
-    // create a panel that won't go 100%
-    HorizontalPanel hp = new HorizontalPanel();
-    hiddenPanel.add(hp, 1000, 1000); // hide it
-    //hiddenPanel.add(hp); // show it for debugging
-
-    // create a spot to measure html
-    htmlForSizeTesting = new HTML("", false); // note text area you would want to wrap
-    hp.add(htmlForSizeTesting);
-
-    // for debugging
-    //hp.addStyleName("test1");
+    // create a spot to measure html - note text area you would want to wrap
+    htmlForSizeTesting = new HTML("", false);
+    
+    if (debug == true) {
+      hiddenPanel.add(htmlForSizeTesting);
+      hiddenPanel.addStyleName("test1");
+      htmlForSizeTesting.addStyleName("test2");
+    } else {
+      hiddenPanel.add(htmlForSizeTesting, -1000, -1000); // hide it from view
+    }
 
     // for some reason, the computed style takes a sec to kick in.... hmmmm
     cloneStyle();

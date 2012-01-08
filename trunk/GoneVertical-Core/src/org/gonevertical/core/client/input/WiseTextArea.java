@@ -131,31 +131,15 @@ public class WiseTextArea extends TextArea {
 
   private String defaultText;
 
+  private boolean debug;
+
   /**
    * constructor
    */
   public WiseTextArea() {
     super();
-    setup(false, true);
-  }
-
-  /**
-   * constructor
-   * @param hideBorderUntilHover - hover over box to see border
-   * @param grow - auto grow to size of text
-   */
-  public WiseTextArea(boolean hideBorderUntilHover, boolean grow) {
-    super();
-    setup(hideBorderUntilHover, grow);
-  }
-
-  private void setup(boolean hideBorderUntilHover, boolean grow) {
-    this.hideBorderUntilHover = hideBorderUntilHover;
-    this.grow = grow;
-
+    
     addStyleName("gv-core-WiseTextArea");
-
-    setUpEditHover();  
 
     setupHandlers();
   }
@@ -226,7 +210,20 @@ public class WiseTextArea extends TextArea {
         setDefaultTextIntoTextBox();
       }
     });
+  }
+  
+  public void setFeatureHideBorderUntilHover(boolean enabled) {
+    hideBorderUntilHover = enabled;
 
+    setUpEditHover();
+  }
+  
+  public void setFeatureDebug(boolean enabled) {
+    debug = enabled;
+  }
+
+  public void setFeatureGrow(boolean enabled) {
+    grow = enabled;
   }
 
   public void setDefaultText(String defaultText) {
@@ -453,19 +450,20 @@ public class WiseTextArea extends TextArea {
     RootPanel.get().add(hiddenPanel);
 
     // create a spot to measure html - note text area you would want to wrap
-    htmlForSizeTesting = new HTML("", true); 
-
-    hiddenPanel.add(htmlForSizeTesting, -1000, -1000); // hide it from view
-    //hiddenPanel.add(htmlForSizeTesting); // for debugging size
+    htmlForSizeTesting = new HTML("", true);
+    
+    if (debug == true) {
+      hiddenPanel.add(htmlForSizeTesting);
+      hiddenPanel.addStyleName("test1");
+      htmlForSizeTesting.addStyleName("test2");
+    } else {
+      hiddenPanel.add(htmlForSizeTesting, -1000, -1000); // hide it from view
+    }
 
     htmlForSizeTesting.setStyleName("gv-core-WiseTextArea-break"); // css3 long word breaking
 
     // setup width constraint
     setTextContainerWidth(Integer.toString(getOffsetWidth()));
-
-    //debug
-    hiddenPanel.addStyleName("test1");
-    htmlForSizeTesting.addStyleName("test2");
   }
 
   private void setTextContainerWidth(String width) {
