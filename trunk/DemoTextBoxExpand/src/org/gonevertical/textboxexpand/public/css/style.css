@@ -29,3 +29,29 @@ body {
 .test_width {
   width: 205px;
 }
+
+
+.test1 {
+  border:1px solid #FF0000;
+}
+.test2 {
+  border:1px solid blue;
+}
+.test3 {
+  border:1px solid #00FF00;	
+}
+.test4 {
+  border:1px solid #000000;
+}
+.test5 {
+  border:1px solid grey;
+}
+.test6 {
+  border:1px solid #0000FF;
+}
+.test7 {
+  border:1px solid #EFEFEF;
+}
+.test8 {
+  border:1px solid #FFFF00;
+}
