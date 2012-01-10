@@ -51,7 +51,7 @@ public class TextAreaExpandWidget_V2 extends Composite {
     
     RootPanel.get().add(ap);
     
-    hp.addStyleName("test1");
+    //hp.addStyleName("test1");
   }
 
   private void setSize() {
