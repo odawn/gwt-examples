@@ -5,6 +5,9 @@ import org.gonevertical.core.client.dialog.paster.PasteEventHandler;
 import org.gonevertical.core.client.dialog.paster.TextAreaPaster;
 import org.gonevertical.core.client.html.HtmlSanitizerUtils;
 import org.gonevertical.core.client.input.clipboardapi.ClipBoardApi;
+import org.gonevertical.core.client.input.event.EditEvent;
+import org.gonevertical.core.client.input.event.EditEvent.Edit;
+import org.gonevertical.core.client.input.event.EditEventHandler;
 import org.gonevertical.core.client.input.richtext.workaround.RichTextArea;
 import org.gonevertical.core.client.input.richtext.workaround.RichTextArea.Formatter;
 import org.gonevertical.core.client.style.ComputedStyle;
@@ -29,6 +32,7 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
@@ -144,6 +148,8 @@ public class WiseRichTextArea extends RichTextArea {
 
   private boolean debug;
 
+  private EventBus eventBus;
+
   /**
    * constructor
    */
@@ -151,7 +157,7 @@ public class WiseRichTextArea extends RichTextArea {
     super();
     setup();
   }
-
+  
   private void setup() {
 
     addStyleName("gv-core-WiseRichTextArea");
@@ -299,6 +305,7 @@ public class WiseRichTextArea extends RichTextArea {
       });
     }
     dialogPaster.showRelativeTo(this);
+    dialogPaster.setFocus();
   }
 
   protected void insertPasteData(String text) {
@@ -429,7 +436,7 @@ public class WiseRichTextArea extends RichTextArea {
     }
     int right = htmlForSizeTesting.getOffsetWidth();
     if (left != right) {
-      setTextContainerWidth(left + "");
+      //setTextContainerWidth(left + "");
     }
   }
 
@@ -497,6 +504,7 @@ public class WiseRichTextArea extends RichTextArea {
     //eright.getStyle().setProperty("wordWrap", "break-word");
     // css3 long word breaking like it will break aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa....
     eright.getStyle().setProperty("wordBreak", "break-all");
+    eright.getStyle().setProperty("width", (getOffsetWidth()-41) + "px");
   }
 
   /**
@@ -534,25 +542,26 @@ public class WiseRichTextArea extends RichTextArea {
     if (debug == true) {
       hiddenPanel.add(htmlForSizeTesting);
       hiddenPanel.addStyleName("test1");
+      htmlForSizeTesting.addStyleName("test2");
     } else {
       hiddenPanel.add(htmlForSizeTesting, -1000, -1000); // hide it from view
     }
     
-    htmlForSizeTesting.setStyleName("gv-core-WiseRichTextArea-break"); // css3 long word breaking
+    htmlForSizeTesting.addStyleName("gv-core-WiseRichTextArea-break"); // css3 long word breaking
 
     // setup width constraint
-    setTextContainerWidth(Integer.toString(getOffsetWidth()));
-
-    //debug
-    //hiddenPanel.addStyleName("test1");
-    //htmlForSizeTesting.addStyleName("test2");
+    setTextContainerWidth();
   }
 
-  private void setTextContainerWidth(String width) {
+  private void setTextContainerWidth() {
     if (htmlForSizeTesting == null) {
       return;
     }
-    htmlForSizeTesting.setWidth(width + "px");
+    
+    int width = getOffsetWidth();
+    //width -= 45;
+    
+    //htmlForSizeTesting.setWidth(width + "px");
     //System.out.println("setTextContainerWidth=" + width);
   }
 
@@ -643,7 +652,7 @@ public class WiseRichTextArea extends RichTextArea {
     } catch (NumberFormatException e) {
     }
 
-    setTextContainerWidth(width);
+    setTextContainerWidth();
   }
 
   @Override

@@ -83,6 +83,14 @@ public class RichTextAreaImpl {
   public void setText(String text) {
     DOM.setElementProperty(elem, "value", text);
   }
+  
+  public void setVisible(boolean visible) {
+    setVisible(elem, visible);
+  }
+  
+  private native void setVisible(Element elem, boolean visible) /*-{
+    elem.style.display = visible ? '' : 'none';
+  }-*/;
 
   /**
    * @deprecated as of GWT 2.1, use {@link #setOwner(HasInitializeHandlers)}

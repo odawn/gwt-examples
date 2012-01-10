@@ -6,9 +6,6 @@
 	</ui:style>
 	<g:VerticalPanel spacing="7">
 		<g:Cell horizontalAlignment="ALIGN_CENTER">
-			<g:HTML wordWrap="true">Paste your text into the input box.</g:HTML>
-		</g:Cell>
-		<g:Cell horizontalAlignment="ALIGN_CENTER">
 			<g:TextArea ui:field="textArea" width="250px" height="79px"/>
 		</g:Cell>
 		<g:Cell horizontalAlignment="ALIGN_CENTER">

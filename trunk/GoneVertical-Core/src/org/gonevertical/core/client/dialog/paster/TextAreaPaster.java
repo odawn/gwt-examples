@@ -40,6 +40,9 @@ public class TextAreaPaster extends DialogBox {
     setWidget(uiBinder.createAndBindUi(this));
     sinkEvents(Event.ONPASTE);
     textArea.setFocus(true);
+    String s = "Paste your text into the input box.";
+    setTitle(s);
+    setHTML(s);
   }
   
   /**
