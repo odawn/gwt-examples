@@ -1,5 +1,6 @@
 package com.gonevertical.client.views.widgets;
 
+import com.gonevertical.client.InitApp;
 import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.core.LoadingWidget;
 import com.gonevertical.client.app.core.images.UiImages;
@@ -167,7 +168,7 @@ public class LoginWidget extends Composite {
   }
   
   private void drawPlusOne() {
-    String s = "<g:plusone href=\"https://mywalletinventory.appspot.com\"></g:plusone>";
+    String s = "<g:plusone href=\"" + InitApp.URL + "\"></g:plusone>";
     htmlPlusOne.setHTML(s);
   }
 

@@ -12,7 +12,9 @@ public class InitApp implements EntryPoint {
   /**
    * I change this when I deploy to app engine
    */
-  public static final int BUILD_VERSION = 1;
+  public static final int BUILD_VERSION = 2;
+
+  public static final String URL = "https://demogwtpeople.appspot.com";
   
   /**
    * Global App Objects/Classes - using deferred binding to create object

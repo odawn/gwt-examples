@@ -83,7 +83,7 @@ public class Layout extends Composite {
         moveAdsDiv();
       }
     };
-    t.schedule(500);
+    t.schedule(5000); // In 5 seconds move
   }
   
   /**
@@ -95,7 +95,7 @@ public class Layout extends Composite {
   }
   
   private void drawPlusOne() {
-    String s = "<g:plusone href=\"https://demogwtpeople.appspot.com\"></g:plusone>";
+    String s = "<g:plusone href=\"" + InitApp.URL + "\"></g:plusone>";
     HTML h = new HTML(s);
     fpPlusOne.add(h);
     
