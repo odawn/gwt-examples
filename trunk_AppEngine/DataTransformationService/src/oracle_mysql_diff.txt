@@ -1,0 +1,10 @@
+
+differences between oracle and mysql
+
+http://download.oracle.com/docs/cd/E10405_01/doc/appdev.120/e10380/oracle_mysql_compared.htm
+
+
+
+http://www.techonthenet.com/oracle/sys_tables/index.php - system tables
+
+http://ss64.com/orad/USER_TAB_COLUMNS.html
