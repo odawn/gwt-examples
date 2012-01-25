@@ -1,6 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.editor.ui.client" xmlns:p2="urn:import:com.gonevertical.client.views.peopleedit.editor">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.editor.ui.client" xmlns:p2="urn:import:com.gonevertical.client.views.peopleedit.editor" xmlns:p3="urn:import:com.gonevertical.client.views.widgets" xmlns:p4="urn:import:com.gonevertical.client.views.widgets.richtextarea">
 	<ui:style>
 		.important {
 			font-weight: bold;
@@ -53,10 +53,7 @@
 					<g:HTML wordWrap="true">Note</g:HTML>
 				</g:customCell>
 				<g:customCell>
-					<g:RichTextArea ui:field="note"/>
-				</g:customCell>
-				<g:customCell>
-					<p1:ValueBoxEditorDecorator/>
+					<p4:RichTextAreaEditor ui:field="note"/>
 				</g:customCell> 
 			</g:row> 
 		</g:Grid>

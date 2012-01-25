@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.RichTextArea;
 import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.ValueListBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.gonevertical.client.views.widgets.richtextarea.RichTextAreaEditor;
 
 public class PersonEditor extends Composite implements Editor<PeopleDataProxy> {
 
@@ -35,8 +36,8 @@ public class PersonEditor extends Composite implements Editor<PeopleDataProxy> {
       appendable.append(s);
     }
   });
-  @UiField RichTextArea note;
-
+  @UiField RichTextAreaEditor note;
+  
   interface PersonEditorUiBinder extends UiBinder<Widget, PersonEditor> {}
 
   public PersonEditor() {
