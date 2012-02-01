@@ -69,11 +69,7 @@ public class DownloadToFile {
   }
 
   private String getName(String kind) {
-    String date = cf.getDateTime();
-    date = date.replaceAll(" ", "__");
-    date = date.replaceAll(":", "-");
-    String name = date + "___" + kind;
-    return name;
+    return cf.getFileName(kind);
   }
 
   public void closeFile() {

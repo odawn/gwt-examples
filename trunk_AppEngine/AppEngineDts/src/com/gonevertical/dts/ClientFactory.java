@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.naming.Context;
@@ -123,13 +124,7 @@ public class ClientFactory {
     }
     return appIdLeft;
   }
-  
-  public String getDateTime() {
-    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    String s = df.format(calendar.getTime());
-    return s;
-  }
-  
+   
   public boolean downloadToSql() {
     boolean b = false;
     b = config.getBoolean("download.to.sql");
@@ -197,4 +192,48 @@ public class ClientFactory {
     }
     return limit;
   }
+  
+  
+  
+  public String getDateTime() {
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    String s = df.format(calendar.getTime());
+    return s;
+  }
+  
+  private String getDateTime(Date date) {
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(date);
+    DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    String s = df.format(calendar.getTime());
+    return s;
+  }
+  
+  public String getFileName(String kind) {
+    String sdate = getDateTime();
+    String name = cleanDate(kind, sdate);
+    return name;
+  }
+  
+  public String getFileName(String kind, Date date) {
+    String sdate = getDateTime(date);
+    String name = cleanDate(kind, sdate);
+    return name;
+  }
+  
+  private String cleanDate(String kind, String sdate) {
+    sdate = sdate.replaceAll(" ", "__");
+    sdate = sdate.replaceAll(":", "-");
+    String name = sdate + "___" + kind;
+    return name;
+  }
+  
+  public File getFile(String kind, Date date) {
+    String name = getFileName(kind);
+    String path = getFilePath() + name;
+    File file = new File(path);
+    return file;
+  }
+   
+  
 }
