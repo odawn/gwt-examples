@@ -36,8 +36,9 @@ public class StringUtil {
 			Matcher m = p.matcher(s);
 			found = m.find();
 		} catch (Exception e) {
-			System.out.println("findMatch: regex error");
+			System.out.println("findMatch: regex error=");
 			found = false;
+			e.printStackTrace();
 		}
 		return found;
 	}

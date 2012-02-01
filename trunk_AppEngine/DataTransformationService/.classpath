@@ -7,6 +7,7 @@
 	<classpathentry kind="src" path="experimental"/>
 	<classpathentry kind="src" path="src_gwt"/>
 	<classpathentry kind="src" path="deprecated"/>
+	<classpathentry kind="src" path="exp"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/slf4j-api-1.6.4.jar"/>
 	<classpathentry kind="lib" path="lib/commons-io-1.4.jar"/>
