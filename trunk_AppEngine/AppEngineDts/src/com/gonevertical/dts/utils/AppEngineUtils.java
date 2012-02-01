@@ -102,6 +102,8 @@ public class AppEngineUtils {
     } finally {
       installer.uninstall();
     }
+    
+    log.info("AppEngineUtils.setup(): app engine instance ready...");
   }
 
   /**
