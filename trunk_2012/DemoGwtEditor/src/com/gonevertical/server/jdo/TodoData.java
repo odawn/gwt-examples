@@ -18,10 +18,8 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 
 @PersistenceCapable
-@Version(strategy=VersionStrategy.VERSION_NUMBER, column="version", extensions={@Extension(vendorName="datanucleus", key="key", value="version")})
 public class TodoData {
 
-  @NotPersistent
   private static final Logger log = Logger.getLogger(TodoData.class.getName());
 
   /**

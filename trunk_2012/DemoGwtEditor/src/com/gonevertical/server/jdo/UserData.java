@@ -25,10 +25,8 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
 @PersistenceCapable
-@Version(strategy=VersionStrategy.VERSION_NUMBER, column="version", extensions={@Extension(vendorName="datanucleus", key="key", value="version")})
 public class UserData {
 
-  @NotPersistent
   private static final Logger log = Logger.getLogger(UserData.class.getName());
 
   public static PersistenceManager getPersistenceManager() {
