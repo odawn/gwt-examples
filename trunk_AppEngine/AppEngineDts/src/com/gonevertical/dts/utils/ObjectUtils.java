@@ -21,7 +21,13 @@ public class ObjectUtils {
     return s;
   }
 
-
+  public static <T> T stringToObject(Class<T> clazz, String json) {
+    if (gson == null) {
+      gson = new Gson();
+    }
+    T o = gson.fromJson(json, clazz);
+    return o;
+  }
   
 
 
