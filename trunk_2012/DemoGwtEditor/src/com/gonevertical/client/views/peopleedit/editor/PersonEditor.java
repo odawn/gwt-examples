@@ -3,6 +3,8 @@ package com.gonevertical.client.views.peopleedit.editor;
 import java.io.IOException;
 
 import com.gonevertical.client.app.requestfactory.dto.PeopleDataProxy;
+import com.gonevertical.client.views.peopleedit.editor.todos.TodoListEditor;
+import com.gonevertical.client.views.widgets.richtextarea.RichTextAreaEditor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.ui.client.ValueBoxEditorDecorator;
@@ -10,20 +12,23 @@ import com.google.gwt.text.shared.Renderer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.RichTextArea;
 import com.google.gwt.user.client.ui.SimpleCheckBox;
 import com.google.gwt.user.client.ui.ValueListBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.gonevertical.client.views.widgets.richtextarea.RichTextAreaEditor;
 
 public class PersonEditor extends Composite implements Editor<PeopleDataProxy> {
 
   private static PersonEditorUiBinder uiBinder = GWT.create(PersonEditorUiBinder.class);
-  
-  @UiField ValueBoxEditorDecorator<String> nameFirst;
-  @UiField ValueBoxEditorDecorator<String> nameLast;
-  @UiField SimpleCheckBox active;
-  
+
+  @UiField 
+  ValueBoxEditorDecorator<String> nameFirst;
+
+  @UiField 
+  ValueBoxEditorDecorator<String> nameLast;
+
+  @UiField 
+  SimpleCheckBox active;
+
   @UiField(provided = true) 
   ValueListBox<Integer> gender = new ValueListBox<Integer>(new Renderer<Integer>() {
     public String render(Integer object) {
@@ -36,15 +41,24 @@ public class PersonEditor extends Composite implements Editor<PeopleDataProxy> {
       appendable.append(s);
     }
   });
-  @UiField RichTextAreaEditor note;
-  
+
+  @UiField 
+  RichTextAreaEditor note;
+
+  /**
+   * TODO List Editor won't work yet
+   */
+  @UiField 
+  TodoListEditor todosEditor;
+
+
+
   interface PersonEditorUiBinder extends UiBinder<Widget, PersonEditor> {}
 
   public PersonEditor() {
     gender.setAcceptableValues(Gender.getValues());
-    
+
     initWidget(uiBinder.createAndBindUi(this));
   }
-  
- 
+
 }

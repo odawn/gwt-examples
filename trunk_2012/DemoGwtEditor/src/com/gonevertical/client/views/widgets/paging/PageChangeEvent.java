@@ -1,7 +1,6 @@
 package com.gonevertical.client.views.widgets.paging;
 
 import com.google.gwt.event.shared.GwtEvent;
-import com.google.web.bindery.requestfactory.shared.EntityProxy;
 
 /**
  * authorization event, in response to logging into Google system

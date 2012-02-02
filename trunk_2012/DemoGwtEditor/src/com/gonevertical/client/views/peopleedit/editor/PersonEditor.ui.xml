@@ -1,13 +1,14 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.editor.ui.client" xmlns:p2="urn:import:com.gonevertical.client.views.peopleedit.editor" xmlns:p3="urn:import:com.gonevertical.client.views.widgets" xmlns:p4="urn:import:com.gonevertical.client.views.widgets.richtextarea">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.editor.ui.client" xmlns:p2="urn:import:com.gonevertical.client.views.peopleedit.editor" xmlns:p3="urn:import:com.gonevertical.client.views.widgets" xmlns:p4="urn:import:com.gonevertical.client.views.widgets.richtextarea" xmlns:p5="urn:import:com.gonevertical.client.views.peopleedit.editor.todos">
 	<ui:style>
 		.important {
 			font-weight: bold;
 		}
 	</ui:style>
 	<g:VerticalPanel>
-		<g:Grid>
+		<g:HorizontalPanel>
+			<g:Grid>
 			<g:row>
 				<g:customCell>
 					<g:HTML wordWrap="true">First Name</g:HTML>
@@ -57,5 +58,9 @@
 				</g:customCell> 
 			</g:row> 
 		</g:Grid>
+			<g:FlowPanel>
+				<p5:TodoListEditor ui:field="todosEditor"/>
+			</g:FlowPanel>
+		</g:HorizontalPanel>
 	</g:VerticalPanel>
 </ui:UiBinder> 

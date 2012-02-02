@@ -1,11 +1,6 @@
 package com.gonevertical.client.views.widgets.paging;
 
 import com.gonevertical.client.app.core.LoadingWidget;
-import com.gonevertical.client.app.events.EditEvent;
-import com.gonevertical.client.app.events.EditEventHandler;
-import com.gonevertical.client.app.requestfactory.dto.PeopleDataProxy;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;

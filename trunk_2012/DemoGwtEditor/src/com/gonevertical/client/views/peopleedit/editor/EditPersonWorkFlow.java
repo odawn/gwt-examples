@@ -31,7 +31,6 @@ public class EditPersonWorkFlow extends Composite {
   
   public static enum State {
     EDITING,
-    
     SAVING;
   }
   
@@ -47,8 +46,7 @@ public class EditPersonWorkFlow extends Composite {
   /**
    * workflow xml ui binder
    */
-  interface EditPersonWorkFlowUiBinder extends UiBinder<Widget, EditPersonWorkFlow> {
-  }
+  interface EditPersonWorkFlowUiBinder extends UiBinder<Widget, EditPersonWorkFlow> {}
   
   /** 
    * Empty interface declaration, similar to UiBinder

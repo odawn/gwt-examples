@@ -12,6 +12,9 @@ import com.gonevertical.client.app.user.AuthEventHandler;
 import com.gonevertical.client.views.peopleedit.PeopleEditPlace;
 import com.gonevertical.client.views.peoplelist.table.NameFirstColumn;
 import com.gonevertical.client.views.peoplelist.table.NameLastColumn;
+import com.gonevertical.client.views.widgets.paging.PageChangeEvent;
+import com.gonevertical.client.views.widgets.paging.PageChangeEventHandler;
+import com.gonevertical.client.views.widgets.paging.Paging;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.http.client.URL;
@@ -23,6 +26,7 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -33,10 +37,6 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.gonevertical.client.views.widgets.paging.PageChangeEvent;
-import com.gonevertical.client.views.widgets.paging.PageChangeEventHandler;
-import com.gonevertical.client.views.widgets.paging.Paging;
 
 public class PeopleListViewImpl extends Composite implements PeopleListView {
 

@@ -2,9 +2,7 @@ package com.gonevertical.client.views.widgets.richtextarea;
 
 import java.text.ParseException;
 
-import com.google.gwt.editor.client.IsEditor;
 import com.google.gwt.editor.client.LeafValueEditor;
-import com.google.gwt.editor.client.adapters.SimpleEditor;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.HasValueChangeHandlers;
@@ -16,7 +14,6 @@ import com.google.gwt.safehtml.shared.SimpleHtmlSanitizer;
 import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.RichTextArea;
-import com.google.gwt.view.client.HasData;
 
 public class RichTextAreaEditor extends RichTextArea implements 
     HasValueChangeHandlers<String>, HasValue<String>, TakesValue<String>, LeafValueEditor<String> {

@@ -6,14 +6,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.jdo.annotations.Extension;
 import javax.jdo.annotations.IdGeneratorStrategy;
-import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
-import javax.jdo.annotations.Version;
-import javax.jdo.annotations.VersionStrategy;
 
 import com.gonevertical.server.Filter;
 import com.gonevertical.server.RequestFactoryUtils;

@@ -1,0 +1,19 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:p1="urn:import:com.google.gwt.editor.ui.client">
+	<ui:style>
+		.important {
+			font-weight: bold;
+		}
+	</ui:style>
+	<g:FlowPanel>
+		<g:HorizontalPanel>
+			<p1:ValueBoxEditorDecorator ui:field="todo">
+				<p1:valuebox>
+					<g:TextBox/>
+				</p1:valuebox>
+			</p1:ValueBoxEditorDecorator>
+		</g:HorizontalPanel>
+
+	</g:FlowPanel>
+</ui:UiBinder> 
