@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Widget;
 
-public class TodoItemEditor extends Composite  implements Editor<TodoDataProxy>, HasValue<String>, TakesValue<String> {
+public class TodoItemEditor extends Composite  implements Editor<TodoDataProxy> {
 
   private static TodoItemEditorUiBinder uiBinder = GWT.create(TodoItemEditorUiBinder.class);
   
@@ -24,28 +24,6 @@ public class TodoItemEditor extends Composite  implements Editor<TodoDataProxy>,
 
   public TodoItemEditor() {
     initWidget(uiBinder.createAndBindUi(this));
-  }
-
-  @Override
-  public HandlerRegistration addValueChangeHandler(
-      ValueChangeHandler<String> handler) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public String getValue() {
-    return "test";
-  }
-
-  @Override
-  public void setValue(String value) {
-    System.out.println("test set");
-  }
-
-  @Override
-  public void setValue(String value, boolean fireEvents) {
-    System.out.println("test set2");
   }
 
 }
