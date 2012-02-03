@@ -12,6 +12,7 @@ import com.gonevertical.client.app.events.EditEventHandler;
 import com.gonevertical.client.app.requestfactory.PeopleDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.PeopleDataProxy;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.editor.client.testing.EditorHierarchyPrinter;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -164,6 +165,12 @@ public class EditPersonWorkFlow extends Composite {
     
     fireEvent(new EditEvent<PeopleDataProxy>(Edit.SAVING));
     setState(State.SAVING);
+    
+    
+    // Debugging the editor
+    String s = EditorHierarchyPrinter.toString(driver);
+    System.out.println("EditorHierarchyPrinter = " + s);
+    
     
     // fire the persist, which is already added to the context of this call
     // the persist call back is caught above
