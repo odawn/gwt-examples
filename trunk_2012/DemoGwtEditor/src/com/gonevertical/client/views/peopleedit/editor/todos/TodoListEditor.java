@@ -8,6 +8,8 @@ import com.gonevertical.client.app.requestfactory.dto.PeopleDataProxy;
 import com.gonevertical.client.app.requestfactory.dto.TodoDataProxy;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.Editor;
+import com.google.gwt.editor.client.EditorDelegate;
+import com.google.gwt.editor.client.HasEditorDelegate;
 import com.google.gwt.editor.client.IsEditor;
 import com.google.gwt.editor.client.LeafValueEditor;
 import com.google.gwt.editor.client.adapters.EditorSource;
@@ -52,11 +54,11 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
     }     
     @Override
     public void dispose(TodoItemEditor subEditor) {
-      super.dispose(subEditor);
+      subEditor.removeFromParent();
     }
     @Override
     public void setIndex(TodoItemEditor editor, int index) {
-      super.setIndex(editor, index);
+      plist.insert(editor, index);
     }
   }   
   private ListEditor<TodoDataProxy, TodoItemEditor> editor = ListEditor.of(new TodoItemEditorSource());
@@ -70,8 +72,10 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
   @UiHandler("bAdd")
   void onBAddClick(ClickEvent event) {
     
-    List<TodoDataProxy> value = new ArrayList<TodoDataProxy>();
-    editor.setValue(value );
+//    TodoDataProxy e = 
+//    editor.getList().add(e);
+    
+    //editor.createEditorForTraversal(); // this won't work with dispose
   }
 
   @Override

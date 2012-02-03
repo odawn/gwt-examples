@@ -131,7 +131,7 @@ public class PeopleEditViewImpl extends Composite implements PeopleEditView {
   }
 
   private void findId(EntityProxyId<PeopleDataProxy> id) {
-    Request<PeopleDataProxy> req = clientFactory.getRequestFactory().getPeopleDataRequest().find(id).with("todos");
+    Request<PeopleDataProxy> req = clientFactory.getRequestFactory().getPeopleDataRequest().find(id);
     req.fire(new Receiver<PeopleDataProxy>() {
       public void onSuccess(PeopleDataProxy response) {
         processLookup(response);

@@ -85,29 +85,7 @@ public class EditPersonWorkFlow extends Composite {
       }
     });
   }
-
-  /**
-   * edit object
-   * @param peopleDataProxy
-   */
-  public void edit(PeopleDataProxy peopleDataProxy) {
-    initEditor();
-
-    // setup request context
-    PeopleDataRequest context = clientFactory.getRequestFactory().getPeopleDataRequest();
-
-    // create a new object when null
-    if (peopleDataProxy == null) { 
-      peopleDataProxy = context.create(PeopleDataProxy.class);
-    }
-    
-    driver.edit(peopleDataProxy, context);
-    
-    // wire up the persist like a call back when save happens
-    // decouple using the event handler to send data
-    context.persist().using(peopleDataProxy).to(getReciever());
-  }
-
+  
   /**
    * on persist do this
    * @return
@@ -130,6 +108,28 @@ public class EditPersonWorkFlow extends Composite {
       }
     };
     return r;
+  }
+
+  /**
+   * edit object
+   * @param peopleDataProxy
+   */
+  public void edit(PeopleDataProxy peopleDataProxy) {
+    initEditor();
+
+    // setup request context
+    PeopleDataRequest context = clientFactory.getRequestFactory().getPeopleDataRequest();
+    
+    // create a new object when null
+    if (peopleDataProxy == null) { 
+      peopleDataProxy = context.create(PeopleDataProxy.class);
+    }
+    
+    driver.edit(peopleDataProxy, context);
+    
+    // wire up the persist like a call back when save happens
+    // decouple using the event handler to send data
+    context.persist().using(peopleDataProxy).with(driver.getPaths()).to(getReciever());
   }
 
   /**
