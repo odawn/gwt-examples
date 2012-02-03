@@ -28,7 +28,8 @@ public class PeopleData {
    * @return
    */
   public static PeopleData findPeopleData(String id) {
-    return RequestFactoryUtils.find(PeopleData.class, id);
+    PeopleData d = RequestFactoryUtils.find(PeopleData.class, id);
+    return d;
   }
   
   public static List<PeopleData> findPeopleData(long start, long end) {

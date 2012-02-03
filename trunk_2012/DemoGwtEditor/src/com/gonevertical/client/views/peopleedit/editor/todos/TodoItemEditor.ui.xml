@@ -8,11 +8,7 @@
 	</ui:style>
 	<g:FlowPanel>
 		<g:HorizontalPanel>
-			<p1:ValueBoxEditorDecorator ui:field="todo">
-				<p1:valuebox>
-					<g:TextBox/>
-				</p1:valuebox>
-			</p1:ValueBoxEditorDecorator>
+			<g:TextBox ui:field="todo"/>
 		</g:HorizontalPanel>
 
 	</g:FlowPanel>

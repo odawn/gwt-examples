@@ -1,6 +1,7 @@
 package com.gonevertical.client.views.peopleedit.editor.todos;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.gonevertical.client.app.requestfactory.dto.PeopleDataProxy;
@@ -23,25 +24,40 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.web.bindery.requestfactory.shared.EntityProxyId;
 
 public class TodoListEditor extends Composite implements IsEditor<ListEditor<TodoDataProxy, TodoItemEditor>> {
 
   private static TodoListEditorUiBinder uiBinder = GWT.create(TodoListEditorUiBinder.class);
-  @UiField FlowPanel pWidget;
-  @UiField PushButton bAdd;
-  @UiField FlowPanel pList;
+  
+  @UiField 
+  FlowPanel pWidget;
+  
+  @UiField 
+  PushButton bAdd;
+  
+  @UiField 
+  FlowPanel plist;
 
+  
   interface TodoListEditorUiBinder extends UiBinder<Widget, TodoListEditor> {}
-
-
+  
   
   private class TodoItemEditorSource extends EditorSource<TodoItemEditor> {
     @Override
     public TodoItemEditor create(int index) {
       TodoItemEditor widget = new TodoItemEditor();
-      pList.insert(widget, index);
+      plist.insert(widget, index);
       return widget;
-    }                   
+    }     
+    @Override
+    public void dispose(TodoItemEditor subEditor) {
+      super.dispose(subEditor);
+    }
+    @Override
+    public void setIndex(TodoItemEditor editor, int index) {
+      super.setIndex(editor, index);
+    }
   }   
   private ListEditor<TodoDataProxy, TodoItemEditor> editor = ListEditor.of(new TodoItemEditorSource());
 
@@ -53,7 +69,9 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
   
   @UiHandler("bAdd")
   void onBAddClick(ClickEvent event) {
-    editor.createEditorForTraversal();
+    
+    List<TodoDataProxy> value = new ArrayList<TodoDataProxy>();
+    editor.setValue(value );
   }
 
   @Override
@@ -61,27 +79,4 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
     return editor;
   }
 
-
-//  @Override
-//  public void setValue(List<TodoDataProxy> value, boolean fireEvents) {
-//    setValue(value);
-//  }
-//
-//  @Override
-//  public void setValue(List<TodoDataProxy> value) {
-//    editor.setValue(value);
-//  }
-//
-//  @Override
-//  public List<TodoDataProxy> getValue() {
-//    List<TodoDataProxy> list = editor.getList();
-//    return list;
-//  }
-//
-//  @Override
-//  public HandlerRegistration addValueChangeHandler(ValueChangeHandler<List<TodoDataProxy>> handler) {
-//    // TODO Auto-generated method stub
-//    return null;
-//  }
-// 
 }

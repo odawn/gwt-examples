@@ -12,13 +12,14 @@ import com.google.gwt.user.client.TakesValue;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.TextBox;
 
 public class TodoItemEditor extends Composite  implements Editor<TodoDataProxy> {
 
   private static TodoItemEditorUiBinder uiBinder = GWT.create(TodoItemEditorUiBinder.class);
   
   @UiField 
-  ValueBoxEditorDecorator<String> todo;
+  TextBox todo;
 
   interface TodoItemEditorUiBinder extends UiBinder<Widget, TodoItemEditor> {}
 

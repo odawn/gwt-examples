@@ -8,6 +8,6 @@
 				<g:HTML wordWrap="true">&nbsp;Todos</g:HTML>
 			</g:Cell>
 		</g:HorizontalPanel>
-		<g:FlowPanel ui:field="pList"/>
+		<g:FlowPanel ui:field="plist"/>
 	</g:FlowPanel>
 </ui:UiBinder> 

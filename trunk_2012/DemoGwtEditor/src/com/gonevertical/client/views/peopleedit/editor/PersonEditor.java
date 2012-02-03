@@ -49,7 +49,7 @@ public class PersonEditor extends Composite implements Editor<PeopleDataProxy> {
    * TODO List Editor won't work yet
    */
   @UiField 
-  TodoListEditor todosEditor;
+  TodoListEditor todos;
 
 
 

@@ -59,7 +59,7 @@
 			</g:row> 
 		</g:Grid>
 			<g:FlowPanel>
-				<p5:TodoListEditor ui:field="todosEditor"/>
+				<p5:TodoListEditor ui:field="todos"/>
 			</g:FlowPanel>
 		</g:HorizontalPanel>
 	</g:VerticalPanel>
