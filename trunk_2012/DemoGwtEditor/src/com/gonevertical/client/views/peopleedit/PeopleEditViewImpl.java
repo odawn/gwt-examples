@@ -109,32 +109,20 @@ public class PeopleEditViewImpl extends Composite implements PeopleEditView {
   private void setLoggedIn() {
     wLoading.showLoading(false);
     
-// instead of using what came in, lets always look it up so we can get the todos    
-//    // from url 
-//    if (id != null) {
-//      lookupId();
-//      return;
-//    }
-//    drawWorkFlow();
-    
-    EntityProxyId<PeopleDataProxy> idd = id;
-    if (peopleDataProxy != null) {
-      idd = (EntityProxyId<PeopleDataProxy>) peopleDataProxy.stableId();
+    // from url 
+    if (id != null) {
+      lookupId();
+      return;
     }
     
-    findId(idd);
-  }
-  
-  private void processLookup(PeopleDataProxy response) {
-    this.peopleDataProxy = response;
     drawWorkFlow();
   }
 
-  private void findId(EntityProxyId<PeopleDataProxy> id) {
+  private void lookupId() {
     Request<PeopleDataProxy> req = clientFactory.getRequestFactory().getPeopleDataRequest().find(id);
     req.fire(new Receiver<PeopleDataProxy>() {
       public void onSuccess(PeopleDataProxy response) {
-        processLookup(response);
+        start(response);
       }
     });
   }
