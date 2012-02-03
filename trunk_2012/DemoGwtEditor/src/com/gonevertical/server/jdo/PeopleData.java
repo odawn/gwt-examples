@@ -32,6 +32,21 @@ public class PeopleData {
     return d;
   }
   
+  private static void test() {
+    PeopleData p = new PeopleData();
+    p.setNameFirst("fred");
+    p.setNameLast("smith");
+    List<TodoData> t = new ArrayList<TodoData>();
+    TodoData e = new TodoData();
+    e.setTodo("todo1");
+    t.add(e);
+    TodoData e2 = new TodoData();
+    e2.setTodo("todo2");
+    t.add(e2 );
+    p.setTodos(t);
+    p.persist();
+  }
+
   public static List<PeopleData> findPeopleData(long start, long end) {
     ArrayList<Filter> tfilter = null;
     List<PeopleData> list = RequestFactoryUtils.findList(PeopleData.class, tfilter, start, end);
@@ -75,7 +90,7 @@ public class PeopleData {
   /**
    * owned collection 
    */
-  @Persistent
+  @Persistent(defaultFetchGroup = "true", dependentElement = "true")
   private List<TodoData> todos;
   
   
