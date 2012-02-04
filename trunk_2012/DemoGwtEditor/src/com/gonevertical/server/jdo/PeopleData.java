@@ -89,6 +89,7 @@ public class PeopleData {
   
   /**
    * owned collection 
+   *  - Note to use request factory ListEditor for todo, both attributes have to be set below.
    */
   @Persistent(defaultFetchGroup = "true", dependentElement = "true")
   private List<TodoData> todos;

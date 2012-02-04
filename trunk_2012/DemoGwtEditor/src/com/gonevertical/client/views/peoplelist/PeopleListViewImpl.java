@@ -34,6 +34,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SingleSelectionModel;
+import com.google.web.bindery.requestfactory.shared.EntityProxyId;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
@@ -102,7 +103,9 @@ public class PeopleListViewImpl extends Composite implements PeopleListView {
     grid.setSelectionModel(selectionModel);
     selectionModel.addSelectionChangeHandler(new Handler() {
       public void onSelectionChange(SelectionChangeEvent event) {
-        PeopleDataProxy o = selectionModel.getSelectedObject();
+        // instead of passing the object in, lets pass the id, so then I'll look the entire object up including the owned children todos
+        // this way, it is a bit simpler to deal with decoupling
+        EntityProxyId<PeopleDataProxy> o = (EntityProxyId<PeopleDataProxy>) selectionModel.getSelectedObject().stableId();
         presenter.goTo(new PeopleEditPlace(o));
       }
     });
@@ -233,6 +236,6 @@ public class PeopleListViewImpl extends Composite implements PeopleListView {
 
   @UiHandler("bAdd")
   void onBAddClick(ClickEvent event) {
-    presenter.goTo(new PeopleEditPlace((PeopleDataProxy) null));
+    presenter.goTo(new PeopleEditPlace(null));
   }
 }

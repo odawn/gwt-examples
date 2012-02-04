@@ -19,6 +19,4 @@ public interface PeopleEditView extends IsWidget {
   void setClientFactory(ClientFactory clientFactory);
   
   void start(EntityProxyId<PeopleDataProxy> id);
-
-  void start(PeopleDataProxy data);
 }

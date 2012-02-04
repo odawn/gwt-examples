@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.web.bindery.requestfactory.shared.EntityProxy;
 import com.google.web.bindery.requestfactory.shared.EntityProxyId;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.Request;
@@ -73,14 +74,14 @@ public class PeopleEditViewImpl extends Composite implements PeopleEditView {
     alreadyInit = true;
   }
 
+  /**
+   * presenter starts this
+   *    this probably could be put in the presenter
+   */
   public void start(EntityProxyId<PeopleDataProxy> id) {
     this.id = id;
-    start();
-  }
-  
-  public void start(PeopleDataProxy data) {
-    this.peopleDataProxy = data;
-    id = null;
+    peopleDataProxy = null;
+    
     start();
   }
   
@@ -109,25 +110,32 @@ public class PeopleEditViewImpl extends Composite implements PeopleEditView {
   private void setLoggedIn() {
     wLoading.showLoading(false);
     
-    // from url 
-    if (id != null) {
-      lookupId();
-      return;
+    if (id == null) {
+      drawWorkFlowEditor();
+    } else {
+      findId(id);
     }
-    
-    drawWorkFlow();
   }
-
-  private void lookupId() {
+  
+  /**
+   * load the data, and children todos. 
+   *   note todos must be annotated on the server side. 
+   * @param id
+   */
+  private void findId(EntityProxyId<PeopleDataProxy> id) {
     Request<PeopleDataProxy> req = clientFactory.getRequestFactory().getPeopleDataRequest().find(id).with("todos");
     req.fire(new Receiver<PeopleDataProxy>() {
       public void onSuccess(PeopleDataProxy response) {
-        start(response);
+        PeopleEditViewImpl.this.peopleDataProxy = response; // as in this.peopleDataProxy
+        drawWorkFlowEditor();
       }
     });
   }
 
-  private void drawWorkFlow() {
+  /**
+   * setup the editor
+   */
+  private void drawWorkFlowEditor() {
     if (editorFlow == null) {
       editorFlow = new EditPersonWorkFlow(clientFactory);
       pEdit.add(editorFlow);
@@ -157,6 +165,9 @@ public class PeopleEditViewImpl extends Composite implements PeopleEditView {
    * @param userData
    */
   private void setLoggedOut(UserDataProxy userData) {
+    peopleDataProxy = null;
+    id = null;
+    
     wLoading.showLoading(false);
     if (userData == null) {
       // this shouldn't happen, b/c we need the urls

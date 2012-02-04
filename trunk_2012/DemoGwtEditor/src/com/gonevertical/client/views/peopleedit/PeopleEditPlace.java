@@ -27,9 +27,6 @@ public class PeopleEditPlace extends Place {
       if (place.getId() != null) {
         s = requestFactory.getHistoryToken(place.getId());
         
-      } else if (place.getData() != null) {
-        s = requestFactory.getHistoryToken(place.getData().stableId());
-        
       } else {
         s = "new"; 
       }
@@ -57,13 +54,6 @@ public class PeopleEditPlace extends Place {
   // from url
   private EntityProxyId<PeopleDataProxy> proxyId; 
 
-  // from app
-  private PeopleDataProxy peopleDataProxy;
-  
-  // from app
-  public PeopleEditPlace(PeopleDataProxy peopleDataProxy) {
-    this.peopleDataProxy = peopleDataProxy;
-  }
   
   // from url
   public PeopleEditPlace(EntityProxyId<PeopleDataProxy> proxyId) {
@@ -76,10 +66,6 @@ public class PeopleEditPlace extends Place {
   
   public EntityProxyId<PeopleDataProxy> getId() {
     return proxyId;
-  }
-
-  public PeopleDataProxy getData() {
-    return peopleDataProxy;
   }
  
 }

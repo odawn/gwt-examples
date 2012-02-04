@@ -17,13 +17,10 @@ public class PeopleEditActivity extends AbstractActivity implements PeopleEditVi
   private boolean running;
 
   private EntityProxyId<PeopleDataProxy> id;
-
-  private PeopleDataProxy data;
   
   public PeopleEditActivity(PeopleEditPlace place, ClientFactory clientFactory) {
     this.clientFactory = clientFactory;
     id = place.getId();
-    data = place.getData();
   }
 
   /**
@@ -37,12 +34,7 @@ public class PeopleEditActivity extends AbstractActivity implements PeopleEditVi
     view.setClientFactory(clientFactory);
     view.setPresenter(this);
     containerWidget.setWidget(view.asWidget());
-    
-    if (id != null) {
-      view.start(id);
-    } else {
-      view.start(data);
-    }
+    view.start(id);
   }
 
   @Override
