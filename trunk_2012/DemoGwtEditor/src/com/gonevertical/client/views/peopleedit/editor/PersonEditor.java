@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.jdo.annotations.Persistent;
 
+import com.gonevertical.client.app.requestfactory.PeopleDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.PeopleDataProxy;
 import com.gonevertical.client.views.peopleedit.editor.todos.TodoListEditor;
 import com.gonevertical.client.views.widgets.richtextarea.RichTextAreaEditor;
@@ -48,7 +49,7 @@ public class PersonEditor extends Composite implements Editor<PeopleDataProxy> {
   RichTextAreaEditor note;
 
   /**
-   * Must annotate if jdo backing
+   * Must annotate server
    *      @Persistent(defaultFetchGroup = "true", dependentElement = "true")
    *      and use .with("todos"); with the request factory context finding
    */
@@ -63,6 +64,10 @@ public class PersonEditor extends Composite implements Editor<PeopleDataProxy> {
     gender.setAcceptableValues(Gender.getValues());
 
     initWidget(uiBinder.createAndBindUi(this));
+  }
+
+  public void setContext(PeopleDataRequest context) {
+    todos.setContext(context);
   }
 
 }

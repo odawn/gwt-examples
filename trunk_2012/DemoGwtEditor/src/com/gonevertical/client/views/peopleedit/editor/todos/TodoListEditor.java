@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.gonevertical.client.app.requestfactory.PeopleDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.PeopleDataProxy;
 import com.gonevertical.client.app.requestfactory.dto.TodoDataProxy;
 import com.google.gwt.core.client.GWT;
@@ -63,7 +64,7 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
   }   
   private ListEditor<TodoDataProxy, TodoItemEditor> editor = ListEditor.of(new TodoItemEditorSource());
 
-
+  private PeopleDataRequest context;
 
   public TodoListEditor() {
     initWidget(uiBinder.createAndBindUi(this));
@@ -75,12 +76,17 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
   }
 
   private void add() {
-    // TODO how to add?
+    TodoDataProxy e = context.create(TodoDataProxy.class);
+    editor.getList().add(e);
   }
 
   @Override
   public ListEditor<TodoDataProxy, TodoItemEditor> asEditor() {
     return editor;
+  }
+
+  public void setContext(PeopleDataRequest context) {
+    this.context = context;
   }
 
 }
