@@ -2,8 +2,6 @@ package com.gonevertical.client.views.peopleedit.editor;
 
 import java.io.IOException;
 
-import javax.jdo.annotations.Persistent;
-
 import com.gonevertical.client.app.requestfactory.PeopleDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.PeopleDataProxy;
 import com.gonevertical.client.views.peopleedit.editor.todos.TodoListEditor;
