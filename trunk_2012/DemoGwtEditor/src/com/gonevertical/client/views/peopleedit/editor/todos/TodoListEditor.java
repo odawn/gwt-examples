@@ -71,11 +71,11 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
   
   @UiHandler("bAdd")
   void onBAddClick(ClickEvent event) {
-    
-//    TodoDataProxy e = 
-//    editor.getList().add(e);
-    
-    //editor.createEditorForTraversal(); // this won't work with dispose
+    add();
+  }
+
+  private void add() {
+    // TODO how to add?
   }
 
   @Override

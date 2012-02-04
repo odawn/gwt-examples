@@ -129,6 +129,7 @@ public class EditPersonWorkFlow extends Composite {
     
     // wire up the persist like a call back when save happens
     // decouple using the event handler to send data
+    // also bring back the children, driver.getPaths() is like saying .with("todos")
     context.persist().using(peopleDataProxy).with(driver.getPaths()).to(getReciever());
   }
 
@@ -167,7 +168,7 @@ public class EditPersonWorkFlow extends Composite {
     setState(State.SAVING);
     
     
-    // Debugging the editor
+    // helps for debugging the editor
     String s = EditorHierarchyPrinter.toString(driver);
     System.out.println("EditorHierarchyPrinter = " + s);
     
