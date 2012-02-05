@@ -1,10 +1,14 @@
 package com.gonevertical.client.views.peopleedit.editor.todos;
 
+import java.util.List;
+
 import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.events.DeleteEvent;
 import com.gonevertical.client.app.events.DeleteEventHandler;
 import com.gonevertical.client.app.requestfactory.PeopleDataRequest;
+import com.gonevertical.client.app.requestfactory.dto.PeopleDataProxy;
 import com.gonevertical.client.app.requestfactory.dto.TodoDataProxy;
+import com.gonevertical.client.views.peopleedit.editor.PersonEditor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.IsEditor;
 import com.google.gwt.editor.client.adapters.EditorSource;
@@ -26,7 +30,7 @@ import com.google.web.bindery.requestfactory.shared.RequestContext;
  *     @Persistent(defaultFetchGroup = "true", dependentElement = "true")
  *     and use .with("todos"); with the request factory context finding
  */
-public class TodoListEditor extends Composite implements IsEditor<ListEditor<TodoDataProxy, TodoItemEditor>>, HasRequestContext<PeopleDataRequest> {
+public class TodoListEditor extends Composite implements IsEditor<ListEditor<TodoDataProxy, TodoItemEditor>>, HasRequestContext<List<TodoDataProxy>> {
 
   private static TodoListEditorUiBinder uiBinder = GWT.create(TodoListEditorUiBinder.class);
   
@@ -96,6 +100,8 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
   public void setRequestContext(RequestContext context) {
     this.context = context;
   }
+
+ 
 
 
 
