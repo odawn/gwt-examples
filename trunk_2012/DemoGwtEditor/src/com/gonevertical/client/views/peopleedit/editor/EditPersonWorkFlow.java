@@ -127,8 +127,6 @@ public class EditPersonWorkFlow extends Composite {
     
     driver.edit(peopleDataProxy, context);
     
-    editor.setContext(context);
-    
     // wire up the persist like a call back when save happens
     // decouple using the event handler to send data
     // also bring back the children, driver.getPaths() is like saying .with("todos")
@@ -144,7 +142,7 @@ public class EditPersonWorkFlow extends Composite {
     }
     
     // PersonEditor is a that extends Editor<Person>
-    editor = new PersonEditor(clientFactory);
+    editor = new PersonEditor();
     
     // Initialize the driver with the top-level editor
     driver.initialize(clientFactory.getRequestFactory(), editor);

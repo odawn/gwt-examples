@@ -17,14 +17,16 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.web.bindery.requestfactory.gwt.client.HasRequestContext;
 import com.google.web.bindery.requestfactory.shared.Receiver;
+import com.google.web.bindery.requestfactory.shared.RequestContext;
 
 /**
  * be sure the server side class is annotated appropriately
  *     @Persistent(defaultFetchGroup = "true", dependentElement = "true")
  *     and use .with("todos"); with the request factory context finding
  */
-public class TodoListEditor extends Composite implements IsEditor<ListEditor<TodoDataProxy, TodoItemEditor>> {
+public class TodoListEditor extends Composite implements IsEditor<ListEditor<TodoDataProxy, TodoItemEditor>>, HasRequestContext<PeopleDataRequest> {
 
   private static TodoListEditorUiBinder uiBinder = GWT.create(TodoListEditorUiBinder.class);
   
@@ -67,9 +69,9 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
   }   
   private ListEditor<TodoDataProxy, TodoItemEditor> editor = ListEditor.of(new TodoItemEditorSource());
 
-  private PeopleDataRequest context;
+  private RequestContext context;
 
-  private ClientFactory clientFactory;
+  
 
   public TodoListEditor() {
     initWidget(uiBinder.createAndBindUi(this));
@@ -90,9 +92,11 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
     return editor;
   }
 
-  public void setContext(PeopleDataRequest context) {
+  @Override
+  public void setRequestContext(RequestContext context) {
     this.context = context;
   }
+
 
 
 

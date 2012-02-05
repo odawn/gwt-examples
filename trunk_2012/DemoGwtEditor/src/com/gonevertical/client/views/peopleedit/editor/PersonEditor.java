@@ -55,19 +55,12 @@ public class PersonEditor extends Composite implements Editor<PeopleDataProxy> {
   @UiField 
   TodoListEditor todos;
 
-  private ClientFactory clientFactory;
-
   interface PersonEditorUiBinder extends UiBinder<Widget, PersonEditor> {}
 
-  public PersonEditor(ClientFactory clientFactory) {
-    this.clientFactory = clientFactory;
+  public PersonEditor() {
     gender.setAcceptableValues(Gender.getValues());
 
     initWidget(uiBinder.createAndBindUi(this));
-  }
-
-  public void setContext(PeopleDataRequest context) {
-    todos.setContext(context);
   }
 
 }
