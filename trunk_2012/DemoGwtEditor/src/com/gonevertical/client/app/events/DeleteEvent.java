@@ -14,6 +14,9 @@ public class DeleteEvent extends GwtEvent<DeleteEventHandler> {
     this.source = source;
   }
   
+  public DeleteEvent() {
+  }
+  
   @Override
   public Type<DeleteEventHandler> getAssociatedType() {
     return TYPE;

@@ -48,34 +48,12 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
       plist.insert(subEditor, index);
       subEditor.addDeleteHandler(new DeleteEventHandler() {
         public void onDeleteEvent(DeleteEvent event) {
-          
-          // TODO this doesn't work either
           editor.getList().remove(index);
-          TodoItemEditor sub = (TodoItemEditor) event.getSource();
-          dispose(sub);
-          
-          // TODO won't work yet, doesn't like tdp (autobean maybe different)
-//          final TodoItemEditor sub = (TodoItemEditor) event.getSource();
-//          TodoDataProxy tdp = editor.getList().get(index);
-//          clientFactory.getRequestFactory().getTodoDataRequest().remove().using(tdp).fire(new Receiver<Boolean>() {
-//            public void onSuccess(Boolean response) {
-//              if (response == null) {
-//                // TODO
-//              } else if (response == false) {
-//                // TODO
-//              } else if (response == true) {
-                  //editor.getList().remove(index);
-//                dispose(sub);
-//              }
-//            }
-//          });
-//          
-          // TODO another way maybe to compare lists 
         }
       });
       return subEditor;
     }     
- 
+
     @Override
     public void dispose(TodoItemEditor subEditor) {
       subEditor.removeFromParent();
@@ -84,6 +62,22 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
     @Override
     public void setIndex(TodoItemEditor editor, int index) {
       plist.insert(editor, index);
+    }
+    
+    private void delete(final int index) {
+      editor.getList().remove(index);
+//      TodoDataProxy tdp = editor.getList().get(index);
+//      clientFactory.getRequestFactory().getTodoDataRequest().remove().using(tdp).fire(new Receiver<Boolean>() {
+//        public void onSuccess(Boolean response) {
+//          if (response == null) {
+//            // TODO
+//          } else if (response == false) {
+//            // TODO
+//          } else if (response == true) {
+//            editor.getList().remove(index);
+//          }
+//        }
+//      });
     }
   }   
   private ListEditor<TodoDataProxy, TodoItemEditor> editor = ListEditor.of(new TodoItemEditorSource());

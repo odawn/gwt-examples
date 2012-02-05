@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -204,9 +205,32 @@ public class PeopleData {
   public PeopleData persist() {
     incrementVersion();
     setDateCreated();
+    removeOrphans();
     PeopleData r = RequestFactoryUtils.persist(this);
     return r;
   }
+  
+  private void removeOrphans() {
+    PeopleData before = RequestFactoryUtils.find(PeopleData.class, key);
+    List<TodoData> beforeTodos = before.getTodos();
+    
+    if (todos == null && beforeTodos != null) {
+      //removeTodos(todos);
+    } else {
+      
+      Set<TodoData> removeThese = new HashSet<TodoData>(beforeTodos);
+      removeThese.removeAll(todos);
+      removeTodos(removeThese);
+      
+      System.out.println("test");
+    }
+  }
+
+  private void removeTodos(Set<TodoData> todos) {
+    // TODO Auto-generated method stub
+    
+  }
+
   public boolean remove() {
     return RequestFactoryUtils.removeByAdminOnly(this);
   }

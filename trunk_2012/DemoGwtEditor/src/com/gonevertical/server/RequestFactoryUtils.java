@@ -96,6 +96,23 @@ public abstract class RequestFactoryUtils {
   }
   
   /**
+   * find object by key
+   * 
+   * @param clazz
+   * @param key
+   * @return
+   */
+  public static <T> T find(Class<T> clazz, Key key) {
+    PersistenceManager pm = getPersistenceManager();
+    try {
+      T e = pm.getObjectById(clazz, key);
+      return e;
+    } finally {
+      pm.close();
+    }
+  }
+  
+  /**
    * persist object
    *  NOTE: be sure to increment version in jdo
    * @param jdo

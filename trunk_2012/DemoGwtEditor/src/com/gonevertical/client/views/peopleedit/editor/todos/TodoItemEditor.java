@@ -42,7 +42,7 @@ public class TodoItemEditor extends Composite  implements Editor<TodoDataProxy> 
   }
 
   private void fireDeleteEvent() {
-    fireEvent(new DeleteEvent(this));
+    fireEvent(new DeleteEvent());
   }
   
   public final HandlerRegistration addDeleteHandler(DeleteEventHandler handler) {
