@@ -64,21 +64,6 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
       plist.insert(editor, index);
     }
     
-    private void delete(final int index) {
-      editor.getList().remove(index);
-//      TodoDataProxy tdp = editor.getList().get(index);
-//      clientFactory.getRequestFactory().getTodoDataRequest().remove().using(tdp).fire(new Receiver<Boolean>() {
-//        public void onSuccess(Boolean response) {
-//          if (response == null) {
-//            // TODO
-//          } else if (response == false) {
-//            // TODO
-//          } else if (response == true) {
-//            editor.getList().remove(index);
-//          }
-//        }
-//      });
-    }
   }   
   private ListEditor<TodoDataProxy, TodoItemEditor> editor = ListEditor.of(new TodoItemEditorSource());
 
