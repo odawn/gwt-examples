@@ -2,6 +2,7 @@ package com.gonevertical.client.views.peopleedit.editor;
 
 import java.io.IOException;
 
+import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.requestfactory.PeopleDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.PeopleDataProxy;
 import com.gonevertical.client.views.peopleedit.editor.todos.TodoListEditor;
@@ -54,11 +55,12 @@ public class PersonEditor extends Composite implements Editor<PeopleDataProxy> {
   @UiField 
   TodoListEditor todos;
 
-
+  private ClientFactory clientFactory;
 
   interface PersonEditorUiBinder extends UiBinder<Widget, PersonEditor> {}
 
-  public PersonEditor() {
+  public PersonEditor(ClientFactory clientFactory) {
+    this.clientFactory = clientFactory;
     gender.setAcceptableValues(Gender.getValues());
 
     initWidget(uiBinder.createAndBindUi(this));

@@ -1,5 +1,8 @@
 package com.gonevertical.client.views.peopleedit.editor.todos;
 
+import com.gonevertical.client.app.ClientFactory;
+import com.gonevertical.client.app.events.DeleteEvent;
+import com.gonevertical.client.app.events.DeleteEventHandler;
 import com.gonevertical.client.app.requestfactory.PeopleDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.TodoDataProxy;
 import com.google.gwt.core.client.GWT;
@@ -14,6 +17,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.web.bindery.requestfactory.shared.Receiver;
 
 /**
  * be sure the server side class is annotated appropriately
@@ -39,14 +43,41 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
   
   private class TodoItemEditorSource extends EditorSource<TodoItemEditor> {
     @Override
-    public TodoItemEditor create(int index) {
-      TodoItemEditor widget = new TodoItemEditor();
-      plist.insert(widget, index);
-      return widget;
+    public TodoItemEditor create(final int index) {
+      TodoItemEditor subEditor = new TodoItemEditor();
+      plist.insert(subEditor, index);
+      subEditor.addDeleteHandler(new DeleteEventHandler() {
+        public void onDeleteEvent(DeleteEvent event) {
+          
+          editor.getList().remove(index);
+          
+          TodoItemEditor sub = (TodoItemEditor) event.getSource();
+          dispose(sub);
+          
+//          final TodoItemEditor sub = (TodoItemEditor) event.getSource();
+//          TodoDataProxy tdp = editor.getList().get(index);
+//          clientFactory.getRequestFactory().getTodoDataRequest().remove().using(tdp).fire(new Receiver<Boolean>() {
+//            public void onSuccess(Boolean response) {
+//              if (response == null) {
+//                // TODO
+//              } else if (response == false) {
+//                // TODO
+//              } else if (response == true) {
+                  //editor.getList().remove(index);
+//                dispose(sub);
+//              }
+//            }
+//          });
+//          
+        }
+      });
+      return subEditor;
     }     
+ 
     @Override
     public void dispose(TodoItemEditor subEditor) {
       subEditor.removeFromParent();
+      
     }
     @Override
     public void setIndex(TodoItemEditor editor, int index) {
@@ -56,6 +87,8 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
   private ListEditor<TodoDataProxy, TodoItemEditor> editor = ListEditor.of(new TodoItemEditorSource());
 
   private PeopleDataRequest context;
+
+  private ClientFactory clientFactory;
 
   public TodoListEditor() {
     initWidget(uiBinder.createAndBindUi(this));
@@ -79,5 +112,7 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
   public void setContext(PeopleDataRequest context) {
     this.context = context;
   }
+
+
 
 }

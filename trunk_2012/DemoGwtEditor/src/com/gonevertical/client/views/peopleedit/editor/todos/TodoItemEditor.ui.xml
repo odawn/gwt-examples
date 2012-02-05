@@ -9,6 +9,10 @@
 	<g:FlowPanel>
 		<g:HorizontalPanel>
 			<g:TextBox ui:field="todo"/>
+			<g:HTML wordWrap="true">&nbsp;</g:HTML>
+			<g:Cell verticalAlignment="ALIGN_MIDDLE">
+				<g:PushButton text="X" ui:field="bDelete"/>
+			</g:Cell>
 		</g:HorizontalPanel>
 
 	</g:FlowPanel>

@@ -8,4 +8,5 @@ public interface ApplicationRequestFactory extends RequestFactory {
   
   PeopleDataRequest getPeopleDataRequest();
   
+  TodoDataRequest getTodoDataRequest();
 }
