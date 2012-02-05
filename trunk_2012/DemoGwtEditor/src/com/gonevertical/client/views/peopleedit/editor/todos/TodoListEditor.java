@@ -49,11 +49,12 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
       subEditor.addDeleteHandler(new DeleteEventHandler() {
         public void onDeleteEvent(DeleteEvent event) {
           
+          // TODO this doesn't work either
           editor.getList().remove(index);
-          
           TodoItemEditor sub = (TodoItemEditor) event.getSource();
           dispose(sub);
           
+          // TODO won't work yet, doesn't like tdp (autobean maybe different)
 //          final TodoItemEditor sub = (TodoItemEditor) event.getSource();
 //          TodoDataProxy tdp = editor.getList().get(index);
 //          clientFactory.getRequestFactory().getTodoDataRequest().remove().using(tdp).fire(new Receiver<Boolean>() {
@@ -69,6 +70,7 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
 //            }
 //          });
 //          
+          // TODO another way maybe to compare lists 
         }
       });
       return subEditor;
