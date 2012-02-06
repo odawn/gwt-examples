@@ -6,11 +6,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.jdo.PersistenceManager;
-import javax.jdo.Transaction;
-import javax.jdo.annotations.NotPersistent;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
-import com.gonevertical.server.jdo.UserData;
+import com.gonevertical.server.data.UserData;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.FetchOptions;
@@ -25,15 +24,10 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 public abstract class RequestFactoryUtils {
   
-  @NotPersistent
   private static final Logger log = Logger.getLogger(RequestFactoryUtils.class.getName());
   
-  /**
-   * get Persistence manager
-   * @return
-   */
-  public static PersistenceManager getPersistenceManager() {
-    return PMF.get().getPersistenceManager();
+  public static EntityManager getEntityManager() {
+    return EMF.get().createEntityManager();
   }
   
   /**
@@ -86,12 +80,12 @@ public abstract class RequestFactoryUtils {
       return null;
     }
     Key k = KeyFactory.stringToKey(id);
-    PersistenceManager pm = getPersistenceManager();
+    EntityManager em = getEntityManager();
     try {
-      T e = pm.getObjectById(clazz, k);
+      T e = em.find(clazz, k);
       return e;
     } finally {
-      pm.close();
+      em.close();
     }
   }
   
@@ -103,55 +97,55 @@ public abstract class RequestFactoryUtils {
    * @return
    */
   public static <T> T find(Class<T> clazz, Key key) {
-    PersistenceManager pm = getPersistenceManager();
+    EntityManager em = getEntityManager();
     try {
-      T e = pm.getObjectById(clazz, key);
+      T e = em.find(clazz, key);
       return e;
     } finally {
-      pm.close();
+      em.close();
     }
   }
   
   /**
    * persist object
-   *  NOTE: be sure to increment version in jdo
-   * @param jdo
+   *  NOTE: be sure to increment version in o
+   * @param o
    * @return
    */
-  public static <T> T persist(T jdo) {
-    if (jdo == null) {
+  public static <T> T persist(T o) {
+    if (o == null) {
       return null;
     }
     
     // Could be done via interface, but simpler to do it in parent method, b/c it doesn't expose the public increment on client side
-    // jdo.incrementVersion();
+    // o.incrementVersion();
     
-    PersistenceManager pm = PMF.get().getPersistenceManager();
-    Transaction tx = pm.currentTransaction();
+    EntityManager em = getEntityManager();
+    EntityTransaction tx = em.getTransaction();
     try {
       tx.begin();
-      pm.makePersistent(jdo);
+      em.persist(o);
       tx.commit();
     } catch (Exception e) {
-      log.log(Level.SEVERE, "RequestFactoryUtils Error: persist(): this=" + jdo, e);
+      log.log(Level.SEVERE, "RequestFactoryUtils Error: persist(): this=" + o, e);
       e.printStackTrace();
       return null;
     } finally {
       if (tx.isActive()) {
         tx.rollback();
       }
-      pm.close();
+      em.close();
     }
     
-    return jdo;
+    return o;
   }
   
   /**
    * only remove if admin
-   * @param jdo
+   * @param o
    * @return
    */
-  public static <T> boolean removeByAdminOnly(T jdo) {
+  public static <T> boolean removeByAdminOnly(T o) {
 
     UserData user = UserData.findLoggedInUserPrivileges();  
     if (user.canAdmin() == false) {
@@ -159,21 +153,21 @@ public abstract class RequestFactoryUtils {
     }
 
     Boolean success = null;
-    PersistenceManager pm = PMF.get().getPersistenceManager();
-    Transaction tx = pm.currentTransaction();
+    EntityManager em = getEntityManager();
+    EntityTransaction tx = em.getTransaction();
     try {
       tx.begin();
-      pm.deletePersistent(jdo);
+      em.persist(o);
       tx.commit();
       success = true;
     } catch (Exception e) {
-      log.log(Level.SEVERE, "RequestFactoryUtils.removeAdminKeyOnly() Error: remove(): jdo=" + jdo, e);
+      log.log(Level.SEVERE, "RequestFactoryUtils.removeAdminKeyOnly() Error: remove(): o=" + o, e);
       e.printStackTrace();
     } finally {
       if (tx.isActive()) {
         tx.rollback();
       }
-      pm.close();
+      em.close();
     }
     
     return success;
@@ -181,27 +175,27 @@ public abstract class RequestFactoryUtils {
  
   /**
    * remove object
-   * @param jdo
+   * @param o
    * @return
    */
-  public static <T> boolean remove(T jdo) {
+  public static <T> boolean remove(T o) {
     
     Boolean success = null;
-    PersistenceManager pm = PMF.get().getPersistenceManager();
-    Transaction tx = pm.currentTransaction();
+    EntityManager em = getEntityManager();
+    EntityTransaction tx = em.getTransaction();
     try {
       tx.begin();
-      pm.deletePersistent(jdo);
+      em.remove(o);
       tx.commit();
       success = true;
     } catch (Exception e) {
-      log.log(Level.SEVERE, "RequestFactoryUtils.removeAdminKeyOnly() Error: remove(): jdo=" + jdo, e);
+      log.log(Level.SEVERE, "RequestFactoryUtils.removeAdminKeyOnly() Error: remove(): o=" + o, e);
       e.printStackTrace();
     } finally {
       if (tx.isActive()) {
         tx.rollback();
       }
-      pm.close();
+      em.close();
     }
     
     return success;
@@ -214,20 +208,25 @@ public abstract class RequestFactoryUtils {
    * @return
    */
   public static <T> List<T> findList(Class<T> clazz, ArrayList<Filter> filter, long rangeStart, long rangeEnd) {
-    String qfilter = getFilter(filter);
-    PersistenceManager pm = PMF.get().getPersistenceManager();
+    
+    String qfilter = getFilter(filter); // TODO
+    
+    EntityManager em = getEntityManager();
     try {
-      javax.jdo.Query query = pm.newQuery("select from " + clazz.getName());
-      query.setFilter(qfilter);
-      query.setRange(rangeStart, rangeEnd);
-      List<T> list = (List<T>) query.execute();
-      List<T> r = (List<T>) pm.detachCopyAll(list);
-      return r;
+      javax.persistence.Query q = em.createQuery("select o from " + clazz.getSimpleName() + " o");
+      q.setFirstResult((int) rangeStart);
+      q.setMaxResults((int) rangeEnd);
+      
+      List<T> list = q.getResultList();
+      // force to get all the employees
+      list.size();
+      return list;
+
     } catch (Exception e) {
       log.log(Level.SEVERE, "Error: " + clazz.getName() + ".findList(): qfilter=" + qfilter, e);
       e.printStackTrace();
     } finally {
-      pm.close();
+      em.close();
     }
     return null;
   }
