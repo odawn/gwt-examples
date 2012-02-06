@@ -82,8 +82,9 @@ public class PeopleData {
   
   /**
    * owned collection 
+   * @Persistent(defaultFetchGroup = "true", dependentElement = "true") - for JDO
    */
-  @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, targetEntity=TodoData.class)
+  @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL, targetEntity=TodoData.class)
   private List<TodoData> todos;
   
   
