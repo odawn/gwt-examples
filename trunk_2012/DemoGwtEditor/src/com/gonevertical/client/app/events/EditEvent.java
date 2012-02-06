@@ -41,7 +41,12 @@ public class EditEvent<T extends EntityProxy> extends GwtEvent<EditEventHandler>
     /**
      * constraint violation
      */
-    VIOLATION; 
+    VIOLATION, 
+    
+    /**
+     * tell parent to save it
+     */
+    SAVE; 
   }
 
   private Edit edit;
