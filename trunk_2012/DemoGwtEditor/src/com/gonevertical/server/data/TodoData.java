@@ -1,22 +1,35 @@
 package com.gonevertical.server.data;
 
 import java.util.Date;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.gonevertical.client.app.requestfactory.dto.TodoDataProxy;
+import com.gonevertical.server.EMF;
 import com.gonevertical.server.RequestFactoryUtils;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
+import com.google.appengine.api.datastore.Transaction;
+import com.google.web.bindery.requestfactory.shared.EntityProxyId;
 
 @Entity
 public class TodoData {
 
   private static final Logger log = Logger.getLogger(TodoData.class.getName());
+
+  public static EntityManager getEntityManager() {
+    return EMF.get().createEntityManager();
+  }
 
   /**
    * id is base64 string of Key
@@ -25,6 +38,31 @@ public class TodoData {
    */
   public static TodoData findTodoData(String id) {
     return RequestFactoryUtils.find(TodoData.class, id);
+  }
+
+  public static Boolean remove(String id) {
+
+    Key key = KeyFactory.stringToKey(id);
+    TodoData o = RequestFactoryUtils.find(TodoData.class, key); 
+
+    Key parent = o.getKey().getParent();
+    if (parent.equals(key.getParent()) == false) {
+      return false;
+    }
+
+    Boolean success = false;
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Transaction txn = datastore.beginTransaction();
+    try {
+      datastore.delete(key);
+      txn.commit();
+      success = true;
+    } finally {
+      if (txn.isActive()) {
+        txn.rollback();
+      }
+    }
+    return success;
   }
 
   @Id
@@ -38,8 +76,6 @@ public class TodoData {
   private String todo;
 
   private Text note;
-
-
 
   @Override
   public String toString() {
@@ -116,8 +152,6 @@ public class TodoData {
     }
   }
 
-
-
   public TodoData persist() {
     incrementVersion();
     setDateCreated();
@@ -133,7 +167,6 @@ public class TodoData {
     int hash = 7;
     hash = 31 * hash + key.hashCode();
     return hash;
-
   }
 
   @Override

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
@@ -23,13 +24,13 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
 public abstract class RequestFactoryUtils {
-  
+
   private static final Logger log = Logger.getLogger(RequestFactoryUtils.class.getName());
-  
+
   public static EntityManager getEntityManager() {
     return EMF.get().createEntityManager();
   }
-  
+
   /**
    * get Google User
    * @return
@@ -42,7 +43,7 @@ public abstract class RequestFactoryUtils {
     User user = userService.getCurrentUser();
     return user;
   }
-  
+
   /**
    * get person logged in
    * @return
@@ -88,7 +89,7 @@ public abstract class RequestFactoryUtils {
       em.close();
     }
   }
-  
+
   /**
    * find object by key
    * 
@@ -105,7 +106,7 @@ public abstract class RequestFactoryUtils {
       em.close();
     }
   }
-  
+
   /**
    * persist object
    *  NOTE: be sure to increment version in o
@@ -116,10 +117,10 @@ public abstract class RequestFactoryUtils {
     if (o == null) {
       return null;
     }
-    
+
     // Could be done via interface, but simpler to do it in parent method, b/c it doesn't expose the public increment on client side
     // o.incrementVersion();
-    
+
     EntityManager em = getEntityManager();
     EntityTransaction tx = em.getTransaction();
     try {
@@ -136,10 +137,10 @@ public abstract class RequestFactoryUtils {
       }
       em.close();
     }
-    
+
     return o;
   }
-  
+
   /**
    * only remove if admin
    * @param o
@@ -169,17 +170,17 @@ public abstract class RequestFactoryUtils {
       }
       em.close();
     }
-    
+
     return success;
   }
- 
+
   /**
    * remove object
    * @param o
    * @return
    */
   public static <T> boolean remove(T o) {
-    
+
     Boolean success = null;
     EntityManager em = getEntityManager();
     EntityTransaction tx = em.getTransaction();
@@ -197,10 +198,36 @@ public abstract class RequestFactoryUtils {
       }
       em.close();
     }
-    
+
     return success;
   }
-  
+
+  public static <T> boolean remove(Class<T> clazz, String id) {
+
+    Key key = KeyFactory.stringToKey(id);
+    T o = find(clazz, key); 
+   
+    Boolean success = null;
+    EntityManager em = getEntityManager();
+    EntityTransaction tx = em.getTransaction();
+    try {
+      tx.begin();
+      em.remove(o);
+      tx.commit();
+      success = true;
+    } catch (Exception e) {
+      log.log(Level.SEVERE, "RequestFactoryUtils.removeAdminKeyOnly() Error: remove(): o=" + o, e);
+      e.printStackTrace();
+    } finally {
+      if (tx.isActive()) {
+        tx.rollback();
+      }
+      em.close();
+    }
+
+    return success;
+  }
+
   /**
    * query list
    * @param clazz
@@ -208,15 +235,15 @@ public abstract class RequestFactoryUtils {
    * @return
    */
   public static <T> List<T> findList(Class<T> clazz, ArrayList<Filter> filter, long rangeStart, long rangeEnd) {
-    
+
     String qfilter = getFilter(filter); // TODO
-    
+
     EntityManager em = getEntityManager();
     try {
       javax.persistence.Query q = em.createQuery("select o from " + clazz.getSimpleName() + " o");
       q.setFirstResult((int) rangeStart);
       q.setMaxResults((int) rangeEnd);
-      
+
       List<T> list = q.getResultList();
       // force to get all the employees
       list.size();
@@ -230,7 +257,7 @@ public abstract class RequestFactoryUtils {
     }
     return null;
   }
-  
+
   private static String getFilter(ArrayList<Filter> filter) {
     if (filter == null || filter.size() == 0) {
       return null;
@@ -261,7 +288,7 @@ public abstract class RequestFactoryUtils {
     if (e.getValue() == null) {
       return "null";
     }
-    
+
     String s = "";
     if (e.getValue() instanceof String) {
       String v = (String) e.getValue();
@@ -298,7 +325,7 @@ public abstract class RequestFactoryUtils {
         }
       }
       PreparedQuery pq = datastore.prepare(query);
-      
+
       long total = pq.countEntities(FetchOptions.Builder.withDefaults());
       return total;
     } catch (Exception e) {
