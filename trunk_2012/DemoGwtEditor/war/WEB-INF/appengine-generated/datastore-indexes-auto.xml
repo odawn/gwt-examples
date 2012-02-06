@@ -1,10 +1,4 @@
-<!-- Indices written at Sun, 22 Jan 2012 18:47:42 UTC -->
+<!-- Indices written at Mon, 6 Feb 2012 06:27:23 UTC -->
 
-<datastore-indexes>
+<datastore-indexes/>
 
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="TodoData" ancestor="true" source="auto">
-        <property name="todos_INTEGER_IDX" direction="asc"/>
-    </datastore-index>
-
-</datastore-indexes>
