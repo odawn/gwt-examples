@@ -178,8 +178,6 @@ public abstract class RequestFactoryUtils {
     
     return success;
   }
-  
-  
  
   /**
    * remove object

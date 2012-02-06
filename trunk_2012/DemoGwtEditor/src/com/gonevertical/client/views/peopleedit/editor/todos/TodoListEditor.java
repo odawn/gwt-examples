@@ -1,14 +1,12 @@
 package com.gonevertical.client.views.peopleedit.editor.todos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.events.DeleteEvent;
 import com.gonevertical.client.app.events.DeleteEventHandler;
-import com.gonevertical.client.app.requestfactory.PeopleDataRequest;
-import com.gonevertical.client.app.requestfactory.dto.PeopleDataProxy;
 import com.gonevertical.client.app.requestfactory.dto.TodoDataProxy;
-import com.gonevertical.client.views.peopleedit.editor.PersonEditor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.IsEditor;
 import com.google.gwt.editor.client.adapters.EditorSource;
@@ -54,7 +52,7 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
       plist.insert(subEditor, index);
       subEditor.addDeleteHandler(new DeleteEventHandler() {
         public void onDeleteEvent(DeleteEvent event) {
-          editor.getList().remove(index);
+          remove(index);
         }
       });
       return subEditor;
@@ -72,10 +70,8 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
     
   }   
   private ListEditor<TodoDataProxy, TodoItemEditor> editor = ListEditor.of(new TodoItemEditorSource());
-
-  private RequestContext context;
-
   
+  private RequestContext context;
 
   public TodoListEditor() {
     initWidget(uiBinder.createAndBindUi(this));
@@ -96,14 +92,17 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
     return editor;
   }
 
+  /**
+   * this is from HasRequestContext<List<TodoDataProxy>>
+   */
   @Override
   public void setRequestContext(RequestContext context) {
     this.context = context;
   }
 
- 
-
-
-
+  private void remove(final int index) {
+    editor.getList().remove(index);
+  }
+  
 
 }

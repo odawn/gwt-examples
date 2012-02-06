@@ -26,27 +26,27 @@ public class TodoData {
   public static TodoData findTodoData(String id) {
     return RequestFactoryUtils.find(TodoData.class, id);
   }
-  
-  
-  
+
+
+
   @PrimaryKey
   @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
   private Key key;
 
   @Persistent
   private Long version;
-  
+
   @Persistent
   private Date dateCreated;
 
   @Persistent
   private String todo;
-  
+
   @Persistent
   private Text note;
-  
-  
-  
+
+
+
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
@@ -90,7 +90,7 @@ public class TodoData {
       version++;
     }
   }
-  
+
   public void setDateCreated() {
     if (dateCreated == null) {
       dateCreated = new Date();
@@ -99,14 +99,14 @@ public class TodoData {
   public Date getDateCreated() {
     return dateCreated;
   }
-  
+
   public void setTodo(String todo) {
     this.todo = todo;
   }
   public String getTodo() {
     return todo;
   }
-  
+
   public void setNote(String note) {
     if (note == null) {
       this.note = null;
@@ -121,9 +121,9 @@ public class TodoData {
       return note.getValue();
     }
   }
-  
-  
-  
+
+
+
   public TodoData persist() {
     incrementVersion();
     setDateCreated();
@@ -133,5 +133,31 @@ public class TodoData {
   public boolean remove() {
     return RequestFactoryUtils.removeByAdminOnly(this);
   }
- 
+
+  @Override
+  public int hashCode() {
+    int hash = 7;
+    hash = 31 * hash + key.hashCode();
+    return hash;
+
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if ((obj == null) || (obj.getClass() != this.getClass())) {
+      return false;
+    }
+    TodoData r = (TodoData) obj;
+    boolean b = false;
+    if (key != null && r.key != null) {
+      if (key.equals(key) == true) {
+        b = true;
+      }
+    }
+    return b;
+  }
+
 }

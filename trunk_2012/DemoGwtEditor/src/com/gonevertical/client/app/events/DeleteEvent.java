@@ -2,7 +2,6 @@ package com.gonevertical.client.app.events;
 
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.web.bindery.requestfactory.shared.EntityProxy;
 
 public class DeleteEvent extends GwtEvent<DeleteEventHandler> {
 

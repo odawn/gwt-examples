@@ -142,7 +142,7 @@ public class EditPersonWorkFlow extends Composite {
     }
     
     // PersonEditor is a that extends Editor<Person>
-    editor = new PersonEditor();
+    editor = new PersonEditor(clientFactory);
     
     // Initialize the driver with the top-level editor
     driver.initialize(clientFactory.getRequestFactory(), editor);

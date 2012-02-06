@@ -1,10 +1,12 @@
 package com.gonevertical.client.views.peopleedit.editor;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.requestfactory.PeopleDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.PeopleDataProxy;
+import com.gonevertical.client.app.requestfactory.dto.TodoDataProxy;
 import com.gonevertical.client.views.peopleedit.editor.todos.TodoListEditor;
 import com.gonevertical.client.views.widgets.richtextarea.RichTextAreaEditor;
 import com.google.gwt.core.client.GWT;
@@ -20,6 +22,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class PersonEditor extends Composite implements Editor<PeopleDataProxy> {
 
+  private ClientFactory clientFactory;
+  
   private static PersonEditorUiBinder uiBinder = GWT.create(PersonEditorUiBinder.class);
 
   @UiField 
@@ -57,10 +61,11 @@ public class PersonEditor extends Composite implements Editor<PeopleDataProxy> {
 
   interface PersonEditorUiBinder extends UiBinder<Widget, PersonEditor> {}
 
-  public PersonEditor() {
+  public PersonEditor(ClientFactory clientFactory) {
+    this.clientFactory = clientFactory;
     gender.setAcceptableValues(Gender.getValues());
 
     initWidget(uiBinder.createAndBindUi(this));
   }
-
+  
 }

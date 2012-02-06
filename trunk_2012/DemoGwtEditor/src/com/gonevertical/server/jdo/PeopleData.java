@@ -3,11 +3,14 @@ package com.gonevertical.server.jdo;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.jdo.annotations.Element;
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -31,21 +34,6 @@ public class PeopleData {
   public static PeopleData findPeopleData(String id) {
     PeopleData d = RequestFactoryUtils.find(PeopleData.class, id);
     return d;
-  }
-  
-  private static void test() {
-    PeopleData p = new PeopleData();
-    p.setNameFirst("fred");
-    p.setNameLast("smith");
-    List<TodoData> t = new ArrayList<TodoData>();
-    TodoData e = new TodoData();
-    e.setTodo("todo1");
-    t.add(e);
-    TodoData e2 = new TodoData();
-    e2.setTodo("todo2");
-    t.add(e2 );
-    p.setTodos(t);
-    p.persist();
   }
 
   public static List<PeopleData> findPeopleData(long start, long end) {
@@ -94,6 +82,11 @@ public class PeopleData {
    */
   @Persistent(defaultFetchGroup = "true", dependentElement = "true")
   private List<TodoData> todos;
+
+  
+  @NotPersistent
+  private List<TodoData> deleteOrphans;
+  
   
   
   @Override
@@ -195,41 +188,71 @@ public class PeopleData {
   }
   
   public void setTodos(List<TodoData> todos) {
+    if ((todos == null || todos.size() == 0)  && this.todos != null) { // TODO cause transient error, can't do this in the same transaction
+     setOrphans(todos);
+    } else {
+      HashSet<TodoData> difference = new HashSet<TodoData>(this.todos);
+      difference.removeAll(todos);
+      setOrphans(difference);
+    }
     this.todos = todos;
   }
-  public List<TodoData> getTodos() {
-    return todos;
+  
+  private void setOrphans(HashSet<TodoData> orphans) {
+    if (orphans == null || orphans.size() == 0) {
+      return;
+    }
+    ArrayList<TodoData> a = new ArrayList<TodoData>();
+    Iterator<TodoData> itr = orphans.iterator();
+    while(itr.hasNext()) {
+      a.add(itr.next());
+    }
+    deleteOrphans = a;
   }
-  
-  
-  public PeopleData persist() {
-    incrementVersion();
-    setDateCreated();
-    removeOrphans();
-    PeopleData r = RequestFactoryUtils.persist(this);
-    return r;
+
+  private void setOrphans(List<TodoData> orphans) {
+    deleteOrphans = orphans;
   }
-  
+
   private void removeOrphans() {
-    PeopleData before = RequestFactoryUtils.find(PeopleData.class, key);
-    List<TodoData> beforeTodos = before.getTodos();
-    
-    if (todos == null && beforeTodos != null) {
-      //removeTodos(todos);
-    } else {
-      
-      Set<TodoData> removeThese = new HashSet<TodoData>(beforeTodos);
-      removeThese.removeAll(todos);
-      removeTodos(removeThese);
-      
-      System.out.println("test");
+    if (deleteOrphans == null) {
+      return;
+    }
+    Iterator<TodoData> itr = deleteOrphans.iterator();
+    while(itr.hasNext()) {
+      TodoData e = itr.next();
+      removeTodo(e);
+    }
+  }
+  
+  /**
+   * only delete if this child owned by parent
+   * @param e
+   */
+  private void removeTodo(TodoData e) {
+    if (e == null) {
+      return;
+    }
+    Key parent = this.key;
+    Key child = e.getKey().getParent();
+    if (parent != null && child != null && parent.equals(child) == true) {
+      RequestFactoryUtils.remove(e);
     }
   }
 
-  private void removeTodos(Set<TodoData> todos) {
-    // TODO Auto-generated method stub
-    
+
+
+  public List<TodoData> getTodos() {
+    return todos;
   }
+
+  public PeopleData persist() {
+    incrementVersion();
+    setDateCreated();   
+    PeopleData r = RequestFactoryUtils.persist(this);
+    return r;
+  }
+ 
 
   public boolean remove() {
     return RequestFactoryUtils.removeByAdminOnly(this);
