@@ -3,6 +3,10 @@ package com.gonevertical.client.views.peopleedit.editor.todos;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+
 import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.events.DeleteEvent;
 import com.gonevertical.client.app.events.DeleteEventHandler;
@@ -11,6 +15,7 @@ import com.gonevertical.client.app.events.EditEvent.Edit;
 import com.gonevertical.client.app.events.EditEventHandler;
 import com.gonevertical.client.app.requestfactory.dto.PeopleDataProxy;
 import com.gonevertical.client.app.requestfactory.dto.TodoDataProxy;
+import com.gonevertical.server.data.TodoData;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.IsEditor;
 import com.google.gwt.editor.client.adapters.EditorSource;
@@ -30,7 +35,8 @@ import com.google.web.bindery.requestfactory.shared.RequestContext;
 
 /**
  * be sure the server side class is annotated appropriately
- *     @Persistent(defaultFetchGroup = "true", dependentElement = "true")
+ *     @Persistent(defaultFetchGroup = "true", dependentElement = "true") - for JDO
+ *     @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL, targetEntity=TodoData.class) - for JPA
  *     and use .with("todos"); with the request factory context finding
  */
 public class TodoListEditor extends Composite implements IsEditor<ListEditor<TodoDataProxy, TodoItemEditor>>, HasRequestContext<List<TodoDataProxy>> {
