@@ -1,7 +1,7 @@
 package com.gonevertical.client.app.requestfactory;
 
 import com.gonevertical.client.app.requestfactory.dto.UserDataProxy;
-import com.gonevertical.server.jdo.UserData;
+import com.gonevertical.server.data.UserData;
 import com.google.web.bindery.requestfactory.shared.InstanceRequest;
 import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.RequestContext;
