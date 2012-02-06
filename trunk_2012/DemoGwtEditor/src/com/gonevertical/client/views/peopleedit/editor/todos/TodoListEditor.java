@@ -114,7 +114,8 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
   }
 
   /**
-   * the only way to delete a child owned object is to independently delete/remove it
+   * the only way to delete a child owned object is to independently delete/remove it in app engine owned collection
+   *    if the object is not owned, this is not needed.
    * @param index
    */
   private void remove(final int index) {
