@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 
 import com.gonevertical.client.app.ClientFactory;
+import com.gonevertical.client.app.events.EditEvent;
+import com.gonevertical.client.app.events.EditEventHandler;
 import com.gonevertical.client.app.requestfactory.PeopleDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.PeopleDataProxy;
 import com.gonevertical.client.app.requestfactory.dto.TodoDataProxy;
@@ -12,6 +14,7 @@ import com.gonevertical.client.views.widgets.richtextarea.RichTextAreaEditor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.editor.ui.client.ValueBoxEditorDecorator;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.text.shared.Renderer;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -66,6 +69,11 @@ public class PersonEditor extends Composite implements Editor<PeopleDataProxy> {
     gender.setAcceptableValues(Gender.getValues());
 
     initWidget(uiBinder.createAndBindUi(this));
+    
+    todos.setClientFactory(clientFactory);
   }
   
+  public final HandlerRegistration addEditHandler(EditEventHandler<PeopleDataProxy> handler) {
+    return addHandler(handler, EditEvent.TYPE);
+  }
 }

@@ -6,12 +6,17 @@ import java.util.List;
 import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.events.DeleteEvent;
 import com.gonevertical.client.app.events.DeleteEventHandler;
+import com.gonevertical.client.app.events.EditEvent;
+import com.gonevertical.client.app.events.EditEvent.Edit;
+import com.gonevertical.client.app.events.EditEventHandler;
+import com.gonevertical.client.app.requestfactory.dto.PeopleDataProxy;
 import com.gonevertical.client.app.requestfactory.dto.TodoDataProxy;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.IsEditor;
 import com.google.gwt.editor.client.adapters.EditorSource;
 import com.google.gwt.editor.client.adapters.ListEditor;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -73,6 +78,8 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
   
   private RequestContext context;
 
+  private ClientFactory clientFactory;
+
   public TodoListEditor() {
     initWidget(uiBinder.createAndBindUi(this));
   }
@@ -100,9 +107,31 @@ public class TodoListEditor extends Composite implements IsEditor<ListEditor<Tod
     this.context = context;
   }
 
+  /**
+   * the only way to delete a child owned object is to independently delete/remove it
+   * @param index
+   */
   private void remove(final int index) {
-    editor.getList().remove(index);
+    
+    TodoDataProxy t = editor.getList().get(index);
+    String id = t.getId();
+    if (id == null) {
+      editor.getList().remove(index);
+      return;
+    }
+    clientFactory.getRequestFactory().getTodoDataRequest().remove(id).fire(new Receiver<Boolean>() {
+      public void onSuccess(Boolean response) {
+        editor.getList().remove(index);
+        fireEvent(new EditEvent(Edit.SAVE));
+      }
+    });
+  }
+
+  public void setClientFactory(ClientFactory clientFactory) {
+    this.clientFactory = clientFactory;
   }
   
-
+  public final HandlerRegistration addEditHandler(EditEventHandler<PeopleDataProxy> handler) {
+    return addHandler(handler, EditEvent.TYPE);
+  }
 }
