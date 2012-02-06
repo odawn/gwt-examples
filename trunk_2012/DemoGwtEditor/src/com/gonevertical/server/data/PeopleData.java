@@ -82,7 +82,6 @@ public class PeopleData {
   
   /**
    * owned collection 
-   *  - Note to use request factory ListEditor for todo, both attributes have to be set below.
    */
   @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, targetEntity=TodoData.class)
   private List<TodoData> todos;
