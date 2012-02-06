@@ -3,7 +3,7 @@ package com.gonevertical.client.app.requestfactory.dto;
 import java.util.Date;
 import java.util.List;
 
-import com.gonevertical.server.jdo.PeopleData;
+import com.gonevertical.server.data.PeopleData;
 import com.google.web.bindery.requestfactory.shared.EntityProxy;
 import com.google.web.bindery.requestfactory.shared.ProxyFor;
 
