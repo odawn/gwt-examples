@@ -14,6 +14,8 @@ import com.gonevertical.client.app.events.EditEventHandler;
 import com.gonevertical.client.app.requestfactory.PeopleDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.PeopleDataProxy;
 import com.gonevertical.client.app.requestfactory.dto.TodoDataProxy;
+import com.gonevertical.client.views.peopleedit.PeopleEditPlace;
+import com.gonevertical.client.views.peopleedit.PeopleEditView.Presenter;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.testing.EditorHierarchyPrinter;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -28,6 +30,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.requestfactory.gwt.client.RequestFactoryEditorDriver;
+import com.google.web.bindery.requestfactory.shared.EntityProxyId;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.RequestContext;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
@@ -72,13 +75,19 @@ public class EditPersonWorkFlow extends Composite {
    * the ui composite editor
    */
   private PersonEditor editor;
+  
+  private boolean brandNew;
+  
+  private Presenter presenter;
 
   /**
    * constructor - init the edit workflow
    * @param clientFactory
+   * @param presenter 
    */
-  public EditPersonWorkFlow(ClientFactory clientFactory) {
+  public EditPersonWorkFlow(ClientFactory clientFactory, Presenter presenter) {
     this.clientFactory = clientFactory;
+    this.presenter = presenter;
     initWidget(uiBinder.createAndBindUi(this));
 
     setState(State.EDITING);
@@ -99,8 +108,14 @@ public class EditPersonWorkFlow extends Composite {
       public void onSuccess(PeopleDataProxy response) {
         fireEvent(new EditEvent<PeopleDataProxy>(Edit.SAVED, response));
 
-        // re-init context for another save... this causes error Unfrozen bean with null RequestContext
-        edit(response);
+        // breaks if you shove it back into... re-init context for another save... this causes error Unfrozen bean with null RequestContext
+        // anyway, I like the url redirection, so lets move to the new place
+        if (brandNew == true) {
+          EntityProxyId<PeopleDataProxy> id = (EntityProxyId<PeopleDataProxy>) response.stableId();
+          presenter.goTo(new PeopleEditPlace(id));
+        } else {
+          edit(response);
+        }
       }
       public void onFailure(ServerFailure error) {
         super.onFailure(error);
@@ -124,16 +139,12 @@ public class EditPersonWorkFlow extends Composite {
     // setup request context
     PeopleDataRequest context = clientFactory.getRequestFactory().getPeopleDataRequest();
     
-    // create a new object when null
-//    boolean saveBecauseItsNull = false;
     if (peopleDataProxy == null) {
       peopleDataProxy = context.create(PeopleDataProxy.class);
-      
-//      // This isn't needed in JDO, but for some reason, JPA won't set this up and causes a list flush null exception
-//      List<TodoDataProxy> todos = new ArrayList<TodoDataProxy>();
-//      peopleDataProxy.setTodos(todos);
-//      
-//      saveBecauseItsNull = true; // JPA workaround
+      List<TodoDataProxy> todos = new ArrayList<TodoDataProxy>();
+      peopleDataProxy.setTodos(todos);
+
+      brandNew = true;
     } 
 
     driver.edit(peopleDataProxy, context);
@@ -145,13 +156,6 @@ public class EditPersonWorkFlow extends Composite {
     // decouple using the event handler to send data
     // also bring back the children, driver.getPaths() is like saying .with("todos")
     context.persist().using(peopleDataProxy).with(paths).to(getReciever());
-    
-    // this is a JPA workaround, this wouldn't be needed to be done with JDO!
-    // what happens is the TODOS don't init
-    // this isn't ideal here, b/c it could create a blank, but used for testing...
-//    if (saveBecauseItsNull == true) {
-//      save();
-//    }
   }
 
   /**

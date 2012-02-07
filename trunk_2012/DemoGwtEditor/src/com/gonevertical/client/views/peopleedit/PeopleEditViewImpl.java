@@ -136,7 +136,7 @@ public class PeopleEditViewImpl extends Composite implements PeopleEditView {
    */
   private void drawWorkFlowEditor() {
     if (editorFlow == null) {
-      editorFlow = new EditPersonWorkFlow(clientFactory);
+      editorFlow = new EditPersonWorkFlow(clientFactory, presenter);
       pEdit.add(editorFlow);
       editorFlow.addEditHandler(new EditEventHandler<PeopleDataProxy>() {
         public void onEditEvent(EditEvent<PeopleDataProxy> event) {
