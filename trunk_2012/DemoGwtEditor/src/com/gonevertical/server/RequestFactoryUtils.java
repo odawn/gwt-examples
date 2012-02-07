@@ -236,14 +236,13 @@ public abstract class RequestFactoryUtils {
    */
   public static <T> List<T> findList(Class<T> clazz, ArrayList<Filter> filter, long rangeStart, long rangeEnd) {
 
-    String qfilter = getFilter(filter); // TODO
+    String qfilter = getFilter(filter); 
 
     EntityManager em = getEntityManager();
     try {
-      javax.persistence.Query q = em.createQuery("select o from " + clazz.getSimpleName() + " o");
+      javax.persistence.Query q = em.createQuery("select o from " + clazz.getSimpleName() + " o " + qfilter);
       q.setFirstResult((int) rangeStart);
       q.setMaxResults((int) rangeEnd);
-
       List<T> list = q.getResultList();
       // force to get all the employees
       list.size();
@@ -260,16 +259,16 @@ public abstract class RequestFactoryUtils {
 
   private static String getFilter(ArrayList<Filter> filter) {
     if (filter == null || filter.size() == 0) {
-      return null;
+      return "";
     }
-    String s = "";
+    String s = " WHERE ";
     Iterator<Filter> itr = filter.iterator();
     int i=0;
     while(itr.hasNext()) {
       Filter e = itr.next();
       s += getFilterValues(e);
       if (i < filter.size() - 1) {
-        s += " && ";
+        s += " AND ";
       }
       i++;
     }
@@ -300,7 +299,7 @@ public abstract class RequestFactoryUtils {
   private static String getOperator(Filter e) {
     String s = "";
     if (e.getOperator() == FilterOperator.EQUAL) {
-      s = "==";
+      s = "=";
     }
     return s;
   }

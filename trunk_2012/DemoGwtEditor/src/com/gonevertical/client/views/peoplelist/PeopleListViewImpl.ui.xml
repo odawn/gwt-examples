@@ -9,15 +9,19 @@
 			<p1:LoadingWidget ui:field="wLoading"/>
 		</g:Cell>
 		<g:HTML wordWrap="true" ui:field="htmlSignIn"></g:HTML>
+		<g:HTML wordWrap="true"><b>Awesome People</b></g:HTML>
 		<g:FlowPanel ui:field="pContent">
 			<g:HorizontalPanel>
-			<g:PushButton text="Add" ui:field="bAdd"/>
+				<g:Cell verticalAlignment="ALIGN_MIDDLE">
+					<g:PushButton text="Add" ui:field="bAdd"/>
+				</g:Cell>
 			<g:HTML wordWrap="true">&nbsp;</g:HTML>
+			<g:HTML wordWrap="true">&nbsp;&nbsp;&nbsp;&nbsp;</g:HTML>
+			<g:TextBox title="Search more than one name input John Doe" ui:field="tbSearch"/>
 			<g:Cell verticalAlignment="ALIGN_MIDDLE">
-				<g:HTML wordWrap="true">People List</g:HTML>
+				<g:PushButton text="Search" ui:field="bSearch"/>
 			</g:Cell>
 		</g:HorizontalPanel>
-			<g:VerticalPanel ui:field="vpGrid"/>
 			<g:HTML wordWrap="true">&nbsp;</g:HTML>
 		</g:FlowPanel>
 		<p2:DataGrid width="500px" height="200px" ui:field="grid"/>

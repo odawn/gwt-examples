@@ -4,12 +4,14 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Version;
 
 import com.gonevertical.client.app.requestfactory.dto.TodoDataProxy;
 import com.gonevertical.server.EMF;
@@ -69,6 +71,8 @@ public class TodoData {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Key key;
 
+  @Version
+  @Column(name = "version")
   private Long version;
 
   private Date dateCreated;

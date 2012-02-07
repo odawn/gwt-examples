@@ -1,10 +1,14 @@
 package com.gonevertical.client.views.peoplelist;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.gonevertical.client.app.ClientFactory;
 import com.gonevertical.client.app.core.LoadingWidget;
+import com.gonevertical.client.app.requestfactory.PeopleDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.PeopleDataProxy;
+import com.gonevertical.client.app.requestfactory.dto.PeopleListFilterProxy;
 import com.gonevertical.client.app.requestfactory.dto.UserDataProxy;
 import com.gonevertical.client.app.user.AuthEvent;
 import com.gonevertical.client.app.user.AuthEvent.Auth;
@@ -38,6 +42,8 @@ import com.google.web.bindery.requestfactory.shared.EntityProxyId;
 import com.google.web.bindery.requestfactory.shared.Receiver;
 import com.google.web.bindery.requestfactory.shared.Request;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
+import com.google.gwt.user.client.ui.TextBox;
+import com.sun.tools.javac.code.Attribute.Array;
 
 public class PeopleListViewImpl extends Composite implements PeopleListView {
 
@@ -51,9 +57,6 @@ public class PeopleListViewImpl extends Composite implements PeopleListView {
   HTML htmlSignIn;
   
   @UiField 
-  VerticalPanel vpGrid;
-  
-  @UiField 
   PushButton bAdd;
   
   @UiField 
@@ -64,6 +67,12 @@ public class PeopleListViewImpl extends Composite implements PeopleListView {
   
   @UiField 
   Paging wPage;
+  
+  @UiField 
+  TextBox tbSearch;
+  
+  @UiField 
+  PushButton bSearch;
 
   interface PeopleListViewImplUiBinder extends UiBinder<Widget, PeopleListViewImpl> {
   }
@@ -165,13 +174,19 @@ public class PeopleListViewImpl extends Composite implements PeopleListView {
 
     wPage.setCounts(0, PAGE_SIZE, null);
     
-    fetchTotalCount();
     fetch();
+    fetchTotalCount();
   }
 
   private void fetchTotalCount() {
-    Request<Long> req = clientFactory.getRequestFactory().getPeopleDataRequest().findCount();
-    req.fire(new Receiver<Long>() {
+    
+    PeopleDataRequest request = clientFactory.getRequestFactory().getPeopleDataRequest();
+    
+    PeopleListFilterProxy filter = request.create(PeopleListFilterProxy.class);
+    filter.setSearch(getSearch());
+    
+    Request<Long> requestLoad = request.findCount(filter);
+    requestLoad.fire(new Receiver<Long>() {
       public void onSuccess(Long total) {
         setTotal(total);
       }
@@ -192,15 +207,23 @@ public class PeopleListViewImpl extends Composite implements PeopleListView {
       range[1] = PAGE_SIZE;
     }
     
-    System.out.println("range start=" + range[0] + " end=" +range[1]);
+    System.out.println("range start=" + range[0] + " end=" + range[1]);
     
-    Request<List<PeopleDataProxy>> req = clientFactory.getRequestFactory().getPeopleDataRequest().findPeopleData(range[0], range[1]);
-    req.fire(new Receiver<List<PeopleDataProxy>>() {
+    PeopleDataRequest request = clientFactory.getRequestFactory().getPeopleDataRequest();
+    
+    PeopleListFilterProxy filter = request.create(PeopleListFilterProxy.class);
+    filter.setStart(range[0]);
+    filter.setEnd(range[1]);
+    filter.setSearch(getSearch());
+    
+    Request<List<PeopleDataProxy>> loadRequest = request.findPeopleData(filter);
+    loadRequest.fire(new Receiver<List<PeopleDataProxy>>() {
       public void onSuccess(List<PeopleDataProxy> response) {
         process(response);
       }
       public void onFailure(ServerFailure error) {
-        super.onFailure(error); // TODO ...
+        // TODO ...
+        super.onFailure(error);
       }
     });
   }
@@ -237,5 +260,28 @@ public class PeopleListViewImpl extends Composite implements PeopleListView {
   @UiHandler("bAdd")
   void onBAddClick(ClickEvent event) {
     presenter.goTo(new PeopleEditPlace(null));
+  }
+  
+  @UiHandler("bSearch")
+  void onBSearchClick(ClickEvent event) {
+    fetch();
+    fetchTotalCount();
+  }
+  
+  private List<String> getSearch() {
+    String s = tbSearch.getValue().toLowerCase().trim();
+    if (s == null || s.trim().length() == 0) {
+      return null;
+    }
+    if (s.contains(" ") == false) {
+      String[] a = new String[1];
+      a[0] = s;
+      return Arrays.asList(a);
+    }
+    String[] a = s.split(" ");
+    if (a == null || a.length == 0) {
+      return null;
+    }
+    return Arrays.asList(a);
   }
 }

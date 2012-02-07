@@ -26,11 +26,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
+import com.gonevertical.client.app.requestfactory.dto.PeopleListFilterProxy;
 import com.gonevertical.server.Filter;
 import com.gonevertical.server.RequestFactoryUtils;
+import com.gonevertical.server.filters.PeopleListFilter;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
+import com.google.appengine.api.datastore.Query.FilterOperator;
 
 @Entity
 public class PeopleData {
@@ -47,14 +50,44 @@ public class PeopleData {
     return d;
   }
 
-  public static List<PeopleData> findPeopleData(long start, long end) {
+  public static List<PeopleData> findPeopleData(PeopleListFilter filter) {
     ArrayList<Filter> tfilter = null;
-    List<PeopleData> list = RequestFactoryUtils.findList(PeopleData.class, tfilter, start, end);
+    
+    if (filter.getSearch() != null) {
+      tfilter = new ArrayList<Filter>();
+      List<String> searchList = filter.getSearch();
+      Iterator<String> itr = searchList.iterator();
+      while(itr.hasNext()) {
+        String s = itr.next();
+        if (s != null) {
+          s = s.toLowerCase().trim();
+          Filter f = new Filter("search", FilterOperator.EQUAL, s);
+          tfilter.add(f);
+        }
+      }
+    } 
+    
+    List<PeopleData> list = RequestFactoryUtils.findList(PeopleData.class, tfilter, filter.getStart(), filter.getEnd());
     return list;
   }
-  
-  public static Long findCount() {
+
+  public static Long findCount(PeopleListFilter filter) {
     ArrayList<Filter> tfilter = null;
+
+    if (filter.getSearch() != null) {
+      tfilter = new ArrayList<Filter>();
+      List<String> searchList = filter.getSearch();
+      Iterator<String> itr = searchList.iterator();
+      while(itr.hasNext()) {
+        String s = itr.next();
+        if (s != null) {
+          s = s.toLowerCase().trim();
+          Filter f = new Filter("search", FilterOperator.EQUAL, s);
+          tfilter.add(f);
+        }
+      }
+    } 
+
     Long count = RequestFactoryUtils.findCount(PeopleData.class, tfilter);
     return count;
   }
@@ -63,31 +96,33 @@ public class PeopleData {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Key key;
 
+  @Version
+  @Column(name = "version")
   private Long version;
-    
+
   private Date dateCreated;
 
   private Boolean active;
-   
+
   private String nameFirst;
-   
+
   private String nameLast;
-  
+
   private Integer gender;
-  
+
   private Text note;
-  
+
   @OneToMany(cascade = CascadeType.ALL)
   private HashSet<String> search;
-  
+
   /**
    * owned collection 
    * @Persistent(defaultFetchGroup = "true", dependentElement = "true") - for JDO
    */
   @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.ALL, targetEntity=TodoData.class)
   private List<TodoData> todos;
-  
-  
+
+
 
   @Override
   public String toString() {
@@ -132,7 +167,7 @@ public class PeopleData {
       version++;
     }
   }
-  
+
   public void setDateCreated() {
     if (dateCreated == null) {
       dateCreated = new Date();
@@ -141,14 +176,14 @@ public class PeopleData {
   public Date getDateCreated() {
     return dateCreated;
   }
-  
+
   public void setActive(boolean active) {
     this.active = active;
   }
   public Boolean getActive() {
     return active;
   }
-  
+
   public void setNameFirst(String nameFirst) {
     this.nameFirst = nameFirst;
     setSearch();
@@ -156,7 +191,7 @@ public class PeopleData {
   public String getNameFirst() {
     return nameFirst;
   }
-  
+
   public void setNameLast(String nameLast) {
     this.nameLast = nameLast;
     setSearch();
@@ -164,14 +199,14 @@ public class PeopleData {
   public String getNameLast() {
     return nameLast;
   }
-  
+
   public void setGender(Integer gender) {
     this.gender = gender;
   }
   public Integer getGender() {
     return gender;
   }
-  
+
   public void setNote(String note) {
     if (note == null) {
       this.note = null;
@@ -186,7 +221,7 @@ public class PeopleData {
       return note.getValue();
     }
   }
-  
+
   public void setTodos(List<TodoData> todos) {
     this.todos = todos;
   }
@@ -200,12 +235,12 @@ public class PeopleData {
     PeopleData r = RequestFactoryUtils.persist(this);
     return r;
   }
- 
+
 
   public boolean remove() {
     return RequestFactoryUtils.removeByAdminOnly(this);
   }
- 
+
   /**
    * this is a bit redundant when both names are set. Good for now, and good for example. No matter, its fast
    */

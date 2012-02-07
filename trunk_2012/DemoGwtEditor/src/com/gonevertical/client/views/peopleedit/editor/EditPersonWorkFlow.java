@@ -1,5 +1,7 @@
 package com.gonevertical.client.views.peopleedit.editor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.ConstraintViolation;
@@ -11,6 +13,7 @@ import com.gonevertical.client.app.events.EditEvent.Edit;
 import com.gonevertical.client.app.events.EditEventHandler;
 import com.gonevertical.client.app.requestfactory.PeopleDataRequest;
 import com.gonevertical.client.app.requestfactory.dto.PeopleDataProxy;
+import com.gonevertical.client.app.requestfactory.dto.TodoDataProxy;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.editor.client.testing.EditorHierarchyPrinter;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -29,12 +32,12 @@ import com.google.web.bindery.requestfactory.shared.RequestContext;
 import com.google.web.bindery.requestfactory.shared.ServerFailure;
 
 public class EditPersonWorkFlow extends Composite {
-  
+
   public static enum State {
     EDITING,
     SAVING;
   }
-  
+
   /**
    * workflow ui creator
    */
@@ -43,32 +46,32 @@ public class EditPersonWorkFlow extends Composite {
   @UiField LoadingWidget wLoading;
   @UiField PushButton bFinish;
   @UiField PushButton bSave;
-  
+
   /**
    * workflow xml ui binder
    */
   interface EditPersonWorkFlowUiBinder extends UiBinder<Widget, EditPersonWorkFlow> {}
-  
+
   /** 
    * Empty interface declaration, similar to UiBinder
    */
   interface Driver extends RequestFactoryEditorDriver<PeopleDataProxy, PersonEditor> {}
- 
+
   /**
    * Create the Driver
    */
   private Driver driver = GWT.create(Driver.class);
-  
+
   /**
    * app's client factory
    */
   private ClientFactory clientFactory;
-  
+
   /**
    * the ui composite editor
    */
   private PersonEditor editor;
-  
+
   /**
    * constructor - init the edit workflow
    * @param clientFactory
@@ -76,16 +79,16 @@ public class EditPersonWorkFlow extends Composite {
   public EditPersonWorkFlow(ClientFactory clientFactory) {
     this.clientFactory = clientFactory;
     initWidget(uiBinder.createAndBindUi(this));
-    
+
     setState(State.EDITING);
-    
+
     bFinish.addClickHandler(new ClickHandler() {
       public void onClick(ClickEvent event) {
         fireEvent(new EditEvent<PeopleDataProxy>(Edit.FINISHED));
       }
     });
   }
-  
+
   /**
    * on persist do this
    * @return
@@ -94,9 +97,9 @@ public class EditPersonWorkFlow extends Composite {
     Receiver<PeopleDataProxy> r = new Receiver<PeopleDataProxy>() {
       public void onSuccess(PeopleDataProxy response) {
         fireEvent(new EditEvent<PeopleDataProxy>(Edit.SAVED, response));
-        
+
         // re-init context for another save
-        edit(response);
+        //edit(response);
       }
       public void onFailure(ServerFailure error) {
         super.onFailure(error);
@@ -119,18 +122,24 @@ public class EditPersonWorkFlow extends Composite {
 
     // setup request context
     PeopleDataRequest context = clientFactory.getRequestFactory().getPeopleDataRequest();
-    
+
     // create a new object when null
     if (peopleDataProxy == null) { 
       peopleDataProxy = context.create(PeopleDataProxy.class);
+      List<TodoDataProxy> todos = new ArrayList<TodoDataProxy>();
+      peopleDataProxy.setTodos(todos);
     }
-    
+
+    //context.edit(peopleDataProxy);
+
     driver.edit(peopleDataProxy, context);
-    
+
+    String[] paths = driver.getPaths();
+
     // wire up the persist like a call back when save happens
     // decouple using the event handler to send data
     // also bring back the children, driver.getPaths() is like saying .with("todos")
-    context.persist().using(peopleDataProxy).with(driver.getPaths()).to(getReciever());
+    context.persist().using(peopleDataProxy).with(paths).to(getReciever());
   }
 
   /**
@@ -140,10 +149,10 @@ public class EditPersonWorkFlow extends Composite {
     if (editor != null) {
       return;
     }
-    
+
     // PersonEditor is a that extends Editor<Person>
     editor = new PersonEditor(clientFactory);
-    
+
     // Initialize the driver with the top-level editor
     driver.initialize(clientFactory.getRequestFactory(), editor);
 
@@ -157,44 +166,44 @@ public class EditPersonWorkFlow extends Composite {
    * you can see it here in dev mode: http://localhost:8888/_ah/admin/datastore?kind=PeopleData
    */
   private void save() {
-    
+
     // TODO comes back null, maybe due to no sub editors
-//    if (driver.hasErrors()) {
-//      // A sub-editor reported errors
-//      System.out.println("test");
-//    }
-    
+    //    if (driver.hasErrors()) {
+    //      // A sub-editor reported errors
+    //      System.out.println("test");
+    //    }
+
     fireEvent(new EditEvent<PeopleDataProxy>(Edit.SAVING));
     setState(State.SAVING);
-    
-    
+
+
     // helps for debugging the editor
     String s = EditorHierarchyPrinter.toString(driver);
     System.out.println("EditorHierarchyPrinter = " + s);
-    
-    
+
+
     // fire the persist, which is already added to the context of this call
     // the persist call back is caught above
     RequestContext req = driver.flush();
     req.fire(new Receiver<Void>() {
-      
+
       public void onSuccess(Void response) {
         setState(State.EDITING);
       }
-      
+
       public void onConstraintViolation(Set<ConstraintViolation<?>> violations) {
         setState(State.EDITING);
         super.onConstraintViolation(violations);
       }
-      
+
       public void onFailure(ServerFailure error) {
         setState(State.EDITING);
         super.onFailure(error);
       }
     });
-    
+
   }
-  
+
   /**
    * set widget state stuff
    * @param state
@@ -203,20 +212,20 @@ public class EditPersonWorkFlow extends Composite {
     if (state == State.EDITING) {
       wLoading.showLoading(false);
       bSave.setEnabled(true);
-      
+
     } else if (state == State.SAVING) {
       wLoading.showLoading(true);
       bSave.setEnabled(false);
     } 
   }
-  
+
   @UiHandler("bSave")
   void onBSaveClick(ClickEvent event) {
     save();
   }
-  
+
   public final HandlerRegistration addEditHandler(EditEventHandler<PeopleDataProxy> handler) {
     return addHandler(handler, EditEvent.TYPE);
   }
-  
+
 }
