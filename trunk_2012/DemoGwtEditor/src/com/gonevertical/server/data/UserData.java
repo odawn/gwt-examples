@@ -129,8 +129,6 @@ public class UserData {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Key key;
 
-  @Version
-  @Column(name = "version")
   private Long version;
  
   private Date dateCreated;
