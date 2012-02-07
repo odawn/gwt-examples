@@ -4,6 +4,11 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.jdo.PersistenceManager;
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -15,7 +20,10 @@ import javax.persistence.Version;
 
 import com.gonevertical.client.app.requestfactory.dto.TodoDataProxy;
 import com.gonevertical.server.EMF;
-import com.gonevertical.server.RequestFactoryUtils;
+import com.gonevertical.server.PMF;
+import com.gonevertical.server.RequestFactoryUtilsJdo;
+import com.gonevertical.server.RequestFactoryUtilsJdo;
+import com.gonevertical.server.RequestFactoryUtilsJpa;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Key;
@@ -24,14 +32,10 @@ import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.datastore.Transaction;
 import com.google.web.bindery.requestfactory.shared.EntityProxyId;
 
-@Entity
+@PersistenceCapable // @Entity
 public class TodoData {
 
   private static final Logger log = Logger.getLogger(TodoData.class.getName());
-
-  public static EntityManager getEntityManager() {
-    return EMF.get().createEntityManager();
-  }
 
   /**
    * id is base64 string of Key
@@ -39,13 +43,13 @@ public class TodoData {
    * @return
    */
   public static TodoData findTodoData(String id) {
-    return RequestFactoryUtils.find(TodoData.class, id);
+    return RequestFactoryUtilsJdo.find(TodoData.class, id);
   }
 
   public static Boolean remove(String id) {
 
     Key key = KeyFactory.stringToKey(id);
-    TodoData o = RequestFactoryUtils.find(TodoData.class, key); 
+    TodoData o = RequestFactoryUtilsJdo.find(TodoData.class, key); 
 
     Key parent = o.getKey().getParent();
     if (parent.equals(key.getParent()) == false) {
@@ -67,16 +71,21 @@ public class TodoData {
     return success;
   }
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  
+  @PrimaryKey
+  @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY) // @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Key key;
 
+  @Persistent
   private Long version;
 
+  @Persistent
   private Date dateCreated;
 
+  @Persistent
   private String todo;
 
+  @Persistent
   private Text note;
 
   @Override
@@ -157,11 +166,11 @@ public class TodoData {
   public TodoData persist() {
     incrementVersion();
     setDateCreated();
-    TodoData r = RequestFactoryUtils.persist(this);
+    TodoData r = RequestFactoryUtilsJdo.persist(this);
     return r;
   }
   public boolean remove() {
-    return RequestFactoryUtils.removeByAdminOnly(this);
+    return RequestFactoryUtilsJdo.removeByAdminOnly(this);
   }
 
   @Override

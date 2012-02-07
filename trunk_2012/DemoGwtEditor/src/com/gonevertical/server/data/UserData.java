@@ -6,31 +6,36 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.jdo.PersistenceManager;
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.NotPersistent;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 import javax.persistence.EntityManager;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Transient;
-import javax.persistence.Version;
 
 import com.gonevertical.server.EMF;
-import com.gonevertical.server.RequestFactoryUtils;
+import com.gonevertical.server.PMF;
+import com.gonevertical.server.RequestFactoryUtilsJdo;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
-@Entity
+
+@PersistenceCapable // @Entity
 public class UserData {
 
   private static final Logger log = Logger.getLogger(UserData.class.getName());
 
-  public static EntityManager getEntityManager() {
-    EntityManager em = EMF.get().createEntityManager();
-    return em;
+//  public static EntityManager getEntityManager() {
+//    EntityManager em = EMF.get().createEntityManager();
+//    return em;
+//  }
+  
+  public static PersistenceManager getPersistenceManager() {
+    return PMF.get().getPersistenceManager();
   }
 
   private static User getGoogleUser() {
@@ -69,33 +74,80 @@ public class UserData {
    * @return
    */
   public static UserData findUserData(String id) {
-    return RequestFactoryUtils.find(UserData.class, id);
+    return RequestFactoryUtilsJdo.find(UserData.class, id);
   }
 
+  // jpa
+//  public static UserData findUserDataByGoogleEmail(String googleEmail) {
+//    EntityManager em = getEntityManager();
+//    try {
+//      UserData ud = (UserData) em.createQuery("select o from " + UserData.class.getSimpleName() + " o").getSingleResult();
+//      return ud;
+//    } catch (Exception e) {
+//      log.log(Level.SEVERE, "Error: UserData.findUserDataByGoogleEmail(googleEmail): googleEmail=" + googleEmail, e);
+//      e.printStackTrace();
+//    } finally {
+//      em.close();
+//    }
+//    return null;
+//  }
+//
+//  public static UserData findUserDataByGoogleUserId(String googleUserId) {
+//    EntityManager em = getEntityManager();
+//    try {
+//      UserData ud = (UserData) em.createQuery("select o from " + UserData.class.getSimpleName() + " o").getSingleResult();
+//      return ud;
+//    } catch (Exception e) {
+//      log.log(Level.SEVERE, "Error: UserData.findUserDataByGoogleUserId(googleUserId): googleUserId=" + googleUserId, e);
+//      e.printStackTrace();
+//    } finally {
+//      em.close();
+//    }
+//    return null;
+//  }
+  
   public static UserData findUserDataByGoogleEmail(String googleEmail) {
-    EntityManager em = getEntityManager();
+    PersistenceManager pm = getPersistenceManager();
     try {
-      UserData ud = (UserData) em.createQuery("select o from " + UserData.class.getSimpleName() + " o").getSingleResult();
+      javax.jdo.Query query = pm.newQuery("select from " + UserData.class.getName());
+      query.setRange(0, 1);
+      query.setFilter("googleEmail==\""+ googleEmail + "\"");
+      List<UserData> list = (List<UserData>) query.execute();
+      int size = list.size();
+      if (size == 0) {
+        return null;
+      }
+      Iterator<UserData> itr = list.iterator();
+      UserData ud = itr.next();
       return ud;
     } catch (Exception e) {
       log.log(Level.SEVERE, "Error: UserData.findUserDataByGoogleEmail(googleEmail): googleEmail=" + googleEmail, e);
       e.printStackTrace();
     } finally {
-      em.close();
+      pm.close();
     }
     return null;
   }
 
   public static UserData findUserDataByGoogleUserId(String googleUserId) {
-    EntityManager em = getEntityManager();
+    PersistenceManager pm = getPersistenceManager();
     try {
-      UserData ud = (UserData) em.createQuery("select o from " + UserData.class.getSimpleName() + " o").getSingleResult();
+      javax.jdo.Query query = pm.newQuery("select from " + UserData.class.getName());
+      query.setRange(0, 1);
+      query.setFilter("googleUserId==\"" + googleUserId + "\"");
+      List<UserData> list = (List<UserData>) query.execute();
+      int size = list.size();
+      if (size == 0) {
+        return null;
+      }
+      Iterator<UserData> itr = list.iterator();
+      UserData ud = itr.next();
       return ud;
     } catch (Exception e) {
       log.log(Level.SEVERE, "Error: UserData.findUserDataByGoogleUserId(googleUserId): googleUserId=" + googleUserId, e);
       e.printStackTrace();
     } finally {
-      em.close();
+      pm.close();
     }
     return null;
   }
@@ -125,25 +177,32 @@ public class UserData {
     return ud;
   }
   
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @PrimaryKey
+  @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY) // @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Key key;
 
+  @Persistent
   private Long version;
  
+  @Persistent
   private Date dateCreated;
 
+  @Persistent
   private String googleUserId;
   
+  @Persistent
   private String googleEmail;
 
+  @Persistent
   private String googleNickname;
   
+  @Persistent
   private String loginUrl;
 
+  @Persistent
   private String logoutUrl;
   
-  @Transient
+  @NotPersistent //  @Transient
   private Boolean isSystemAdmin;
   
   @Override
@@ -301,11 +360,11 @@ public class UserData {
   public UserData persist() {
     incrementVersion();
     setDateCreated();
-    UserData r = RequestFactoryUtils.persist(this);
+    UserData r = RequestFactoryUtilsJdo.persist(this);
     return r;
   }
   public boolean remove() {
-    return RequestFactoryUtils.removeByAdminOnly(this);
+    return RequestFactoryUtilsJdo.removeByAdminOnly(this);
   }
  
 }

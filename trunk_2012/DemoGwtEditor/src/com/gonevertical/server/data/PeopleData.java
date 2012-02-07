@@ -8,7 +8,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,14 +32,15 @@ import javax.validation.constraints.Size;
 
 import com.gonevertical.client.app.requestfactory.dto.PeopleListFilterProxy;
 import com.gonevertical.server.Filter;
-import com.gonevertical.server.RequestFactoryUtils;
+import com.gonevertical.server.RequestFactoryUtilsJdo;
+import com.gonevertical.server.RequestFactoryUtilsJpa;
 import com.gonevertical.server.filters.PeopleListFilter;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 
-@Entity
+@PersistenceCapable // @Entity
 public class PeopleData {
 
   private static final Logger log = Logger.getLogger(PeopleData.class.getName());
@@ -47,7 +51,7 @@ public class PeopleData {
    * @return
    */
   public static PeopleData findPeopleData(String id) {
-    PeopleData d = RequestFactoryUtils.find(PeopleData.class, id);
+    PeopleData d = RequestFactoryUtilsJdo.find(PeopleData.class, id);
     return d;
   }
 
@@ -68,7 +72,7 @@ public class PeopleData {
       }
     } 
     
-    List<PeopleData> list = RequestFactoryUtils.findList(PeopleData.class, tfilter, filter.getStart(), filter.getEnd());
+    List<PeopleData> list = RequestFactoryUtilsJdo.findList(PeopleData.class, tfilter, filter.getStart(), filter.getEnd());
     return list;
   }
 
@@ -89,36 +93,44 @@ public class PeopleData {
       }
     } 
 
-    Long count = RequestFactoryUtils.findCount(PeopleData.class, tfilter);
+    Long count = RequestFactoryUtilsJdo.findCount(PeopleData.class, tfilter);
     return count;
   }
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+  @PrimaryKey
+  @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY) // @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Key key;
 
+  @Persistent
   private Long version;
 
+  @Persistent
   private Date dateCreated;
 
+  @Persistent
   private Boolean active;
 
+  @Persistent
   private String nameFirst;
 
+  @Persistent
   private String nameLast;
 
+  @Persistent
   private Integer gender;
 
+  @Persistent
   private Text note;
 
-  @OneToMany(cascade = CascadeType.ALL)
+  @Persistent // @OneToMany(cascade = CascadeType.ALL)
   private HashSet<String> search;
 
   /**
    * owned collection 
    * @Persistent(defaultFetchGroup = "true", dependentElement = "true") - for JDO
    */
-  @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, targetEntity = TodoData.class)
+  @Persistent(defaultFetchGroup = "true", dependentElement = "true") // @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, targetEntity = TodoData.class)
   private List<TodoData> todos;
 
 
@@ -231,13 +243,13 @@ public class PeopleData {
   public PeopleData persist() {
     incrementVersion();
     setDateCreated();   
-    PeopleData r = RequestFactoryUtils.persist(this);
+    PeopleData r = RequestFactoryUtilsJdo.persist(this);
     return r;
   }
 
 
   public boolean remove() {
-    return RequestFactoryUtils.removeByAdminOnly(this);
+    return RequestFactoryUtilsJdo.removeByAdminOnly(this);
   }
 
   /**

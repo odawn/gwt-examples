@@ -216,7 +216,7 @@ public class PeopleListViewImpl extends Composite implements PeopleListView {
     filter.setEnd(range[1]);
     filter.setSearch(getSearch());
     
-    Request<List<PeopleDataProxy>> loadRequest = request.findPeopleData(filter);
+    Request<List<PeopleDataProxy>> loadRequest = request.findPeopleData(filter).with("todos");
     loadRequest.fire(new Receiver<List<PeopleDataProxy>>() {
       public void onSuccess(List<PeopleDataProxy> response) {
         process(response);

@@ -125,15 +125,15 @@ public class EditPersonWorkFlow extends Composite {
     PeopleDataRequest context = clientFactory.getRequestFactory().getPeopleDataRequest();
     
     // create a new object when null
-    boolean saveBecauseItsNull = false;
+//    boolean saveBecauseItsNull = false;
     if (peopleDataProxy == null) {
       peopleDataProxy = context.create(PeopleDataProxy.class);
       
-      // This isn't needed in JDO, but for some reason, JPA won't set this up and causes a list flush null exception
-      List<TodoDataProxy> todos = new ArrayList<TodoDataProxy>();
-      peopleDataProxy.setTodos(todos);
-      
-      saveBecauseItsNull = true; // JPA workaround
+//      // This isn't needed in JDO, but for some reason, JPA won't set this up and causes a list flush null exception
+//      List<TodoDataProxy> todos = new ArrayList<TodoDataProxy>();
+//      peopleDataProxy.setTodos(todos);
+//      
+//      saveBecauseItsNull = true; // JPA workaround
     } 
 
     driver.edit(peopleDataProxy, context);
@@ -149,9 +149,9 @@ public class EditPersonWorkFlow extends Composite {
     // this is a JPA workaround, this wouldn't be needed to be done with JDO!
     // what happens is the TODOS don't init
     // this isn't ideal here, b/c it could create a blank, but used for testing...
-    if (saveBecauseItsNull == true) {
-      save();
-    }
+//    if (saveBecauseItsNull == true) {
+//      save();
+//    }
   }
 
   /**
