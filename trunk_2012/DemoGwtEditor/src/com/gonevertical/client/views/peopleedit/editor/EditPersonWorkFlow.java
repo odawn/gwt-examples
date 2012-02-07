@@ -143,8 +143,9 @@ public class EditPersonWorkFlow extends Composite {
     // also bring back the children, driver.getPaths() is like saying .with("todos")
     context.persist().using(peopleDataProxy).with(paths).to(getReciever());
     
-    // this is a JPA workaround, this wouldn't need to be done with JDO!
+    // this is a JPA workaround, this wouldn't be needed to be done with JDO!
     // what happens is the TODOS don't init
+    // this isn't ideal here, b/c it could create a blank, but used for testing...
     if (saveBecauseItsNull == true) {
       save();
     }
