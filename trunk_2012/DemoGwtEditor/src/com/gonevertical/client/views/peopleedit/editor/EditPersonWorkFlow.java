@@ -133,7 +133,7 @@ public class EditPersonWorkFlow extends Composite {
       List<TodoDataProxy> todos = new ArrayList<TodoDataProxy>();
       peopleDataProxy.setTodos(todos);
       
-      saveBecauseItsNull = true;
+      saveBecauseItsNull = true; // JPA workaround
     } 
 
     driver.edit(peopleDataProxy, context);
