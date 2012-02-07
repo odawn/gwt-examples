@@ -98,7 +98,7 @@ public class EditPersonWorkFlow extends Composite {
       public void onSuccess(PeopleDataProxy response) {
         fireEvent(new EditEvent<PeopleDataProxy>(Edit.SAVED, response));
 
-        // re-init context for another save
+        // re-init context for another save... this causes error Unfrozen bean with null RequestContext
         //edit(response);
       }
       public void onFailure(ServerFailure error) {
@@ -150,14 +150,13 @@ public class EditPersonWorkFlow extends Composite {
       return;
     }
 
-    // PersonEditor is a that extends Editor<Person>
-    editor = new PersonEditor(clientFactory);
-
+    // PersonEditor is a that extends Editor<Person> and render the ui
+    editor = new PersonEditor(clientFactory); 
+    pPersonEdit.add(editor);
+    
+   
     // Initialize the driver with the top-level editor
     driver.initialize(clientFactory.getRequestFactory(), editor);
-
-    // Put the UI on the screen.
-    pPersonEdit.add(editor);
   }
 
   /**
