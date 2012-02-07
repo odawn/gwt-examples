@@ -124,26 +124,30 @@ public class EditPersonWorkFlow extends Composite {
     // setup request context
     PeopleDataRequest context = clientFactory.getRequestFactory().getPeopleDataRequest();
     
-
     // create a new object when null
-    if (peopleDataProxy == null) { 
+    boolean saveBecauseItsNull = false;
+    if (peopleDataProxy == null) {
       peopleDataProxy = context.create(PeopleDataProxy.class);
       List<TodoDataProxy> todos = new ArrayList<TodoDataProxy>();
       peopleDataProxy.setTodos(todos);
-    } else {
-      context.edit(peopleDataProxy);
-    }
-
-    //context.edit(peopleDataProxy);
+      saveBecauseItsNull = true;
+    } 
 
     driver.edit(peopleDataProxy, context);
 
     String[] paths = driver.getPaths();
+    System.out.println("getPaths=" + paths);
 
     // wire up the persist like a call back when save happens
     // decouple using the event handler to send data
     // also bring back the children, driver.getPaths() is like saying .with("todos")
     context.persist().using(peopleDataProxy).with(paths).to(getReciever());
+    
+    // this is a JPA workaround, this wouldn't need to be done with JDO!
+    // what happens is the TODOS don't init
+    if (saveBecauseItsNull == true) {
+      save();
+    }
   }
 
   /**
