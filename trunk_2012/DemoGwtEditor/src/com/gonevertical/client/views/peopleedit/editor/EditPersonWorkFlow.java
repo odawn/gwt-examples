@@ -128,8 +128,11 @@ public class EditPersonWorkFlow extends Composite {
     boolean saveBecauseItsNull = false;
     if (peopleDataProxy == null) {
       peopleDataProxy = context.create(PeopleDataProxy.class);
+      
+      // This isn't needed in JDO, but for some reason, JPA won't set this up and causes a list flush null exception
       List<TodoDataProxy> todos = new ArrayList<TodoDataProxy>();
       peopleDataProxy.setTodos(todos);
+      
       saveBecauseItsNull = true;
     } 
 
