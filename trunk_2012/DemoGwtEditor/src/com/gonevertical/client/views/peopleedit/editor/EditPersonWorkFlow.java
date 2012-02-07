@@ -22,6 +22,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.PushButton;
@@ -99,7 +100,7 @@ public class EditPersonWorkFlow extends Composite {
         fireEvent(new EditEvent<PeopleDataProxy>(Edit.SAVED, response));
 
         // re-init context for another save... this causes error Unfrozen bean with null RequestContext
-        //edit(response);
+        edit(response);
       }
       public void onFailure(ServerFailure error) {
         super.onFailure(error);
@@ -122,12 +123,15 @@ public class EditPersonWorkFlow extends Composite {
 
     // setup request context
     PeopleDataRequest context = clientFactory.getRequestFactory().getPeopleDataRequest();
+    
 
     // create a new object when null
     if (peopleDataProxy == null) { 
       peopleDataProxy = context.create(PeopleDataProxy.class);
       List<TodoDataProxy> todos = new ArrayList<TodoDataProxy>();
       peopleDataProxy.setTodos(todos);
+    } else {
+      context.edit(peopleDataProxy);
     }
 
     //context.edit(peopleDataProxy);
