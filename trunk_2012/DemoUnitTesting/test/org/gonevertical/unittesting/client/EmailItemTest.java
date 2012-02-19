@@ -7,9 +7,6 @@ import org.gonevertical.unittesting.client.presenter.EmailData;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.RootPanel;
 
-/**
- * compile your project first
- */
 public class EmailItemTest extends GWTTestCase {
 
   @Override

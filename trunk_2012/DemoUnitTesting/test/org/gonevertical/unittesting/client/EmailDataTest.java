@@ -4,9 +4,6 @@ import org.gonevertical.unittesting.client.presenter.EmailData;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-/**
- * compile your project first
- */
 public class EmailDataTest extends GWTTestCase {
 
   @Override

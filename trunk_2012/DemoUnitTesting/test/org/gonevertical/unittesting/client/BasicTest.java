@@ -2,9 +2,6 @@ package org.gonevertical.unittesting.client;
 
 import com.google.gwt.junit.client.GWTTestCase;
 
-/**
- * compile your project first
- */
 public class BasicTest extends GWTTestCase {
 
   @Override
