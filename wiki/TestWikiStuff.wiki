@@ -6,6 +6,13 @@
 Test this out
 
 {{{
-    semester.setAcceptableValues(Arrays.asList(1,2));
-    semester.setValue(1);
+    @UiField DateBox yearStart; 
+    
+    //...
+
+    yearStart.addValueChangeHandler(new ValueChangeHandler<Date>() {
+      public void onValueChange(ValueChangeEvent<Date> event) {
+        drawAreYouSure(1, event.getValue());
+      }
+    });
 }}}
