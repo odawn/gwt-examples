@@ -7,7 +7,7 @@
 Test this out
 
 {{{
-  public enum Gender {
+public enum Gender {
   MALE(1),
   FEMALE(2);
 
