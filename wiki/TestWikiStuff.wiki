@@ -50,7 +50,9 @@ public enum Gender {
     return s;
   }
 }
+}}}
 
+{{{
   @UiField(provided = true) 
   ValueListBox<Integer> gender = new ValueListBox<Integer>(new Renderer<Integer>() {
     public String render(Integer object) {
