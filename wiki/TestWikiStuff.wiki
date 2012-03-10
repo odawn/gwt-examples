@@ -1,68 +1,11 @@
 #summary test out wiki stuff
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
 
 
 Test this out
 
 {{{
-public enum Gender {
-  MALE(1),
-  FEMALE(2);
-
-  int gender;
-
-  Gender(int gender) {
-    this.gender = gender;
-  }
-
-  public int getGender() {
-    return gender;
-  }
-
-  public String toString() {
-    return name();
-  }
-  
-  public static ArrayList<Integer> getValues() {
-    Gender[] values = Gender.values();
-    ArrayList<Integer> list = new ArrayList<Integer>();
-    for (int i=0; i < values.length; i++) {
-      list.add(values[i].getGender());
-    }
-    return list;
-  }
-  
-  public static String getGenderName(Integer gender) {
-    if (gender == null) {
-      return "";
-    }
-    String s = "";
-    switch (gender) {
-    case 1:
-      s = "male";
-      break;
-    case 2:
-      s = "female";
-      break;
-    }
-    return s;
-  }
-}
+    semester.setAcceptableValues(Arrays.asList(1,2));
+    semester.setValue(1);
 }}}
-
-{{{
-  @UiField(provided = true) 
-  ValueListBox<Integer> gender = new ValueListBox<Integer>(new Renderer<Integer>() {
-    public String render(Integer object) {
-      return Gender.getGenderName(object);
-    }
-    public void render(Integer object, Appendable appendable) throws IOException {
-      String s = render(object);
-      appendable.append(s);
-    }
-  });
-}}}
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
-<g:plusone size="medium"></g:plusone>
