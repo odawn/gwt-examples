@@ -7,22 +7,20 @@
 Test this out
 
 {{{
-public class ClientFactory {
-
-  private final ApplicationRequestFactory requestFactory = GWT.create(ApplicationRequestFactory.class);
-
-  private EventBus eventBus;
-
-  public ClientFactory() {
-   eventBus = new SimpleEventBus();
-   requestFactory.initialize(eventBus);
-  }
-
-  public ApplicationRequestFactory getRequestFactory() {
-    return requestFactory;
-  }
-
-}
+  @UiField(provided = true) 
+  ValueListBox<Integer> semester = new ValueListBox<Integer>(new Renderer<Integer>() {
+    public String render(Integer object) {
+      String s = "";
+      if (object != null) {
+        s = object.toString();
+      }
+      return s; 
+    }
+    public void render(Integer object, Appendable appendable) throws IOException {
+        String s = render(object);
+        appendable.append(s);
+    }
+  });
 }}}
 <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
 <g:plusone size="medium"></g:plusone>
