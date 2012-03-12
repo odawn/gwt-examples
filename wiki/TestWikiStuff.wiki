@@ -6,105 +6,244 @@
 Test this out
 
 {{{
-public class SchoolDropDown extends Composite implements LeafValueEditor<Long>, ValueAwareEditor<Long> {
+public class EditPersonWorkFlow extends Composite {
 
-  interface SchoolDropDownUiBinder extends UiBinder<Widget, SchoolDropDown> {}
-  private static SchoolDropDownUiBinder uiBinder = GWT.create(SchoolDropDownUiBinder.class);
-  @UiField(provided = true) 
-  ValueListBox<Long> schoolId = new ValueListBox<Long>(new com.google.gwt.text.shared.Renderer<Long>() {
-    public String render(Long object) {
-      return getSchool(object);
-    }
-    public void render(Long object, Appendable appendable) throws IOException {
-      String s = render(object);
-      appendable.append(s);
-    }
-  });
+  public static enum State {
+    EDITING,
+    SAVING;
+  }
 
+  interface Driver extends RequestFactoryEditorDriver<PeopleJdoProxy, PersonEditor> {}
+  interface EditPersonWorkFlowUiBinder extends UiBinder<Widget, EditPersonWorkFlow> {}
+  private static EditPersonWorkFlowUiBinder uiBinder = GWT.create(EditPersonWorkFlowUiBinder.class);
+  
+  @UiField FlowPanel pPersonEdit;
+  @UiField LoadingWidget wLoading;
+  @UiField PushButton bFinish;
+  @UiField PushButton bSave;
+  @UiField ErrorWidget wError;
+
+  private Driver driver = GWT.create(Driver.class);
   private ClientFactory clientFactory;
+  private PersonEditor editor;
+  private boolean brandNew;
   private Presenter presenter;
-  private List<SchoolJdoProxy> schools;
-  private Long schoolIdLong;
+  private boolean changed = false;
+  private boolean goBack;
 
-  public SchoolDropDown() {
-    initWidget(uiBinder.createAndBindUi(this));
-    
-    schoolId.addValueChangeHandler(new ValueChangeHandler<Long>() {
-      public void onValueChange(ValueChangeEvent<Long> event) {
-        presenter.setRunning(true);
-      }
-    });
-  }
-  
-  public void setClientFactory(ClientFactory clientFactory) {
+  /**
+   * constructor - init the edit workflow
+   * @param clientFactory
+   * @param presenter 
+   * @param presenter 
+   */
+  public EditPersonWorkFlow(ClientFactory clientFactory, Presenter presenter) {
     this.clientFactory = clientFactory;
-    loadSchools();
-  }
-  
-  public void setPresenter(Presenter presenter) {
     this.presenter = presenter;
-  }
+    initWidget(uiBinder.createAndBindUi(this));
 
-  @Override
-  public void setValue(Long value) {
-    this.schoolIdLong = value; 
-    schoolId.setValue(schoolIdLong);
-  }
+    setState(State.EDITING);
 
-  @Override
-  public Long getValue() {
-    Long selected = schoolId.getValue();
-    return selected;
-  }
-
-  @Override
-  public void setDelegate(EditorDelegate<Long> delegate) {
-  }
-
-  @Override
-  public void flush() {
-  }
-
-  @Override
-  public void onPropertyChange(String... paths) {
-  }
-  
-  private void loadSchools() {
-    SchoolJdoRequest req = clientFactory.getRequestFactory().getSchoolJdoRequest();
-    SchoolJdoFilterProxy filter = req.create(SchoolJdoFilterProxy.class);
-    filter.setLimit(100);
-    filter.setAccountId(clientFactory.getAccountId());
-    req.findSchoolList(filter).fire(new Receiver<List<SchoolJdoProxy>>() {
-      public void onSuccess(List<SchoolJdoProxy> schoolJdoProxyList) {
-        processSchool(schoolJdoProxyList);
+    bFinish.addClickHandler(new ClickHandler() {
+      public void onClick(ClickEvent event) {
+        goBack();
       }
     });
+    
   }
 
-  private void processSchool(List<SchoolJdoProxy> schoolJdoProxyList) {
-    this.schools = schoolJdoProxyList;
-    if (schoolJdoProxyList == null || schoolJdoProxyList.isEmpty()) {
+  private void goBack() {
+    boolean isRunning = presenter.isRunning();
+    if (isRunning == true) {
+      goBack = true;
+      save();
       return;
     }
-    List<Long> longList = new ArrayList<Long>();
-    for (SchoolJdoProxy schoolJdoProxy : schoolJdoProxyList) {
-      longList.add(schoolJdoProxy.getIdLong());
+    goBack = false;
+    Place place = clientFactory.getHistoryLast();
+    while (place instanceof DashPlace == false) {
+      place = clientFactory.getHistoryLast();
     }
-    schoolId.setAcceptableValues(longList);
-    schoolId.setValue(schoolIdLong);
+    clientFactory.getPlaceController().goTo(place);
+  }
+
+  /**
+   * on persist do this
+   * @return
+   */
+  private Receiver<? super PeopleJdoProxy> getReciever() {
+    Receiver<PeopleJdoProxy> r = new Receiver<PeopleJdoProxy>() {
+      public void onSuccess(PeopleJdoProxy response) {
+//        if (brandNew == true) {
+//          EntityProxyId<PeopleJdoProxy> id = (EntityProxyId<PeopleJdoProxy>) response.stableId();
+//          presenter.goTo(new PeopleEditPlace(id));
+//        } else {
+          edit(response);
+        //}
+      }
+      public void onFailure(ServerFailure error) {
+        super.onFailure(error);
+      }
+      public void onConstraintViolation(Set<ConstraintViolation<?>> violations) {
+        super.onConstraintViolation(violations);
+      }
+    };
+    return r;
   }
   
-  private String getSchool(Long schoolId) {
-    if (schoolId == null || schoolId == 0 || schools == null || schools.size() ==0) {
-      return "";
+  public void findId(EntityProxyId<PeopleJdoProxy> id) {
+    initEditor();
+    
+    if (id == null) {
+      edit(null); // create a new one
+      return;
     }
-    String s = "";
-    for (SchoolJdoProxy school : schools) {
-      if (school.getIdLong() != null && school.getIdLong() == schoolId) {
-        s = school.getName();
+    
+    Request<PeopleJdoProxy> req = clientFactory.getRequestFactory().getPeopleJdoRequest().find(id).with(driver.getPaths());
+    req.fire(new Receiver<PeopleJdoProxy>() {
+      public void onSuccess(PeopleJdoProxy peopleJdoProxy) {
+        edit(peopleJdoProxy);
       }
-    }
-    return s;
+    });
   }
+  
+  /**
+   * edit object
+   * @param peopleDataProxy
+   */
+  private void edit(PeopleJdoProxy peopleDataProxy) {
+    PeopleJdoRequest context = clientFactory.getRequestFactory().getPeopleJdoRequest();
+    
+    if (peopleDataProxy == null) {
+      peopleDataProxy = context.create(PeopleJdoProxy.class);
+      
+      peopleDataProxy.setAccountId(clientFactory.getAccountId());
+      
+      // google emails
+      if (peopleDataProxy.getGoogleEmails() == null) {
+        List<String> list = new ArrayList<String>();
+        peopleDataProxy.setGoogleEmails(list);
+      }
+     
+      // consultants
+      if (peopleDataProxy.getConsultantsPeopleIds() == null) {
+        List<Long> list = new ArrayList<Long>();
+        peopleDataProxy.setConsultantsPeopleIds(list);
+      }
+      
+      // teachers
+      if (peopleDataProxy.getTeachersPeopleIds() == null) {
+        List<Long> list = new ArrayList<Long>();
+        peopleDataProxy.setTeachersPeopleIds(list);
+      }
+      
+      // parents
+      if (peopleDataProxy.getParentPeopleIds() == null) {
+        List<Long> list = new ArrayList<Long>();
+        peopleDataProxy.setParentPeopleIds(list);
+      }
+      
+      // plans
+      if (peopleDataProxy.getPlans() == null) {
+        List<Long> list = new ArrayList<Long>();
+        peopleDataProxy.setPlans(list);
+      }
+      
+    } 
+    
+    try {
+      driver.edit(peopleDataProxy, context);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
+    String[] paths = driver.getPaths();
+    context.persist().using(peopleDataProxy).with(paths).to(getReciever());
+  }
+
+  /**
+   * setup the driver and editor and add to ui
+   */
+  private void initEditor() {
+    if (editor != null) {
+      return;
+    }
+
+    // PersonEditor is a that extends Editor<Person> and render the ui
+    editor = new PersonEditor();
+    editor.setClientFactory(clientFactory);
+    editor.setPresenter(presenter);
+    pPersonEdit.clear();
+    pPersonEdit.add(editor);
+    
+    driver.initialize(clientFactory.getRequestFactory(), editor);
+    
+    editor.addEditHandler(new EditorEditEventHandler<PeopleJdoProxy>() {
+      public void onEditEvent(EditorEditEvent<PeopleJdoProxy> event) {
+        if (event.getEvent() == Edit.SAVEIT) {
+          save();
+        }
+      }
+    });
+  }
+
+  private void save() {
+
+    // TODO comes back null, maybe due to no sub editors
+    //    if (driver.hasErrors()) {
+    //      // A sub-editor reported errors
+    //      System.out.println("test");
+    //    }
+
+    // DEBUG
+    String s = EditorHierarchyPrinter.toString(driver);
+    System.out.println("EditorHierarchyPrinter = " + s);
+
+    
+    setState(State.SAVING);
+    RequestContext req = driver.flush();
+    req.fire(new Receiver<Void>() {
+      public void onSuccess(Void response) {
+        presenter.setRunning(false);
+        setState(State.EDITING);
+        if (goBack == true) {
+          goBack();
+        }
+      }
+      public void onConstraintViolation(Set<ConstraintViolation<?>> violations) {
+        super.onConstraintViolation(violations);
+        setState(State.EDITING);
+        wError.showError(5000, "Server Error, please try again.");
+      }
+      public void onFailure(ServerFailure error) {
+        super.onFailure(error);
+        setState(State.EDITING);
+        wError.showError(5000, "Server Error, please try again.");
+      }
+    });
+  }
+
+  private void setState(State state) {
+    if (state == State.EDITING) {
+      wLoading.showLoading(false);
+      bSave.setEnabled(true);
+      presenter.setRunning(false);
+
+    } else if (state == State.SAVING) {
+      wLoading.showLoading(true);
+      bSave.setEnabled(false);
+      presenter.setRunning(true);
+    } 
+  }
+
+  @UiHandler("bSave")
+  void onBSaveClick(ClickEvent event) {
+    save();
+  }
+
+  public final HandlerRegistration addEditHandler(EditorEditEventHandler<PeopleJdoProxy> handler) {
+    return addHandler(handler, EditorEditEvent.TYPE);
+  }
+
 }
 }}}
