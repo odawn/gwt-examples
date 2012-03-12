@@ -6,6 +6,6 @@
 Test this out
 
 {{{
-  @Persistent(defaultFetchGroup = "true", dependentElement = "true")
+  @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, targetEntity = TodoData.class)
   private List<TodoData> todos;
 }}}
