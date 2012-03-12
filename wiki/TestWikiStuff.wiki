@@ -6,7 +6,68 @@
 Test this out
 
 {{{
-    FormPanel form = new FormPanel((String) null); // (String) null gets rid of self target
-    form.setAction(action);
-    form.setMethod(FormPanel.METHOD_POST);
+public class BooleanYesNo extends Composite implements LeafValueEditor<Boolean> {
+
+  interface BooleanYesNoUiBinder extends UiBinder<Widget, BooleanYesNo> {}
+  private static BooleanYesNoUiBinder uiBinder = GWT.create(BooleanYesNoUiBinder.class);
+  @UiField CheckBox yes;
+  @UiField CheckBox no;
+  
+  private Presenter presenter;
+
+  public BooleanYesNo() {
+    initWidget(uiBinder.createAndBindUi(this));
+  }
+  
+  public void setPresenter(Presenter presenter) {
+    this.presenter = presenter;
+  }
+
+  @Override
+  public void setValue(Boolean value) {
+    if (value == null) {
+      yes.setValue(false);
+      no.setValue(false);
+      
+    } else if (value == true) {
+      yes.setValue(true);
+      no.setValue(false);
+      
+    } else if (value == false) {
+      yes.setValue(false);
+      no.setValue(true);
+    }
+  }
+
+  @Override
+  public Boolean getValue() {
+    Boolean b = null;
+    if (yes.getValue() == false && no.getValue() == false)  {
+      b = null;
+    } else if (yes.getValue() == true) {
+      b = true;
+    } else if (no.getValue() == true) {
+      b = false;
+    }
+    return b;
+  }
+
+  @UiHandler("yes")
+  void onYesClick(ClickEvent event) {
+    presenter.setRunning(true);
+    if (yes.getValue() == true) {
+      no.setValue(false);
+    }
+    presenter.setRunning(true);
+  }
+  
+  @UiHandler("no")
+  void onNoClick(ClickEvent event) {
+    presenter.setRunning(true);
+    if (no.getValue() == true) {
+      yes.setValue(false);
+    }
+  }
+  
+}
 }}}
