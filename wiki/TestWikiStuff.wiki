@@ -6,17 +6,39 @@
 Test this out
 
 {{{
-public class BooleanYesNo extends Composite implements LeafValueEditor<Boolean> {
+public class SchoolDropDown extends Composite implements LeafValueEditor<Long>, ValueAwareEditor<Long> {
 
-  interface BooleanYesNoUiBinder extends UiBinder<Widget, BooleanYesNo> {}
-  private static BooleanYesNoUiBinder uiBinder = GWT.create(BooleanYesNoUiBinder.class);
-  @UiField CheckBox yes;
-  @UiField CheckBox no;
-  
+  interface SchoolDropDownUiBinder extends UiBinder<Widget, SchoolDropDown> {}
+  private static SchoolDropDownUiBinder uiBinder = GWT.create(SchoolDropDownUiBinder.class);
+  @UiField(provided = true) 
+  ValueListBox<Long> schoolId = new ValueListBox<Long>(new com.google.gwt.text.shared.Renderer<Long>() {
+    public String render(Long object) {
+      return getSchool(object);
+    }
+    public void render(Long object, Appendable appendable) throws IOException {
+      String s = render(object);
+      appendable.append(s);
+    }
+  });
+
+  private ClientFactory clientFactory;
   private Presenter presenter;
+  private List<SchoolJdoProxy> schools;
+  private Long schoolIdLong;
 
-  public BooleanYesNo() {
+  public SchoolDropDown() {
     initWidget(uiBinder.createAndBindUi(this));
+    
+    schoolId.addValueChangeHandler(new ValueChangeHandler<Long>() {
+      public void onValueChange(ValueChangeEvent<Long> event) {
+        presenter.setRunning(true);
+      }
+    });
+  }
+  
+  public void setClientFactory(ClientFactory clientFactory) {
+    this.clientFactory = clientFactory;
+    loadSchools();
   }
   
   public void setPresenter(Presenter presenter) {
@@ -24,50 +46,65 @@ public class BooleanYesNo extends Composite implements LeafValueEditor<Boolean> 
   }
 
   @Override
-  public void setValue(Boolean value) {
-    if (value == null) {
-      yes.setValue(false);
-      no.setValue(false);
-      
-    } else if (value == true) {
-      yes.setValue(true);
-      no.setValue(false);
-      
-    } else if (value == false) {
-      yes.setValue(false);
-      no.setValue(true);
-    }
+  public void setValue(Long value) {
+    this.schoolIdLong = value; 
+    schoolId.setValue(schoolIdLong);
   }
 
   @Override
-  public Boolean getValue() {
-    Boolean b = null;
-    if (yes.getValue() == false && no.getValue() == false)  {
-      b = null;
-    } else if (yes.getValue() == true) {
-      b = true;
-    } else if (no.getValue() == true) {
-      b = false;
-    }
-    return b;
+  public Long getValue() {
+    Long selected = schoolId.getValue();
+    return selected;
   }
 
-  @UiHandler("yes")
-  void onYesClick(ClickEvent event) {
-    presenter.setRunning(true);
-    if (yes.getValue() == true) {
-      no.setValue(false);
-    }
-    presenter.setRunning(true);
+  @Override
+  public void setDelegate(EditorDelegate<Long> delegate) {
+  }
+
+  @Override
+  public void flush() {
+  }
+
+  @Override
+  public void onPropertyChange(String... paths) {
   }
   
-  @UiHandler("no")
-  void onNoClick(ClickEvent event) {
-    presenter.setRunning(true);
-    if (no.getValue() == true) {
-      yes.setValue(false);
+  private void loadSchools() {
+    SchoolJdoRequest req = clientFactory.getRequestFactory().getSchoolJdoRequest();
+    SchoolJdoFilterProxy filter = req.create(SchoolJdoFilterProxy.class);
+    filter.setLimit(100);
+    filter.setAccountId(clientFactory.getAccountId());
+    req.findSchoolList(filter).fire(new Receiver<List<SchoolJdoProxy>>() {
+      public void onSuccess(List<SchoolJdoProxy> schoolJdoProxyList) {
+        processSchool(schoolJdoProxyList);
+      }
+    });
+  }
+
+  private void processSchool(List<SchoolJdoProxy> schoolJdoProxyList) {
+    this.schools = schoolJdoProxyList;
+    if (schoolJdoProxyList == null || schoolJdoProxyList.isEmpty()) {
+      return;
     }
+    List<Long> longList = new ArrayList<Long>();
+    for (SchoolJdoProxy schoolJdoProxy : schoolJdoProxyList) {
+      longList.add(schoolJdoProxy.getIdLong());
+    }
+    schoolId.setAcceptableValues(longList);
+    schoolId.setValue(schoolIdLong);
   }
   
+  private String getSchool(Long schoolId) {
+    if (schoolId == null || schoolId == 0 || schools == null || schools.size() ==0) {
+      return "";
+    }
+    String s = "";
+    for (SchoolJdoProxy school : schools) {
+      if (school.getIdLong() != null && school.getIdLong() == schoolId) {
+        s = school.getName();
+      }
+    }
+    return s;
+  }
 }
 }}}
