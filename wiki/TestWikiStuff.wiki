@@ -37,3 +37,52 @@ import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
     return response;
   }
 }}}
+
+
+{{{
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
+  protected String makeRequest(String postData) throws MissingParameterException, InvalidResponseDataException, RequestFailureException, IOException {
+
+    String surl = "https://api-3t.paypal.com/nvp";
+
+    String response = "";
+    try {
+      URL url = new URL(surl);
+      HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+      connection.setDoOutput(true);
+      connection.setConnectTimeout(30000);
+      connection.setReadTimeout(30000);
+      connection.setRequestMethod("POST");
+
+      OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+      writer.write(postData);
+      writer.close();
+
+      if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+        String inputLine;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
+        while ((inputLine = reader.readLine()) != null) {
+          response += inputLine;
+        }
+        reader.close();
+
+        if(response.length() <= 0){
+          throw new InvalidResponseDataException(response);
+        }
+
+      } else {
+        System.out.println("no work?");
+      }
+    } catch (MalformedURLException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } 
+    return response;
+  }
+}}}
