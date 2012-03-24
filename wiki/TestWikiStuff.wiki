@@ -6,19 +6,21 @@
 Test this out
 
 {{{
-  public String fetch(String postdata) {
+import com.google.appengine.api.urlfetch.FetchOptions;
+import com.google.appengine.api.urlfetch.HTTPMethod;
+import com.google.appengine.api.urlfetch.HTTPRequest;
+import com.google.appengine.api.urlfetch.HTTPResponse;
+import com.google.appengine.api.urlfetch.URLFetchService;
+import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
+
+  public String fetch(String postdata) throws IOException {
 
     String surl = "https://api-3t.paypal.com/nvp";
 
     URLFetchService urlFetchService = URLFetchServiceFactory.getURLFetchService();
 
-    URL url = null;
-    try {
-      url = new URL(surl);
-    } catch (MalformedURLException e) {
-      e.printStackTrace();
-    }
-    
+    URL url = new URL(surl);
+
     FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
     fetchOptions.doNotValidateCertificate();
     fetchOptions.setDeadline(60D);
@@ -26,13 +28,7 @@ Test this out
     HTTPRequest request = new HTTPRequest(url, HTTPMethod.POST, fetchOptions);
     request.setPayload(postdata.getBytes());
     
-    HTTPResponse httpResponse = null;
-    try {
-      httpResponse = urlFetchService.fetch(request);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
+    HTTPResponse httpResponse = urlFetchService.fetch(request);
     String response = "";
     if (httpResponse.getResponseCode() == HttpURLConnection.HTTP_OK) {
       response = new String(httpResponse.getContent());
