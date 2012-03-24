@@ -46,7 +46,7 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
-  protected String makeRequest(String postData) throws MissingParameterException, InvalidResponseDataException, RequestFailureException, IOException {
+  public String fetch(String postData) throws IOException {
 
     String surl = "https://api-3t.paypal.com/nvp";
 
@@ -70,11 +70,6 @@ import java.net.URLEncoder;
           response += inputLine;
         }
         reader.close();
-
-        if(response.length() <= 0){
-          throw new InvalidResponseDataException(response);
-        }
-
       } else {
         System.out.println("no work?");
       }
