@@ -6,6 +6,38 @@
 Test this out
 
 {{{
-  @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL}, targetEntity = TodoData.class)
-  private List<TodoData> todos;
+  public String fetch(String postdata) {
+
+    String surl = "https://api-3t.paypal.com/nvp";
+
+    URLFetchService urlFetchService = URLFetchServiceFactory.getURLFetchService();
+
+    URL url = null;
+    try {
+      url = new URL(surl);
+    } catch (MalformedURLException e) {
+      e.printStackTrace();
+    }
+    
+    FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
+    fetchOptions.doNotValidateCertificate();
+    fetchOptions.setDeadline(60D);
+
+    HTTPRequest request = new HTTPRequest(url, HTTPMethod.POST, fetchOptions);
+    request.setPayload(postdata.getBytes());
+    
+    HTTPResponse httpResponse = null;
+    try {
+      httpResponse = urlFetchService.fetch(request);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    String response = "";
+    if (httpResponse.getResponseCode() == HttpURLConnection.HTTP_OK) {
+      response = new String(httpResponse.getContent());
+    } 
+
+    return response;
+  }
 }}}
