@@ -6,97 +6,12 @@
 Test this out
 
 {{{
-import com.google.appengine.api.urlfetch.FetchOptions;
-import com.google.appengine.api.urlfetch.HTTPMethod;
-import com.google.appengine.api.urlfetch.HTTPRequest;
-import com.google.appengine.api.urlfetch.HTTPResponse;
-import com.google.appengine.api.urlfetch.URLFetchService;
-import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
-
-  public String fetch(String postdata) throws IOException {
-
-    String surl = "https://api-3t.paypal.com/nvp";
-
-    URLFetchService urlFetchService = URLFetchServiceFactory.getURLFetchService();
-
-    URL url = new URL(surl);
-
-    FetchOptions fetchOptions = FetchOptions.Builder.withDefaults();
-    fetchOptions.doNotValidateCertificate();
-    fetchOptions.setDeadline(60D);
-
-    HTTPRequest request = new HTTPRequest(url, HTTPMethod.POST, fetchOptions);
-    request.setPayload(postdata.getBytes());
-    
-    HTTPResponse httpResponse = urlFetchService.fetch(request);
-    String response = "";
-    if (httpResponse.getResponseCode() == HttpURLConnection.HTTP_OK) {
-      response = new String(httpResponse.getContent());
-    } 
-
-    return response;
-  }
-}}}
-
-
-{{{
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-
-  public String fetch(String postData) throws IOException {
-
-    String surl = "https://api-3t.paypal.com/nvp";
-
-    String response = "";
-    try {
-      URL url = new URL(surl);
-      HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-      connection.setDoOutput(true);
-      connection.setConnectTimeout(30000);
-      connection.setReadTimeout(30000);
-      connection.setRequestMethod("POST");
-
-      OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-      writer.write(postData);
-      writer.close();
-
-      if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-        String inputLine;
-        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), "UTF-8"));
-        while ((inputLine = reader.readLine()) != null) {
-          response += inputLine;
-        }
-        reader.close();
-      } else {
-        System.out.println("no work?");
-      }
-    } catch (MalformedURLException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    } 
-    return response;
-  }
-}}}
-
-{{{
-  private String getPostData(Map<String, String> map) {
-    String s = "";
-
-    Set<String> keys = map.keySet();
-    for (String key : keys) {
-      try {
-        s += key + "=" + URLEncoder.encode(map.get(key), "UTF-8");
-      } catch (UnsupportedEncodingException e) {
-        e.printStackTrace();
-      }
-      s += "&";
-    }
-
-    s = s.replaceFirst("&$", "");
-    return s;
-  }
+	<servlet>
+		<servlet-name>appenginetask</servlet-name>
+		<servlet-class>org.gonevertical.server.servlet.ServletRunAppEngineTask</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>appenginetask</servlet-name>
+		<url-pattern>/task</url-pattern>
+	</servlet-mapping>
 }}}
