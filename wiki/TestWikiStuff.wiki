@@ -6,15 +6,242 @@
 Test this out
 
 {{{
-public enum TaskType {
-  CODESIMPORT;
+@PersistenceCapable
+public class TaskJdo {
   
-  public String value() {
-    return name().toLowerCase();
+  private static final Logger log = Logger.getLogger(TaskJdo.class.getName());
+  
+  public static TaskJdo findTaskJdo(String id) {
+    return RequestFactoryUtilsJdo.find(TaskJdo.class, id);
   }
-  public static TaskType fromValue(String v) {
-    return valueOf(v.toUpperCase());
+  
+  public static TaskJdo createTask() {
+    TaskJdo t = new TaskJdo();
+    t.persist();
+    return t;
   }
+  
+  public static TaskJdo runTask(TaskJdoFilter filter) {
+    StartAppEngineTask startTask = new StartAppEngineTask();
+    
+    TaskJdo taskJdo = null;
+    if (filter.getProcessCodes() != null && filter.getProcessCodes() == true) {
+      taskJdo = startTask.run(TaskType.CODESIMPORT, null);
+    }
+    
+    return taskJdo;
+  }
+  
+  public static TaskJdo findTaskJdoFromLong(Long id) {
+    TaskJdo d = RequestFactoryUtilsJdo.find(TaskJdo.class, id);
+    return d;
+  }
+
+  public static List<TaskJdo> findTaskList(TaskJdoFilter filter) {
+    ArrayList<Filter> tfilter = null;
+    if (filter.getSearch() != null) {
+      tfilter = new ArrayList<Filter>();
+      List<String> searchList = filter.getSearch();
+      Iterator<String> itr = searchList.iterator();
+      while(itr.hasNext()) {
+        String s = itr.next();
+        if (s != null) {
+          s = s.toLowerCase().trim();
+          Filter f = new Filter("search", FilterOperator.EQUAL, s);
+          tfilter.add(f);
+        }
+      }
+    } 
+    
+    if (filter.getLimit() == 0) {
+      System.out.println("Did you forget to set the limit? !!!!!!!!");
+    }
+
+    List<TaskJdo> list = RequestFactoryUtilsJdo.findList(TaskJdo.class, tfilter, filter.getOffset(), filter.getLimit());
+    if (list == null) {
+      list = new ArrayList<TaskJdo>();
+    }
+    return list;
+  }
+
+  public static Long findCount(TaskJdoFilter filter) {
+    ArrayList<Filter> tfilter = null;
+    if (filter.getSearch() != null) {
+      tfilter = new ArrayList<Filter>();
+      List<String> searchList = filter.getSearch();
+      Iterator<String> itr = searchList.iterator();
+      while(itr.hasNext()) {
+        String s = itr.next();
+        if (s != null) {
+          s = s.toLowerCase().trim();
+          Filter f = new Filter("search", FilterOperator.EQUAL, s);
+          tfilter.add(f);
+        }
+      }
+    } 
+
+    Long count = RequestFactoryUtilsJdo.findCount(TaskJdo.class, tfilter);
+    return count;
+  }
+  
+  
+  
+
+  @PrimaryKey
+  @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+  private Key key;
+  
+  @Persistent
+  private Long version;
+
+  @Persistent
+  private Date dateCreated;
+
+  @Persistent
+  private TaskType taskType;
+
+  @Persistent
+  private Boolean finished;
+  
+  @Persistent
+  private Date dateFinished;
+
+  @Persistent
+  private HashSet<HashMapJdo> parameters;
+
+  @Persistent
+  private Text note;
+  
+  @Persistent
+  private Text error;
+  
+  
+  public void setId(String id) {
+    if (id == null) {
+      return;
+    }
+    key = KeyFactory.stringToKey(id);
+  }
+  public String getId() {
+    String id = null;
+    if (key != null) {
+      id = KeyFactory.keyToString(key);
+    }
+    return id;
+  }
+  public Long getIdLong() {
+    Long id = null;
+    if (key != null) {
+      id = key.getId();
+    }
+    return id;
+  }
+
+  public void setVersion(Long version) {
+    this.version = version;
+  }
+  public Long getVersion() {
+    if (version == null) {
+      version = 0l;
+    }
+    return version;
+  }
+  private void incrementVersion() {
+    if (version == null) {
+      version = 0l;
+    } else {
+      version++;
+    }
+  }
+  
+  private void setDateCreated() {
+    if (dateCreated == null) {
+      dateCreated = new Date();
+    }
+  }
+  public Date getDateCreated() {
+    return this.dateCreated;
+  }
+  
+  public void setTaskType(TaskType taskType) {
+    this.taskType = taskType;
+  }
+  public TaskType getTaskType() {
+    return taskType;
+  }
+
+  public void setDateFinished(Date dateFinished) {
+    this.dateFinished = dateFinished;
+  }
+  public Date getDateFinished() {
+    return dateFinished;
+  }
+  
+  public void setFinished(Boolean finished) {
+    this.finished = finished;
+  }
+  public Boolean getFinished() {
+    return finished;
+  }
+  
+  public void setParameters(HashSet<HashMapJdo> parameters) {
+    this.parameters = parameters;
+  }
+  public HashSet<HashMapJdo> getParameters() {
+    return parameters;
+  }
+  
+  public void setNote(String note) {
+    if (note == null) {
+      this.note = null;
+    } else {
+      this.note = new Text(note);
+    }
+  }
+  public String getNote() {
+    if (note == null) {
+      return null;
+    } else {
+      return note.getValue();
+    }
+  }
+  
+  public void setError(String error) {
+    if (error == null) {
+      this.error = null;
+    } else {
+      this.error = new Text(error);
+    }
+  }
+  public String getError() {
+    if (error == null) {
+      return null;
+    } else {
+      return error.getValue();
+    }
+  }
+  
+  public TaskJdo persist() {
+    incrementVersion();
+    setDateCreated();
+    return RequestFactoryUtilsJdo.persist(this);
+  }
+  public boolean remove() {
+    return RequestFactoryUtilsJdo.remove(this);
+  }
+  
+ 
+  public String toString() {
+    String s = "";
+    s += "key=" + key + " ";
+    s += "taskType=" + taskType + " ";
+    s += "dateCreated=" + dateCreated + " ";
+    s += "finished=" + finished + " ";
+    s += "dateFinished=" + finished + " "; 
+    s += "hashmap={ " + parameters + " } ";
+    return s;
+  }  
+
 }
 }}}
 
