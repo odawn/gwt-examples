@@ -6,35 +6,15 @@
 Test this out
 
 {{{
-public class ServletRunAppEngineTask extends HttpServlet {
+public enum TaskType {
+  CODESIMPORT;
   
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    
-    String id = request.getParameter("taskId");
-    TaskJdo taskJdo = isTaskLegit(id);
-    if (taskJdo == null) {
-      return;
-    }
-   
-    if (taskJdo.getTaskType() == TaskType.CODESIMPORT) {
-      runCodesImport(taskJdo);
-    } 
-    
+  public String value() {
+    return name().toLowerCase();
   }
-  
-  private TaskJdo isTaskLegit(String taskId) {
-    if (taskId == null) {
-      return null;
-    }
-    TaskJdo task = TaskJdo.findTaskJdo(taskId);
-    return task;
+  public static TaskType fromValue(String v) {
+    return valueOf(v.toUpperCase());
   }
-
-  private void runCodesImport(TaskJdo taskJdo) {
-    ProcessCodes process = new ProcessCodes();
-    process.runProcessCodes(taskJdo);
-  }
-  
 }
 }}}
 
