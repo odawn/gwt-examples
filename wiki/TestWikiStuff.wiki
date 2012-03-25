@@ -6,109 +6,39 @@
 Test this out
 
 {{{
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.gonevertical.server.jdo.TaskJdo;
-
-import com.google.appengine.api.taskqueue.Queue;
-import com.google.appengine.api.taskqueue.QueueFactory;
-import com.google.appengine.api.taskqueue.TaskOptions;
-import com.google.appengine.api.taskqueue.TaskOptions.Method;
-
-public class StartAppEngineTask {
-
-  private static final Logger log = Logger.getLogger(StartAppEngineTask.class.getName());
-
-  private TaskJdo taskJdo;
+public class ServletRunAppEngineTask extends HttpServlet {
   
-  public TaskJdo run(TaskType taskType, HashMap<String, String> parameters) {
-    String url = createTask(taskType, parameters);
-    try {
-      TaskOptions taskOptions = TaskOptions.Builder.withUrl(url).method(Method.GET);
-      Queue queue = QueueFactory.getDefaultQueue();
-      queue.add(taskOptions);
-    } catch (Exception e) {
-      log.log(Level.SEVERE, "run task error=", e);
-      removeTask();
-    }
-    return taskJdo;
-  }
-  
-  public TaskJdo run(TaskType taskType, HashMap<String, String> parameters, String queueName) {
-    String url = createTask(taskType, parameters);
-    try {
-      TaskOptions taskOptions = TaskOptions.Builder.withUrl(url).method(Method.GET);
-      Queue queue = QueueFactory.getQueue(queueName);
-      queue.add(taskOptions);
-    } catch (Exception e) {
-      log.log(Level.SEVERE, "run task error=", e);
-      removeTask();
-    }
-    return taskJdo;
-  }
-
-  public TaskJdo run(HttpServletRequest request, TaskType task, HashMap<String, String> parameters) {
-    String url = createTask(task, parameters);
-    try {
-      TaskOptions taskOptions = TaskOptions.Builder.withUrl(url).header("Cookie", request.getHeader("Cookie")).method(Method.GET);
-      Queue queue = QueueFactory.getDefaultQueue();
-      queue.add(taskOptions);
-    } catch (Exception e) {
-      log.log(Level.SEVERE, "run task error=", e);
-      removeTask();
-    }
-    return taskJdo;
-  }
-  
-  public TaskJdo run(HttpServletRequest request, TaskType taskType, HashMap<String, String> parameters, String queueName) {
-    String url = createTask(taskType, parameters);
-    try {
-      TaskOptions taskOptions = TaskOptions.Builder.withUrl(url).header("Cookie", request.getHeader("Cookie")).method(Method.GET);
-      Queue queue = QueueFactory.getQueue(queueName);
-      queue.add(taskOptions);
-    } catch (Exception e) {
-      log.log(Level.SEVERE, "run task error=", e);
-      removeTask();
-    }
-    return taskJdo;
-  }
-  
-  private String createTask(TaskType taskType, HashMap<String, String> parameters) {
-    taskJdo = new TaskJdo();
-    taskJdo.setTaskType(taskType);
-    taskJdo.persist();
-    if (parameters == null) {
-      parameters = new HashMap<String, String>();
-    }
-    parameters.put("taskId", taskJdo.getId());
-    String url = "/task?" + getSerializedParameters(parameters);;
-    return url;
-  }
-  
-  private String getSerializedParameters(HashMap<String, String> params) {
-    if (params == null) {
-      return "";
-    }
-    String s = "";
-    Collection<String> keys = params.keySet();
-    for (String key: keys){
-      String value = params.get(key);
-      s  += "&" + key + "=" + value;
-    } 
-    return s;
-  }
-  
-  private void removeTask() {
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    
+    String id = request.getParameter("taskId");
+    TaskJdo taskJdo = isTaskLegit(id);
     if (taskJdo == null) {
       return;
     }
-    taskJdo.remove();
+   
+    if (taskJdo.getTaskType() == TaskType.CODESIMPORT) {
+      runCodesImport(taskJdo);
+    } 
+    
+  }
+  
+  private TaskJdo isTaskLegit(String taskId) {
+    if (taskId == null) {
+      return null;
+    }
+    TaskJdo task = TaskJdo.findTaskJdo(taskId);
+    return task;
+  }
+
+  private void runCodesImport(TaskJdo taskJdo) {
+    ProcessCodes process = new ProcessCodes();
+    process.runProcessCodes(taskJdo);
   }
   
 }
+}}}
+
+
+{{{
+
 }}}
