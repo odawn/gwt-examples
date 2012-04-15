@@ -6,9 +6,9 @@
 Test this out
 
 {{{
-     private void setValidDates(ShowRangeEvent<Date> dateShowRangeEvent) {
-        Date start = dateShowRangeEvent.getStart();
-        Date end = dateShowRangeEvent.getEnd();
+     private void setValidDates(ShowRangeEvent<Date> dateRangeEvent) {
+        Date start = dateRangeEvent.getStart();
+        Date end = dateRangeEvent.getEnd();
 
         Integer daysBetween = CalendarUtil.getDaysBetween(start, end);
 
