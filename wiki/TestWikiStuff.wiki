@@ -6,7 +6,7 @@
 Test this out
 
 {{{
-private void setDatePickable(Date date) {
+  private void setDatePickable(Date date) {
         Boolean enabled = true;
         if (date.before(getStart())) {
             enabled = false;
