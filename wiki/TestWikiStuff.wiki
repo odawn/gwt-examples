@@ -6,7 +6,7 @@
 Test this out
 
 {{{
-     private void setValidDates(ShowRangeEvent<Date> dateRangeEvent) {
+    private void setValidDates(ShowRangeEvent<Date> dateRangeEvent) {
         Date start = dateRangeEvent.getStart();
         Date end = dateRangeEvent.getEnd();
 
