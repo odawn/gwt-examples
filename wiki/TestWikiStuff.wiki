@@ -6,16 +6,10 @@
 Test this out
 
 {{{
-    private void setValidDates(ShowRangeEvent<Date> dateRangeEvent) {
-        Date start = dateRangeEvent.getStart();
-        Date end = dateRangeEvent.getEnd();
-
-        Integer daysBetween = CalendarUtil.getDaysBetween(start, end);
-
-        for (int i = 0; i < daysBetween; i++) {
-            Date date = new Date(start.getTime());
-            CalendarUtil.addDaysToDate(date, i);
-            setDatePickable(date);
-        }
-    }
+       datePicker.addShowRangeHandler(new ShowRangeHandler<Date>() {
+            @Override
+            public void onShowRange(ShowRangeEvent<Date> dateShowRangeEvent) {
+                setValidDates(dateShowRangeEvent);
+            }
+        });
 }}}
