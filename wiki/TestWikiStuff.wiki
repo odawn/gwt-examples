@@ -6,24 +6,13 @@
 Test this out
 
 {{{
-public class DatePickerEnhanced extends DatePicker {
-    public static DatePickerEnhanced newInstance() {
-        DefaultMonthSelector monthSelector = new DefaultMonthSelector();
-        CalendarView view = new DefaultCalendarView();
-        CalendarModel model = new CalendarModel();
-        return new DatePickerEnhanced(monthSelector, view, model);
+private void setDatePickable(Date date) {
+        Boolean enabled = true;
+        if (date.before(getStart())) {
+            enabled = false;
+        } else if (date.after(getFinish())) {
+            enabled = false;
+        }
+        datePicker.getCalendarView().setEnabledOnDate(enabled, date);
     }
-
-    public DatePickerEnhanced() {
-        super(new DefaultMonthSelector(), new DefaultCalendarView(), new CalendarModel());
-    }
-
-    public DatePickerEnhanced(DefaultMonthSelector monthSelector, CalendarView view, CalendarModel model) {
-        super(monthSelector, view, model);
-    }
-
-    public CalendarView getCalendarView() {
-        return getView();
-    }
-}
 }}}
