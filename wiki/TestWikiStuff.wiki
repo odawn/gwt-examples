@@ -6,33 +6,24 @@
 Test this out
 
 {{{
-import com.google.appengine.api.taskqueue.Queue;
-import com.google.appengine.api.taskqueue.QueueFactory;
-import com.google.appengine.api.taskqueue.TaskOptions;
+public class DatePickerEnhanced extends DatePicker {
+    public static DatePickerEnhanced newInstance() {
+        DefaultMonthSelector monthSelector = new DefaultMonthSelector();
+        CalendarView view = new DefaultCalendarView();
+        CalendarModel model = new CalendarModel();
+        return new DatePickerEnhanced(monthSelector, view, model);
+    }
 
-  public void startTask() {
-    String dothis = "pass in something";
-    DemoDeferredTask payload = new DemoDeferredTask(dothis);
-    
-    TaskOptions options = TaskOptions.Builder.withPayload(payload);
-    Queue que = QueueFactory.getDefaultQueue();
-    que.add(options);
-  }
-}}}
+    public DatePickerEnhanced() {
+        super(new DefaultMonthSelector(), new DefaultCalendarView(), new CalendarModel());
+    }
 
-{{{
-import com.google.appengine.api.taskqueue.DeferredTask;
+    public DatePickerEnhanced(DefaultMonthSelector monthSelector, CalendarView view, CalendarModel model) {
+        super(monthSelector, view, model);
+    }
 
-public class DemoDeferredTask implements DeferredTask {
-  private String dothis;
-
-  public DemoDeferredTask(String dothis) {
-    this.dothis = dothis;
-  }
-  
-  @Override
-  public void run() {
-  }
-
+    public CalendarView getCalendarView() {
+        return getView();
+    }
 }
 }}}
