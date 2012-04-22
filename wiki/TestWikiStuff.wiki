@@ -23,10 +23,10 @@ Test this out
   }
   
   public maybeGoto() {
-      if (newPlace == null)  {
-        return;
-      }
-      where = newPlace;
-      eventBus.fireEvent(new PlaceChangeEvent(newPlace));
+    if (newPlace == null)  {
+      return;
+    }
+    where = newPlace;
+    eventBus.fireEvent(new PlaceChangeEvent(newPlace));
   }
 }}}
