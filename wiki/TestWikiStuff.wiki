@@ -6,16 +6,9 @@
 Test this out
 
 {{{
-public class MyPopup extends DialogBox {
-  interface MyPopupUiBinder extends UiBinder<Widget, MyPopup> {}
-  private static MyPopupUiBinder uiBinder = GWT.create(MyPopupUiBinder.class);
-
-  public MyPopup() {
-    super(false, true);
-    
-    setWidget(uiBinder.createAndBindUi(this));
-    
-    setGlassEnabled(true);
-  }
+.gwt-PopupPanelGlass {
+  opacity:0.3;
+  filter:alpha(opacity=30);
+  background-color: grey;
 }
 }}}
