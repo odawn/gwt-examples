@@ -6,7 +6,7 @@
 Test this out
 
 {{{
- private static native void pushEvent() /*-{
+   private static native void pushEvent() /*-{
     try {
       $wnd._gaq.push(['_trackPageview']);
     } catch (e) {
