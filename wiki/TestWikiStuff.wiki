@@ -6,9 +6,25 @@
 Test this out
 
 {{{
-.gwt-PopupPanelGlass {
-  opacity:0.3;
-  filter:alpha(opacity=30);
-  background-color: grey;
+package org.gonevertical.client.app;
+
+import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.place.shared.Place;
+import com.google.gwt.place.shared.PlaceController;
+
+public class PlaceControllerEnhanced extends PlaceController {
+
+  private ClientFactory clientFactory;
+
+  public PlaceControllerEnhanced(ClientFactory clientFactory, EventBus eventBus, Delegate delegate) {
+    super(eventBus, delegate);
+    this.clientFactory = clientFactory;
+  }
+
+  @Override
+  public void goTo(Place newPlace) {
+    this.clientFactory.setMaybeGoto(newPlace);
+    super.goTo(newPlace);
+  }
 }
 }}}
