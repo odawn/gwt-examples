@@ -6,25 +6,24 @@
 Test this out
 
 {{{
-public interface ApplicationRequestFactory extends RequestFactory {
-    UserJdoRequest getUserJdoRequest();
-    //...
-}
-}}}
+  public void onModuleLoad() {
+    setGaVars();
+    initGA();
 
-{{{
-public class ClientFactory {
-  private final ApplicationRequestFactory requestFactory = GWT.create(ApplicationRequestFactory.class);
-  private EventBus eventBus;
-
-  public ClientFactory() {
-   eventBus = new SimpleEventBus();
-   requestFactory.initialize(eventBus);
+    clientFactory = new ClientFactory();
   }
 
-  public ApplicationRequestFactory getRequestFactory() {
-    return requestFactory;
+  private void initGA() {
+    Document doc = Document.get();
+    ScriptElement script = doc.createScriptElement();
+    script.setSrc("https://ssl.google-analytics.com/ga.js");
+    script.setType("text/javascript");
+    script.setLang("javascript");
+    doc.getBody().appendChild(script);
   }
-}
 
+  public static native void setGaVars() /*-{
+    $wnd._gaq = $wnd._gaq || [];
+    $wnd._gaq.push(['_setAccount', 'UA-26038145-1']);
+  }-*/;
 }}}
