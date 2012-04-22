@@ -6,34 +6,83 @@
 Test this out
 
 {{{
-  private Receiver<? super LearningPlanJdoProxy> getReciever() {
-    Receiver<LearningPlanJdoProxy> r = new Receiver<LearningPlanJdoProxy>() {
-      public void onSuccess(LearningPlanJdoProxy response) {
-        if (brandNew == true) {
-          EntityProxyId<LearningPlanJdoProxy> id = (EntityProxyId<LearningPlanJdoProxy>) response.stableId();
-          presenter.goTo(new LearningPlanEditPlace(id));
-        } else {
-          edit(response);
-          saved();
-        }
-      }
-      public void onFailure(ServerFailure error) {
-        setState(State.EDITING);
-        wError.showError(5000, "Server Error, please try again.");
-        clientFactory.sendError(error);
-        super.onFailure(error);
-      }
-      public void onConstraintViolation(Set<ConstraintViolation<?>> violations) {
-        setState(State.EDITING);
-        wError.showError(5000, "Server Error, please try again.");
-        super.onConstraintViolation(violations);
-      }
-    };
-    return r;
+import org.gonevertical.client.app.ClientFactory;
+import org.gonevertical.client.app.requestfactory.dto.LearningPlanJdoProxy;
+
+import com.google.gwt.activity.shared.AbstractActivity;
+import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.place.shared.Place;
+import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.web.bindery.requestfactory.shared.EntityProxyId;
+
+public class LearningPlanEditActivity extends AbstractActivity implements LearningPlanEditViewImpl.LearningPlanViewPresenter {
+
+  private LearningPlanEditViewImpl view;
+  private ClientFactory clientFactory;
+  private boolean running;
+  private EntityProxyId<LearningPlanJdoProxy> id;
+  private boolean focused;
+  
+  public LearningPlanEditActivity(LearningPlanEditPlace place, ClientFactory clientFactory) {
+    this.clientFactory = clientFactory;
+    id = place.getId();
+  }
+
+  /**
+   * Invoked by the ActivityManager to start a new Activityz
+   */
+  @Override
+  public void start(AcceptsOneWidget containerWidget, EventBus eventBus) {
+    focused = true;
+    if (view == null) {
+      view = new LearningPlanEditViewImpl();
+    }
+    view.setClientFactory(clientFactory);
+    view.setPresenter(this);
+    containerWidget.setWidget(view.asWidget());
+    view.start(id);
+  }
+
+  @Override
+  public String mayStop() {
+    String s = null;
+    if (running == true) {
+      s = "Waiting to save data.";
+    }
+    return s;
   }
   
-  private void saved() {
-    presenter.setRunning(false);
-    clientFactory.getEventBus().fireEvent(new SavedEvent());
+  /**
+   * Navigate to a new Place in the browser
+   */
+  public void goTo(Place place) {
+    clientFactory.getPlaceController().goTo(place);
   }
+  
+  /**
+   * setting this running, and activity move, then a warning dailog will popup
+   */
+  public void setRunning(boolean running) {
+    this.running = running;
+  }
+  
+  public boolean isRunning() {
+    return running;
+  }
+  
+  @Override
+  public void onCancel() {
+    focused = false;
+  }
+
+  @Override
+  public void onStop() {
+    focused = false;
+  }
+
+  @Override
+  public boolean isFocused() {
+    return focused;
+  }
+}
 }}}
