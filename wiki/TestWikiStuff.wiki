@@ -6,10 +6,22 @@
 Test this out
 
 {{{
-       datePicker.addShowRangeHandler(new ShowRangeHandler<Date>() {
-            @Override
-            public void onShowRange(ShowRangeEvent<Date> dateShowRangeEvent) {
-                setValidDates(dateShowRangeEvent);
-            }
-        });
+public class PlaceController {
+//...
+  public void goTo(Place newPlace) {
+    log().fine("goTo: " + newPlace);
+
+    if (getWhere().equals(newPlace)) {
+      log().fine("Asked to return to the same place: " + newPlace);
+      return;
+    }
+
+    String warning = maybeGoTo(newPlace);
+    if (warning == null || delegate.confirm(warning)) {
+      where = newPlace;
+      eventBus.fireEvent(new PlaceChangeEvent(newPlace));
+    }
+  }
+//...
+}
 }}}
