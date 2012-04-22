@@ -6,126 +6,24 @@
 Test this out
 
 {{{
-package org.gonevertical.client.app;
-
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.place.shared.Place;
-import com.google.gwt.place.shared.PlaceController;
-
-public class PlaceControllerEnhanced extends PlaceController {
-
-  private ClientFactory clientFactory;
-
-  public PlaceControllerEnhanced(ClientFactory clientFactory, EventBus eventBus, Delegate delegate) {
-    super(eventBus, delegate);
-    this.clientFactory = clientFactory;
-  }
-
-  @Override
   public void goTo(Place newPlace) {
-    this.clientFactory.setMaybeGoto(newPlace);
-    super.goTo(newPlace);
-  }
-}
-}}}
+    this.newPlace = newPlace;
+    log().fine("goTo: " + newPlace);
 
-{{{
-  private PlaceControllerPopupMessage delegate = new PlaceControllerPopupMessage(this);
-  private final PlaceController placeController = new PlaceControllerEnhanced(this, eventBus, delegate);
-}}}
-
-{{{
-package org.gonevertical.client.widgets.placecontrollerdelegate;
-
-import org.gonevertical.client.app.ClientFactory;
-import org.gonevertical.client.app.editors.events.saving.SaveItEvent;
-import org.gonevertical.client.app.editors.events.saving.SavedEvent;
-import org.gonevertical.client.app.editors.events.saving.SavedEventHandler;
-import org.gonevertical.core.client.loading.LoadingWidget;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.place.shared.PlaceController;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.ClosingHandler;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.Widget;
-
-public class PlaceControllerPopupMessage extends DialogBox implements PlaceController.Delegate {
-  
-  interface Binder extends UiBinder<Widget, PlaceControllerPopupMessage> {}
-  
-  private static final Binder binder = GWT.create(Binder.class);
-  @UiField HTML message;
-  @UiField PushButton cancel;
-  @UiField LoadingWidget loading;
-  
-  private ClientFactory clientFactory;
-  private boolean confirmation;
-
-  public PlaceControllerPopupMessage(ClientFactory clientFactory) {
-    super(false, true);
-    
-    this.clientFactory = clientFactory;
-    
-    setWidget(binder.createAndBindUi(this));
-    loading.showLoading(false);
-    
-    clientFactory.getEventBus().addHandler(SavedEvent.TYPE, new SavedEventHandler() {
-      public void onEditEvent(SavedEvent event) {
-        // only do this when its snowing, other wise all the save events will be coming in
-        if (isShowing() == true) {         
-          gotoPlace();
-        }
-      }
-    });
-    
-    cancel.setVisible(false);
-    
-    //setGlassEnabled(true);
-  }
-
-  private void gotoPlace() {
-    confirmation = true;
-    loading.showLoading(false);
-    hide();
-    clientFactory.getPlaceController().goTo(clientFactory.getMaybeGoto());
-  }
-
-  @UiHandler("cancel")
-  void onCancelClick(ClickEvent event) {
-    hide();
-    loading.showLoading(false);
-    fireEvent(new Window.ClosingEvent());
-  }
-
-  @Override
-  public HandlerRegistration addWindowClosingHandler(ClosingHandler handler) {
-    return Window.addWindowClosingHandler(handler);
-  }
-
-  @Override
-  public boolean confirm(String message) {
-    
-    if (message != null) {
-      centerIt(message);
+    if (getWhere().equals(newPlace)) {
+      log().fine("Asked to return to the same place: " + newPlace);
+      return;
     }
 
-    return confirmation;
+    String warning = maybeGoTo(newPlace);
+    if (warning == null || delegate.confirm(warning)) {
+      where = newPlace;
+      eventBus.fireEvent(new PlaceChangeEvent(newPlace));
+    }
   }
-
-  private void centerIt(String message) {
-    this.message.setHTML(message);
-    center();
-    loading.showLoading(true);
-    clientFactory.getEventBus().fireEvent(new SaveItEvent());
+  
+  public forceGotoNewPlace() {
+      where = newPlace;
+      eventBus.fireEvent(new PlaceChangeEvent(newPlace));
   }
-
-}
 }}}
