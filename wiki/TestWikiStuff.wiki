@@ -22,7 +22,10 @@ Test this out
     }
   }
   
-  public forceGotoNewPlace() {
+  public maybeGoto() {
+      if (newPlace == null)  {
+        return;
+      }
       where = newPlace;
       eventBus.fireEvent(new PlaceChangeEvent(newPlace));
   }
