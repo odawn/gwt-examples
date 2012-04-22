@@ -28,3 +28,8 @@ public class PlaceControllerEnhanced extends PlaceController {
   }
 }
 }}}
+
+{{{
+  private PlaceControllerPopupMessage delegate = new PlaceControllerPopupMessage(this);
+  private final PlaceController placeController = new PlaceControllerEnhanced(this, eventBus, delegate);
+}}}
