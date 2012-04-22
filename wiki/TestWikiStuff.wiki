@@ -6,27 +6,11 @@
 Test this out
 
 {{{
-  public void goTo(Place newPlace) {
-    this.newPlace = newPlace;
-    log().fine("goTo: " + newPlace);
-
-    if (getWhere().equals(newPlace)) {
-      log().fine("Asked to return to the same place: " + newPlace);
-      return;
-    }
-
-    String warning = maybeGoTo(newPlace);
-    if (warning == null || delegate.confirm(warning)) {
-      where = newPlace;
-      eventBus.fireEvent(new PlaceChangeEvent(newPlace));
-    }
-  }
-  
-  public maybeGoto() {
-    if (newPlace == null)  {
-      return;
-    }
-    where = newPlace;
-    eventBus.fireEvent(new PlaceChangeEvent(newPlace));
-  }
+    clientFactory.getEventBus().addHandler(SaveItEvent.TYPE, new SaveItEventHandler() {
+      public void onEditEvent(SaveItEvent event) {
+        if (LearningPlanEditWorkFlow.this.presenter != null && LearningPlanEditWorkFlow.this.presenter.isFocused() == true) {
+          save();
+        }
+      }
+    });
 }}}
