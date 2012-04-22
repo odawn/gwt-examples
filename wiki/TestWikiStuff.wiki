@@ -6,11 +6,34 @@
 Test this out
 
 {{{
-    clientFactory.getEventBus().addHandler(SaveItEvent.TYPE, new SaveItEventHandler() {
-      public void onEditEvent(SaveItEvent event) {
-        if (LearningPlanEditWorkFlow.this.presenter != null && LearningPlanEditWorkFlow.this.presenter.isFocused() == true) {
-          save();
+  private Receiver<? super LearningPlanJdoProxy> getReciever() {
+    Receiver<LearningPlanJdoProxy> r = new Receiver<LearningPlanJdoProxy>() {
+      public void onSuccess(LearningPlanJdoProxy response) {
+        if (brandNew == true) {
+          EntityProxyId<LearningPlanJdoProxy> id = (EntityProxyId<LearningPlanJdoProxy>) response.stableId();
+          presenter.goTo(new LearningPlanEditPlace(id));
+        } else {
+          edit(response);
+          saved();
         }
       }
-    });
+      public void onFailure(ServerFailure error) {
+        setState(State.EDITING);
+        wError.showError(5000, "Server Error, please try again.");
+        clientFactory.sendError(error);
+        super.onFailure(error);
+      }
+      public void onConstraintViolation(Set<ConstraintViolation<?>> violations) {
+        setState(State.EDITING);
+        wError.showError(5000, "Server Error, please try again.");
+        super.onConstraintViolation(violations);
+      }
+    };
+    return r;
+  }
+  
+  private void saved() {
+    presenter.setRunning(false);
+    clientFactory.getEventBus().fireEvent(new SavedEvent());
+  }
 }}}
