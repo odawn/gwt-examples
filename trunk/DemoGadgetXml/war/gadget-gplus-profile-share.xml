@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Module>
+	<ModulePrefs title="Follow Brandon" author="Brandon Donnelson"
+		author_email="branflake2267@gmail.com" title_url="http://gwt-examples.googlecode.com"
+		description="Share my Google+ profile" />
+	<Content type="html">
+    <![CDATA[
+       <div align="center">
+       
+			<!-- Place this tag in the <head> of your document -->
+			<script type="text/javascript">
+			window.___gcfg = {lang: 'en'};
+			(function() 
+			{var po = document.createElement("script");
+			po.type = "text/javascript"; po.async = true;po.src = "https://apis.google.com/js/plusone.js";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(po, s);
+			})();</script>
+			
+			<!-- Place this tag where you want the badge to render -->
+			<g:plus href="https://plus.google.com/111739836936169749229" rel="author" width="180" height="69"></g:plus>
+			        
+	  </div>
+    ]]>
+	</Content>
+</Module>
