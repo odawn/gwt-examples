@@ -6,16 +6,6 @@
 Test this out
 
 {{{
-Loading inherited module 'com.google.gwt.place.Place'
-   Module 'com.google.gwt.place.Place' has already been loaded and will be skipped
-Public resources found in...
-   Unexpected entry in classpath; /System/Library/Java/Extensions/libAppleScriptEngine.jnilib is neither a directory nor an archive (.jar or .zip)
-   Unexpected entry in classpath; /System/Library/Java/Extensions/libJ3D.jnilib is neither a directory nor an archive (.jar or .zip)
-   Unexpected entry in classpath; /System/Library/Java/Extensions/libJ3DAudio.jnilib is neither a directory nor an archive (.jar or .zip)
-   Unexpected entry in classpath; /System/Library/Java/Extensions/libJ3DUtils.jnilib is neither a directory nor an archive (.jar or .zip)
-   Unexpected entry in classpath; /System/Library/Java/Extensions/libmlib_jai.jnilib is neither a directory nor an archive (.jar or .zip)
-   Unexpected entry in classpath; /System/Library/Java/Extensions/libQTJNative.jnilib is neither a directory nor an archive (.jar or .zip)
-   Unexpected entry in classpath; /System/Library/Java/Extensions/libShark.jnilib is neither a directory nor an arch
 #!/bin/sh
 # made by Brandon Donnelson
 # http://c.gwt-examples.com
