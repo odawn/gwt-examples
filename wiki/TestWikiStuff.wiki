@@ -6,10 +6,37 @@
 Test this out
 
 {{{
-   private static native void pushEvent() /*-{
-    try {
-      $wnd._gaq.push(['_trackPageview']);
-    } catch (e) {
-    }
-  }-*/;
+Loading inherited module 'com.google.gwt.place.Place'
+   Module 'com.google.gwt.place.Place' has already been loaded and will be skipped
+Public resources found in...
+   Unexpected entry in classpath; /System/Library/Java/Extensions/libAppleScriptEngine.jnilib is neither a directory nor an archive (.jar or .zip)
+   Unexpected entry in classpath; /System/Library/Java/Extensions/libJ3D.jnilib is neither a directory nor an archive (.jar or .zip)
+   Unexpected entry in classpath; /System/Library/Java/Extensions/libJ3DAudio.jnilib is neither a directory nor an archive (.jar or .zip)
+   Unexpected entry in classpath; /System/Library/Java/Extensions/libJ3DUtils.jnilib is neither a directory nor an archive (.jar or .zip)
+   Unexpected entry in classpath; /System/Library/Java/Extensions/libmlib_jai.jnilib is neither a directory nor an archive (.jar or .zip)
+   Unexpected entry in classpath; /System/Library/Java/Extensions/libQTJNative.jnilib is neither a directory nor an archive (.jar or .zip)
+   Unexpected entry in classpath; /System/Library/Java/Extensions/libShark.jnilib is neither a directory nor an archive (.jar or .zip)
+Translatable source found in...
+Persistent unit cache dir set to: /Users/branflake2267/git/Student-Learning-Plan-v2/Studen_Learning_Plan_V2/war/../gwt-unitCache
+Looking for previously cached Compilation Units in /Users/branflake2267/git/Student-Learning-Plan-v2/Studen_Learning_Plan_V2/war/../gwt-unitCache
+Compiling module org.gonevertical.SLP
+Starting UnitWriteThread.
+gwt-unitCache-00000137004056F0: Load complete
+gwt-unitCache-00000137004F2382: Load complete
+gwt-unitCache-00000137005403C0: Load complete
+gwt-unitCache-000001370057AA91: Load complete
+gwt-unitCache-00000137006007C3: Load complete
+Loaded 4041 units from persistent store.
+   Found 2666 cached units.  Used 2666 / 2666 units from cache.
+   org.gonevertical.client.widgets.crumbs.Crumbs isn't structurally same.
+   Invalid Unit: org.gonevertical.client.views.Layout
+   Invalid units found: 1
+   Added 2 units to persistent cache.
+   Validating newly compiled units
+      Errors in 'file:/Users/branflake2267/git/Student-Learning-Plan-v2/Studen_Learning_Plan_V2/.apt_generated/org/gonevertical/client/app/requestfactory/ApplicationRequestFactoryDeobfuscatorBuilder.java'
+         Line 7: No source code is available for type com.google.web.bindery.requestfactory.vm.impl.Deobfuscator.Builder; did you forget to inherit a required module?
+         Line 9: No source code is available for type com.google.web.bindery.requestfactory.vm.impl.OperationKey; did you forget to inherit a required module?
+         Line 10: No source code is available for type com.google.web.bindery.requestfactory.vm.impl.OperationData.Builder; did you forget to inherit a required module?
+   Removing invalidated units
+   Finding entry point classes
 }}}
