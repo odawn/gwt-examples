@@ -6,37 +6,6 @@
 Test this out
 
 {{{
-#!/bin/sh
-# made by Brandon Donnelson
-# http://c.gwt-examples.com
-
-# Project Path to Web-inf folder (with no trailing /)
-BASE="/Users/branflake2267/git/Student-Learning-Plan-v2/Studen_Learning_Plan_V2/war/WEB-INF";
-
-#add your Requestfactory class
-REQUESTFACTORY="org.gonevertical.client.app.requestfactory.ApplicationRequestFactory";
-
-
-#----------------------------
-# don't have to edit below - unless you have more Application Request Factories
-
-OUTPUT="$BASE/classes";
-
-CP="";
-CP="$CP$BASE/classes:";
-CP="$CP$BASE/lib/*:"; # '*' will only work with java 1.6+
-
-# these need to be in there
-#CP="$CP$BASE/lib/requestfactory-apt.jar:";
-#CP="$CP$BASE/lib/requestfactory-server+src.jar:";
-
-echo "DEBUG ClassPath: $CP";
-
-java -cp $CP com.google.web.bindery.requestfactory.apt.ValidationTool $OUTPUT \
-  $REQUESTFACTORY 
-  # Do you need more Request Factories???
-  
-
-# the end
-exit;
+    String s = EditorHierarchyPrinter.toString(driver);
+    System.out.println("EditorHierarchyPrinter = " + s);
 }}}
