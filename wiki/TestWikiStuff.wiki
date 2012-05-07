@@ -6,7 +6,7 @@
 Test this out
 
 {{{
- private void putEntity(DatastoreService localDataStore, Entity remoteEntity) {
+  private void putEntity(DatastoreService localDataStore, Entity remoteEntity) {
     EntityProto proto = EntityTranslator.convertToPb(remoteEntity);
     
     // This is key to copying the entity!
