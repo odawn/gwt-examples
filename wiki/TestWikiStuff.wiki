@@ -6,4 +6,25 @@
 Test this out
 
 {{{
+ private void putEntity(DatastoreService localDataStore, Entity remoteEntity) {
+    EntityProto proto = EntityTranslator.convertToPb(remoteEntity);
+    
+    // This is key to copying the entity!
+    Reference x = proto.getKey();
+    x.setApp(appKey);
+    proto.setKey(x);
+    
+    Entity localEntity = EntityTranslator.createFromPb(proto);
+    
+    Transaction txn = localDataStore.beginTransaction();
+    try {
+      localDataStore.put(txn, localEntity);
+      txn.commit();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    
+    log.info("putEntity() localEntity=" + localEntity);
+    System.out.println("putEntity() localEntity=" + localEntity);
+  }
 }}}
