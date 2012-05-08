@@ -7,6 +7,8 @@ Test this out
 
 {{{
 
+package com.google.web.bindery.requestfactory.server;
+// ...
 
 class Resolver {
 
