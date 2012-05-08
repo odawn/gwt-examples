@@ -6,6 +6,12 @@
 Test this out
 
 {{{
+
+
+class Resolver {
+
+//...
+
  /**
    * Creates a Resolution object that holds a client value that represents the
    * given domain value. The resolved client value will be assignable to
@@ -61,11 +67,15 @@ Test this out
 
       Type elementType = TypeUtils.getSingleParameterization(Collection.class, clientType);
       for (Object o : (Collection<?>) domainValue) {
+        
+        // this throws when the collection is java.util.List<Long> [31021, null, 87001]
         accumulator.add(resolveClientValue(o, elementType).getClientObject());
+
       }
       return makeResolution(accumulator);
     }
 
     throw new ReportableException("Unsupported domain type " + returnClass.getCanonicalName());
   }
+}
 }}}
