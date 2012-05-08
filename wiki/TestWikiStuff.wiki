@@ -6,25 +6,66 @@
 Test this out
 
 {{{
-  private void putEntity(DatastoreService localDataStore, Entity remoteEntity) {
-    EntityProto proto = EntityTranslator.convertToPb(remoteEntity);
-    
-    // This is key to copying the entity!
-    Reference x = proto.getKey();
-    x.setApp(appKey);
-    proto.setKey(x);
-    
-    Entity localEntity = EntityTranslator.createFromPb(proto);
-    
-    Transaction txn = localDataStore.beginTransaction();
-    try {
-      localDataStore.put(txn, localEntity);
-      txn.commit();
-    } catch (Exception e) {
-      e.printStackTrace();
+ /**
+   * Creates a Resolution object that holds a client value that represents the
+   * given domain value. The resolved client value will be assignable to
+   * {@code clientType}.
+   */
+  private Resolution resolveClientValue(Object domainValue, Type clientType) {
+    if (domainValue == null) {
+      return null;
     }
-    
-    log.info("putEntity() localEntity=" + localEntity);
-    System.out.println("putEntity() localEntity=" + localEntity);
+
+    boolean anyType = clientType == null;
+    if (anyType) {
+      clientType = Object.class;
+    }
+
+    Class<?> assignableTo = TypeUtils.ensureBaseType(clientType);
+    ResolutionKey key = new ResolutionKey(domainValue, clientType);
+
+    Resolution previous = resolved.get(key);
+    if (previous != null && assignableTo.isInstance(previous.getClientObject())) {
+      return previous;
+    }
+
+    Class<?> returnClass = service.resolveClientType(domainValue.getClass(), assignableTo, true);
+
+    if (anyType) {
+      assignableTo = returnClass;
+    }
+
+    // Pass simple values through
+    if (ValueCodex.canDecode(returnClass)) {
+      return makeResolution(domainValue);
+    }
+
+    // Convert entities to EntityProxies or EntityProxyIds
+    boolean isProxy = BaseProxy.class.isAssignableFrom(returnClass);
+    boolean isId = EntityProxyId.class.isAssignableFrom(returnClass);
+    if (isProxy || isId) {
+      Class<? extends BaseProxy> proxyClass = returnClass.asSubclass(BaseProxy.class);
+      return resolveClientProxy(domainValue, proxyClass, key);
+    }
+
+    // Convert collections
+    if (Collection.class.isAssignableFrom(returnClass)) {
+      Collection<Object> accumulator;
+      if (List.class.isAssignableFrom(returnClass)) {
+        accumulator = new ArrayList<Object>();
+      } else if (Set.class.isAssignableFrom(returnClass)) {
+        accumulator = new HashSet<Object>();
+      } else {
+        throw new ReportableException("Unsupported collection type" + returnClass.getName());
+      }
+
+      Type elementType = TypeUtils.getSingleParameterization(Collection.class, clientType);
+      for (Object o : (Collection<?>) domainValue) {
+        accumulator.add(resolveClientValue(o, elementType).getClientObject());
+      }
+      return makeResolution(accumulator);
+    }
+
+    throw new ReportableException("Unsupported domain type " + returnClass.getCanonicalName());
   }
 }}}
