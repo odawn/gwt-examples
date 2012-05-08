@@ -6,78 +6,50 @@
 Test this out
 
 {{{
-
-package com.google.web.bindery.requestfactory.server;
-// ...
-
-class Resolver {
-
-//...
-
- /**
-   * Creates a Resolution object that holds a client value that represents the
-   * given domain value. The resolved client value will be assignable to
-   * {@code clientType}.
-   */
-  private Resolution resolveClientValue(Object domainValue, Type clientType) {
-    if (domainValue == null) {
-      return null;
-    }
-
-    boolean anyType = clientType == null;
-    if (anyType) {
-      clientType = Object.class;
-    }
-
-    Class<?> assignableTo = TypeUtils.ensureBaseType(clientType);
-    ResolutionKey key = new ResolutionKey(domainValue, clientType);
-
-    Resolution previous = resolved.get(key);
-    if (previous != null && assignableTo.isInstance(previous.getClientObject())) {
-      return previous;
-    }
-
-    Class<?> returnClass = service.resolveClientType(domainValue.getClass(), assignableTo, true);
-
-    if (anyType) {
-      assignableTo = returnClass;
-    }
-
-    // Pass simple values through
-    if (ValueCodex.canDecode(returnClass)) {
-      return makeResolution(domainValue);
-    }
-
-    // Convert entities to EntityProxies or EntityProxyIds
-    boolean isProxy = BaseProxy.class.isAssignableFrom(returnClass);
-    boolean isId = EntityProxyId.class.isAssignableFrom(returnClass);
-    if (isProxy || isId) {
-      Class<? extends BaseProxy> proxyClass = returnClass.asSubclass(BaseProxy.class);
-      return resolveClientProxy(domainValue, proxyClass, key);
-    }
-
-    // Convert collections
-    if (Collection.class.isAssignableFrom(returnClass)) {
-      Collection<Object> accumulator;
-      if (List.class.isAssignableFrom(returnClass)) {
-        accumulator = new ArrayList<Object>();
-      } else if (Set.class.isAssignableFrom(returnClass)) {
-        accumulator = new HashSet<Object>();
-      } else {
-        throw new ReportableException("Unsupported collection type" + returnClass.getName());
-      }
-
-      Type elementType = TypeUtils.getSingleParameterization(Collection.class, clientType);
-      for (Object o : (Collection<?>) domainValue) {
-        
-        // this throws when the collection is java.util.List<Long> [31021, null, 87001]
-        accumulator.add(resolveClientValue(o, elementType).getClientObject());
-
-      }
-      return makeResolution(accumulator);
-    }
-
-    throw new ReportableException("Unsupported domain type " + returnClass.getCanonicalName());
-  }
-}
+May 7, 2012 9:03:22 PM com.google.web.bindery.requestfactory.server.RequestFactoryServlet doPost
+SEVERE: Unexpected error
+java.lang.NullPointerException
+	at com.google.web.bindery.requestfactory.server.Resolver.resolveClientValue(Resolver.java:618)
+	at com.google.web.bindery.requestfactory.server.Resolver.access$400(Resolver.java:50)
+	at com.google.web.bindery.requestfactory.server.Resolver$PropertyResolver.visitReferenceProperty(Resolver.java:139)
+	at com.google.web.bindery.autobean.shared.AutoBeanVisitor.visitCollectionProperty(AutoBeanVisitor.java:229)
+	at com.google.web.bindery.autobean.vm.impl.ProxyAutoBean.traverseProperties(ProxyAutoBean.java:300)
+	at com.google.web.bindery.autobean.shared.impl.AbstractAutoBean.traverse(AbstractAutoBean.java:166)
+	at com.google.web.bindery.autobean.shared.impl.AbstractAutoBean.accept(AbstractAutoBean.java:101)
+	at com.google.web.bindery.requestfactory.server.Resolver.resolveClientValue(Resolver.java:395)
+	at com.google.web.bindery.requestfactory.server.SimpleRequestProcessor.processInvocationMessages(SimpleRequestProcessor.java:483)
+	at com.google.web.bindery.requestfactory.server.SimpleRequestProcessor.process(SimpleRequestProcessor.java:225)
+	at com.google.web.bindery.requestfactory.server.SimpleRequestProcessor.process(SimpleRequestProcessor.java:127)
+	at com.google.web.bindery.requestfactory.server.RequestFactoryServlet.doPost(RequestFactoryServlet.java:133)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:637)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:717)
+	at org.mortbay.jetty.servlet.ServletHolder.handle(ServletHolder.java:511)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1166)
+	at com.google.appengine.tools.development.HeaderVerificationFilter.doFilter(HeaderVerificationFilter.java:35)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1157)
+	at com.google.appengine.api.blobstore.dev.ServeBlobFilter.doFilter(ServeBlobFilter.java:60)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1157)
+	at com.google.apphosting.utils.servlet.TransactionCleanupFilter.doFilter(TransactionCleanupFilter.java:43)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1157)
+	at com.google.appengine.tools.development.StaticFileFilter.doFilter(StaticFileFilter.java:122)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1157)
+	at com.google.appengine.tools.development.BackendServersFilter.doFilter(BackendServersFilter.java:97)
+	at org.mortbay.jetty.servlet.ServletHandler$CachedChain.doFilter(ServletHandler.java:1157)
+	at org.mortbay.jetty.servlet.ServletHandler.handle(ServletHandler.java:388)
+	at org.mortbay.jetty.security.SecurityHandler.handle(SecurityHandler.java:216)
+	at org.mortbay.jetty.servlet.SessionHandler.handle(SessionHandler.java:182)
+	at org.mortbay.jetty.handler.ContextHandler.handle(ContextHandler.java:765)
+	at org.mortbay.jetty.webapp.WebAppContext.handle(WebAppContext.java:418)
+	at com.google.appengine.tools.development.DevAppEngineWebAppContext.handle(DevAppEngineWebAppContext.java:78)
+	at org.mortbay.jetty.handler.HandlerWrapper.handle(HandlerWrapper.java:152)
+	at com.google.appengine.tools.development.JettyContainerService$ApiProxyHandler.handle(JettyContainerService.java:369)
+	at org.mortbay.jetty.handler.HandlerWrapper.handle(HandlerWrapper.java:152)
+	at org.mortbay.jetty.Server.handle(Server.java:326)
+	at org.mortbay.jetty.HttpConnection.handleRequest(HttpConnection.java:542)
+	at org.mortbay.jetty.HttpConnection$RequestHandler.content(HttpConnection.java:938)
+	at org.mortbay.jetty.HttpParser.parseNext(HttpParser.java:755)
+	at org.mortbay.jetty.HttpParser.parseAvailable(HttpParser.java:218)
+	at org.mortbay.jetty.HttpConnection.handle(HttpConnection.java:404)
+	at org.mortbay.io.nio.SelectChannelEndPoint.run(SelectChannelEndPoint.java:409)
+	at org.mortbay.thread.QueuedThreadPool$PoolThread.run(QueuedThreadPool.java:582)
 }}}
