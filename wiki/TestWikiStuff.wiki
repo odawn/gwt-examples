@@ -6,7 +6,8 @@
 Test this out
 
 {{{
-DefaultFormat format = new DateBox.DefaultFormat(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT));
 DateBox dateStart = new DateBox();
+
+DefaultFormat format = new DateBox.DefaultFormat(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT));
 dateStart.setFormat(format);
 }}}
