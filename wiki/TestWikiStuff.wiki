@@ -8,6 +8,7 @@ Test this out
 {{{
 DateBox dateStart = new DateBox();
 
+// short format '2012-03-01'
 DefaultFormat format = new DateBox.DefaultFormat(DateTimeFormat.getFormat(PredefinedFormat.DATE_SHORT));
 dateStart.setFormat(format);
 }}}
