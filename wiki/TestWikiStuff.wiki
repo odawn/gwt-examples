@@ -2,9 +2,9 @@
 
 ---------------
 {{{
-Map<String, String> map = new Map<String, String>();
+var map = new Map();
 map['A'] = 'valueA';
 map['B'] = 'valueB';
-map['C'] = 'valueC'; 
+map['C'] = 'valueC';   
 }}}
 ----------------
