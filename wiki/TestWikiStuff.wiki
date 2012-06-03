@@ -3,8 +3,8 @@
 ---------------
 {{{
 var map = new Map();
-map['A'] = 'valueA';
-map['B'] = 'valueB';
-map['C'] = 'valueC';   
+map[1] = 'valueA';
+map[2] = 'valueB';
+map[5] = 'valueC'; 
 }}}
 ----------------
