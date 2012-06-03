@@ -2,9 +2,9 @@
 
 ---------------
 {{{
-var map = {
-  'keyA' : 'valueA',
-  'keyB' : 'valueB',
-  'keyC' : 'valueC' };
+  Map<String, String> map = new Map<String, String>();
+  map['A'] = 'valueA';
+
+  String valueA = map['A'];
 }}}
 ----------------
