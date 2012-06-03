@@ -1,34 +1,10 @@
 #summary test out wiki stuff
 
-<g:plusone size="medium"></g:plusone>
-
-
-Test this out
-
+---------------
 {{{
-class MyPoint implements Hashable {
-  num x, y;
-
-  MyPoint(this.x, this.y);
-
-  int hashCode() {
-    int result = 17;
-    result = 37 * result + x.hashCode();
-    result = 37 * result + y.hashCode();
-    return result;
-  }
-
-  String toString() => 'Point(x=' + x.toString() + ',y=' + y.toString() + ')';
-}
-
-void main() {
-  MyPoint pointA = new MyPoint(1, 2);
-  MyPoint pointB = new MyPoint(3, 4);
-
-  Map<MyPoint, String> map = new Map<MyPoint, String>();
-  map[pointA] = "valueA";
-  map[pointB] = "valueB";
-
-  map.forEach((k,v) => print('$k : $v'));
-}
+Map<String, String> map = new Map<String, String>();
+map['A'] = 'valueA';
+map['B'] = 'valueB';
+map['C'] = 'valueC'; 
 }}}
+----------------
