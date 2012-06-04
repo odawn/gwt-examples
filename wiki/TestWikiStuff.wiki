@@ -4,13 +4,17 @@
 {{{
 int a = 2;
 int b = 3;
+int c = a;
 
-print('${a + b}');  // 5
-print('${a - b}');  // -1
-print('${a * b}');  // 6
-print('${a / b}');  // 0.6666666666666666
-print('${a ~/ b}'); // 0 (quotient)
-print('${a % b}');  // 2 (remainder)
-
+print(a == 2);       // true; 2 and 2 are equal
+print(a != b);       // true; 2 and 3 aren't equal
+print(a === c);      // true; a and c are the same object
+print(a !== b);      // true; 2 and 3 aren't the same object
+print(b > a);        // true; 3 is more than 2
+print(a < b);        // true; 2 is less then 3
+print(b >= b);       // true; 3 is greater than or equal to 3
+print(a <= b);       // true; 2 is less than or equal to 3
+print(a is num);     // true; 2 is a number
+print(a is! String); // true; 2 is an int, not a string
 }}}
 ----------------
