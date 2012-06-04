@@ -2,7 +2,9 @@
 
 ---------------
 {{{
-List<String> list = new List<String>();
-list.addAll(['a', 'b', 'c']);
+List<int> list = [13,24,38];
+for (var x = 0; x < list.length; x++) {
+  print('$x: ${list[x]}');
+}
 }}}
 ----------------
