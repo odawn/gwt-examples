@@ -3,8 +3,7 @@
 ---------------
 {{{
 List<String> list = ['a','b','c'];
-for (final x in list) {
-  print(x);
-}
+void printElement(element) => print(element);
+list.forEach(printElement);
 }}}
 ----------------
