@@ -2,13 +2,15 @@
 
 ---------------
 {{{
-HashSet<String> collection = new HashSet<String>();
-collection.add('a');
-collection.add('b');
-collection.add('c');
-collection.add('a');
-collection.add('A');
-collection.forEach((v) => print(v)); // prints A c a b
+int a = 2;
+int b = 3;
+
+print('${a + b}');  // 5
+print('${a - b}');  // -1
+print('${a * b}');  // 6
+print('${a / b}');  // 0.6666666666666666
+print('${a ~/ b}'); // 0 (quotient)
+print('${a % b}');  // 2 (remainder)
 
 }}}
 ----------------
