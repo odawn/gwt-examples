@@ -3,7 +3,7 @@
 ---------------
 {{{
 class a {
-List<int> list = [101,221,331];
+List<String> list = new List<String>();
 }
 }}}
 ----------------
