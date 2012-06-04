@@ -2,9 +2,9 @@
 
 ---------------
 {{{
-Map<String, String> map = new Map<String, String>();
-map['A'] = 'valueA';
-
-String valueA = map['A'];
+Map<String, double> map = new HashMap<String, double>();
+map['A'] = 1.2;
+map['B'] = 3.4;
+map['C'] = 5.6;
 }}}
 ----------------
