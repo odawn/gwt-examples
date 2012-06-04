@@ -3,8 +3,6 @@
 ---------------
 {{{
 List<String> list = new List<String>();
-list.add('a');
-list.add('b');
-list.add('c');
+list.addAll(['a', 'b', 'c']);
 }}}
 ----------------
