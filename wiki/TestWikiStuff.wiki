@@ -2,7 +2,13 @@
 
 ---------------
 {{{
-List<String> list = ['a','b','c'];
-list.forEach((element) => print(element));
+HashSet<String> collection = new HashSet<String>();
+collection.add('a');
+collection.add('b');
+collection.add('c');
+collection.add('a');
+collection.add('A');
+collection.forEach((v) => print(v)); // prints A c a b
+
 }}}
 ----------------
