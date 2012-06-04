@@ -2,19 +2,17 @@
 
 ---------------
 {{{
-int a = 2;
-int b = 3;
-int c = a;
+int value = 0x22;
+int bitmask = 0x0F;
 
-print(a == 2);       // true; 2 and 2 are equal
-print(a != b);       // true; 2 and 3 aren't equal
-print(a === c);      // true; a and c are the same object
-print(a !== b);      // true; 2 and 3 aren't the same object
-print(b > a);        // true; 3 is more than 2
-print(a < b);        // true; 2 is less then 3
-print(b >= b);       // true; 3 is greater than or equal to 3
-print(a <= b);       // true; 2 is less than or equal to 3
-print(a is num);     // true; 2 is a number
-print(a is! String); // true; 2 is an int, not a string
+print(value);                                // 34 (0x22)
+print(value.toRadixString(16));              // 22
+print(value.toRadixString(2));               // 100010
+print((value & bitmask).toRadixString(16));  // 2  (AND)
+print((value & ~bitmask).toRadixString(16)); // 20 (AND NOT)
+print((value | bitmask).toRadixString(16));  // 2f (OR)
+print((value ^ bitmask).toRadixString(16));  // 2d (XOR)
+print((value << 4).toRadixString(16));       // 220
+print((value >> 4).toRadixString(16));       // 2
 }}}
 ----------------
