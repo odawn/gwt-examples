@@ -2,9 +2,6 @@
 
 ---------------
 {{{
-Map<String, double> map = new HashMap<String, double>();
-map['A'] = 1.2;
-map['B'] = 3.4;
-map['C'] = 5.6;
+Collection<String> list = ['a','b','c'];
 }}}
 ----------------
