@@ -2,17 +2,9 @@
 
 ---------------
 {{{
-int value = 0x22;
-int bitmask = 0x0F;
-
-print(value);                                // 34 (0x22)
-print(value.toRadixString(16));              // 22
-print(value.toRadixString(2));               // 100010
-print((value & bitmask).toRadixString(16));  // 2  (AND)
-print((value & ~bitmask).toRadixString(16)); // 20 (AND NOT)
-print((value | bitmask).toRadixString(16));  // 2f (OR)
-print((value ^ bitmask).toRadixString(16));  // 2d (XOR)
-print((value << 4).toRadixString(16));       // 220
-print((value >> 4).toRadixString(16));       // 2
+class Color {
+  static final String BLUE = 'blue';
+  static String GREEN = 'green';
+}
 }}}
 ----------------
