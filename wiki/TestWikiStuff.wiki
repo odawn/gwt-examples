@@ -2,19 +2,6 @@
 
 ---------------
 {{{
-class Color {
-  static final RED = const Color('red');
-  static final BLUE = const Color('blue');
-  static final GREEN = const Color('green');
-  static final PURPLE = const Color('purple');
-  final String name;
-  const Color(this.name);
-  String toString() => name;
-}
-
-main() {
-   print(Color.RED);
-   print(Color.BLUE);
-}
+final String name = 'Bob';
 }}}
 ----------------
