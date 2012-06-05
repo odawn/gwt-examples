@@ -2,7 +2,6 @@
 
 ---------------
 {{{
-String name;
-name == null; // is true
+String name = 'Bob';
 }}}
 ----------------
