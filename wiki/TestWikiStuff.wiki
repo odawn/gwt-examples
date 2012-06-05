@@ -2,6 +2,6 @@
 
 ---------------
 {{{
-bool locked = true;
+Point point = new Point();
 }}}
 ----------------
