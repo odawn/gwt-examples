@@ -2,7 +2,7 @@
 
 ---------------
 {{{
-String color = "grey";
-String s = "I have a $color house.";
+String s = "consecutive multiline string" ' concatenation'
+           " makes strings fun.";
 }}}
 ----------------
