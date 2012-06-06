@@ -2,6 +2,9 @@
 
 ---------------
 {{{
-bool b = null;
+String s = 'a';
+if (s) {
+  print("I only print in javascript, not in Dart.");
+}
 }}}
 ----------------
