@@ -2,9 +2,12 @@
 
 ---------------
 {{{
-String s = 'Cuthbert Musgrave Girdlestone, III';
-s.startsWith('Cuthbert');            // is true
-s.endsWith('III');                   // is true
-s.contains(new RegExp('Musgrave'));  // is true
+String sb = new StringBuffer();
+sb.add("A");
+sb.addAll(["B", "C", "D", "E"]);
+sb.add("F").add("G");
+String alphabet = sb.toString();
+print(alphabet);
+sb.clear();
 }}}
 ----------------
