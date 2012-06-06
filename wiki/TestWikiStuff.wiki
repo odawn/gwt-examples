@@ -2,6 +2,9 @@
 
 ---------------
 {{{
-String s = "I have ${2+3} chickens.";
+String s = """
+line 1
+line 2
+""";
 }}}
 ----------------
