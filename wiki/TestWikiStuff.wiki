@@ -2,9 +2,6 @@
 
 ---------------
 {{{
-String s = """
-line 1
-line 2
-""";
+String s = @'In a raw string, even \n is ignored.';
 }}}
 ----------------
