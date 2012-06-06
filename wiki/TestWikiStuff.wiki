@@ -2,9 +2,9 @@
 
 ---------------
 {{{
-int i = 1;
-if (i) {
-  print("I only print in javascript, not in Dart.");
+String s = '';
+if (s.isEmpty()) {
+  print("s is true");
 }
 }}}
 ----------------
