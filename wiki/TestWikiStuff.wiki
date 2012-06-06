@@ -2,8 +2,8 @@
 
 ---------------
 {{{
-String say(String from, String msg) {
-  return "$from says $msg";
+void main() {
+  say(from, msg) => print("$from says $msg");
 }
 }}}
 ----------------
