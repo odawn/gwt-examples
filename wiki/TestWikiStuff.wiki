@@ -3,7 +3,12 @@
 ---------------
 {{{
 void main() {
-  say(from, msg) => print("$from says $msg");
+  var said = say('brandon', 'hi');
+  print(said);
 }
+
+say(from, msg) => "$from says $msg";
+
+
 }}}
 ----------------
