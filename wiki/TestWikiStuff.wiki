@@ -2,15 +2,6 @@
 
 ---------------
 {{{
-String say(String from, String msg, [String device='carrer pidgeon', String mood]) {
-  var result = "$from says $msg";
-  if (device != null) {
-    result = "$result with a $device";
-  }
-  if (mood != null) {
-    result = "$result (in a $mood mood)";
-  }
-  return result;
-}
+print(say("Brandon", "Hi")); // Brandon says Hi
 }}}
 ----------------
