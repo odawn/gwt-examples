@@ -2,42 +2,20 @@
 
 ---------------
 {{{
-var root = 'bottom';
-
 void main() {
-
-  print(root);
-
-  var point = new MyPoint();
-  point.setLevel2();
-
-}
-
-class MyPoint {
-  var level1 = 'stepUp1';
-
-  MyPoint() {
-    print(root);
-  }
-
-  setLevel2() {
-    print(root);
-    print(level1);
-
-    var level2 = 'stepUp2';
-
-    for (var i = 0; i < 10; i++) {
-      print(level2 + ' ' + i);
-
-      var level3 = 'stepUp3';
-
-      if (i == 5) {
-        print(level3);
-        var level4 = 'stepUp4';
+  var root = 'level0';
+  for (int a = 0; a < 10; a++) {
+    var level1 = 'level1';
+    for (int b = 0; b < 10; a++) {
+      var level2 = 'level2';
+      for (int c = 0; c < 10; c++) {
+        var level3 = 'level3';
+        for (int d = 0; d < 10; d++) {
+          var level4 = 'level4';
+        }
       }
     }
   }
-
 }
 }}}
 ----------------
