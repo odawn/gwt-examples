@@ -2,15 +2,42 @@
 
 ---------------
 {{{
+var root = 'bottom';
 
-List<String> list = ['a', 'b', 'c'];
-for (final item in list) {
-  print(item);
+void main() {
+
+  print(root);
+
+  var point = new MyPoint();
+  point.setLevel2();
+
 }
 
-List<String> list = ['a', 'b', 'c'];
-for (var item in list) {
-  print(item);
+class MyPoint {
+  var level1 = 'stepUp1';
+
+  MyPoint() {
+    print(root);
+  }
+
+  setLevel2() {
+    print(root);
+    print(level1);
+
+    var level2 = 'stepUp2';
+
+    for (var i = 0; i < 10; i++) {
+      print(level2 + ' ' + i);
+
+      var level3 = 'stepUp3';
+
+      if (i == 5) {
+        print(level3);
+        var level4 = 'stepUp4';
+      }
+    }
+  }
+
 }
 }}}
 ----------------
