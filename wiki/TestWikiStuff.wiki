@@ -2,13 +2,15 @@
 
 ---------------
 {{{
-void main() {
-  String said = say('Brandon', 'Hi');
-  print(said);
-}
-
-say(String from, String msg) {
-  return "$from says $msg";
+String say(String from, String msg, [String device='carrer pidgeon', String mood]) {
+  var result = "$from says $msg";
+  if (device != null) {
+    result = "$result with a $device";
+  }
+  if (mood != null) {
+    result = "$result (in a $mood mood)";
+  }
+  return result;
 }
 }}}
 ----------------
