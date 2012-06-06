@@ -2,20 +2,6 @@
 
 ---------------
 {{{
-void main() {
-  var root = 'level0';
-  for (int a = 0; a < 10; a++) {
-    var level1 = 'level1';
-    for (int b = 0; b < 10; a++) {
-      var level2 = 'level2';
-      for (int c = 0; c < 10; c++) {
-        var level3 = 'level3';
-        for (int d = 0; d < 10; d++) {
-          var level4 = 'level4';
-        }
-      }
-    }
-  }
-}
+String say(String from, String msg) => "$from says $msg";
 }}}
 ----------------
