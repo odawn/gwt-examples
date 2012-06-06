@@ -2,9 +2,9 @@
 
 ---------------
 {{{
-int i = 5;
-if (i == 5) {
-  print("i is true");
+String s = null;
+if (s == null) {
+  print("s is true");
 }
 }}}
 ----------------
