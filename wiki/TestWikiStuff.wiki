@@ -2,10 +2,8 @@
 
 ---------------
 {{{
-print(say("Bob", "Howdy", device: "tin can and string"));
-// Bob says Howdy with a tin can and string
+print(say("Brandon", "Hi", device: "tin can and string")); // Brandon says Howdy with a tin can and string
 
-print(say("Bob", "Howdy", mood: "fresh"));
-// Bob says Howdy with a carrier pigeon (in a fresh mood)
+print(say("Brandon", "Hi", mood: "fresh")); // Brandon says Howdy with a carrier pigeon (in a fresh mood)
 }}}
 ----------------
