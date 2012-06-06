@@ -2,6 +2,8 @@
 
 ---------------
 {{{
-String s = @'In a raw string, even \n is ignored.';
+String left = 'hand';
+String right = "hand";
+print(left == right); // is true
 }}}
 ----------------
