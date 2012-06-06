@@ -2,12 +2,6 @@
 
 ---------------
 {{{
-String sb = new StringBuffer();
-sb.add("A");
-sb.addAll(["B", "C", "D", "E"]);
-sb.add("F").add("G");
-String alphabet = sb.toString();
-print(alphabet);
-sb.clear();
+int x = 1;
 }}}
 ----------------
