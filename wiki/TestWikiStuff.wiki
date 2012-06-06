@@ -2,7 +2,6 @@
 
 ---------------
 {{{
-String s = "consecutive multiline string" ' concatenation'
-           " makes strings fun.";
+String s = "I have ${2+3} chickens.";
 }}}
 ----------------
