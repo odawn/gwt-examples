@@ -2,16 +2,15 @@
 
 ---------------
 {{{
-  List<String> list = ['a', 'b', 'c'];
 
-  // good
-  for (final item in list) {
-    print(item);
-  }
+List<String> list = ['a', 'b', 'c'];
+for (final item in list) {
+  print(item);
+}
 
-  // bad
-  for (var item in list) {
-    print(item);
-  }
+List<String> list = ['a', 'b', 'c'];
+for (var item in list) {
+  print(item);
+}
 }}}
 ----------------
