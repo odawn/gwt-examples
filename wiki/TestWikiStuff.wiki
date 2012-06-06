@@ -2,6 +2,6 @@
 
 ---------------
 {{{
-var s = 'single quotes';
+String s = 'single quotes';
 }}}
 ----------------
