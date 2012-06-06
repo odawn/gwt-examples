@@ -2,8 +2,9 @@
 
 ---------------
 {{{
-String left = 'hand';
-String right = "hand";
-print(left == right); // is true
+String s = 'Cuthbert Musgrave Girdlestone, III';
+s.startsWith('Cuthbert');            // is true
+s.endsWith('III');                   // is true
+s.contains(new RegExp('Musgrave'));  // is true
 }}}
 ----------------
