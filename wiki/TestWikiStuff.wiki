@@ -2,6 +2,24 @@
 
 ---------------
 {{{
-print(say('Bob', 'Hi', null)); // Bob says Hi
+foo() {
+  print("top level");
+}
+
+class A {
+  foo() {
+    print("A");
+  }
+}
+
+class B extends A {
+  bar() {
+    foo();
+  }
+}
+
+void main() {
+  new B().bar(); // prints "top level"
+}
 }}}
 ----------------
