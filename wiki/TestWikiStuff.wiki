@@ -2,6 +2,6 @@
 
 ---------------
 {{{
-int x = Math.parseInt("1");
+double y = Math.parseDouble("1.1");
 }}}
 ----------------
