@@ -2,6 +2,7 @@
 
 ---------------
 {{{
-String s = "I've got double and single quotes";
+String color = "grey";
+String s = "I have a $color house.";
 }}}
 ----------------
