@@ -2,7 +2,9 @@
 
 ---------------
 {{{
-var loudify = (msg) => '!!! ${msg.toUpperCase()} !!!';
-assert(loudify('hello') == '!!! HELLO !!!');
+void main() {
+  var message = (msg) => '!!! ${msg.toUpperCase()} !!!';
+  print(message("howdy"));
+}
 }}}
 ----------------
