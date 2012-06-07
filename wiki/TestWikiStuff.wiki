@@ -2,10 +2,7 @@
 
 ---------------
 {{{
-void main() {
-  var ages = [1,4,5,7,10,14,21];
-  var oddAges = ages.filter((i) => i % 2 == 1);
-  oddAges.forEach((i) => print(i));
-}
+var loudify = (msg) => '!!! ${msg.toUpperCase()} !!!';
+assert(loudify('hello') == '!!! HELLO !!!');
 }}}
 ----------------
