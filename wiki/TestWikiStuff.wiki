@@ -2,10 +2,7 @@
 
 ---------------
 {{{
-void main() {
-  final a = [1, 2, 3];
-  a[2] = 'mutated!';
-  print(a[2]);
-}
+ar ages = [1,4,5,7,10,14,21];
+var oddAges = ages.filter((i) => i % 2 == 1);
 }}}
 ----------------
