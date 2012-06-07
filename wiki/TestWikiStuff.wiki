@@ -14,25 +14,24 @@ void main() {
   cars.add(new Car("Rusty"));
   cars.add(new Car("Pinto"));
 
-  int i = 0;
   for (final car in cars) {
-    if (i == 0) {
-      car = new Car("Honda");  
-    }
-    
+    car = new Car("Honda"); // final error  
     print(car.name);
-    
-    i++;
+  }
+  
+  for (final Car car in cars) {
+    car = new Car("Honda"); // final errors
+    print(car.name);
   }
 
   for (var car in cars) {
-    if (i == 0) {
-      car = new Car("Honda");  
-    }
-    
+    car = new Car("Honda"); // can mutate  
     print(car.name);
-    
-    i++;
+  }
+  
+  for (Car car in cars) { 
+    car = new Car("Honda"); // can mutate  
+    print(car.name);
   }
   
 }
