@@ -2,9 +2,13 @@
 
 ---------------
 {{{
-void main() {
-  var message = (msg) => '!!! ${msg.toUpperCase()} !!!';
-  print(message("howdy"));
+Function adder(num n) {
+  return (num i) => n + i;
+}
+
+main() {
+  var addByTwo = adder(2);
+  print(addByTwo(3));
 }
 }}}
 ----------------
