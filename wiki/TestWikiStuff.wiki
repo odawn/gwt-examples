@@ -2,38 +2,7 @@
 
 ---------------
 {{{
-class Car {
-  var name;
-  Car(this.name);
-}
-
-void main() {
-
-  List<Car> cars = new List<Car>();
-  cars.add(new Car("Toyota"));
-  cars.add(new Car("Rusty"));
-  cars.add(new Car("Pinto"));
-
-  for (final car in cars) {
-    car = new Car("Honda"); // final error  
-    print(car.name);
-  }
-  
-  for (final Car car in cars) {
-    car = new Car("Honda"); // final errors
-    print(car.name);
-  }
-
-  for (var car in cars) {
-    car = new Car("Honda"); // can mutate  
-    print(car.name);
-  }
-  
-  for (Car car in cars) { 
-    car = new Car("Honda"); // can mutate  
-    print(car.name);
-  }
-  
-}
+final a = [1, 2, 3];
+a[2] = 'mutated!';
 }}}
 ----------------
