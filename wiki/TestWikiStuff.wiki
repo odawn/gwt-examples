@@ -2,7 +2,10 @@
 
 ---------------
 {{{
-var ages = [1,4,5,7,10,14,21];
-var oddAges = ages.filter((i) => i % 2 == 1);
+void main() {
+  var ages = [1,4,5,7,10,14,21];
+  var oddAges = ages.filter((i) => i % 2 == 1);
+  print(oddAges);
+}
 }}}
 ----------------
