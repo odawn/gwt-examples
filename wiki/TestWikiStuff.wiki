@@ -2,29 +2,18 @@
 
 ---------------
 {{{
-public class GetUserListActionHandler implements ActionHandler<GetUserList, GetUserListResult> {
-    
-    private UserDao dao;
-    
-    @Inject
-    public GetUserListActionHandler(UserDao dao) {
-        this.dao = dao;
-    }
+bool isOdd(int i) => i % 2 == 1;
+<int>[1, 4, 5, 7, 10, 14, 21]
+.filter(isOdd)
+.forEach(print);
 
-    @Override
-    public GetUserListResult execute(GetUserList action, ExecutionContext context) throws ActionException {
-        return new GetUserListResult(dao.getAll());
-    }
+bool isOdd(i) => i % 2 == 1;
+[1, 4, 5, 7, 10, 14, 21]
+.filter(isOdd)
+.forEach(print);
 
-    @Override
-    public void undo(GetUserList action, GetUserListResult result, ExecutionContext context) throws ActionException {
-    }
-
-    @Override
-    public Class<GetUserList> getActionType() {
-        return GetUserList.class;
-    }
-}
-
+[1, 4, 5, 7, 10, 14, 21]
+.filter((i) => i % 2 == 1)
+.forEach((i) => print(i));
 }}}
 ----------------
