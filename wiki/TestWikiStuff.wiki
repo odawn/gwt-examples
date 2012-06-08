@@ -2,24 +2,30 @@
 
 ---------------
 {{{
-main() {
-  bool isOdd(int i) => i % 2 == 1;
-  <int>[1, 4, 5, 7, 10, 14, 21]
-  .filter(isOdd)
-  .forEach(print);
+void main() {
+  
+  var tiger = new Tiger("Lioness");
+  
+  print(tiger.name);
+  
 }
 
-main() {
-  bool isOdd(i) => i % 2 == 1;
-  [1, 4, 5, 7, 10, 14, 21]
-  .filter(isOdd)
-  .forEach(print);
+abstract class Animal {
+  
+  String name;
+  
+  Animal(String name) {
+    this.name = name;
+  }
+  
 }
 
-main() {
-  [1, 4, 5, 7, 10, 14, 21]
-  .filter((i) => i % 2 == 1)
-  .forEach((i) => print(i));
+class Tiger extends Animal {
+
+  Tiger(String name) {
+    this.name = name;
+  }
+  
 }
 }}}
 ----------------
