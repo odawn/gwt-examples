@@ -5,10 +5,7 @@
 class Location {
   num lat, lng; // instance variables
   
-  Location(num lat, num lng) { // constructor with parameters
-    this.lat = lat;
-    this.lng = lng;
-  }
+  Location([this.lat, this.lng]); // constructor with parameters
 }
 
 void main() {
