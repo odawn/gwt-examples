@@ -2,30 +2,8 @@
 
 ---------------
 {{{
-void main() {
-  
-  var tiger = new Tiger("Lioness");
-  
-  print(tiger.name);
-  
-}
-
-abstract class Animal {
-  
-  String name;
-  
-  Animal(String name) {
-    this.name = name;
-  }
-  
-}
-
-class Tiger extends Animal {
-
-  Tiger(String name) {
-    this.name = name;
-  }
-  
+class Location {
+  num lat, lng; // instance variables
 }
 }}}
 ----------------
