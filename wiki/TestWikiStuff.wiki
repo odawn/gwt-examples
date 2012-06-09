@@ -3,9 +3,11 @@
 ---------------
 {{{
 class Location {
+  final String initailizeMe;
+  final List<int> ids;
   num lat, lng; // instance variables
   
-  Location([this.lat, this.lng]); // constructor with parameters
+  Location(this.lat, this.lng) : ids = [], initailizeMe = "initialized"; // final variable initializers
 }
 
 void main() {
