@@ -5,7 +5,10 @@
 class Location {
   num lat, lng; // instance variables
   
-  Location(this.lat, this.lng); // constructor with parameters
+  Location(num lat, num lng) { // constructor with parameters
+    this.lat = lat;
+    this.lng = lng;
+  }
 }
 
 void main() {
@@ -13,6 +16,5 @@ void main() {
   
   print(waikiki.lat);
   print(waikiki.lng);
-}
-}}}
+}}}}
 ----------------
