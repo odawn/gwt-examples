@@ -7,5 +7,12 @@ class Location {
   
   Location(this.lat, this.lng); // constructor with parameters
 }
+
+void main() {
+  var waikiki = new Location(21.271488, -157.822806);
+  
+  print(waikiki.lat);
+  print(waikiki.lng);
+}
 }}}
 ----------------
