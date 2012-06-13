@@ -2,24 +2,90 @@
 
 ---------------
 {{{
-main() {
-  
-  HashSet<String> strings = new HashSet<String>();
-  strings.add("a");
-  strings.add("a");
-  strings.add("b");
-  strings.add("c");
-  
-  strings.forEach(echo);
+package local;
+
+import java.util.HashSet;
+import java.util.Iterator;
+
+public class Test {
+
+  public static void main(String[] args) {
+    new Test().run();
+  }
+
+  private void run() {
+
+    MyPoint pointA = new MyPoint(1, 2);
+    MyPoint pointB = new MyPoint(3, 4);
+    MyPoint pointC = new MyPoint(4, 5);
+    MyPoint pointD = new MyPoint(1, 2);
+
+    HashSet<MyPoint> points = new HashSet<MyPoint>();
+    points.add(pointA);
+    points.add(pointB);
+    points.add(pointC);
+    points.add(pointD);
+    
+    Iterator<MyPoint> itr = points.iterator();
+    while(itr.hasNext()) {
+      System.out.println(itr.next());
+    }
+  }
+ 
 }
 
-echo(String s) {
-  print("s=${s.hashCode()}");  
+package local;
+
+public class MyPoint{
+  Integer x, y;
+  
+  public MyPoint(int x, int y) {
+    this.x = x;
+    this.y = y;
+  }
+  
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((x == null) ? 0 : x.hashCode());
+    result = prime * result + ((y == null) ? 0 : y.hashCode());
+    return result;
+  }
+  
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    MyPoint other = (MyPoint) obj;
+    if (x == null) {
+      if (other.x != null)
+        return false;
+    } else if (!x.equals(other.x))
+      return false;
+    if (y == null) {
+      if (other.y != null)
+        return false;
+    } else if (!y.equals(other.y))
+      return false;
+    return true;
+  }
+
+  public String toString() {
+    return " x=" + x + ", y=" + y + " hash=" + hashCode();
+  }
 }
 
-Waiting for debugger connection...
-s=783965529
-s=170824770
-s=14385563
+
+
+ x=3, y=4 hash=1058
+ x=1, y=2 hash=994
+ x=4, y=5 hash=1090
+
+
 }}}
 ----------------
