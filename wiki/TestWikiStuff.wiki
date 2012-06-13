@@ -32,6 +32,13 @@ void main() {
   points.forEach(print);
   
   assert(points.length == 3);
+
+
+Waiting for debugger connection...
+Point(x=1, y=2) hash='23312'
+Point(x=1, y=2) hash='23312'
+Point(x=4, y=5) hash='23426'
+Point(x=3, y=4) hash='23388'
 }
 }}}
 ----------------
