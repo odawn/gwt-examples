@@ -1,7 +1,8 @@
 #summary test out wiki stuff
 
 ---------------
-{{{class Location implements Hashable { 
+{{{
+class Location implements Hashable { 
   num _lat, _lng;
   
   Location([this._lat, this._lng]); 
@@ -30,8 +31,6 @@ void main() {
  
   locations.forEach(print);
 }
-
-
 
 51.50403,-0.11844
 51.50403,-0.11844
