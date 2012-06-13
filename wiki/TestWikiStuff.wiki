@@ -2,39 +2,24 @@
 
 ---------------
 {{{
-class Location implements Hashable { 
-  num _lat, _lng;
+main() {
   
-  Location([this._lat, this._lng]); 
+  HashSet<String> strings = new HashSet<String>();
+  strings.add("a");
+  strings.add("a");
+  strings.add("b");
+  strings.add("c");
   
-  int hashCode() {
-    int result = 17;
-    result = 37 * result + _lat.hashCode();
-    result = 37 * result + _lng.hashCode();
-    return result;
-  }
-  
-  String toString() => "${_lat},${_lng}";
+  strings.forEach(echo);
 }
 
-void main() {
-  var waikiki = new Location(21.271488, -157.822806); 
-  var hometown = new Location(48.19366, -122.12681);
-  var london = new Location(51.50403, -0.11844);
-  var london2 = new Location(51.50403, -0.11844);
-  
-  HashSet<Location> locations = new HashSet<Location>();
-  locations.add(waikiki);
-  locations.add(hometown);
-  locations.add(london);
-  locations.add(london2);
- 
-  locations.forEach(print);
+echo(String s) {
+  print("s=${s.hashCode()}");  
 }
 
-51.50403,-0.11844
-51.50403,-0.11844
-21.271488,-157.822806
-48.19366,-122.12681
+Waiting for debugger connection...
+s=783965529
+s=170824770
+s=14385563
 }}}
 ----------------
