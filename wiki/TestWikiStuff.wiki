@@ -1,44 +1,41 @@
 #summary test out wiki stuff
 
 ---------------
-{{{
-class MyPoint implements Hashable {
-  int _x, _y;
+{{{class Location implements Hashable { 
+  num _lat, _lng;
   
-  MyPoint(this._x, this._y);
-
+  Location([this._lat, this._lng]); 
+  
   int hashCode() {
     int result = 17;
-    result = 37 * result + _x.hashCode();
-    result = 37 * result + _y.hashCode();
+    result = 37 * result + _lat.hashCode();
+    result = 37 * result + _lng.hashCode();
     return result;
   }
-
-  String toString() => "Point(x=${_x}, y=${_y}) hash='${hashCode()}'";
+  
+  String toString() => "${_lat},${_lng}";
 }
 
 void main() {
-  MyPoint pointA = new MyPoint(1, 2);
-  MyPoint pointB = new MyPoint(3, 4);
-  MyPoint pointC = new MyPoint(4, 5);
-  MyPoint pointD = new MyPoint(1, 2);
-
-  HashSet<MyPoint> points = new HashSet<MyPoint>();
-  points.add(pointA);
-  points.add(pointB);
-  points.add(pointC);
-  points.add(pointD);
+  var waikiki = new Location(21.271488, -157.822806); 
+  var hometown = new Location(48.19366, -122.12681);
+  var london = new Location(51.50403, -0.11844);
+  var london2 = new Location(51.50403, -0.11844);
   
-  points.forEach(print);
-  
-  assert(points.length == 3);
+  HashSet<Location> locations = new HashSet<Location>();
+  locations.add(waikiki);
+  locations.add(hometown);
+  locations.add(london);
+  locations.add(london2);
+ 
+  locations.forEach(print);
 }
 
 
-Waiting for debugger connection...
-Point(x=1, y=2) hash='23312'
-Point(x=1, y=2) hash='23312'
-Point(x=4, y=5) hash='23426'
-Point(x=3, y=4) hash='23388'
+
+51.50403,-0.11844
+51.50403,-0.11844
+21.271488,-157.822806
+48.19366,-122.12681
 }}}
 ----------------
