@@ -2,27 +2,34 @@
 
 ---------------
 {{{
-class MyPoint implements Hashable {
-  int _x, _y;
-  
-  MyPoint(this._x, this._y);
+class HashSetImplementation<E extends Hashable> implements HashSet<E> {
 
-  int hashCode() {
-    int result = 17;
-    result = 37 * result + _x.hashCode();
-    result = 37 * result + _y.hashCode();
-    return result;
+  HashSetImplementation() {
+    _backingMap = new HashMapImplementation<E, E>();
   }
 
-  int compareTo(MyPoint other) {
-    return 0;
+  factory HashSetImplementation.from(Iterable<E> other) {
+    Set<E> set = new HashSetImplementation<E>();
+    for (final e in other) {
+      set.add(e);
+    }
+    return set;
   }
-  
-  bool equals(MyPoint other) {
-    return true;
+
+  void clear() {
+    _backingMap.clear();
   }
-  
-  String toString() => "Point(x=${_x}, y=${_y}) hash='${hashCode()}'";
+
+  void add(E value) {
+    //_backingMap[value] = value;
+    // I think it should be something like this
+    _backingMap.put(value.hashCode, value);
+  }
+
+  bool contains(E value) {
+    return _backingMap.containsKey(value);
+  }
+//...
 }
 }}}
 ----------------
