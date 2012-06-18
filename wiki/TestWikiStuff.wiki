@@ -2,34 +2,17 @@
 
 ---------------
 {{{
-class HashSetImplementation<E extends Hashable> implements HashSet<E> {
+@Entity
+public class User implements Serializable, Comparable<User> {
 
-  HashSetImplementation() {
-    _backingMap = new HashMapImplementation<E, E>();
-  }
-
-  factory HashSetImplementation.from(Iterable<E> other) {
-    Set<E> set = new HashSetImplementation<E>();
-    for (final e in other) {
-      set.add(e);
-    }
-    return set;
-  }
-
-  void clear() {
-    _backingMap.clear();
-  }
-
-  void add(E value) {
-    //_backingMap[value] = value;
-    // I think it should be something like this
-    _backingMap.put(value.hashCode, value);
-  }
-
-  bool contains(E value) {
-    return _backingMap.containsKey(value);
-  }
-//...
-}
+    private static final long serialVersionUID = 1L;
+    private @Index @Id Long id;
+    private boolean active;
+    private String name;
+    private @Index String email;
+    private String notes;
+    private boolean adminUser;
+    private @Index HashSet<String> search;
+    //... some of them
 }}}
 ----------------
