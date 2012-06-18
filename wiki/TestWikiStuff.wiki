@@ -3,16 +3,14 @@
 ---------------
 {{{
 @Entity
-public class User implements Serializable, Comparable<User> {
-
-    private static final long serialVersionUID = 1L;
-    private @Index @Id Long id;
-    private boolean active;
-    private String name;
-    private @Index String email;
-    private String notes;
-    private boolean adminUser;
-    private @Index HashSet<String> search;
-    //... some of them
+    public T get(Key<T> key) {
+        ofy().clear();
+        return ofy().get(key);
+    }
+    
+    public T get(Long id) {
+        ofy().clear();
+        return ofy().get(clazz, id);
+    }
 }}}
 ----------------
