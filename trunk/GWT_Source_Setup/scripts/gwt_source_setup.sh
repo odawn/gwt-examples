@@ -8,6 +8,8 @@
 # http://code.google.com/p/google-web-toolkit/source/browse/trunk/eclipse/README.txt
 #
 
+WORKING_DIRECTORY=~/workspace-source/gwt
+
 if [ "$1" = "-h" ]
 then
     echo "sh ./gwt_source_setup.sh -o [-o=overrite|replace previous download]"
@@ -22,37 +24,29 @@ hash svn 2>&- || { echo >&2 "Oops, but you need svn. Install svn.  Aborting setu
 hash ant 2>&- || { echo >&2 "Oops, but you need ant. Install ant.  Aborting setup, Exiting."; exit 1; }
 
 
-# goto home directory - not needed, but useful to show root location
-cd ~
+if [ ! -d $WORKING_DIRECTORY ]; then
+    
+    mkdir $WORKING_DIRECTORY
+    cd $WORKING_DIRECTORY
+    
+    # download third party source libs & gwt source
+	svn checkout http://google-web-toolkit.googlecode.com/svn/tools/ tools
+	svn checkout http://google-web-toolkit.googlecode.com/svn/trunk/ trunk
 
-# remove gwt working directory
-# OPTIONAL
-if [ "$1" = "-o" ]
-then
-	rm -rf ~/gwt    
-fi 
-
-
-# make a working directory
-mkdir ~/gwt
-
-# go into that directory
-cd ~/gwt
-
-# download thirdparty source libs
-svn checkout http://google-web-toolkit.googlecode.com/svn/tools/ tools
-
-# download gwt source
-svn checkout http://google-web-toolkit.googlecode.com/svn/trunk/ trunk
+    else 
+    cd $WORKING_DIRECTORY
+   	svn update 
+fi
 
 
 # TODO add export to enviroment
-export GWT_TOOLS=~/gwt/tools
+export GWT_TOOLS=$WORKING_DIRECTORY/tools
+echo "exported GWT_TOOLS=$GWT_TOOLS to session only"
 
 # move to working dir
-cd ~/gwt/trunk
+cd $WORKING_DIRECTORY/trunk
 
-# get everything ready
+# build gwt
 ant
 
 
