@@ -25,17 +25,16 @@ hash ant 2>&- || { echo >&2 "Oops, but you need ant. Install ant.  Aborting setu
 
 
 if [ ! -d $WORKING_DIRECTORY ]; then
-    
     mkdir $WORKING_DIRECTORY
     cd $WORKING_DIRECTORY
     
     # download third party source libs & gwt source
-	svn checkout http://google-web-toolkit.googlecode.com/svn/tools/ tools
-	svn checkout http://google-web-toolkit.googlecode.com/svn/trunk/ trunk
+    svn checkout http://google-web-toolkit.googlecode.com/svn/tools/ tools
+    svn checkout http://google-web-toolkit.googlecode.com/svn/trunk/ trunk
 
     else 
     cd $WORKING_DIRECTORY
-   	svn update 
+    svn update 
 fi
 
 
