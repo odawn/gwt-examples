@@ -23,7 +23,7 @@ hash svn 2>&- || { echo >&2 "Oops, but you need svn. Install svn.  Aborting setu
 # install ant?
 hash ant 2>&- || { echo >&2 "Oops, but you need ant. Install ant.  Aborting setup, Exiting."; exit 1; }
 
-
+# TODO when something goes wrong with checkout svn udpate won't work...hmmmm (rm -rf $WORKING_DIRECTORY)
 if [ ! -d $WORKING_DIRECTORY ]; then
     mkdir $WORKING_DIRECTORY
     cd $WORKING_DIRECTORY
@@ -53,4 +53,4 @@ ant
 # http://code.google.com/p/google-web-toolkit/source/browse/trunk/eclipse/README.txt#178 - Importing the GWT core projects
 
 
-echo "Finished downloading GWT source and setup.";
+echo "Finished downloading GWT source and setup."
