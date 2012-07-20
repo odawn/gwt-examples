@@ -2,15 +2,7 @@
 
 ---------------
 {{{
-  private void addOnnitzToList(OnnitzAndOnOnnitzsDto onnitzAndOnOnnitzsDto) {
-        Show show = showObserver.getShow();
 
-        OnnitzWidgetPresenter onnitzWidgetPresenter = onnitzWidgetPresenterProvider.get();
-        addToSlot(TYPE_Onnitzs, onnitzWidgetPresenter);
-        onnitzWidgetPresenter.display(show, onnitzAndOnOnnitzsDto);
-        onnitzWidgetPresenter.setEditMode(isEditMode);
 
-        System.out.println("added onnitz");
-    }
 }}}
 ----------------
