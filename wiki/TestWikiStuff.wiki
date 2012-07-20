@@ -2,44 +2,15 @@
 
 ---------------
 {{{
-import com.googlecode.objectify.Key;
-import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.cmd.LoadType;
-import com.googlecode.objectify.util.cmd.ObjectifyWrapper;
+  private void addOnnitzToList(OnnitzAndOnOnnitzsDto onnitzAndOnOnnitzsDto) {
+        Show show = showObserver.getShow();
 
-public class Ofy extends ObjectifyWrapper<Ofy, OfyFactory> {
-   public Ofy(Objectify base) {
-       super(base);
-   }
+        OnnitzWidgetPresenter onnitzWidgetPresenter = onnitzWidgetPresenterProvider.get();
+        addToSlot(TYPE_Onnitzs, onnitzWidgetPresenter);
+        onnitzWidgetPresenter.display(show, onnitzAndOnOnnitzsDto);
+        onnitzWidgetPresenter.setEditMode(isEditMode);
 
-   public <T> LoadType<T> query(Class<T> clazz) {
-       return load().type(clazz);
-   }
-
-   public <T> T get(Key<T> key){
-       return load().key(key).get();
-   }
-
-   public <T> T get(Class<T> clazz, long id) {
-       return load().type(clazz).id(id).get();
-   }
-   
-}
-
-
-public class OfyFactory extends ObjectifyFactory {
-    @Inject
-    public OfyFactory() {
-        register(User.class);
+        System.out.println("added onnitz");
     }
-
-    @Override
-    public Ofy begin() {
-        return new Ofy(super.begin());
-    }
- }
-
-// app-engine.xml
-<threadsafe>true</threadsafe>
 }}}
 ----------------
