@@ -1,8 +1,33 @@
-#summary test out wiki stuff
+#summary Description of the GWTP Eclipse Plugin
 
----------------
+= Introduction =
+
+This page describes the GWTP Eclipse Plugin that provides simple wizard to create new GWTP project and various classes such as Presenter/View pairs, Action/!ActionHandler pairs, Event/Handler pairs or simple model classes.
+
+*More information is coming soon.*
+
+= Requirements =
+
+The GWTP Eclipse plugin requires [http://www.eclipse.org/downloads/ Eclipse Helios (3.6)] or later, as well as the [http://code.google.com/eclipse/ Google Plugin for Eclipse].
+
+= Update site =
+
+To install the GWTP Eclipse Plugin, from Eclipse go to `Help > Install New Software` and in the "`Work with`" box enter:
 {{{
-
-
+https://github.com/ArcBees/gwtp-eclipse-plugin/raw/master/update
 }}}
-----------------
+Then select `GWTP Plugins and tools` and click `Next` then `Finish`.
+
+= Creating your first GWTP project =
+
+The following screencast shows you how to create your first GWTP project using the GWTP Plugin for Eclipse. It is best viewed in full screen. (Or watch it on [http://www.youtube.com/watch?v=cC-Qh4q1lCI YouTube].)
+
+<wiki:video url="http://www.youtube.com/watch?v=cC-Qh4q1lCI"/>
+
+
+= Contributing =
+
+
+= Acknowledgements =
+
+The initial version of the GWTP Eclipse Plugin was contributed by Michael Renaud and [http://www.imagemsoft.com/ Imagem Solutions].
