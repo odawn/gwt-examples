@@ -1,8 +1,7 @@
 #summary Description of the GWTP Eclipse Plugin
 
 = Introduction =
-
-This page describes the GWTP Eclipse Plugin that provides simple wizard to create new GWTP project and various classes such as Presenter/View pairs, Action/!ActionHandler pairs, Event/Handler pairs or simple model classes.
+ This page describes the GWTP Eclipse Plugin that provides simple wizard to create new GWTP project and various classes such as Presenter/View pairs, Action/!ActionHandler pairs, Event/Handler pairs or simple model classes.
 
 *More information is coming soon.*
 
