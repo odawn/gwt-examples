@@ -1,6 +1,5 @@
 {{{
-@Api(
-     name = "userendpoint",
+@Api(name = "userendpoint",
      description = "This entity represents a user.", 
      version = "v3",
      clientIds = { "AIzaSyCCTPZtSIh59yZl3ZfRS-2U8tp6DWoWF9g" } ,
