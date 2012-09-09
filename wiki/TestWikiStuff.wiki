@@ -1,8 +1,12 @@
 {{{
-@Api(name = "userendpoint",
-     description = "This entity represents a user.", 
-     version = "v3",
-     clientIds = { "AIzaSyCCTPZtSIh59yZl3ZfRS-2U8tp6DWoWF9g" } ,
-     scopes = { "https://www.googleapis.com/auth/userinfo.email" })
-public class UserEndpoint {
+@ApiMethod(
+    httpMethod = "GET",
+    name = "user.list", 
+    path = "user/list")
+@SuppressWarnings({ "cast", "unchecked" })
+public CollectionResponse<User> listUser(@Nullable @Named("cursor") String cursorString,
+    @Nullable @Named("limit") Integer limit, com.google.appengine.api.users.User guser) throws Exception  {
+  if (guser == null) {
+    throw new UnauthorizedException(CustomErrors.MUST_LOG_IN.toString());
+  }
 }}}
