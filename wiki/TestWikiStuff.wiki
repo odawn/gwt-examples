@@ -1,21 +1,32 @@
 {{{
-    Timer ensureFbIsLoaded = new Timer() {
-      @Override
-      public void run() {
-        if (isLoaded()) {
-          facebookCallback.onSuccess();
-
-          cancel();
-        }
-      }
-    };
-    ensureFbIsLoaded.scheduleRepeating(100);
-
-  public native boolean isLoaded() /*-{
-    if ($wnd.FB) {
-      return true;
-    } else {
-      return false;
-    }
-  }-*/;
+**
+ * example of the response 
+  {
+      "method": "setToken",
+      "args": [{
+          "created": 1350840437,
+          "id": "tok_0admUwv3TMm684",
+          "livemode": false,
+          "object": "token",
+          "used": false,
+          "card": {
+              "address_city": "arlington",
+              "address_country": "US",
+              "address_line1": "4003 246th st ne",
+              "address_line2": null,
+              "address_state": "WA",
+              "address_zip": "98223",
+              "country": "US",
+              "exp_month": 1,
+              "exp_year": 2020,
+              "fingerprint": "WBnXHGRphVb17ax0",
+              "last4": "4242",
+              "name": "name on card",
+              "object": "card",
+              "type": "Visa"
+          }
+      }],
+      "id": 3
+  }
+ */
 }}}
