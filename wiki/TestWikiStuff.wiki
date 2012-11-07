@@ -1,32 +1,105 @@
 {{{
-**
- * example of the response 
-  {
-      "method": "setToken",
-      "args": [{
-          "created": 1350840437,
-          "id": "tok_0admUwv3TMm684",
-          "livemode": false,
-          "object": "token",
-          "used": false,
-          "card": {
-              "address_city": "arlington",
-              "address_country": "US",
-              "address_line1": "4003 246th st ne",
-              "address_line2": null,
-              "address_state": "WA",
-              "address_zip": "98223",
-              "country": "US",
-              "exp_month": 1,
-              "exp_year": 2020,
-              "fingerprint": "WBnXHGRphVb17ax0",
-              "last4": "4242",
-              "name": "name on card",
-              "object": "card",
-              "type": "Visa"
-          }
-      }],
-      "id": 3
-  }
- */
+public class TransactionsPresenter extends PresenterWidget<TransactionsPresenter.MyView>
+        implements TransactionsUiHandlers {
+    public static final int PAGESIZE = 10;
+
+    public interface MyView extends View {
+        void displayTransactions(Integer total);
+    }
+
+    private final TransactionsAccess transactionsAccess;
+    private final DispatchAsync dispatcher;
+    private PlaceManager placeManager;
+
+    @Inject
+    public TransactionsPresenter(final EventBus eventBus, final MyView view,
+                                 final TransactionsAccess transactionsAccess, final DispatchAsync dispatcher,
+                                 final PlaceManager placeManager) {
+        super(eventBus, view);
+
+        this.transactionsAccess = transactionsAccess;
+        this.dispatcher = dispatcher;
+        this.placeManager = placeManager;
+    }
+
+    @Override
+    public void onReveal() {
+        if (transactionsAccess.canPut()) {
+            fetchTotal();
+        }
+    }
+
+    public void fetchTotal() {
+        String showId = placeManager.getCurrentPlaceRequest().getParameter(ParameterTokens.getShowId(), "0");
+
+        TransactionsFilter filter = new TransactionsFilter();
+        filter.setDisplayCurrentUserTransactions(false);
+        filter.setOffset(0);
+        filter.setLimit(0);
+
+        if (!showId.equals("0")) {
+            filter.setShowId(showId);
+        }
+
+        dispatcher.execute(new TransactionsAction(filter), new AsyncCallbackImpl<TransactionsResult>() {
+            @Override
+            public void onSuccess(TransactionsResult result) {
+                displayTransactions(result);
+            }
+        });
+    }
+
+    private void displayTransactions(TransactionsResult result) {
+        Integer total = result.getTotal();
+        getView().displayTransactions(total);
+    }
+}
+
+
+public class TransactionAsyncDataProvider extends AsyncDataProvider<Transaction> {
+    private final DispatchAsync dispatcher;
+
+    private PlaceManager placeManager;
+    private CellTable<Transaction> transactionsTable;
+    private Boolean displayCurrentUserTransactions;
+
+    @Inject
+    public TransactionAsyncDataProvider(final DispatchAsync dispatcher, final PlaceManager placeManager,
+                                        @Assisted CellTable<Transaction> transactionsTable,
+                                        @Assisted Boolean displayCurrentUserTransactions) {
+        this.dispatcher = dispatcher;
+        this.placeManager = placeManager;
+        this.transactionsTable = transactionsTable;
+        this.displayCurrentUserTransactions = displayCurrentUserTransactions;
+
+        addDataDisplay(transactionsTable);
+    }
+
+    @Override
+    protected void onRangeChanged(HasData<Transaction> display) {
+        PlaceRequest currentPlace = placeManager.getCurrentPlaceRequest();
+        String showId = currentPlace.getParameter(ParameterTokens.getShowId(), "0");
+
+        final Range range = display.getVisibleRange();
+        final Integer offset = range.getStart();
+        Integer limit = range.getLength();
+
+        TransactionsFilter filter = new TransactionsFilter();
+        filter.setDisplayCurrentUserTransactions(displayCurrentUserTransactions);
+        filter.setOffset(offset);
+        filter.setLimit(limit);
+
+        if (!showId.equals("0")) {
+            filter.setShowId(showId);
+        }
+
+        dispatcher.execute(new TransactionsAction(filter), new AsyncCallbackImpl<TransactionsResult>() {
+            @Override
+            public void onSuccess(TransactionsResult result) {
+                updateRowCount(result.getTransactions().size(), true);
+                transactionsTable.setRowData(offset, result.getTransactions());
+            }
+        });
+    }
+}
 }}}
