@@ -1,105 +1,35 @@
-{{{
-public class TransactionsPresenter extends PresenterWidget<TransactionsPresenter.MyView>
-        implements TransactionsUiHandlers {
-    public static final int PAGESIZE = 10;
-
-    public interface MyView extends View {
-        void displayTransactions(Integer total);
+public class TransactionsView extends ViewWithUiHandlers<TransactionsUiHandlers> implements
+        TransactionsPresenter.MyView {
+    public interface Binder extends UiBinder<Widget, TransactionsView> {
     }
 
-    private final TransactionsAccess transactionsAccess;
-    private final DispatchAsync dispatcher;
-    private PlaceManager placeManager;
+    @UiField(provided = true)
+    CellTable<Transaction> transactionsTable;
+    @UiField(provided = true)
+    SimplePager pager;
 
     @Inject
-    public TransactionsPresenter(final EventBus eventBus, final MyView view,
-                                 final TransactionsAccess transactionsAccess, final DispatchAsync dispatcher,
-                                 final PlaceManager placeManager) {
-        super(eventBus, view);
+    public TransactionsView(final Binder uiBinder,
+                            final UiHandlersStrategy<TransactionsUiHandlers> adminUiHandlersStrategy,
+                            CellTable<Transaction> transactionsTable,
+                            final SimplePager pager,
+                            final TransactionAsyncDataProviderFactory transactionAsyncDataProviderFactory) {
+        super(adminUiHandlersStrategy);
 
-        this.transactionsAccess = transactionsAccess;
-        this.dispatcher = dispatcher;
-        this.placeManager = placeManager;
-    }
-
-    @Override
-    public void onReveal() {
-        if (transactionsAccess.canPut()) {
-            fetchTotal();
-        }
-    }
-
-    public void fetchTotal() {
-        String showId = placeManager.getCurrentPlaceRequest().getParameter(ParameterTokens.getShowId(), "0");
-
-        TransactionsFilter filter = new TransactionsFilter();
-        filter.setDisplayCurrentUserTransactions(false);
-        filter.setOffset(0);
-        filter.setLimit(0);
-
-        if (!showId.equals("0")) {
-            filter.setShowId(showId);
-        }
-
-        dispatcher.execute(new TransactionsAction(filter), new AsyncCallbackImpl<TransactionsResult>() {
-            @Override
-            public void onSuccess(TransactionsResult result) {
-                displayTransactions(result);
-            }
-        });
-    }
-
-    private void displayTransactions(TransactionsResult result) {
-        Integer total = result.getTotal();
-        getView().displayTransactions(total);
-    }
-}
-
-
-public class TransactionAsyncDataProvider extends AsyncDataProvider<Transaction> {
-    private final DispatchAsync dispatcher;
-
-    private PlaceManager placeManager;
-    private CellTable<Transaction> transactionsTable;
-    private Boolean displayCurrentUserTransactions;
-
-    @Inject
-    public TransactionAsyncDataProvider(final DispatchAsync dispatcher, final PlaceManager placeManager,
-                                        @Assisted CellTable<Transaction> transactionsTable,
-                                        @Assisted Boolean displayCurrentUserTransactions) {
-        this.dispatcher = dispatcher;
-        this.placeManager = placeManager;
         this.transactionsTable = transactionsTable;
-        this.displayCurrentUserTransactions = displayCurrentUserTransactions;
 
-        addDataDisplay(transactionsTable);
+        transactionsTable.setPageSize(TransactionsPresenter.PAGESIZE);
+        this.pager = pager;
+        this.pager.setPageSize(TransactionsPresenter.PAGESIZE);
+        this.pager.setDisplay(transactionsTable);
+
+        initWidget(uiBinder.createAndBindUi(this));
+
+        setupColumns();
+
+        boolean displayCurrentUserTransactions = false;
+        transactionAsyncDataProviderFactory.createDataProvider(transactionsTable, displayCurrentUserTransactions);
     }
-
-    @Override
-    protected void onRangeChanged(HasData<Transaction> display) {
-        PlaceRequest currentPlace = placeManager.getCurrentPlaceRequest();
-        String showId = currentPlace.getParameter(ParameterTokens.getShowId(), "0");
-
-        final Range range = display.getVisibleRange();
-        final Integer offset = range.getStart();
-        Integer limit = range.getLength();
-
-        TransactionsFilter filter = new TransactionsFilter();
-        filter.setDisplayCurrentUserTransactions(displayCurrentUserTransactions);
-        filter.setOffset(offset);
-        filter.setLimit(limit);
-
-        if (!showId.equals("0")) {
-            filter.setShowId(showId);
-        }
-
-        dispatcher.execute(new TransactionsAction(filter), new AsyncCallbackImpl<TransactionsResult>() {
-            @Override
-            public void onSuccess(TransactionsResult result) {
-                updateRowCount(result.getTransactions().size(), true);
-                transactionsTable.setRowData(offset, result.getTransactions());
-            }
-        });
-    }
+//...
 }
 }}}
