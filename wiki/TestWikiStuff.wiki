@@ -1,3 +1,4 @@
+{{{
 public class TransactionsView extends ViewWithUiHandlers<TransactionsUiHandlers> implements
         TransactionsPresenter.MyView {
     public interface Binder extends UiBinder<Widget, TransactionsView> {
@@ -32,4 +33,5 @@ public class TransactionsView extends ViewWithUiHandlers<TransactionsUiHandlers>
     }
 //...
 }
+
 }}}
