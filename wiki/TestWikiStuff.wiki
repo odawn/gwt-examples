@@ -1,4 +1,5 @@
 {{{
+sudo bash
 sudo touch /etc/authbind/byport/80
 sudo chmod 500 /etc/authbind/byport/80
 sudo chown tomcat /etc/authbind/byport/80
