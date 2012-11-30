@@ -1,5 +1,9 @@
-{{{
-cd /etc/tomcat7/Catalina/localhost
-sudo cp * ../gonevertical.org
-sudo cp * ../teamcity.gonevertical.org
+{{{ 
+  <role rolename="admin-gui"/>
+  <role rolename="manager-script"/>
+  <role rolename="manager-gui"/>
+  <role rolename="manager-script"/>
+  <role rolename="manager-jmx"/>
+  <role rolename="manager-status"/>
+  <user username="branflake" password="Change" roles="admin-gui,admin-script,manager-gui,manager-script,manager-jmx,manager-status"/>
 }}}
