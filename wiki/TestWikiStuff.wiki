@@ -1,9 +1,5 @@
 {{{
-sudo touch /etc/authbind/byport/80
-sudo chmod 500 /etc/authbind/byport/80
-sudo chown tomcat7 /etc/authbind/byport/80
-sudo touch /etc/authbind/byport/443
-sudo chmod 500 /etc/authbind/byport/443
-sudo chown tomcat7 /etc/authbind/byport/443
-sudo service tomcat7 restart
+cd /etc/tomcat7/Catalina/localhost
+cp * ../gonevertical.org
+cp * ../teamcity.gonevertical.org
 }}}
