@@ -1,4 +1,5 @@
 {{{
+EVERE: Failed to initialize end point associated with ProtocolHandler ["http-bio-80"]
 java.net.BindException: Permission denied <null>:80
         at org.apache.tomcat.util.net.JIoEndpoint.bind(JIoEndpoint.java:391)
         at org.apache.tomcat.util.net.AbstractEndpoint.init(AbstractEndpoint.java:554)
@@ -27,5 +28,4 @@ Caused by: java.net.BindException: Permission denied
         at org.apache.tomcat.util.net.DefaultServerSocketFactory.createSocket(DefaultServerSocketFactory.java:49)
         at org.apache.tomcat.util.net.JIoEndpoint.bind(JIoEndpoint.java:378)
         ... 17 more
-
 }}}
