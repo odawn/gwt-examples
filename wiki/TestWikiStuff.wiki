@@ -1,9 +1,10 @@
 {{{
-#Located: /etc/default/tomcat7
-
-# If you run Tomcat on port numbers that are all higher than 1023, then you
-# do not need authbind.  It is used for binding Tomcat to lower port numbers.
-# NOTE: authbind works only with IPv4.  Do not enable it when using IPv6.
-# (yes/no, default: no)
-AUTHBIND=yes
+sudo touch /etc/authbind/byport/80
+sudo chmod 500 /etc/authbind/byport/80
+sudo chown tomcat /etc/authbind/byport/80
+sudo touch /etc/authbind/byport/443
+sudo chmod 500 /etc/authbind/byport/443
+sudo chown tomcat /etc/authbind/byport/443
+sudo /sbin/chkconfig --levels 235 tomcat7 on
+sudo service tomcat7 restart
 }}}
