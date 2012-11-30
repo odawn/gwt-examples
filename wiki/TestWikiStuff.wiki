@@ -1,9 +1,10 @@
 {{{ 
-      <!-- Located: /usr/share/tomcat7-admin/manager/WEB-INF/web.xml -->
-      <multipart-config>
-        <!-- 1000MB max -->
-        <max-file-size>1048576000</max-file-size>
-        <max-request-size>1048576000</max-request-size>
-        <file-size-threshold>0</file-size-threshold>
-      </multipart-config>
+SEVERE: HTMLManager: FAIL - Deploy Upload Failed, Exception: java.io.FileNotFoundException: /var/lib/tomcat7/webapps_teamcity/ROOT.war (Permission denied)
+java.io.IOException: java.io.FileNotFoundException: /var/lib/tomcat7/webapps_teamcity/ROOT.war (Permission denied)
+        at org.apache.catalina.core.ApplicationPart.write(ApplicationPart.java:123)
+        at org.apache.catalina.manager.HTMLManagerServlet.upload(HTMLManagerServlet.java:332)
+        at org.apache.catalina.manager.HTMLManagerServlet.doPost(HTMLManagerServlet.java:211)
+        at javax.servlet.http.HttpServlet.service(HttpServlet.java:641)
+        at javax.servlet.http.HttpServlet.service(HttpServlet.java:722)
+
 }}}
