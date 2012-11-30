@@ -1,5 +1,3 @@
 {{{ 
-cd /var/lib/tomcat7
-sudo chown tomcat7 webapps_gonevertical/
-sudo chgrp tomcat7 webapps_gonevertical/
+sudo apt-get install tomcat7-manager
 }}}
