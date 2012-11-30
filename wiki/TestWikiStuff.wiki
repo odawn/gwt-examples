@@ -1,3 +1,11 @@
 {{{ 
-sudo apt-get install tomcat7-manager
+  <!-- Located: /etc/tomcat7/tomcat-users.xml -->
+  <role rolename="admin-gui"/>
+  <role rolename="admin-script"/>
+  <role rolename="manager-script"/>
+  <role rolename="manager-gui"/>
+  <role rolename="manager-script"/>
+  <role rolename="manager-jmx"/>
+  <role rolename="manager-status"/>
+  <user username="branflake" password="Change" roles="admin-gui,admin-script,manager-gui,manager-script,manager-jmx,manager-status"/>
 }}}
