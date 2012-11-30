@@ -12,9 +12,6 @@
 = Tomcat Deployment =
  Tomcat, has got to be the easiest platform to deploy GWT applications on and the most efficient system. If you switch to Tomcat, you'll love it.
 
- == WAR Builder ==
- This WAR builder works fantastic. [gwtTomcatWarBuilder] [http://code.google.com/p/gwt-examples/source/browse/trunk/gwt-TomcatWarBuilder/src/com/tribling/gwt/TomcatWarBuilder/TomcatWarBuilder.java Source Code]
-
  == My Screenshots ==
  [http://tribling.com/tomcat.php Screenshots] - Tomcat install screenshots for reference
 
