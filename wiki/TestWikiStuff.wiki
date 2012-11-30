@@ -1,4 +1,5 @@
 {{{ 
+  <!-- Located: /etc/tomcat7/tomcat-users.xml -->
   <role rolename="admin-gui"/>
   <role rolename="manager-script"/>
   <role rolename="manager-gui"/>
