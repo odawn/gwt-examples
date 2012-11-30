@@ -1,3 +1,18 @@
 {{{ 
-sudo apt-get install tomcat7 tomcat7-admin tomcat7-docs tomcat7-user tomcat7-examples
+      <!-- Located: /etc/tomcat7/server.xml -->
+      <Host name="gonevertical.org"  appBase="webapps"
+            unpackWARs="true" autoDeploy="true">
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+               prefix="localhost_access_log." suffix=".txt"
+               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+
+      </Host>
+
+      <Host name="teamcity.gonevertical.org" appBase="webapps_teamcity"
+            unpackWARs="true" autoDeploy="true">
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+               prefix="localhost_access_log." suffix=".txt"
+               pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+
+      </Host>
 }}}
