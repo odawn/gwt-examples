@@ -1,5 +1,5 @@
 {{{
 cd /etc/tomcat7/Catalina/localhost
-cp * ../gonevertical.org
-cp * ../teamcity.gonevertical.org
+sudo cp * ../gonevertical.org
+sudo cp * ../teamcity.gonevertical.org
 }}}
