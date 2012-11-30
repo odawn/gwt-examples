@@ -1,3 +1,9 @@
 {{{ 
-sudo service tomcat7 restart
+      <!-- Located: /usr/share/tomcat7-admin/manager/WEB-INF/web.xml -->
+      <multipart-config>
+      <!-- 1000MB max -->
+      <max-file-size>1048576000</max-file-size>
+      <max-request-size>1048576000</max-request-size>
+      <file-size-threshold>0</file-size-threshold>
+    </multipart-config>
 }}}
