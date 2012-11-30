@@ -5,6 +5,5 @@ sudo chown tomcat7 /etc/authbind/byport/80
 sudo touch /etc/authbind/byport/443
 sudo chmod 500 /etc/authbind/byport/443
 sudo chown tomcat7 /etc/authbind/byport/443
-sudo /sbin/chkconfig --levels 235 tomcat7 on
 sudo service tomcat7 restart
 }}}
