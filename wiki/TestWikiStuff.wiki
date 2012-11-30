@@ -1,31 +1,7 @@
 {{{
-EVERE: Failed to initialize end point associated with ProtocolHandler ["http-bio-80"]
-java.net.BindException: Permission denied <null>:80
-        at org.apache.tomcat.util.net.JIoEndpoint.bind(JIoEndpoint.java:391)
-        at org.apache.tomcat.util.net.AbstractEndpoint.init(AbstractEndpoint.java:554)
-        at org.apache.coyote.AbstractProtocol.init(AbstractProtocol.java:409)
-        at org.apache.coyote.http11.AbstractHttp11JsseProtocol.init(AbstractHttp11JsseProtocol.java:119)
-        at org.apache.catalina.connector.Connector.initInternal(Connector.java:956)
-        at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
-        at org.apache.catalina.core.StandardService.initInternal(StandardService.java:559)
-        at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
-        at org.apache.catalina.core.StandardServer.initInternal(StandardServer.java:815)
-        at org.apache.catalina.util.LifecycleBase.init(LifecycleBase.java:102)
-        at org.apache.catalina.startup.Catalina.load(Catalina.java:594)
-        at org.apache.catalina.startup.Catalina.load(Catalina.java:619)
-        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
-        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-        at java.lang.reflect.Method.invoke(Method.java:616)
-        at org.apache.catalina.startup.Bootstrap.load(Bootstrap.java:281)
-        at org.apache.catalina.startup.Bootstrap.main(Bootstrap.java:449)
-Caused by: java.net.BindException: Permission denied
-        at java.net.PlainSocketImpl.socketBind(Native Method)
-        at java.net.AbstractPlainSocketImpl.bind(AbstractPlainSocketImpl.java:353)
-        at java.net.ServerSocket.bind(ServerSocket.java:336)
-        at java.net.ServerSocket.<init>(ServerSocket.java:202)
-        at java.net.ServerSocket.<init>(ServerSocket.java:158)
-        at org.apache.tomcat.util.net.DefaultServerSocketFactory.createSocket(DefaultServerSocketFactory.java:49)
-        at org.apache.tomcat.util.net.JIoEndpoint.bind(JIoEndpoint.java:378)
-        ... 17 more
+# If you run Tomcat on port numbers that are all higher than 1023, then you
+# do not need authbind.  It is used for binding Tomcat to lower port numbers.
+# NOTE: authbind works only with IPv4.  Do not enable it when using IPv6.
+# (yes/no, default: no)
+AUTHBIND=yes
 }}}
