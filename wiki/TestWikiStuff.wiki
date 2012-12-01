@@ -1,3 +1,10 @@
 {{{ 
-virtual_host_name.domain.tld/manager
+# Default Java options
+# Set java.awt.headless=true if JAVA_OPTS is not set so the
+# Xalan XSL transformer can work without X11 display on JDK 1.4+
+# It also looks like the default heap size of 64M is not enough for most cases
+# so the maximum heap size is set to 128M
+if [ -z "$JAVA_OPTS" ]; then
+        JAVA_OPTS="-Djava.awt.headless=true -Xmx2048M -XX:MaxPermSize=256M"
+fi
 }}}
