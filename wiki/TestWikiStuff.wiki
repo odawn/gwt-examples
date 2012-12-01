@@ -1,4 +1,6 @@
 {{{ 
+# Located in /etc/init.d/tomcat7
+
 # Default Java options
 # Set java.awt.headless=true if JAVA_OPTS is not set so the
 # Xalan XSL transformer can work without X11 display on JDK 1.4+
