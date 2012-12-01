@@ -1,12 +1,8 @@
 {{{ 
-# Located in /etc/init.d/tomcat7
+# Use "-XX:+UseConcMarkSweepGC" to enable the CMS garbage collector (improved
+# response time). If you use that option and you run Tomcat on a machine with
+# exactly one CPU chip that contains one or two cores, you should also add
+# the "-XX:+CMSIncrementalMode" option.
+JAVA_OPTS="-Djava.awt.headless=true -Xmx2048m -XX:MaxPermSize=256M -XX:+UseConcMarkSweepGC"
 
-# Default Java options
-# Set java.awt.headless=true if JAVA_OPTS is not set so the
-# Xalan XSL transformer can work without X11 display on JDK 1.4+
-# It also looks like the default heap size of 64M is not enough for most cases
-# so the maximum heap size is set to 128M
-if [ -z "$JAVA_OPTS" ]; then
-        JAVA_OPTS="-Djava.awt.headless=true -Xmx2048M -XX:MaxPermSize=256M"
-fi
 }}}
