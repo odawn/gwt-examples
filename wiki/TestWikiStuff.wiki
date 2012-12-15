@@ -22,13 +22,5 @@ public class Transaction extends BaseEntity {
     public void setShow(Show show) {
         this.show = Ref.create(show);
     }
-
-    @Override
-    public String toString() {
-        String s = "Transaction { ";
-        s += "id=" + getId() + ", ";
-        s += paymentManualDto + " } ";
-        return s;
-    }
 }
 }}}
