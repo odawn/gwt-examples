@@ -1,8 +1,34 @@
 {{{ 
-# Use "-XX:+UseConcMarkSweepGC" to enable the CMS garbage collector (improved
-# response time). If you use that option and you run Tomcat on a machine with
-# exactly one CPU chip that contains one or two cores, you should also add
-# the "-XX:+CMSIncrementalMode" option.
-JAVA_OPTS="-Djava.awt.headless=true -Xmx2048m -XX:MaxPermSize=256M -XX:+UseConcMarkSweepGC"
+@Index
+@Entity
+public class Transaction extends BaseEntity {
+    private Date created;
+    @Load
+    private Ref<Show> show;
+   
+    public Transaction() {
+        created = new Date();
+    }
+    
+    public Transaction(Show show) {
+        this();
+        this.show = Ref.create(show);
+    }
 
+    public Show getShow() {
+        return show.getValue();
+    }
+
+    public void setShow(Show show) {
+        this.show = Ref.create(show);
+    }
+
+    @Override
+    public String toString() {
+        String s = "Transaction { ";
+        s += "id=" + getId() + ", ";
+        s += paymentManualDto + " } ";
+        return s;
+    }
+}
 }}}
