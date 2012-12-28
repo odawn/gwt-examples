@@ -1,7 +1,12 @@
 {{{
-<server>
-    <id>sona-nexus-deploy</id>
-    <username>branflake2267</username>
-    <password>xxxxxxx</password>
-</server>
+<distributionManagement>
+    <repository>
+        <id>sona-nexus-deploy</id> <!-- Add to settings.xml <server><id>sona-nexus-deploy</id> -->
+        <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+    </repository>
+    <snapshotRepository>
+        <id>sona-nexus-deploy</id>
+        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+</distributionManagement>
 }}}
