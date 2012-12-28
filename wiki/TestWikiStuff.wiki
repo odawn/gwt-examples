@@ -1,26 +1,7 @@
-{{{ 
-@Index
-@Entity
-public class Transaction extends BaseEntity {
-    private Date created;
-    @Load
-    private Ref<Show> show;
-   
-    public Transaction() {
-        created = new Date();
-    }
-    
-    public Transaction(Show show) {
-        this();
-        this.show = Ref.create(show);
-    }
-
-    public Show getShow() {
-        return show.getValue();
-    }
-
-    public void setShow(Show show) {
-        this.show = Ref.create(show);
-    }
-}
+{{{
+<parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+</parent>
 }}}
