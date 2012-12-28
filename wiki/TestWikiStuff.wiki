@@ -1,18 +1,6 @@
 {{{
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-source-plugin</artifactId>
-    <version>2.2.1</version>
-</plugin>
-
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-release-plugin</artifactId>
-    <configuration>
-        <autoVersionSubmodules>true</autoVersionSubmodules>
-        <useReleaseProfile>false</useReleaseProfile>
-        <releaseProfiles>release</releaseProfiles>
-        <arguments>-Psonatype-oss-release -Prelease -Dgpg.passphrase=${gpg.passphrase}</arguments>
-    </configuration>
-</plugin>
+<groupId>com.arcbees.gquery</groupId>
+<artifactId>gquery-plugins</artifactId>
+<version>0.1-alpha-11-SNAPSHOT</version>
+<packaging>pom</packaging>
 }}}
