@@ -1,8 +1,10 @@
 {{{
-  private boolean isPowerOfTwoV3(Integer number) {
+private boolean isPowerOfTwoV3(Integer number) {
     boolean itis = false;
     for (int i = 0; i <= 30; i++) {
-      int powerOfTwo = (int) Math.pow(2, i); // 2^i
+      int powerOfTwo = getPowerOfTwo(i); // 2^i
+      
+      System.out.println("poweroftwo=" + powerOfTwo);
       
       if (number == powerOfTwo) {
         itis = true;
@@ -12,4 +14,18 @@
     
     return itis;
   }
+  
+  private Integer getPowerOfTwo(int toThePowerOF) {
+    if (toThePowerOF == 0) {
+      return 0;
+    }
+    
+    int powerOfTwo = 2;
+    for (int i=1; i < toThePowerOF; i++) {
+      powerOfTwo = powerOfTwo * 2;
+    }
+    
+    return powerOfTwo;
+  }
+
 }}}
