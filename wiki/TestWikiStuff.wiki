@@ -1,8 +1,27 @@
 {{{
-    Integer number = 8;
-    if (Integer.bitCount(number) == 1) {
-      System.out.println("number + " + number + " is a power of 2");
-    } else {
-      System.out.println("number + " + number + " is NOT a power of 2"); 
+ private boolean isPowerOfTwo(Integer number) {
+    return Integer.bitCount(number) == 1;
+  }
+  
+  private boolean isPowerOfTwoCheating(Integer number) {
+    return (number & (number - 1)) == 0;
+  }
+
+  private boolean isPowerOfTwoV2(Integer number) {
+    if (number < 2) {
+      return false;
     }
+    
+    boolean itis = false;
+    for (int i = 2; i < number; i++) {
+      int powerOfTwo = (int) Math.pow(2, i); // 2^i
+      
+      if (number == powerOfTwo) {
+        itis = true;
+        break;
+      }
+    }
+    
+    return itis;
+  }
 }}}
