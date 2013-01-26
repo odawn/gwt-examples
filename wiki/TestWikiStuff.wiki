@@ -1,19 +1,7 @@
 {{{
- private boolean isPowerOfTwo(Integer number) {
-    return Integer.bitCount(number) == 1;
-  }
-  
-  private boolean isPowerOfTwoCheating(Integer number) {
-    return (number & (number - 1)) == 0;
-  }
-
-  private boolean isPowerOfTwoV2(Integer number) {
-    if (number < 2) {
-      return false;
-    }
-    
+  private boolean isPowerOfTwoV3(Integer number) {
     boolean itis = false;
-    for (int i = 2; i < number; i++) {
+    for (int i = 0; i <= 30; i++) {
       int powerOfTwo = (int) Math.pow(2, i); // 2^i
       
       if (number == powerOfTwo) {
