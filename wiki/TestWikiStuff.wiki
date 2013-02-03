@@ -1,5 +1,3 @@
 {{{
-# /etc/environment
-# Export display to use the virtual frame buffer
-DISPLAY=:1
+sudo pico /etc/environment
 }}}
