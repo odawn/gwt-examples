@@ -1,3 +1,66 @@
 {{{
-sudo pico /etc/environment
+sudo nano /etc/tomcat7/tomcadt-users.xml
+}}}
+
+
+{{{
+<tomcat-users>
+    <role rolename="admin-gui"/>
+    <role rolename="admin-script"/>
+    <role rolename="manager-gui"/>
+    <role rolename="manager-script"/>
+    <role rolename="manager-jmx"/>
+    <role rolename="manager-status"/>
+
+    <user username="maven" password="deployPass" roles="manager-script"/>
+</tomcat-users>
+}}}
+
+
+{{{
+edit ~/.m2/settings.xml
+}}}
+
+{{{
+<server>
+    <id>maven-tomcat</id>
+    <username>maven</username>
+    <password>deployPass</password>
+</server>
+}}}
+
+
+{{{
+<properties>
+     <tomcat.path>/appPath</tomcat.path>
+     <tomcat.server.url>http://demos.arcbees.com/manager/text</tomcat.server.url>
+     <tomcat-maven-plugin.version>2.0</tomcat-maven-plugin.version>
+</properties>
+}}}
+
+{{{
+<!-- Tomcat deployment configuration -->
+<!-- See more: http://tomcat.apache.org/maven-plugin-2.0/tomcat7-maven-plugin/usage.html -->
+<!-- run 'mvn clean deploy -Pdeploy-demo' -->
+<!-- run 'mvn tomcat7:deploy -Pdeploy-demo -DskipTests -X' debug deploy -->
+<plugin>
+    <groupId>org.apache.tomcat.maven</groupId>
+    <artifactId>tomcat7-maven-plugin</artifactId>
+    <version>${tomcat-maven-plugin.version}</version>
+    <configuration>
+        <!-- add the security credentials to ~/.m2/settings.xml <id>...</id> -->
+        <server>arcbees-tomcat</server>
+        <path>${tomcat.path}</path>
+        <url>${tomcat.server.url}</url>
+        <update>true</update> 
+    </configuration>
+    <executions>
+        <execution>
+            <phase>deploy</phase>
+            <goals>
+                <goal>deploy</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
 }}}
