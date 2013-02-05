@@ -1,3 +1,38 @@
 {{{
-
+<!-- run 'mvn site' to output javadocs to gh-pages -->
+<!-- run 'mvn javadoc:javadoc -X' to debug -->
+<!-- http://docs.oracle.com/javase/1.5.0/docs/tooldocs/windows/javadoc.html -->
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-javadoc-plugin</artifactId>
+    <version>${maven-javadoc-plugin.version}</version>
+    <configuration>
+        <!-- same as  <additionalJOption>-J-Xmx1024m</additionalJOption> -->
+        <maxmemory>1024</maxmemory>
+        <failOnError>false</failOnError>
+        <links>
+            <link>http://download.oracle.com/javase/6/docs/api/</link>
+            <link>http://google-web-toolkit.googlecode.com/svn/javadoc/latest/</link>
+        </links>
+        <outputDirectory>${project.build.directory}/javadoc</outputDirectory>
+        <reportOutputDirectory>${project.reporting.outputDirectory}/javadoc</reportOutputDirectory>
+        <excludes>
+            <exclude>**/*.txt</exclude>
+        </excludes>
+        <header>
+            <![CDATA[
+                <a href="https://github.com/..." target="_blank">Home</a>
+            ]]>
+        </header>
+    </configuration>
+    <executions>
+        <execution>
+            <id>aggregate</id>
+            <goals>
+                <goal>aggregate</goal>
+            </goals>
+            <phase>site</phase>
+        </execution>
+    </executions>
+</plugin>
 }}}
