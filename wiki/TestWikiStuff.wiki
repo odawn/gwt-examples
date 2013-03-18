@@ -1,3 +1,8 @@
 {{{
-<maven-deploy-plugin.version>2.7</maven-deploy-plugin.version>
+#!/bin/sh
+# Generate Guides with guider
+
+mkdir -p target/guider
+
+guider --output=target/guider --index=guides.json guides/
 }}}
