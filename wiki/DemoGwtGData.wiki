@@ -1,7 +1,7 @@
 #summary Demo GWT GData using OAuth Authentication hosted on App Engine
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" scrolling=0 />
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" scrolling=0 />
 
 = Demo GWT GData Using OAuth =
  The goal is to get access to my documents with my GWT app. The hardest part is the authentication part, but its not as bad as it looks. Its a bit easier than I thought. 
@@ -88,5 +88,5 @@ public void test() {
  * [http://code.google.com/p/gwt-examples/source/browse/trunk/DemoGwtGdata/src/org/gonevertical/gdata/server/servlet/FetcherServlet.java Source] - Find the source here.
  
 
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" />
 <g:plusone size="medium"></g:plusone>

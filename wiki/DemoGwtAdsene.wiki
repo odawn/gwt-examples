@@ -1,7 +1,7 @@
 #summary Demo GWT Adsense Integration
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" scrolling=0 />
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" scrolling=0 />
 
 = Plan B Due to No Ads Iframing =
  Since I can't advertise Google in iframe, I setup Affiliate Banner Rotator. [DemoAdvertisingAffiliate More about that here]

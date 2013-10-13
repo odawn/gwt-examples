@@ -1,7 +1,7 @@
 #summary Simple Way to Build a Static TextData Type
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" />
 
 
 = Text Data =
@@ -39,5 +39,5 @@ public class TextData implements IsSerializable {
 }
 }}}
 
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" />
 <g:plusone size="medium"></g:plusone>

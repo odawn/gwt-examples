@@ -1,7 +1,7 @@
 #summary application tracking with Google Analytics
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" />
 
 = Google Analytics Urchin Tracker Examples =
  Integrating google analytics ga.js into the GWT application is very easy and shown in my new example. I also have an example of it working on Google app engine. 
@@ -143,5 +143,5 @@ public static HashMap parseHistoryToken(String historyToken) {
 }}}
 
 
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" />
 <g:plusone size="medium"></g:plusone>

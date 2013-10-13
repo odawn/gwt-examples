@@ -1,7 +1,7 @@
 #summary demo Google App Engine multi batch file blob upload using GWT
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" />
 
 <wiki:toc max_depth="2" />
 
@@ -76,7 +76,7 @@ BlobInfoFactory Java Syntax
   BlobInfo blobInfo = blobInfoFactory.loadBlobInfo(blobKey);
 }}}
 
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="110" width="760" border="0" />
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="110" width="760" border="0" />
 
 == Blob Data Fetching ==
  Fetching blob data for.
@@ -536,5 +536,5 @@ public long uploadBlob_ByServlet(long linkTypeId, long linkToThingId, String fil
   }
 }}}
 
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" />
 <g:plusone size="medium"></g:plusone>

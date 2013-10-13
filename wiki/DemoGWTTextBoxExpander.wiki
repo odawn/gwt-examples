@@ -1,7 +1,7 @@
 #summary Text box expansion
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" />
 
 = Updated 10/22/2011 =
  I have made this better. Try out the demo - [http://demogwttextexpand.appspot.com/ Demo]
@@ -24,4 +24,4 @@ TextBox and TextArea auto expand dynamically changing size during typing into th
  * [http://code.google.com/p/gwt-examples/source/browse/#svn%2Ftrunk%2FGoneVertical-Core%2Fsrc%2Forg%2Fgonevertical%2Fcore%2Fclient%2Finput%2Frichtext%2Fworkaround RichTextArea Source Directory] - Hacking RichTextArea to work with paste and double clicking. 
  
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" />

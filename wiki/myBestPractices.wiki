@@ -1,7 +1,7 @@
 #summary List of my best practices
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" />
 
 =Table of Contents= 
 <wiki:toc max_depth="2" />
@@ -48,5 +48,5 @@ Stuff I like to do to get the job done
  * documenting gives ease of transition to multi-developer development
  * red tape is a pain, but given, I have gone over my own code enough times to regret it
  
- <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+ <wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" />
 <g:plusone size="medium"></g:plusone>

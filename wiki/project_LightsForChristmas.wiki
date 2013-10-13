@@ -1,7 +1,7 @@
 #summary One-sentence summary of this page.
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" />
 
 = Game for Warm Beach Camp =
  I built this large scale outdoor game using GWT for the game logic and DMX to control the lighting. Here's some of the story.
@@ -37,5 +37,5 @@
  * [http://code.google.com/p/gwt-examples/source/browse/#svn/trunk/LightsForChristmas/dmx/org/gonevertical/loc/server/dmx Java DMX Source] - See the classes that control the lights
  
  
- <wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+ <wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" />
 <g:plusone size="medium"></g:plusone>

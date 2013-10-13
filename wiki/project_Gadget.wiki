@@ -1,7 +1,7 @@
 #summary testing google gadgets
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" scrolling=0/>
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" scrolling=0/>
 
 <wiki:toc max_depth="2" />
 
@@ -65,7 +65,7 @@ wiki:gadget url="http://demogwtgadget.appspot.com/demogwtgadget/org.gonevertical
  <wiki:gadget url="http://demogwtgadget.appspot.com/demogwtgadget/org.gonevertical.demo.client.DemoGwtGadget.gadget.xml" height="100" width="400" border="1" />
 
 
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="96" width="740" border="0" scrolling=0/>
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="96" width="740" border="0" scrolling=0/>
 == Math Flash Card Application ==
  I'm trying to use my mathflashcard. I built a separate project because I couldn't get the RPC to work. I haven't figured out what was failing, but Google App Engine logs where saying that access was restricted and was vague. So I decided to divide and conquer the issue and try only client side code first. Here is my first attempt to bring a bigger gadget onboard.
  * [http://code.google.com/p/gwt-examples/source/browse/#svn/trunk/DemoGadgetMathFlashCard/src/com/gawkat/flashcard/client Source] - Rpc and JDO have been taken out in this source to try client side stuff only.
@@ -99,5 +99,5 @@ wiki:gadget url="http://demogwtgadget.appspot.com/demogwtgadget/org.gonevertical
 <wiki:gadget url="http://demogwtjsni.appspot.com/gadget-gwt-tooltip.xml" height="100" width="400" border="1" />
 }}}
 
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" />
 <g:plusone size="medium"></g:plusone>

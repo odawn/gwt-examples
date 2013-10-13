@@ -1,7 +1,7 @@
 #summary demo gwt share button integration
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" scrolling=0 />
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" scrolling=0 />
 
 = Reference =
  My goal is to add buttons dynamically integrated into GWT so I can add the states, instead of pages into the url link. I doing something like this on my http://c.gawkat.com

@@ -1,7 +1,7 @@
 #summary getting your application indexed in a search engine.
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" />
 
 =Table of Contents= 
 <wiki:toc max_depth="2" />
@@ -97,5 +97,5 @@ page html content goes here.
 = Hard to Explain =
  I hoped that help gives an example to get spiders to your site content, while keeping your GWT application model intact. This has been very effective to me and I hope this can give others little tidbits to grow there application indexing with the power of keeping there application fully web 2.0.
  
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" />
 <g:plusone size="medium"></g:plusone>

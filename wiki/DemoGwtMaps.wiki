@@ -1,7 +1,7 @@
 #summary Demo GWT Maps api
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" scrolling=0/>
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" scrolling=0/>
 
 = Notes On Version 3 Api =
  Maps V3 api needs outside help due to limited resources currently on other projects at the moment. I am suggesting automating the javascript implementation build process to help us not fall behind on future javascript api version. (Automating is the GWT APIs team idea, Thanks Eric)
@@ -89,5 +89,5 @@ private void drawMapAddItems() {
   }
 }}}
 
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" />
 <g:plusone size="medium"></g:plusone>

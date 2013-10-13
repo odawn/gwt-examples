@@ -1,7 +1,7 @@
 #summary gwt tomcat setup
 
 <g:plusone size="medium"></g:plusone>
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="100" width="740" border="0" />
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="100" width="740" border="0" />
 
 = Verison 2 - tomcat6 Documentation =
 [tomcat6]
@@ -388,4 +388,4 @@ grant codeBase "file:/var/lib/tomcat6/webapps_gvo/-" {
  * http://codintips.blogspot.com/2010/02/mysql-open-tables-and-max-linux-open.html
  * http://code.google.com/p/parsecsv2sql/source/browse/trunk/Csv2Sql/src/org/gonevertical/dts/lib/pooling/SetupInitialContext.java - another project I wrote that manages my pooling.
 
-<wiki:gadget url="http://gwt-examples.googlecode.com/svn/trunk/DemoGadgetXml/war/gadget-gwt-examples-ads-v2-atf.xml" height="95" width="735" border="0" />
+<wiki:gadget url="https://wiki-gadgets.googlecode.com/git/gadgets/ads/banner2.xml" height="95" width="735" border="0" />
