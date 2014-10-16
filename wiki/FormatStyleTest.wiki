@@ -1,32 +1,5 @@
 #summary One-sentence summary of this page.
 
 {{{
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD FAILURE
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 18.212 s
-[INFO] Finished at: 2014-10-16T14:49:33-08:00
-[INFO] Final Memory: 34M/448M
-[INFO] ------------------------------------------------------------------------
-[ERROR] Failed to execute goal org.codehaus.mojo:gwt-maven-plugin:2.7.0-SNAPSHOT:compile (default) on project MyGxtProject31: Failed to resolve artifact: Some problems were encountered while processing the POMs:
-[ERROR] [ERROR] Non-resolvable import POM: Could not find artifact org.ow2.asm:asm-parent:pom:5.0.3 @ com.google.gwt:gwt:2.7.0-SNAPSHOT, /Users/branflake2267/.m2/repository/com/google/gwt/gwt/2.7.0-SNAPSHOT/gwt-2.7.0-SNAPSHOT.pom, line 74, column 25
-[ERROR] for project
-[ERROR] -> [Help 1]
-[ERROR] 
-[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
-[ERROR] Re-run Maven using the -X switch to enable full debug logging.
-[ERROR] 
-[ERROR] For more information about the errors and possible solutions, please read the following articles:
-[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
-Brandons-MacBook-Pro:GxtProject31 branflake2267$ maven version
--bash: maven: command not found
-Brandons-MacBook-Pro:GxtProject31 branflake2267$ mvn -version
-Apache Maven 3.2.1 (ea8b2b07643dbb1b84b6d16e1f08391b666bc1e9; 2014-02-14T09:37:52-08:00)
-Maven home: /usr/local/Cellar/maven/3.2.1/libexec
-Java version: 1.7.0_40-ea, vendor: Oracle Corporation
-Java home: /Library/Java/JavaVirtualMachines/jdk1.7.0_40.jdk/Contents/Home/jre
-Default locale: en_US, platform encoding: UTF-8
-OS name: "mac os x", version: "10.9.5", arch: "x86_64", family: "mac"
-Brandons-MacBook-Pro:GxtProject31 branflake2267$ 
-
+test
 }}}
